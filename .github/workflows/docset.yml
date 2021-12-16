@@ -35,6 +35,8 @@ jobs:
           python-version: 3.7
       - name: checkout the latest release
         run: |
+          echo latest: ${{ needs.fetch.outputs.latest }}
+          echo current: ${{ needs.fetch.outputs.current }}
           git clone --depth 1 --branch ${{ needs.fetch.outputs.latest }} https://github.com/optuna/optuna.git
       - name: install dependencies
         run: |
