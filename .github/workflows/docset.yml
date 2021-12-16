@@ -37,8 +37,6 @@ jobs:
           python-version: 3.7
       - name: checkout the latest release
         run: |
-          echo latest: ${{ needs.fetch.outputs.latest }}
-          echo current: ${{ needs.fetch.outputs.current }}
           git clone --depth 1 --branch ${{ needs.fetch.outputs.latest }} https://github.com/optuna/optuna.git
       - name: install dependencies
         run: |
@@ -47,9 +45,8 @@ jobs:
           pip install --progress-bar off -U .[document]
       - name: Build Document
         run: |
-          cd docs
+          cd optuna/docs
           make html
-          cd ../../
       - uses: actions/upload-artifact@v2
         with:
           name: built-html
