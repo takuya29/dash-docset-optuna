@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>optuna.storages — Optuna 2.10.0 documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/sg_gallery.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/sg_gallery-binder.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/sg_gallery-dataframe.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/sg_gallery-rendered-html.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/css/custom.css" rel="stylesheet" type="text/css"/><link href="../_static/favicon.ico" rel="shortcut icon"/>
+<!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/clipboard.min.js"></script>
+<script src="../_static/copybutton.js"></script>
+<script src="../_static/js/theme.js"></script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="generated/optuna.storages.RDBStorage.html" rel="next" title="optuna.storages.RDBStorage"/>
+<link href="generated/optuna.samplers.intersection_search_space.html" rel="prev" title="optuna.samplers.intersection_search_space"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="navbar">
+<div class="navbar ml-auto">
+<ul class="navbar-nav">
+<li>
+<a class="header_link" href="https://optuna.org/#key_features">Key Features</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#code_examples">Code Examples</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#installation">Installation</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#blog">Blog</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#video">Videos</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#paper">Paper</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#community">Community</a>
+</li>
+</ul>
+</div>
+</div>
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a href="../index.html"><img alt="Logo" class="logo" src="../_static/optuna-logo.png"/>
+</a>
+<div class="version">
+                2.10.0
+              </div>
+<div role="search">
+<form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="optuna.html">optuna</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html">optuna.cli</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distributions.html">optuna.distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions.html">optuna.exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="importance.html">optuna.importance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="integration.html">optuna.integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logging.html">optuna.logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multi_objective/index.html">optuna.multi_objective</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pruners.html">optuna.pruners</a></li>
+<li class="toctree-l2"><a class="reference internal" href="samplers.html">optuna.samplers</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">optuna.storages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/optuna.storages.RDBStorage.html">optuna.storages.RDBStorage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/optuna.storages.RedisStorage.html">optuna.storages.RedisStorage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/optuna.storages.RetryFailedTrialCallback.html">optuna.storages.RetryFailedTrialCallback</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/optuna.storages.fail_stale_trials.html">optuna.storages.fail_stale_trials</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="structs.html">optuna.structs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="study.html">optuna.study</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trial.html">optuna.trial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="visualization/index.html">optuna.visualization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">FAQ</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../index.html">Optuna</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../index.html"></a> »</li>
+<li><a href="index.html">API Reference</a> »</li>
+<li>optuna.storages</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../_sources/reference/storages.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<span class="target" id="module-optuna.storages"></span><div class="section" id="optuna-storages">
+<a class="dashAnchor" name="//apple_ref/cpp/Module/optuna.storages"></a><h1>optuna.storages<a class="headerlink" href="#optuna-storages" title="Permalink to this headline">¶</a></h1>
+<p>The <a class="reference internal" href="#module-optuna.storages" title="optuna.storages"><code class="xref py py-mod docutils literal notranslate"><span class="pre">storages</span></code></a> module defines a <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseStorage</span></code> class which abstracts a backend database and provides library-internal interfaces to the read/write histories of the studies and trials. Library users who wish to use storage solutions other than the default in-memory storage should use one of the child classes of <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseStorage</span></code> documented below.</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%"/>
+<col style="width: 90%"/>
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage" title="optuna.storages.RDBStorage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.storages.RDBStorage</span></code></a></p></td>
+<td><p>Storage class for RDB backend.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.storages.RedisStorage.html#optuna.storages.RedisStorage" title="optuna.storages.RedisStorage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.storages.RedisStorage</span></code></a></p></td>
+<td><p>Storage class for Redis backend.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.storages.RetryFailedTrialCallback.html#optuna.storages.RetryFailedTrialCallback" title="optuna.storages.RetryFailedTrialCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.storages.RetryFailedTrialCallback</span></code></a></p></td>
+<td><p>Retry a failed trial up to a maximum number of times.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.storages.fail_stale_trials.html#optuna.storages.fail_stale_trials" title="optuna.storages.fail_stale_trials"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.storages.fail_stale_trials</span></code></a></p></td>
+<td><p>Fail stale trials and run their failure callbacks.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="generated/optuna.samplers.intersection_search_space.html" rel="prev" title="optuna.samplers.intersection_search_space"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="generated/optuna.storages.RDBStorage.html" rel="next" title="optuna.storages.RDBStorage">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright 2018, Optuna Contributors..</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+    <a href="../privacy.html">Privacy Policy</a>.
+     
+
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>optuna.storages.RDBStorage — Optuna 2.10.0 documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-binder.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-dataframe.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-rendered-html.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/custom.css" rel="stylesheet" type="text/css"/><link href="../../_static/favicon.ico" rel="shortcut icon"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/clipboard.min.js"></script>
+<script src="../../_static/copybutton.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="optuna.storages.RedisStorage.html" rel="next" title="optuna.storages.RedisStorage"/>
+<link href="../storages.html" rel="prev" title="optuna.storages"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="navbar">
+<div class="navbar ml-auto">
+<ul class="navbar-nav">
+<li>
+<a class="header_link" href="https://optuna.org/#key_features">Key Features</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#code_examples">Code Examples</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#installation">Installation</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#blog">Blog</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#video">Videos</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#paper">Paper</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#community">Community</a>
+</li>
+</ul>
+</div>
+</div>
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a href="../../index.html"><img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
+</a>
+<div class="version">
+                2.10.0
+              </div>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../optuna.html">optuna</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cli.html">optuna.cli</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../distributions.html">optuna.distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exceptions.html">optuna.exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../importance.html">optuna.importance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../integration.html">optuna.integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../logging.html">optuna.logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multi_objective/index.html">optuna.multi_objective</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pruners.html">optuna.pruners</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samplers.html">optuna.samplers</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../storages.html">optuna.storages</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">optuna.storages.RDBStorage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.storages.RedisStorage.html">optuna.storages.RedisStorage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.storages.RetryFailedTrialCallback.html">optuna.storages.RetryFailedTrialCallback</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.storages.fail_stale_trials.html">optuna.storages.fail_stale_trials</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../structs.html">optuna.structs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../study.html">optuna.study</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trial.html">optuna.trial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../visualization/index.html">optuna.visualization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Optuna</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">API Reference</a> »</li>
+<li><a href="../storages.html">optuna.storages</a> »</li>
+<li>optuna.storages.RDBStorage</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/reference/generated/optuna.storages.RDBStorage.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<div class="section" id="optuna-storages-rdbstorage">
+<h1>optuna.storages.RDBStorage<a class="headerlink" href="#optuna-storages-rdbstorage" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="optuna.storages.RDBStorage">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">optuna.storages.</span></code><code class="sig-name descname"><span class="pre">RDBStorage</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_compatibility_check</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">heartbeat_interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grace_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">failed_trial_callback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.storages.RDBStorage"></a><a class="headerlink" href="#optuna.storages.RDBStorage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Storage class for RDB backend.</p>
+<p>Note that library users can instantiate this class, but the attributes
+provided by this class are not supposed to be directly accessed by them.</p>
+<p class="rubric">Example</p>
+<p>Create an <a class="reference internal" href="#optuna.storages.RDBStorage" title="optuna.storages.RDBStorage"><code class="xref py py-class docutils literal notranslate"><span class="pre">RDBStorage</span></code></a> instance with customized
+<code class="docutils literal notranslate"><span class="pre">pool_size</span></code> and <code class="docutils literal notranslate"><span class="pre">timeout</span></code> settings.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optuna</span>
+
+
+<span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span>
+
+
+<span class="n">storage</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">storages</span><span class="o">.</span><span class="n">RDBStorage</span><span class="p">(</span>
+    <span class="n">url</span><span class="o">=</span><span class="s2">"sqlite:///:memory:"</span><span class="p">,</span>
+    <span class="n">engine_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s2">"pool_size"</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span> <span class="s2">"connect_args"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"timeout"</span><span class="p">:</span> <span class="mi">10</span><span class="p">}},</span>
+<span class="p">)</span>
+
+<span class="n">study</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">create_study</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="n">storage</span><span class="p">)</span>
+<span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>url</strong> – URL of the storage.</p></li>
+<li><p><strong>engine_kwargs</strong> – A dictionary of keyword arguments that is passed to
+<a class="reference external" href="https://docs.sqlalchemy.org/en/latest/core/engines.html#sqlalchemy.create_engine">sqlalchemy.engine.create_engine</a> function.</p></li>
+<li><p><strong>skip_compatibility_check</strong> – Flag to skip schema compatibility check if set to True.</p></li>
+<li><p><strong>heartbeat_interval</strong> – Interval to record the heartbeat. It is recorded every <code class="docutils literal notranslate"><span class="pre">interval</span></code> seconds.</p></li>
+<li><p><strong>grace_period</strong> – Grace period before a running trial is failed from the last heartbeat.
+If it is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, the grace period will be <cite>2 * heartbeat_interval</cite>.</p></li>
+<li><p><strong>failed_trial_callback</strong> – <p>A callback function that is invoked after failing each stale trial.
+The function must accept two parameters with the following types in this order:
+<a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> and <code class="xref py py-class docutils literal notranslate"><span class="pre">FrozenTrial</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The procedure to fail existing stale trials is called just before asking the
+study for a new trial.</p>
+</div>
+</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you use MySQL, <a class="reference external" href="https://docs.sqlalchemy.org/en/13/core/engines.html#sqlalchemy.create_engine.params.pool_pre_ping">pool_pre_ping</a> will be set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> by default to prevent
+connection timeout. You can turn it off with <code class="docutils literal notranslate"><span class="pre">engine_kwargs['pool_pre_ping']=False</span></code>, but
+it is recommended to keep the setting if execution time of your objective function is
+longer than the <cite>wait_timeout</cite> of your MySQL configuration.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.10)"><strong>ValueError</strong></a> – If the given <cite>heartbeat_interval</cite> or <cite>grace_period</cite> is not a positive integer.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.10)"><strong>RuntimeError</strong></a> – When a process tries to finish a trial that has already
+    been set to <a class="reference internal" href="optuna.trial.TrialState.html#optuna.trial.TrialState.FAIL" title="optuna.trial.TrialState.FAIL"><code class="xref py py-class docutils literal notranslate"><span class="pre">FAIL</span></code></a> by heartbeat.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%"/>
+<col style="width: 90%"/>
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.check_trial_is_updatable" title="optuna.storages.RDBStorage.check_trial_is_updatable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_trial_is_updatable</span></code></a>(trial_id, trial_state)</p></td>
+<td><p>Check whether a trial state is updatable.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.create_new_study" title="optuna.storages.RDBStorage.create_new_study"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_new_study</span></code></a>([study_name])</p></td>
+<td><p>Create a new study from a name.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.create_new_trial" title="optuna.storages.RDBStorage.create_new_trial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_new_trial</span></code></a>(study_id[, template_trial])</p></td>
+<td><p>Create and add a new trial to a study.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.delete_study" title="optuna.storages.RDBStorage.delete_study"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete_study</span></code></a>(study_id)</p></td>
+<td><p>Delete a study.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.fail_stale_trials" title="optuna.storages.RDBStorage.fail_stale_trials"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fail_stale_trials</span></code></a>(study_id)</p></td>
+<td><p>Fail stale trials.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.get_all_study_summaries" title="optuna.storages.RDBStorage.get_all_study_summaries"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_all_study_summaries</span></code></a>()</p></td>
+<td><p>Read a list of <a class="reference internal" href="optuna.study.StudySummary.html#optuna.study.StudySummary" title="optuna.study.StudySummary"><code class="xref py py-class docutils literal notranslate"><span class="pre">StudySummary</span></code></a> objects.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.get_all_trials" title="optuna.storages.RDBStorage.get_all_trials"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_all_trials</span></code></a>(study_id[, deepcopy, states])</p></td>
+<td><p>Read all trials in a study.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.get_all_versions" title="optuna.storages.RDBStorage.get_all_versions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_all_versions</span></code></a>()</p></td>
+<td><p>Return the schema version list.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.get_best_trial" title="optuna.storages.RDBStorage.get_best_trial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_best_trial</span></code></a>(study_id)</p></td>
+<td><p>Return the trial with the best value in a study.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.get_current_version" title="optuna.storages.RDBStorage.get_current_version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_current_version</span></code></a>()</p></td>
+<td><p>Return the schema version currently used by this storage.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.get_failed_trial_callback" title="optuna.storages.RDBStorage.get_failed_trial_callback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_failed_trial_callback</span></code></a>()</p></td>
+<td><p>Get the failed trial callback function.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.get_head_version" title="optuna.storages.RDBStorage.get_head_version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_head_version</span></code></a>()</p></td>
+<td><p>Return the latest schema version.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.get_heartbeat_interval" title="optuna.storages.RDBStorage.get_heartbeat_interval"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_heartbeat_interval</span></code></a>()</p></td>
+<td><p>Get the heartbeat interval if it is set.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.get_n_trials" title="optuna.storages.RDBStorage.get_n_trials"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_n_trials</span></code></a>(study_id[, state])</p></td>
+<td><p>Count the number of trials in a study.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.get_study_directions" title="optuna.storages.RDBStorage.get_study_directions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_study_directions</span></code></a>(study_id)</p></td>
+<td><p>Read whether a study maximizes or minimizes an objective.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.get_study_id_from_name" title="optuna.storages.RDBStorage.get_study_id_from_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_study_id_from_name</span></code></a>(study_name)</p></td>
+<td><p>Read the ID of a study.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.get_study_id_from_trial_id" title="optuna.storages.RDBStorage.get_study_id_from_trial_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_study_id_from_trial_id</span></code></a>(trial_id)</p></td>
+<td><p>Read the ID of a study to which a trial belongs.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.get_study_name_from_id" title="optuna.storages.RDBStorage.get_study_name_from_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_study_name_from_id</span></code></a>(study_id)</p></td>
+<td><p>Read the study name of a study.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.get_study_system_attrs" title="optuna.storages.RDBStorage.get_study_system_attrs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_study_system_attrs</span></code></a>(study_id)</p></td>
+<td><p>Read the optuna-internal attributes of a study.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.get_study_user_attrs" title="optuna.storages.RDBStorage.get_study_user_attrs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_study_user_attrs</span></code></a>(study_id)</p></td>
+<td><p>Read the user-defined attributes of a study.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.get_trial" title="optuna.storages.RDBStorage.get_trial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial</span></code></a>(trial_id)</p></td>
+<td><p>Read a trial.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.get_trial_id_from_study_id_trial_number" title="optuna.storages.RDBStorage.get_trial_id_from_study_id_trial_number"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial_id_from_study_id_trial_number</span></code></a>(…)</p></td>
+<td><p>Read the trial ID of a trial.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.get_trial_number_from_id" title="optuna.storages.RDBStorage.get_trial_number_from_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial_number_from_id</span></code></a>(trial_id)</p></td>
+<td><p>Read the trial number of a trial.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.get_trial_param" title="optuna.storages.RDBStorage.get_trial_param"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial_param</span></code></a>(trial_id, param_name)</p></td>
+<td><p>Read the parameter of a trial.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.get_trial_params" title="optuna.storages.RDBStorage.get_trial_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial_params</span></code></a>(trial_id)</p></td>
+<td><p>Read the parameter dictionary of a trial.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.get_trial_system_attrs" title="optuna.storages.RDBStorage.get_trial_system_attrs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial_system_attrs</span></code></a>(trial_id)</p></td>
+<td><p>Read the optuna-internal attributes of a trial.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.get_trial_user_attrs" title="optuna.storages.RDBStorage.get_trial_user_attrs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial_user_attrs</span></code></a>(trial_id)</p></td>
+<td><p>Read the user-defined attributes of a trial.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.is_heartbeat_enabled" title="optuna.storages.RDBStorage.is_heartbeat_enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_heartbeat_enabled</span></code></a>()</p></td>
+<td><p>Check whether the storage enables the heartbeat.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.read_trials_from_remote_storage" title="optuna.storages.RDBStorage.read_trials_from_remote_storage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_trials_from_remote_storage</span></code></a>(study_id)</p></td>
+<td><p>Make an internal cache of trials up-to-date.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.record_heartbeat" title="optuna.storages.RDBStorage.record_heartbeat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">record_heartbeat</span></code></a>(trial_id)</p></td>
+<td><p>Record the heartbeat of the trial.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.remove_session" title="optuna.storages.RDBStorage.remove_session"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_session</span></code></a>()</p></td>
+<td><p>Removes the current session.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.set_study_directions" title="optuna.storages.RDBStorage.set_study_directions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_study_directions</span></code></a>(study_id, directions)</p></td>
+<td><p>Register optimization problem directions to a study.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.set_study_system_attr" title="optuna.storages.RDBStorage.set_study_system_attr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_study_system_attr</span></code></a>(study_id, key, value)</p></td>
+<td><p>Register an optuna-internal attribute to a study.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.set_study_user_attr" title="optuna.storages.RDBStorage.set_study_user_attr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_study_user_attr</span></code></a>(study_id, key, value)</p></td>
+<td><p>Register a user-defined attribute to a study.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.set_trial_intermediate_value" title="optuna.storages.RDBStorage.set_trial_intermediate_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_trial_intermediate_value</span></code></a>(trial_id, step, …)</p></td>
+<td><p>Report an intermediate value of an objective function.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.set_trial_param" title="optuna.storages.RDBStorage.set_trial_param"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_trial_param</span></code></a>(trial_id, param_name, …)</p></td>
+<td><p>Set a parameter to a trial.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.set_trial_state" title="optuna.storages.RDBStorage.set_trial_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_trial_state</span></code></a>(trial_id, state)</p></td>
+<td><p>Update the state of a trial.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.set_trial_system_attr" title="optuna.storages.RDBStorage.set_trial_system_attr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_trial_system_attr</span></code></a>(trial_id, key, value)</p></td>
+<td><p>Set an optuna-internal attribute to a trial.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.set_trial_user_attr" title="optuna.storages.RDBStorage.set_trial_user_attr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_trial_user_attr</span></code></a>(trial_id, key, value)</p></td>
+<td><p>Set a user-defined attribute to a trial.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.set_trial_values" title="optuna.storages.RDBStorage.set_trial_values"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_trial_values</span></code></a>(trial_id, values)</p></td>
+<td><p>Set return values of an objective function.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RDBStorage.upgrade" title="optuna.storages.RDBStorage.upgrade"><code class="xref py py-obj docutils literal notranslate"><span class="pre">upgrade</span></code></a>()</p></td>
+<td><p>Upgrade the storage schema.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.check_trial_is_updatable">
+<code class="sig-name descname"><span class="pre">check_trial_is_updatable</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trial_state</span></span></em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.check_trial_is_updatable"></a><a class="headerlink" href="#optuna.storages.RDBStorage.check_trial_is_updatable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check whether a trial state is updatable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the trial.
+Only used for an error message.</p></li>
+<li><p><strong>trial_state</strong> (<em>optuna.trial._state.TrialState</em>) – Trial state to check.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.10)"><strong>RuntimeError</strong></a> – If the trial is already finished.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.create_new_study">
+<code class="sig-name descname"><span class="pre">create_new_study</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.create_new_study"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.create_new_study"></a><a class="headerlink" href="#optuna.storages.RDBStorage.create_new_study" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new study from a name.</p>
+<p>If no name is specified, the storage class generates a name.
+The returned study ID is unique among all current and deleted studies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>study_name</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>]</em>) – Name of the new study to create.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>ID of the created study.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="optuna.exceptions.DuplicatedStudyError.html#optuna.exceptions.DuplicatedStudyError" title="optuna.exceptions.DuplicatedStudyError"><strong>optuna.exceptions.DuplicatedStudyError</strong></a> – If a study with the same <code class="docutils literal notranslate"><span class="pre">study_name</span></code> already exists.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.create_new_trial">
+<code class="sig-name descname"><span class="pre">create_new_trial</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template_trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.create_new_trial"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.create_new_trial"></a><a class="headerlink" href="#optuna.storages.RDBStorage.create_new_trial" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and add a new trial to a study.</p>
+<p>The returned trial ID is unique among all current and deleted trials.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the study.</p></li>
+<li><p><strong>template_trial</strong> (<em>Optional</em><em>[</em><em>optuna.trial._frozen.FrozenTrial</em><em>]</em>) – Template <code class="xref py py-class docutils literal notranslate"><span class="pre">FronzenTrial</span></code> with default user-attributes,
+system-attributes, intermediate-values, and a state.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>ID of the created trial.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> exists.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.delete_study">
+<code class="sig-name descname"><span class="pre">delete_study</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.delete_study"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.delete_study"></a><a class="headerlink" href="#optuna.storages.RDBStorage.delete_study" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a study.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the study.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> exists.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.fail_stale_trials">
+<code class="sig-name descname"><span class="pre">fail_stale_trials</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.fail_stale_trials"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.fail_stale_trials"></a><a class="headerlink" href="#optuna.storages.RDBStorage.fail_stale_trials" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fail stale trials.</p>
+<p>The running trials whose heartbeat has not been updated for a long time will be failed,
+that is, those states will be changed to <a class="reference internal" href="optuna.trial.TrialState.html#optuna.trial.TrialState.FAIL" title="optuna.trial.TrialState.FAIL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FAIL</span></code></a>.
+The grace period is <code class="docutils literal notranslate"><span class="pre">2</span> <span class="pre">*</span> <span class="pre">heartbeat_interval</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the related study.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of trial IDs of the failed trials.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.get_all_study_summaries">
+<code class="sig-name descname"><span class="pre">get_all_study_summaries</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.get_all_study_summaries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.get_all_study_summaries"></a><a class="headerlink" href="#optuna.storages.RDBStorage.get_all_study_summaries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a list of <a class="reference internal" href="optuna.study.StudySummary.html#optuna.study.StudySummary" title="optuna.study.StudySummary"><code class="xref py py-class docutils literal notranslate"><span class="pre">StudySummary</span></code></a> objects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of <a class="reference internal" href="optuna.study.StudySummary.html#optuna.study.StudySummary" title="optuna.study.StudySummary"><code class="xref py py-class docutils literal notranslate"><span class="pre">StudySummary</span></code></a> objects.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[optuna.study._study_summary.StudySummary]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.get_all_trials">
+<code class="sig-name descname"><span class="pre">get_all_trials</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deepcopy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">states</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.get_all_trials"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.get_all_trials"></a><a class="headerlink" href="#optuna.storages.RDBStorage.get_all_trials" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read all trials in a study.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the study.</p></li>
+<li><p><strong>deepcopy</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Whether to copy the list of trials before returning.
+Set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if you intend to update the list or elements of the list.</p></li>
+<li><p><strong>states</strong> (<em>Optional</em><em>[</em><em>Tuple</em><em>[</em><em>optuna.trial._state.TrialState</em><em>, </em><em>..</em><em>]</em><em>]</em>) – Trial states to filter on. If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, include all states.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of trials in the study.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> exists.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[optuna.trial._frozen.FrozenTrial]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.get_all_versions">
+<code class="sig-name descname"><span class="pre">get_all_versions</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.get_all_versions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.get_all_versions"></a><a class="headerlink" href="#optuna.storages.RDBStorage.get_all_versions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the schema version list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.get_best_trial">
+<code class="sig-name descname"><span class="pre">get_best_trial</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.get_best_trial"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.get_best_trial"></a><a class="headerlink" href="#optuna.storages.RDBStorage.get_best_trial" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the trial with the best value in a study.</p>
+<p>This method is valid only during single-objective optimization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the study.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The trial with the best objective value among all finished trials in the study.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> exists.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.10)"><strong>RuntimeError</strong></a> – If the study has more than one direction.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.10)"><strong>ValueError</strong></a> – If no trials have been completed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>optuna.trial._frozen.FrozenTrial</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.get_current_version">
+<code class="sig-name descname"><span class="pre">get_current_version</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.get_current_version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.get_current_version"></a><a class="headerlink" href="#optuna.storages.RDBStorage.get_current_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the schema version currently used by this storage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.get_failed_trial_callback">
+<code class="sig-name descname"><span class="pre">get_failed_trial_callback</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.get_failed_trial_callback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.get_failed_trial_callback"></a><a class="headerlink" href="#optuna.storages.RDBStorage.get_failed_trial_callback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the failed trial callback function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The failed trial callback function if it is set, otherwise <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Optional[Callable[[optuna.study.study.Study, optuna.trial._frozen.FrozenTrial], <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.get_head_version">
+<code class="sig-name descname"><span class="pre">get_head_version</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.get_head_version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.get_head_version"></a><a class="headerlink" href="#optuna.storages.RDBStorage.get_head_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the latest schema version.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.get_heartbeat_interval">
+<code class="sig-name descname"><span class="pre">get_heartbeat_interval</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.get_heartbeat_interval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.get_heartbeat_interval"></a><a class="headerlink" href="#optuna.storages.RDBStorage.get_heartbeat_interval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the heartbeat interval if it is set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The heartbeat interval if it is set, otherwise <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Optional[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.get_n_trials">
+<code class="sig-name descname"><span class="pre">get_n_trials</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.get_n_trials"></a><a class="headerlink" href="#optuna.storages.RDBStorage.get_n_trials" title="Permalink to this definition">¶</a></dt>
+<dd><p>Count the number of trials in a study.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the study.</p></li>
+<li><p><strong>state</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><em>Tuple</em><em>[</em><em>optuna.trial._state.TrialState</em><em>, </em><em>..</em><em>]</em><em>, </em><em>optuna.trial._state.TrialState</em><em>]</em><em>]</em>) – Trial states to filter on. If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, include all states.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Number of trials in the study.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> exists.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.get_study_directions">
+<code class="sig-name descname"><span class="pre">get_study_directions</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.get_study_directions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.get_study_directions"></a><a class="headerlink" href="#optuna.storages.RDBStorage.get_study_directions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read whether a study maximizes or minimizes an objective.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of a study.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Optimization directions list of the study.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> exists.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List[optuna.study._study_direction.StudyDirection]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.get_study_id_from_name">
+<code class="sig-name descname"><span class="pre">get_study_id_from_name</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.get_study_id_from_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.get_study_id_from_name"></a><a class="headerlink" href="#optuna.storages.RDBStorage.get_study_id_from_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the ID of a study.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>study_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Name of the study.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>ID of the study.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_name</span></code> exists.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.get_study_id_from_trial_id">
+<code class="sig-name descname"><span class="pre">get_study_id_from_trial_id</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.get_study_id_from_trial_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.get_study_id_from_trial_id"></a><a class="headerlink" href="#optuna.storages.RDBStorage.get_study_id_from_trial_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the ID of a study to which a trial belongs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the trial.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>ID of the study.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.get_study_name_from_id">
+<code class="sig-name descname"><span class="pre">get_study_name_from_id</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.get_study_name_from_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.get_study_name_from_id"></a><a class="headerlink" href="#optuna.storages.RDBStorage.get_study_name_from_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the study name of a study.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the study.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Name of the study.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> exists.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.get_study_system_attrs">
+<code class="sig-name descname"><span class="pre">get_study_system_attrs</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.get_study_system_attrs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.get_study_system_attrs"></a><a class="headerlink" href="#optuna.storages.RDBStorage.get_study_system_attrs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the optuna-internal attributes of a study.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the study.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dictionary with the optuna-internal attributes of the study.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> exists.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a>, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.get_study_user_attrs">
+<code class="sig-name descname"><span class="pre">get_study_user_attrs</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.get_study_user_attrs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.get_study_user_attrs"></a><a class="headerlink" href="#optuna.storages.RDBStorage.get_study_user_attrs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the user-defined attributes of a study.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the study.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dictionary with the user attributes of the study.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> exists.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a>, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.get_trial">
+<code class="sig-name descname"><span class="pre">get_trial</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.get_trial"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.get_trial"></a><a class="headerlink" href="#optuna.storages.RDBStorage.get_trial" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a trial.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the trial.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Trial with a matching trial ID.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>optuna.trial._frozen.FrozenTrial</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.get_trial_id_from_study_id_trial_number">
+<code class="sig-name descname"><span class="pre">get_trial_id_from_study_id_trial_number</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trial_number</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.get_trial_id_from_study_id_trial_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.get_trial_id_from_study_id_trial_number"></a><a class="headerlink" href="#optuna.storages.RDBStorage.get_trial_id_from_study_id_trial_number" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the trial ID of a trial.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the study.</p></li>
+<li><p><strong>trial_number</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Number of the trial.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>ID of the trial.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> and <code class="docutils literal notranslate"><span class="pre">trial_number</span></code> exists.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.get_trial_number_from_id">
+<code class="sig-name descname"><span class="pre">get_trial_number_from_id</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.get_trial_number_from_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.get_trial_number_from_id"></a><a class="headerlink" href="#optuna.storages.RDBStorage.get_trial_number_from_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the trial number of a trial.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The trial number is only unique within a study, and is sequential.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the trial.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Number of the trial.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.get_trial_param">
+<code class="sig-name descname"><span class="pre">get_trial_param</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.get_trial_param"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.get_trial_param"></a><a class="headerlink" href="#optuna.storages.RDBStorage.get_trial_param" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the parameter of a trial.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the trial.</p></li>
+<li><p><strong>param_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Name of the parameter.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Internal representation of the parameter.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.
+    If no such parameter exists.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.get_trial_params">
+<code class="sig-name descname"><span class="pre">get_trial_params</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.get_trial_params"></a><a class="headerlink" href="#optuna.storages.RDBStorage.get_trial_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the parameter dictionary of a trial.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the trial.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dictionary of a parameters. Keys are parameter names and values are internal
+representations of the parameter values.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a>, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.get_trial_system_attrs">
+<code class="sig-name descname"><span class="pre">get_trial_system_attrs</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.get_trial_system_attrs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.get_trial_system_attrs"></a><a class="headerlink" href="#optuna.storages.RDBStorage.get_trial_system_attrs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the optuna-internal attributes of a trial.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the trial.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dictionary with the optuna-internal attributes of the trial.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a>, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.get_trial_user_attrs">
+<code class="sig-name descname"><span class="pre">get_trial_user_attrs</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.get_trial_user_attrs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.get_trial_user_attrs"></a><a class="headerlink" href="#optuna.storages.RDBStorage.get_trial_user_attrs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the user-defined attributes of a trial.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the trial.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dictionary with the user-defined attributes of the trial.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a>, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.is_heartbeat_enabled">
+<code class="sig-name descname"><span class="pre">is_heartbeat_enabled</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.is_heartbeat_enabled"></a><a class="headerlink" href="#optuna.storages.RDBStorage.is_heartbeat_enabled" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check whether the storage enables the heartbeat.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the storage supports the heartbeat and the return value of
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">get_heartbeat_interval()</span></code> is an integer,
+otherwise <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.read_trials_from_remote_storage">
+<code class="sig-name descname"><span class="pre">read_trials_from_remote_storage</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.read_trials_from_remote_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.read_trials_from_remote_storage"></a><a class="headerlink" href="#optuna.storages.RDBStorage.read_trials_from_remote_storage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make an internal cache of trials up-to-date.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the study.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> exists.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.record_heartbeat">
+<code class="sig-name descname"><span class="pre">record_heartbeat</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.record_heartbeat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.record_heartbeat"></a><a class="headerlink" href="#optuna.storages.RDBStorage.record_heartbeat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Record the heartbeat of the trial.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the trial.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.remove_session">
+<code class="sig-name descname"><span class="pre">remove_session</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.remove_session"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.remove_session"></a><a class="headerlink" href="#optuna.storages.RDBStorage.remove_session" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes the current session.</p>
+<p>A session is stored in SQLAlchemy’s ThreadLocalRegistry for each thread. This method
+closes and removes the session which is associated to the current thread. Particularly,
+under multi-thread use cases, it is important to call this method <em>from each thread</em>.
+Otherwise, all sessions and their associated DB connections are destructed by a thread
+that occasionally invoked the garbage collector. By default, it is not allowed to touch
+a SQLite connection from threads other than the thread that created the connection.
+Therefore, we need to explicitly close the connection from each thread.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.set_study_directions">
+<code class="sig-name descname"><span class="pre">set_study_directions</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.set_study_directions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.set_study_directions"></a><a class="headerlink" href="#optuna.storages.RDBStorage.set_study_directions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Register optimization problem directions to a study.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the study.</p></li>
+<li><p><strong>directions</strong> (<em>Sequence</em><em>[</em><em>optuna.study._study_direction.StudyDirection</em><em>]</em>) – A sequence of direction whose element is either
+<a class="reference internal" href="optuna.study.StudyDirection.html#optuna.study.StudyDirection.MAXIMIZE" title="optuna.study.StudyDirection.MAXIMIZE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MAXIMIZE</span></code></a> or
+<a class="reference internal" href="optuna.study.StudyDirection.html#optuna.study.StudyDirection.MINIMIZE" title="optuna.study.StudyDirection.MINIMIZE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MINIMIZE</span></code></a>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> exists.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.10)"><strong>ValueError</strong></a> – If the directions are already set and the each coordinate of passed <code class="docutils literal notranslate"><span class="pre">directions</span></code>
+    is the opposite direction or <a class="reference internal" href="optuna.study.StudyDirection.html#optuna.study.StudyDirection.NOT_SET" title="optuna.study.StudyDirection.NOT_SET"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NOT_SET</span></code></a>.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.set_study_system_attr">
+<code class="sig-name descname"><span class="pre">set_study_system_attr</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.set_study_system_attr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.set_study_system_attr"></a><a class="headerlink" href="#optuna.storages.RDBStorage.set_study_system_attr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Register an optuna-internal attribute to a study.</p>
+<p>This method overwrites any existing attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the study.</p></li>
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Attribute key.</p></li>
+<li><p><strong>value</strong> (<em>Any</em>) – Attribute value. It should be JSON serializable.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> exists.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.set_study_user_attr">
+<code class="sig-name descname"><span class="pre">set_study_user_attr</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.set_study_user_attr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.set_study_user_attr"></a><a class="headerlink" href="#optuna.storages.RDBStorage.set_study_user_attr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Register a user-defined attribute to a study.</p>
+<p>This method overwrites any existing attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the study.</p></li>
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Attribute key.</p></li>
+<li><p><strong>value</strong> (<em>Any</em>) – Attribute value. It should be JSON serializable.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> exists.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.set_trial_intermediate_value">
+<code class="sig-name descname"><span class="pre">set_trial_intermediate_value</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intermediate_value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.set_trial_intermediate_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.set_trial_intermediate_value"></a><a class="headerlink" href="#optuna.storages.RDBStorage.set_trial_intermediate_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Report an intermediate value of an objective function.</p>
+<p>This method overwrites any existing intermediate value associated with the given step.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the trial.</p></li>
+<li><p><strong>step</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Step of the trial (e.g., the epoch when training a neural network).</p></li>
+<li><p><strong>intermediate_value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Intermediate value corresponding to the step.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.10)"><strong>RuntimeError</strong></a> – If the trial is already finished.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.set_trial_param">
+<code class="sig-name descname"><span class="pre">set_trial_param</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_value_internal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.set_trial_param"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.set_trial_param"></a><a class="headerlink" href="#optuna.storages.RDBStorage.set_trial_param" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set a parameter to a trial.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the trial.</p></li>
+<li><p><strong>param_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Name of the parameter.</p></li>
+<li><p><strong>param_value_internal</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Internal representation of the parameter value.</p></li>
+<li><p><strong>distribution</strong> (<em>optuna.distributions.BaseDistribution</em>) – Sampled distribution of the parameter.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.10)"><strong>RuntimeError</strong></a> – If the trial is already finished.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.set_trial_state">
+<code class="sig-name descname"><span class="pre">set_trial_state</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.set_trial_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.set_trial_state"></a><a class="headerlink" href="#optuna.storages.RDBStorage.set_trial_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the state of a trial.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the trial.</p></li>
+<li><p><strong>state</strong> (<em>optuna.trial._state.TrialState</em>) – New state of the trial.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the state is successfully updated.
+<a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> if the state is kept the same.
+The latter happens when this method tries to update the state of
+<a class="reference internal" href="optuna.trial.TrialState.html#optuna.trial.TrialState.RUNNING" title="optuna.trial.TrialState.RUNNING"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RUNNING</span></code></a> trial to
+<a class="reference internal" href="optuna.trial.TrialState.html#optuna.trial.TrialState.RUNNING" title="optuna.trial.TrialState.RUNNING"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RUNNING</span></code></a>.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.10)"><strong>RuntimeError</strong></a> – If the trial is already finished.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.set_trial_system_attr">
+<code class="sig-name descname"><span class="pre">set_trial_system_attr</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.set_trial_system_attr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.set_trial_system_attr"></a><a class="headerlink" href="#optuna.storages.RDBStorage.set_trial_system_attr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set an optuna-internal attribute to a trial.</p>
+<p>This method overwrites any existing attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the trial.</p></li>
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Attribute key.</p></li>
+<li><p><strong>value</strong> (<em>Any</em>) – Attribute value. It should be JSON serializable.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.10)"><strong>RuntimeError</strong></a> – If the trial is already finished.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.set_trial_user_attr">
+<code class="sig-name descname"><span class="pre">set_trial_user_attr</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.set_trial_user_attr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.set_trial_user_attr"></a><a class="headerlink" href="#optuna.storages.RDBStorage.set_trial_user_attr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set a user-defined attribute to a trial.</p>
+<p>This method overwrites any existing attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the trial.</p></li>
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Attribute key.</p></li>
+<li><p><strong>value</strong> (<em>Any</em>) – Attribute value. It should be JSON serializable.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.10)"><strong>RuntimeError</strong></a> – If the trial is already finished.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.set_trial_values">
+<code class="sig-name descname"><span class="pre">set_trial_values</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.set_trial_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.set_trial_values"></a><a class="headerlink" href="#optuna.storages.RDBStorage.set_trial_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set return values of an objective function.</p>
+<p>This method overwrites any existing trial values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the trial.</p></li>
+<li><p><strong>values</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a><em>]</em>) – Values of the objective function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.10)"><strong>RuntimeError</strong></a> – If the trial is already finished.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.storages.RDBStorage.upgrade">
+<code class="sig-name descname"><span class="pre">upgrade</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_rdb/storage.html#RDBStorage.upgrade"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RDBStorage.upgrade"></a><a class="headerlink" href="#optuna.storages.RDBStorage.upgrade" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upgrade the storage schema.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="../storages.html" rel="prev" title="optuna.storages"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="optuna.storages.RedisStorage.html" rel="next" title="optuna.storages.RedisStorage">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright 2018, Optuna Contributors..</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+    <a href="../../privacy.html">Privacy Policy</a>.
+     
+
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

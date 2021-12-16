@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>optuna.visualization._parallel_coordinate &mdash; Optuna 2.10.0 documentation</title><link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/plot_directive.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-rendered-html.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" /><link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/clipboard.min.js"></script>
+        <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+    <div class="navbar">
+        <div class="navbar ml-auto">
+            <ul class="navbar-nav">
+                <li>
+                    <a href="https://optuna.org/#key_features" class="header_link">Key Features</a>
+                </li>
+                <li>
+                    <a href="https://optuna.org/#code_examples" class="header_link">Code Examples</a>
+                </li>
+                <li>
+                    <a href="https://optuna.org/#installation" class="header_link">Installation</a>
+                </li>
+                <li>
+                    <a href="https://optuna.org/#blog" class="header_link">Blog</a>
+                </li>
+                <li>
+                    <a href="https://optuna.org/#video" class="header_link">Videos</a>
+                </li>
+                <li>
+                    <a href="https://optuna.org/#paper" class="header_link">Paper</a>
+                </li>
+                <li>
+                    <a href="https://optuna.org/#community" class="header_link">Community</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+     
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html"><img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.10.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Optuna</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>optuna.visualization._parallel_coordinate</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for optuna.visualization._parallel_coordinate</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">cast</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">DefaultDict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">optuna.logging</span> <span class="kn">import</span> <span class="n">get_logger</span>
+<span class="kn">from</span> <span class="nn">optuna.study</span> <span class="kn">import</span> <span class="n">Study</span>
+<span class="kn">from</span> <span class="nn">optuna.study._study_direction</span> <span class="kn">import</span> <span class="n">StudyDirection</span>
+<span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">FrozenTrial</span>
+<span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">TrialState</span>
+<span class="kn">from</span> <span class="nn">optuna.visualization._plotly_imports</span> <span class="kn">import</span> <span class="n">_imports</span>
+<span class="kn">from</span> <span class="nn">optuna.visualization._utils</span> <span class="kn">import</span> <span class="n">_check_plot_args</span>
+<span class="kn">from</span> <span class="nn">optuna.visualization._utils</span> <span class="kn">import</span> <span class="n">_is_categorical</span>
+<span class="kn">from</span> <span class="nn">optuna.visualization._utils</span> <span class="kn">import</span> <span class="n">_is_log_scale</span>
+<span class="kn">from</span> <span class="nn">optuna.visualization._utils</span> <span class="kn">import</span> <span class="n">_is_numerical</span>
+
+
+<span class="k">if</span> <span class="n">_imports</span><span class="o">.</span><span class="n">is_successful</span><span class="p">():</span>
+    <span class="kn">from</span> <span class="nn">optuna.visualization._plotly_imports</span> <span class="kn">import</span> <span class="n">go</span>
+
+<span class="n">_logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="plot_parallel_coordinate"><a class="viewcode-back" href="../../../reference/visualization/generated/optuna.visualization.plot_parallel_coordinate.html#optuna.visualization.plot_parallel_coordinate">[docs]</a><span class="k">def</span> <span class="nf">plot_parallel_coordinate</span><span class="p">(</span>
+    <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span>
+    <span class="n">params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">target</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">FrozenTrial</span><span class="p">],</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">target_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Objective Value&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;go.Figure&quot;</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Plot the high-dimensional parameter relationships in a study.</span>
+
+<span class="sd">    Note that, if a parameter contains missing values, a trial with missing values is not plotted.</span>
+
+<span class="sd">    Example:</span>
+
+<span class="sd">        The following code snippet shows how to plot the high-dimensional parameter relationships.</span>
+
+<span class="sd">        .. plotly::</span>
+
+<span class="sd">            import optuna</span>
+
+
+<span class="sd">            def objective(trial):</span>
+<span class="sd">                x = trial.suggest_float(&quot;x&quot;, -100, 100)</span>
+<span class="sd">                y = trial.suggest_categorical(&quot;y&quot;, [-1, 0, 1])</span>
+<span class="sd">                return x ** 2 + y</span>
+
+
+<span class="sd">            sampler = optuna.samplers.TPESampler(seed=10)</span>
+<span class="sd">            study = optuna.create_study(sampler=sampler)</span>
+<span class="sd">            study.optimize(objective, n_trials=10)</span>
+
+<span class="sd">            fig = optuna.visualization.plot_parallel_coordinate(study, params=[&quot;x&quot;, &quot;y&quot;])</span>
+<span class="sd">            fig.show()</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        study:</span>
+<span class="sd">            A :class:`~optuna.study.Study` object whose trials are plotted for their target values.</span>
+<span class="sd">        params:</span>
+<span class="sd">            Parameter list to visualize. The default is all parameters.</span>
+<span class="sd">        target:</span>
+<span class="sd">            A function to specify the value to display. If it is :obj:`None` and ``study`` is being</span>
+<span class="sd">            used for single-objective optimization, the objective values are plotted.</span>
+
+<span class="sd">            .. note::</span>
+<span class="sd">                Specify this argument if ``study`` is being used for multi-objective optimization.</span>
+<span class="sd">        target_name:</span>
+<span class="sd">            Target&#39;s name to display on the axis label and the legend.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A :class:`plotly.graph_objs.Figure` object.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        :exc:`ValueError`:</span>
+<span class="sd">            If ``target`` is :obj:`None` and ``study`` is being used for multi-objective</span>
+<span class="sd">            optimization.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_imports</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
+    <span class="n">_check_plot_args</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">target_name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_get_parallel_coordinate_plot</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">target_name</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_get_parallel_coordinate_plot</span><span class="p">(</span>
+    <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span>
+    <span class="n">params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">target</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">FrozenTrial</span><span class="p">],</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">target_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Objective Value&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;go.Figure&quot;</span><span class="p">:</span>
+
+    <span class="n">layout</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Parallel Coordinate Plot&quot;</span><span class="p">)</span>
+
+    <span class="n">trials</span> <span class="o">=</span> <span class="p">[</span><span class="n">trial</span> <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">study</span><span class="o">.</span><span class="n">trials</span> <span class="k">if</span> <span class="n">trial</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">COMPLETE</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">trials</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Your study does not have any completed trials.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[],</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>
+
+    <span class="n">all_params</span> <span class="o">=</span> <span class="p">{</span><span class="n">p_name</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">trials</span> <span class="k">for</span> <span class="n">p_name</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+    <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">input_p_name</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">input_p_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">all_params</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Parameter </span><span class="si">{}</span><span class="s2"> does not exist in your study.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">input_p_name</span><span class="p">))</span>
+        <span class="n">all_params</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+    <span class="n">sorted_params</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">all_params</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">target</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="k">def</span> <span class="nf">_target</span><span class="p">(</span><span class="n">t</span><span class="p">:</span> <span class="n">FrozenTrial</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">cast</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+        <span class="n">target</span> <span class="o">=</span> <span class="n">_target</span>
+        <span class="n">reversescale</span> <span class="o">=</span> <span class="n">study</span><span class="o">.</span><span class="n">direction</span> <span class="o">==</span> <span class="n">StudyDirection</span><span class="o">.</span><span class="n">MINIMIZE</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">reversescale</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="n">dims</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">target_name</span><span class="p">,</span>
+            <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">([</span><span class="n">target</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">trials</span><span class="p">]),</span>
+            <span class="s2">&quot;range&quot;</span><span class="p">:</span> <span class="p">(</span><span class="nb">min</span><span class="p">([</span><span class="n">target</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">trials</span><span class="p">]),</span> <span class="nb">max</span><span class="p">([</span><span class="n">target</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">trials</span><span class="p">])),</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+
+    <span class="n">numeric_cat_params_indices</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">dim_index</span><span class="p">,</span> <span class="n">p_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sorted_params</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">trials</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">p_name</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">params</span><span class="p">:</span>
+                <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">p_name</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="n">_is_log_scale</span><span class="p">(</span><span class="n">trials</span><span class="p">,</span> <span class="n">p_name</span><span class="p">):</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">math</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span><span class="p">]</span>
+            <span class="n">min_value</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+            <span class="n">max_value</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+            <span class="n">tickvals</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">min_value</span><span class="p">),</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">max_value</span><span class="p">)))</span>
+            <span class="k">if</span> <span class="n">min_value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tickvals</span><span class="p">:</span>
+                <span class="n">tickvals</span> <span class="o">=</span> <span class="p">[</span><span class="n">min_value</span><span class="p">]</span> <span class="o">+</span> <span class="n">tickvals</span>
+            <span class="k">if</span> <span class="n">max_value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tickvals</span><span class="p">:</span>
+                <span class="n">tickvals</span> <span class="o">=</span> <span class="n">tickvals</span> <span class="o">+</span> <span class="p">[</span><span class="n">max_value</span><span class="p">]</span>
+            <span class="n">dim</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">p_name</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">p_name</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">20</span> <span class="k">else</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p_name</span><span class="p">[:</span><span class="mi">17</span><span class="p">]),</span>
+                <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">values</span><span class="p">),</span>
+                <span class="s2">&quot;range&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">min_value</span><span class="p">,</span> <span class="n">max_value</span><span class="p">),</span>
+                <span class="s2">&quot;tickvals&quot;</span><span class="p">:</span> <span class="n">tickvals</span><span class="p">,</span>
+                <span class="s2">&quot;ticktext&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;</span><span class="si">{:.3g}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">tickvals</span><span class="p">],</span>
+            <span class="p">}</span>
+        <span class="k">elif</span> <span class="n">_is_categorical</span><span class="p">(</span><span class="n">trials</span><span class="p">,</span> <span class="n">p_name</span><span class="p">):</span>
+            <span class="n">vocab</span><span class="p">:</span> <span class="n">DefaultDict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">vocab</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="n">_is_numerical</span><span class="p">(</span><span class="n">trials</span><span class="p">,</span> <span class="n">p_name</span><span class="p">):</span>
+                <span class="n">_</span> <span class="o">=</span> <span class="p">[</span><span class="n">vocab</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">values</span><span class="p">)]</span>
+                <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">vocab</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span><span class="p">]</span>
+                <span class="n">ticktext</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">vocab</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+                <span class="n">numeric_cat_params_indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dim_index</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">vocab</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span><span class="p">]</span>
+                <span class="n">ticktext</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">vocab</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">vocab</span><span class="p">[</span><span class="n">x</span><span class="p">]))</span>
+
+            <span class="n">dim</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">p_name</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">p_name</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">20</span> <span class="k">else</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p_name</span><span class="p">[:</span><span class="mi">17</span><span class="p">]),</span>
+                <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">values</span><span class="p">),</span>
+                <span class="s2">&quot;range&quot;</span><span class="p">:</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">values</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">values</span><span class="p">)),</span>
+                <span class="s2">&quot;tickvals&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vocab</span><span class="p">))),</span>
+                <span class="s2">&quot;ticktext&quot;</span><span class="p">:</span> <span class="n">ticktext</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dim</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;label&quot;</span><span class="p">:</span> <span class="n">p_name</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">p_name</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">20</span> <span class="k">else</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">...&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p_name</span><span class="p">[:</span><span class="mi">17</span><span class="p">]),</span>
+                <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">values</span><span class="p">),</span>
+                <span class="s2">&quot;range&quot;</span><span class="p">:</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">values</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">values</span><span class="p">)),</span>
+            <span class="p">}</span>
+
+        <span class="n">dims</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">numeric_cat_params_indices</span><span class="p">:</span>
+        <span class="c1"># np.lexsort consumes the sort keys the order from back to front.</span>
+        <span class="c1"># So the values of parameters have to be reversed the order.</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">lexsort</span><span class="p">([</span><span class="n">dims</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="s2">&quot;values&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">numeric_cat_params_indices</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">dims</span><span class="p">:</span>
+            <span class="c1"># Since the values are mapped to other categories by the index,</span>
+            <span class="c1"># the index will be swapped according to the sorted index of numeric params.</span>
+            <span class="n">dim</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dim</span><span class="p">[</span><span class="s2">&quot;values&quot;</span><span class="p">])[</span><span class="n">idx</span><span class="p">])})</span>
+
+    <span class="n">traces</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">go</span><span class="o">.</span><span class="n">Parcoords</span><span class="p">(</span>
+            <span class="n">dimensions</span><span class="o">=</span><span class="n">dims</span><span class="p">,</span>
+            <span class="n">labelangle</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+            <span class="n">labelside</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">,</span>
+            <span class="n">line</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;values&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;colorscale&quot;</span><span class="p">:</span> <span class="s2">&quot;blues&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;colorbar&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="n">target_name</span><span class="p">},</span>
+                <span class="s2">&quot;showscale&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="s2">&quot;reversescale&quot;</span><span class="p">:</span> <span class="n">reversescale</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="n">figure</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">traces</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">figure</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018, Optuna Contributors..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+    <a href="../../../privacy.html">Privacy Policy</a>.
+     
+
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

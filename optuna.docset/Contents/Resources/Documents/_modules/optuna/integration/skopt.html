@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>optuna.integration.skopt &mdash; Optuna 2.10.0 documentation</title><link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/plot_directive.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-rendered-html.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" /><link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/clipboard.min.js"></script>
+        <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+    <div class="navbar">
+        <div class="navbar ml-auto">
+            <ul class="navbar-nav">
+                <li>
+                    <a href="https://optuna.org/#key_features" class="header_link">Key Features</a>
+                </li>
+                <li>
+                    <a href="https://optuna.org/#code_examples" class="header_link">Code Examples</a>
+                </li>
+                <li>
+                    <a href="https://optuna.org/#installation" class="header_link">Installation</a>
+                </li>
+                <li>
+                    <a href="https://optuna.org/#blog" class="header_link">Blog</a>
+                </li>
+                <li>
+                    <a href="https://optuna.org/#video" class="header_link">Videos</a>
+                </li>
+                <li>
+                    <a href="https://optuna.org/#paper" class="header_link">Paper</a>
+                </li>
+                <li>
+                    <a href="https://optuna.org/#community" class="header_link">Community</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+     
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html"><img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.10.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Optuna</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>optuna.integration.skopt</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for optuna.integration.skopt</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">optuna</span>
+<span class="kn">from</span> <span class="nn">optuna</span> <span class="kn">import</span> <span class="n">distributions</span>
+<span class="kn">from</span> <span class="nn">optuna</span> <span class="kn">import</span> <span class="n">samplers</span>
+<span class="kn">from</span> <span class="nn">optuna._imports</span> <span class="kn">import</span> <span class="n">try_import</span>
+<span class="kn">from</span> <span class="nn">optuna.exceptions</span> <span class="kn">import</span> <span class="n">ExperimentalWarning</span>
+<span class="kn">from</span> <span class="nn">optuna.samplers</span> <span class="kn">import</span> <span class="n">BaseSampler</span>
+<span class="kn">from</span> <span class="nn">optuna.study</span> <span class="kn">import</span> <span class="n">Study</span>
+<span class="kn">from</span> <span class="nn">optuna.study._study_direction</span> <span class="kn">import</span> <span class="n">StudyDirection</span>
+<span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">FrozenTrial</span>
+<span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">TrialState</span>
+
+
+<span class="k">with</span> <span class="n">try_import</span><span class="p">()</span> <span class="k">as</span> <span class="n">_imports</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">skopt</span>
+    <span class="kn">from</span> <span class="nn">skopt.space</span> <span class="kn">import</span> <span class="n">space</span>
+
+
+<div class="viewcode-block" id="SkoptSampler"><a class="viewcode-back" href="../../../reference/generated/optuna.integration.SkoptSampler.html#optuna.integration.SkoptSampler">[docs]</a><span class="k">class</span> <span class="nc">SkoptSampler</span><span class="p">(</span><span class="n">BaseSampler</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Sampler using Scikit-Optimize as the backend.</span>
+
+<span class="sd">    Example:</span>
+
+<span class="sd">        Optimize a simple quadratic function by using :class:`~optuna.integration.SkoptSampler`.</span>
+
+<span class="sd">        .. testcode::</span>
+
+<span class="sd">            import optuna</span>
+
+
+<span class="sd">            def objective(trial):</span>
+<span class="sd">                x = trial.suggest_float(&quot;x&quot;, -10, 10)</span>
+<span class="sd">                y = trial.suggest_int(&quot;y&quot;, 0, 10)</span>
+<span class="sd">                return x ** 2 + y</span>
+
+
+<span class="sd">            sampler = optuna.integration.SkoptSampler()</span>
+<span class="sd">            study = optuna.create_study(sampler=sampler)</span>
+<span class="sd">            study.optimize(objective, n_trials=10)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        independent_sampler:</span>
+<span class="sd">            A :class:`~optuna.samplers.BaseSampler` instance that is used for independent</span>
+<span class="sd">            sampling. The parameters not contained in the relative search space are sampled</span>
+<span class="sd">            by this sampler.</span>
+<span class="sd">            The search space for :class:`~optuna.integration.SkoptSampler` is determined by</span>
+<span class="sd">            :func:`~optuna.samplers.intersection_search_space()`.</span>
+
+<span class="sd">            If :obj:`None` is specified, :class:`~optuna.samplers.RandomSampler` is used</span>
+<span class="sd">            as the default.</span>
+
+<span class="sd">            .. seealso::</span>
+<span class="sd">                :class:`optuna.samplers` module provides built-in independent samplers</span>
+<span class="sd">                such as :class:`~optuna.samplers.RandomSampler` and</span>
+<span class="sd">                :class:`~optuna.samplers.TPESampler`.</span>
+
+<span class="sd">        warn_independent_sampling:</span>
+<span class="sd">            If this is :obj:`True`, a warning message is emitted when</span>
+<span class="sd">            the value of a parameter is sampled by using an independent sampler.</span>
+
+<span class="sd">            Note that the parameters of the first trial in a study are always sampled</span>
+<span class="sd">            via an independent sampler, so no warning messages are emitted in this case.</span>
+
+<span class="sd">        skopt_kwargs:</span>
+<span class="sd">            Keyword arguments passed to the constructor of</span>
+<span class="sd">            `skopt.Optimizer &lt;https://scikit-optimize.github.io/#skopt.Optimizer&gt;`_</span>
+<span class="sd">            class.</span>
+
+<span class="sd">            Note that ``dimensions`` argument in ``skopt_kwargs`` will be ignored</span>
+<span class="sd">            because it is added by :class:`~optuna.integration.SkoptSampler` automatically.</span>
+
+<span class="sd">        n_startup_trials:</span>
+<span class="sd">            The independent sampling is used until the given number of trials finish in the</span>
+<span class="sd">            same study.</span>
+
+<span class="sd">        consider_pruned_trials:</span>
+<span class="sd">            If this is :obj:`True`, the PRUNED trials are considered for sampling.</span>
+
+<span class="sd">            .. note::</span>
+<span class="sd">                Added in v2.0.0 as an experimental feature. The interface may change in newer</span>
+<span class="sd">                versions without prior notice. See</span>
+<span class="sd">                https://github.com/optuna/optuna/releases/tag/v2.0.0.</span>
+
+<span class="sd">            .. note::</span>
+<span class="sd">                As the number of trials :math:`n` increases, each sampling takes longer and longer</span>
+<span class="sd">                on a scale of :math:`O(n^3)`. And, if this is :obj:`True`, the number of trials</span>
+<span class="sd">                will increase. So, it is suggested to set this flag :obj:`False` when each</span>
+<span class="sd">                evaluation of the objective function is relatively faster than each sampling. On</span>
+<span class="sd">                the other hand, it is suggested to set this flag :obj:`True` when each evaluation</span>
+<span class="sd">                of the objective function is relatively slower than each sampling.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">independent_sampler</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BaseSampler</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">warn_independent_sampling</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">skopt_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">n_startup_trials</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">consider_pruned_trials</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="n">_imports</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_skopt_kwargs</span> <span class="o">=</span> <span class="n">skopt_kwargs</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="s2">&quot;dimensions&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_skopt_kwargs</span><span class="p">:</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_skopt_kwargs</span><span class="p">[</span><span class="s2">&quot;dimensions&quot;</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_independent_sampler</span> <span class="o">=</span> <span class="n">independent_sampler</span> <span class="ow">or</span> <span class="n">samplers</span><span class="o">.</span><span class="n">RandomSampler</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_warn_independent_sampling</span> <span class="o">=</span> <span class="n">warn_independent_sampling</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n_startup_trials</span> <span class="o">=</span> <span class="n">n_startup_trials</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_search_space</span> <span class="o">=</span> <span class="n">samplers</span><span class="o">.</span><span class="n">IntersectionSearchSpace</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_consider_pruned_trials</span> <span class="o">=</span> <span class="n">consider_pruned_trials</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_consider_pruned_trials</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;`consider_pruned_trials` option is an experimental feature.&quot;</span>
+                <span class="s2">&quot; The interface can change in the future.&quot;</span><span class="p">,</span>
+                <span class="n">ExperimentalWarning</span><span class="p">,</span>
+            <span class="p">)</span>
+
+<div class="viewcode-block" id="SkoptSampler.reseed_rng"><a class="viewcode-back" href="../../../reference/generated/optuna.integration.SkoptSampler.html#optuna.integration.SkoptSampler.reseed_rng">[docs]</a>    <span class="k">def</span> <span class="nf">reseed_rng</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_independent_sampler</span><span class="o">.</span><span class="n">reseed_rng</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="SkoptSampler.infer_relative_search_space"><a class="viewcode-back" href="../../../reference/generated/optuna.integration.SkoptSampler.html#optuna.integration.SkoptSampler.infer_relative_search_space">[docs]</a>    <span class="k">def</span> <span class="nf">infer_relative_search_space</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="n">FrozenTrial</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">distributions</span><span class="o">.</span><span class="n">BaseDistribution</span><span class="p">]:</span>
+
+        <span class="n">search_space</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">distribution</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_search_space</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">study</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">distribution</span><span class="o">.</span><span class="n">single</span><span class="p">():</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="n">distributions</span><span class="o">.</span><span class="n">CategoricalDistribution</span><span class="p">):</span>
+                    <span class="c1"># `skopt` cannot handle non-categorical distributions that contain just</span>
+                    <span class="c1"># a single value, so we skip this distribution.</span>
+                    <span class="c1">#</span>
+                    <span class="c1"># Note that `Trial` takes care of this distribution during suggestion.</span>
+                    <span class="k">continue</span>
+
+            <span class="n">search_space</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">distribution</span>
+
+        <span class="k">return</span> <span class="n">search_space</span></div>
+
+<div class="viewcode-block" id="SkoptSampler.sample_relative"><a class="viewcode-back" href="../../../reference/generated/optuna.integration.SkoptSampler.html#optuna.integration.SkoptSampler.sample_relative">[docs]</a>    <span class="k">def</span> <span class="nf">sample_relative</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span>
+        <span class="n">trial</span><span class="p">:</span> <span class="n">FrozenTrial</span><span class="p">,</span>
+        <span class="n">search_space</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">distributions</span><span class="o">.</span><span class="n">BaseDistribution</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_raise_error_if_multi_objective</span><span class="p">(</span><span class="n">study</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">search_space</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{}</span>
+
+        <span class="n">complete_trials</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_trials</span><span class="p">(</span><span class="n">study</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">complete_trials</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_startup_trials</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{}</span>
+
+        <span class="n">optimizer</span> <span class="o">=</span> <span class="n">_Optimizer</span><span class="p">(</span><span class="n">search_space</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_skopt_kwargs</span><span class="p">)</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">tell</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="n">complete_trials</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">ask</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="SkoptSampler.sample_independent"><a class="viewcode-back" href="../../../reference/generated/optuna.integration.SkoptSampler.html#optuna.integration.SkoptSampler.sample_independent">[docs]</a>    <span class="k">def</span> <span class="nf">sample_independent</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span>
+        <span class="n">trial</span><span class="p">:</span> <span class="n">FrozenTrial</span><span class="p">,</span>
+        <span class="n">param_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">param_distribution</span><span class="p">:</span> <span class="n">distributions</span><span class="o">.</span><span class="n">BaseDistribution</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_raise_error_if_multi_objective</span><span class="p">(</span><span class="n">study</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_warn_independent_sampling</span><span class="p">:</span>
+            <span class="n">complete_trials</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_trials</span><span class="p">(</span><span class="n">study</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">complete_trials</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_startup_trials</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_log_independent_sampling</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">param_name</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_independent_sampler</span><span class="o">.</span><span class="n">sample_independent</span><span class="p">(</span>
+            <span class="n">study</span><span class="p">,</span> <span class="n">trial</span><span class="p">,</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">param_distribution</span>
+        <span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_log_independent_sampling</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="n">FrozenTrial</span><span class="p">,</span> <span class="n">param_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="n">logger</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">logging</span><span class="o">.</span><span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+            <span class="s2">&quot;The parameter &#39;</span><span class="si">{}</span><span class="s2">&#39; in trial#</span><span class="si">{}</span><span class="s2"> is sampled independently &quot;</span>
+            <span class="s2">&quot;by using `</span><span class="si">{}</span><span class="s2">` instead of `SkoptSampler` &quot;</span>
+            <span class="s2">&quot;(optimization performance may be degraded). &quot;</span>
+            <span class="s2">&quot;You can suppress this warning by setting `warn_independent_sampling` &quot;</span>
+            <span class="s2">&quot;to `False` in the constructor of `SkoptSampler`, &quot;</span>
+            <span class="s2">&quot;if this independent sampling is intended behavior.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">param_name</span><span class="p">,</span> <span class="n">trial</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_independent_sampler</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_trials</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]:</span>
+        <span class="n">complete_trials</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">study</span><span class="o">.</span><span class="n">get_trials</span><span class="p">(</span><span class="n">deepcopy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">COMPLETE</span><span class="p">:</span>
+                <span class="n">complete_trials</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="p">(</span>
+                <span class="n">t</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">PRUNED</span>
+                <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">intermediate_values</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_consider_pruned_trials</span>
+            <span class="p">):</span>
+                <span class="n">_</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">intermediate_values</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+                <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="c1"># We rewrite the value of the trial `t` for sampling, so we need a deepcopy.</span>
+                <span class="n">copied_t</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                <span class="n">copied_t</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+                <span class="n">complete_trials</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">copied_t</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">complete_trials</span>
+
+<div class="viewcode-block" id="SkoptSampler.after_trial"><a class="viewcode-back" href="../../../reference/generated/optuna.integration.SkoptSampler.html#optuna.integration.SkoptSampler.after_trial">[docs]</a>    <span class="k">def</span> <span class="nf">after_trial</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span>
+        <span class="n">trial</span><span class="p">:</span> <span class="n">FrozenTrial</span><span class="p">,</span>
+        <span class="n">state</span><span class="p">:</span> <span class="n">TrialState</span><span class="p">,</span>
+        <span class="n">values</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_independent_sampler</span><span class="o">.</span><span class="n">after_trial</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="n">trial</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span></div></div>
+
+
+<span class="k">class</span> <span class="nc">_Optimizer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">search_space</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">distributions</span><span class="o">.</span><span class="n">BaseDistribution</span><span class="p">],</span> <span class="n">skopt_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_search_space</span> <span class="o">=</span> <span class="n">search_space</span>
+
+        <span class="n">dimensions</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">distribution</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_search_space</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="n">distributions</span><span class="o">.</span><span class="n">UniformDistribution</span><span class="p">):</span>
+                <span class="c1"># Convert the upper bound from exclusive (optuna) to inclusive (skopt).</span>
+                <span class="n">high</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nextafter</span><span class="p">(</span><span class="n">distribution</span><span class="o">.</span><span class="n">high</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;-inf&quot;</span><span class="p">))</span>
+                <span class="n">dimension</span> <span class="o">=</span> <span class="n">space</span><span class="o">.</span><span class="n">Real</span><span class="p">(</span><span class="n">distribution</span><span class="o">.</span><span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="n">distributions</span><span class="o">.</span><span class="n">LogUniformDistribution</span><span class="p">):</span>
+                <span class="c1"># Convert the upper bound from exclusive (optuna) to inclusive (skopt).</span>
+                <span class="n">high</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nextafter</span><span class="p">(</span><span class="n">distribution</span><span class="o">.</span><span class="n">high</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;-inf&quot;</span><span class="p">))</span>
+                <span class="n">dimension</span> <span class="o">=</span> <span class="n">space</span><span class="o">.</span><span class="n">Real</span><span class="p">(</span><span class="n">distribution</span><span class="o">.</span><span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">,</span> <span class="n">prior</span><span class="o">=</span><span class="s2">&quot;log-uniform&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="n">distributions</span><span class="o">.</span><span class="n">IntUniformDistribution</span><span class="p">):</span>
+                <span class="n">count</span> <span class="o">=</span> <span class="p">(</span><span class="n">distribution</span><span class="o">.</span><span class="n">high</span> <span class="o">-</span> <span class="n">distribution</span><span class="o">.</span><span class="n">low</span><span class="p">)</span> <span class="o">//</span> <span class="n">distribution</span><span class="o">.</span><span class="n">step</span>
+                <span class="n">dimension</span> <span class="o">=</span> <span class="n">space</span><span class="o">.</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="n">distributions</span><span class="o">.</span><span class="n">IntLogUniformDistribution</span><span class="p">):</span>
+                <span class="n">low</span> <span class="o">=</span> <span class="n">distribution</span><span class="o">.</span><span class="n">low</span> <span class="o">-</span> <span class="mf">0.5</span>
+                <span class="n">high</span> <span class="o">=</span> <span class="n">distribution</span><span class="o">.</span><span class="n">high</span> <span class="o">+</span> <span class="mf">0.5</span>
+                <span class="n">dimension</span> <span class="o">=</span> <span class="n">space</span><span class="o">.</span><span class="n">Real</span><span class="p">(</span><span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">,</span> <span class="n">prior</span><span class="o">=</span><span class="s2">&quot;log-uniform&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="n">distributions</span><span class="o">.</span><span class="n">DiscreteUniformDistribution</span><span class="p">):</span>
+                <span class="n">count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">distribution</span><span class="o">.</span><span class="n">high</span> <span class="o">-</span> <span class="n">distribution</span><span class="o">.</span><span class="n">low</span><span class="p">)</span> <span class="o">//</span> <span class="n">distribution</span><span class="o">.</span><span class="n">q</span><span class="p">)</span>
+                <span class="n">dimension</span> <span class="o">=</span> <span class="n">space</span><span class="o">.</span><span class="n">Integer</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="n">distributions</span><span class="o">.</span><span class="n">CategoricalDistribution</span><span class="p">):</span>
+                <span class="n">dimension</span> <span class="o">=</span> <span class="n">space</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span><span class="n">distribution</span><span class="o">.</span><span class="n">choices</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                    <span class="s2">&quot;The distribution </span><span class="si">{}</span><span class="s2"> is not implemented.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">distribution</span><span class="p">)</span>
+                <span class="p">)</span>
+
+            <span class="n">dimensions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dimension</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_optimizer</span> <span class="o">=</span> <span class="n">skopt</span><span class="o">.</span><span class="n">Optimizer</span><span class="p">(</span><span class="n">dimensions</span><span class="p">,</span> <span class="o">**</span><span class="n">skopt_kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">tell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span> <span class="n">complete_trials</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="n">xs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">ys</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">complete_trials</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_compatible</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
+                <span class="k">continue</span>
+
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_complete_trial_to_skopt_observation</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="n">trial</span><span class="p">)</span>
+            <span class="n">xs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">ys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_optimizer</span><span class="o">.</span><span class="n">tell</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">ask</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">param_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_optimizer</span><span class="o">.</span><span class="n">ask</span><span class="p">()</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">distribution</span><span class="p">),</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_search_space</span><span class="o">.</span><span class="n">items</span><span class="p">()),</span> <span class="n">param_values</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="n">distributions</span><span class="o">.</span><span class="n">DiscreteUniformDistribution</span><span class="p">):</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">value</span> <span class="o">*</span> <span class="n">distribution</span><span class="o">.</span><span class="n">q</span> <span class="o">+</span> <span class="n">distribution</span><span class="o">.</span><span class="n">low</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="n">distributions</span><span class="o">.</span><span class="n">IntUniformDistribution</span><span class="p">):</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">value</span> <span class="o">*</span> <span class="n">distribution</span><span class="o">.</span><span class="n">step</span> <span class="o">+</span> <span class="n">distribution</span><span class="o">.</span><span class="n">low</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="n">distributions</span><span class="o">.</span><span class="n">IntLogUniformDistribution</span><span class="p">):</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">distribution</span><span class="o">.</span><span class="n">low</span><span class="p">),</span> <span class="n">distribution</span><span class="o">.</span><span class="n">high</span><span class="p">)</span>
+
+            <span class="n">params</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="k">return</span> <span class="n">params</span>
+
+    <span class="k">def</span> <span class="nf">_is_compatible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="n">FrozenTrial</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+
+        <span class="c1"># Thanks to `intersection_search_space()` function, in sequential optimization,</span>
+        <span class="c1"># the parameters of complete trials are always compatible with the search space.</span>
+        <span class="c1">#</span>
+        <span class="c1"># However, in distributed optimization, incompatible trials may complete on a worker</span>
+        <span class="c1"># just after an intersection search space is calculated on another worker.</span>
+
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">distribution</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_search_space</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">trial</span><span class="o">.</span><span class="n">params</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="n">distributions</span><span class="o">.</span><span class="n">check_distribution_compatibility</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="n">trial</span><span class="o">.</span><span class="n">distributions</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
+            <span class="n">param_value</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+            <span class="n">param_internal_value</span> <span class="o">=</span> <span class="n">distribution</span><span class="o">.</span><span class="n">to_internal_repr</span><span class="p">(</span><span class="n">param_value</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">distribution</span><span class="o">.</span><span class="n">_contains</span><span class="p">(</span><span class="n">param_internal_value</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">_complete_trial_to_skopt_observation</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="n">FrozenTrial</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="nb">float</span><span class="p">]:</span>
+
+        <span class="n">param_values</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">distribution</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_search_space</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="n">param_value</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="n">distributions</span><span class="o">.</span><span class="n">DiscreteUniformDistribution</span><span class="p">):</span>
+                <span class="n">param_value</span> <span class="o">=</span> <span class="p">(</span><span class="n">param_value</span> <span class="o">-</span> <span class="n">distribution</span><span class="o">.</span><span class="n">low</span><span class="p">)</span> <span class="o">//</span> <span class="n">distribution</span><span class="o">.</span><span class="n">q</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="n">distributions</span><span class="o">.</span><span class="n">IntUniformDistribution</span><span class="p">):</span>
+                <span class="n">param_value</span> <span class="o">=</span> <span class="p">(</span><span class="n">param_value</span> <span class="o">-</span> <span class="n">distribution</span><span class="o">.</span><span class="n">low</span><span class="p">)</span> <span class="o">//</span> <span class="n">distribution</span><span class="o">.</span><span class="n">step</span>
+
+            <span class="n">param_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">param_value</span><span class="p">)</span>
+
+        <span class="n">value</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">assert</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">study</span><span class="o">.</span><span class="n">direction</span> <span class="o">==</span> <span class="n">StudyDirection</span><span class="o">.</span><span class="n">MAXIMIZE</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="o">-</span><span class="n">value</span>
+
+        <span class="k">return</span> <span class="n">param_values</span><span class="p">,</span> <span class="n">value</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018, Optuna Contributors..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+    <a href="../../../privacy.html">Privacy Policy</a>.
+     
+
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

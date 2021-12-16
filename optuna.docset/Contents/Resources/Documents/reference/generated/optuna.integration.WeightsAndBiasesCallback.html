@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>optuna.integration.WeightsAndBiasesCallback — Optuna 2.10.0 documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-binder.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-dataframe.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-rendered-html.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/custom.css" rel="stylesheet" type="text/css"/><link href="../../_static/favicon.ico" rel="shortcut icon"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/clipboard.min.js"></script>
+<script src="../../_static/copybutton.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="optuna.integration.MXNetPruningCallback.html" rel="next" title="optuna.integration.MXNetPruningCallback"/>
+<link href="optuna.integration.MLflowCallback.html" rel="prev" title="optuna.integration.MLflowCallback"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="navbar">
+<div class="navbar ml-auto">
+<ul class="navbar-nav">
+<li>
+<a class="header_link" href="https://optuna.org/#key_features">Key Features</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#code_examples">Code Examples</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#installation">Installation</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#blog">Blog</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#video">Videos</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#paper">Paper</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#community">Community</a>
+</li>
+</ul>
+</div>
+</div>
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a href="../../index.html"><img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
+</a>
+<div class="version">
+                2.10.0
+              </div>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../optuna.html">optuna</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cli.html">optuna.cli</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../distributions.html">optuna.distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exceptions.html">optuna.exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../importance.html">optuna.importance</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../integration.html">optuna.integration</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#allennlp">AllenNLP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#botorch">BoTorch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#catalyst">Catalyst</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#chainer">Chainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#fast-ai">fast.ai</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#keras">Keras</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#lightgbm">LightGBM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#mlflow">MLflow</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../integration.html#weights-biases">Weights &amp; Biases</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">optuna.integration.WeightsAndBiasesCallback</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#mxnet">MXNet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#pycma">pycma</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#pytorch">PyTorch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#scikit-learn">scikit-learn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#scikit-optimize">scikit-optimize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#skorch">skorch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#tensorflow">TensorFlow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#xgboost">XGBoost</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../logging.html">optuna.logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multi_objective/index.html">optuna.multi_objective</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pruners.html">optuna.pruners</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samplers.html">optuna.samplers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storages.html">optuna.storages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../structs.html">optuna.structs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../study.html">optuna.study</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trial.html">optuna.trial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../visualization/index.html">optuna.visualization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Optuna</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">API Reference</a> »</li>
+<li><a href="../integration.html">optuna.integration</a> »</li>
+<li>optuna.integration.WeightsAndBiasesCallback</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/reference/generated/optuna.integration.WeightsAndBiasesCallback.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<div class="section" id="optuna-integration-weightsandbiasescallback">
+<h1>optuna.integration.WeightsAndBiasesCallback<a class="headerlink" href="#optuna-integration-weightsandbiasescallback" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="optuna.integration.WeightsAndBiasesCallback">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">optuna.integration.</span></code><code class="sig-name descname"><span class="pre">WeightsAndBiasesCallback</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metric_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'value'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wandb_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/wandb.html#WeightsAndBiasesCallback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.integration.WeightsAndBiasesCallback"></a><a class="headerlink" href="#optuna.integration.WeightsAndBiasesCallback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback to track Optuna trials with Weights &amp; Biases.</p>
+<p>This callback enables tracking of Optuna study in
+Weights &amp; Biases. The study is tracked as a single experiment
+run, where all suggested hyperparameters and optimized metrics
+are logged and plotted as a function of optimizer steps.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>User needs to be logged in to Weights &amp; Biases before
+using this callback in online mode. For more information, please
+refer to <a class="reference external" href="https://docs.wandb.ai/quickstart#1-set-up-wandb">wandb setup</a>.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Users who want to run multiple Optuna studies within the same process
+should call <code class="docutils literal notranslate"><span class="pre">wandb.finish()</span></code> between subsequent calls to
+<code class="docutils literal notranslate"><span class="pre">study.optimize()</span></code>. Calling <code class="docutils literal notranslate"><span class="pre">wandb.finish()</span></code> is not necessary
+if you are running one Optuna study per process.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To ensure correct trial order in Weights &amp; Biases, this callback
+should only be used with <code class="docutils literal notranslate"><span class="pre">study.optimize(n_jobs=1)</span></code>.</p>
+</div>
+<p class="rubric">Example</p>
+<p>Add Weights &amp; Biases callback to Optuna optimization.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optuna</span>
+<span class="kn">from</span> <span class="nn">optuna.integration.wandb</span> <span class="kn">import</span> <span class="n">WeightsAndBiasesCallback</span>
+
+
+<span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+
+
+<span class="n">wandb_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"project"</span><span class="p">:</span> <span class="s2">"my-project"</span><span class="p">}</span>
+<span class="n">wandbc</span> <span class="o">=</span> <span class="n">WeightsAndBiasesCallback</span><span class="p">(</span><span class="n">wandb_kwargs</span><span class="o">=</span><span class="n">wandb_kwargs</span><span class="p">)</span>
+
+
+<span class="n">study</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">create_study</span><span class="p">(</span><span class="n">study_name</span><span class="o">=</span><span class="s2">"my_study"</span><span class="p">)</span>
+<span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">wandbc</span><span class="p">])</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>metric_name</strong> – Name assigned to optimized metric. In case of multi-objective optimization,
+list of names can be passed. Those names will be assigned
+to metrics in the order returned by objective function.
+If single name is provided, or this argument is left to default value,
+it will be broadcasted to each objective with a number suffix in order
+returned by objective function e.g. two objectives and default metric name
+will be logged as <code class="docutils literal notranslate"><span class="pre">value_0</span></code> and <code class="docutils literal notranslate"><span class="pre">value_1</span></code>.</p></li>
+<li><p><strong>wandb_kwargs</strong> – Set of arguments passed when initializing Weights &amp; Biases run.
+Please refer to <a class="reference external" href="https://docs.wandb.ai/ref/python/init">Weights &amp; Biases API documentation</a> for more details.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.10)"><strong>ValueError</strong></a> – If there are missing or extra metric names in multi-objective optimization.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.10)"><strong>TypeError</strong></a> – When metric names are not passed as sequence.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Added in v2.9.0 as an experimental feature. The interface may change in newer versions
+without prior notice. See <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v2.9.0">https://github.com/optuna/optuna/releases/tag/v2.9.0</a>.</p>
+</div>
+</dd></dl>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="optuna.integration.MLflowCallback.html" rel="prev" title="optuna.integration.MLflowCallback"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="optuna.integration.MXNetPruningCallback.html" rel="next" title="optuna.integration.MXNetPruningCallback">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright 2018, Optuna Contributors..</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+    <a href="../../privacy.html">Privacy Policy</a>.
+     
+
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>
