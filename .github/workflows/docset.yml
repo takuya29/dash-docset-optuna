@@ -69,4 +69,14 @@ jobs:
           pip install doc2dash
       - name: convert HTML to docset
         run: |
-          doc2dash -n optuna -u https://optuna.readthedocs.io optuna/docs/build/html
+          doc2dash \
+            --name optuna \
+            --destination . \
+            --icon ./icon.png \
+            --index-page index.html \
+            --online-redirect-url https://optuna.readthedocs.io \
+            ./optuna/docs/build/html
+      - uses: actions/upload-artifact@v2
+        with:
+          name: optuna.docset
+          path: ./optuna.docset
