@@ -12,6 +12,9 @@ jobs:
       latest: ${{ steps.latest.outputs.version }}
       current: ${{ steps.current.outputs.version }}
     steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
       - name: get the latest optuna release tag
         id: latest
         run: |
@@ -56,6 +59,9 @@ jobs:
     needs: build
     name: Convert to docset
     steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
       - uses: actions/download-artifact@v2
         with:
           name: built-html
@@ -72,10 +78,10 @@ jobs:
           doc2dash \
             --name optuna \
             --destination . \
-            --icon icon.png \
+            --icon ./icon.png \
             --index-page index.html \
             --online-redirect-url https://optuna.readthedocs.io \
-            optuna/docs/build/html
+            ./optuna/docs/build/html
       - uses: actions/upload-artifact@v2
         with:
           name: optuna.docset
