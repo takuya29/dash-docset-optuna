@@ -89,7 +89,7 @@ jobs:
         with:
           name: optuna.docset
           path: ./optuna.docset
-      - name: push built docset
+      - name: push docset
         run: |
           git config --global user.email "${{ secrets.CI_USER_EMAIL }}"
           git config --global user.name  "${{ secrets.CI_USER_USERNAME }}"
@@ -100,5 +100,5 @@ jobs:
           git tag ${{ needs.build.outputs.latest }}
           git push \
             "https://${{ secrets.CI_USER_USERNAME }}:${{ secrets.CI_USER_ACCESS_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" \
-            HEAD:test \
+            HEAD:main \
             --tags
