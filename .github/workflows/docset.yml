@@ -5,6 +5,7 @@ on:
   workflow_dispatch:
 
 jobs:
+
   fetch:
     name: Check latest Optuna release and build docset
     runs-on: ubuntu-latest
@@ -26,6 +27,7 @@ jobs:
         run: |
           echo ::set-output "name=version::$(cat .version)"
           echo current verion: $version
+  
   build:
     runs-on: ubuntu-latest
     needs: fetch
@@ -56,6 +58,7 @@ jobs:
         with:
           name: built-html
           path: optuna/docs/build/html
+  
   docset:
     runs-on: ubuntu-latest
     needs: build
