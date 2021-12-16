@@ -103,4 +103,5 @@ jobs:
           git tag ${{ needs.build.outputs.latest }}
           git push \
             "https://${{ secrets.CI_USER_USERNAME }}:${{ secrets.CI_USER_ACCESS_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" \
+            HEAD:main \
             --tags
