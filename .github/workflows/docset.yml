@@ -25,7 +25,8 @@ jobs:
       - name: get current .version
         id: current
         run: |
-          echo ::set-output "name=version::$(cat .version)"
+          version=$(cat .version)
+          echo ::set-output "name=version::$version"
           echo current verion: $version
   
   build:
