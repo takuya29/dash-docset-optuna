@@ -23,7 +23,7 @@ jobs:
         run: |
           # memo: what is this value when triggered by schedule?
           echo github.event.inputs.debug: ${{ github.event.inputs.debug }}
-          echo comparison with true: ${{ github.event.inputs.debug == "true"}}
+          echo comparison with true: ${{ github.event.inputs.debug == 'true'}}
       - uses: actions/checkout@v2
         with:
           persist-credentials: false
