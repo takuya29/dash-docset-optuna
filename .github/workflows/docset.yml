@@ -95,10 +95,10 @@ jobs:
             --name optuna \
             --destination . \
             --force \
-            --icon ./icon.png \
             --index-page index.html \
             --online-redirect-url https://optuna.readthedocs.io \
             ./optuna/docs/build/html
+          cp ./icon/*.png optuna.docset/
       - uses: actions/upload-artifact@v2
         with:
           name: optuna.docset
