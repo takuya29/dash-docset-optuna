@@ -19,10 +19,6 @@ jobs:
       latest: ${{ steps.latest.outputs.version }}
       current: ${{ steps.current.outputs.version }}
     steps:
-      - name: print debug
-        run: |
-          # memo: what is this value when triggered by schedule?
-          echo github.event.inputs.debug: ${{ github.event.inputs.debug }}
       - uses: actions/checkout@v2
         with:
           persist-credentials: false
@@ -47,11 +43,6 @@ jobs:
     outputs:
       latest: ${{ needs.fetch.outputs.latest }}
     steps:
-      - name: print debug
-        run: |
-          echo first condition: ${{ needs.fetch.outputs.latest != needs.fetch.outputs.current }}
-          echo second condition: ${{ github.event.inputs.debug == 'true' }}
-          echo logical or: ${{ needs.fetch.outputs.latest != needs.fetch.outputs.current || github.event.inputs.debug == 'true' }}
       - uses: actions/checkout@v2
         with:
           persist-credentials: false
@@ -109,6 +100,7 @@ jobs:
           name: Optuna.docset
           path: ./Optuna.docset
       - name: push docset
+        # memo: `debug` will be empty when workflow triggered by schedule.
         if:  ${{ github.event.inputs.debug != 'true' }}
         run: |
           git config --global user.email "${{ secrets.CI_USER_EMAIL }}"
