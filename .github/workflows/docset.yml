@@ -47,6 +47,11 @@ jobs:
     outputs:
       latest: ${{ needs.fetch.outputs.latest }}
     steps:
+      - name: print debug
+        run: |
+          echo first condition: ${{ needs.fetch.outputs.latest != needs.fetch.outputs.current }}
+          echo second condition: ${{ github.event.inputs.debug == 'true' }}
+          echo logical or: ${{ needs.fetch.outputs.latest != needs.fetch.outputs.current }} || ${{ github.event.inputs.debug == 'true' }}
       - uses: actions/checkout@v2
         with:
           persist-credentials: false
