@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Multi-objective Optimization with Optuna — Optuna 2.10.0 documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-binder.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-dataframe.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-rendered-html.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/custom.css" rel="stylesheet" type="text/css"/><link href="../../_static/favicon.ico" rel="shortcut icon"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/clipboard.min.js"></script>
+<script src="../../_static/copybutton.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="003_attributes.html" rel="next" title="User Attributes"/>
+<link href="001_rdb.html" rel="prev" title="Saving/Resuming Study with RDB Backend"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="navbar">
+<div class="navbar ml-auto">
+<ul class="navbar-nav">
+<li>
+<a class="header_link" href="https://optuna.org/#key_features">Key Features</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#code_examples">Code Examples</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#installation">Installation</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#blog">Blog</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#video">Videos</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#paper">Paper</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#community">Community</a>
+</li>
+</ul>
+</div>
+</div>
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a href="../../index.html"><img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
+</a>
+<div class="version">
+                2.10.0
+              </div>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Tutorial</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#key-features">Key Features</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#recipes">Recipes</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="001_rdb.html">Saving/Resuming Study with RDB Backend</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Multi-objective Optimization with Optuna</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#run-multi-objective-optimization">Run multi-objective optimization</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="003_attributes.html">User Attributes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="004_cli.html">Command-Line Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="005_user_defined_sampler.html">User-Defined Sampler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="006_user_defined_pruner.html">User-Defined Pruner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="007_optuna_callback.html">Callback for Study.optimize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="008_specify_params.html">Specify Hyperparameters Manually</a></li>
+<li class="toctree-l3"><a class="reference internal" href="009_ask_and_tell.html">Ask-and-Tell Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="010_reuse_best_trial.html">Re-use the best values</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Optuna</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">Tutorial</a> »</li>
+<li>Multi-objective Optimization with Optuna</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/tutorial/20_recipes/002_multi_objective.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-tutorial-20-recipes-002-multi-objective-py"><span class="std std-ref">here</span></a>
+to download the full example code</p>
+</div>
+<div class="sphx-glr-example-title section" id="multi-objective-optimization-with-optuna">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Multi-objective Optimization with Optuna"></a><span id="multi-objective"></span><a class="dashAnchor" name="//apple_ref/cpp/Section/Multi-objective Optimization with Optuna"></a><span id="sphx-glr-tutorial-20-recipes-002-multi-objective-py"></span><h1>Multi-objective Optimization with Optuna<a class="headerlink" href="#multi-objective-optimization-with-optuna" title="Permalink to this headline">¶</a></h1>
+<p>This tutorial showcases Optuna’s multi-objective optimization feature by
+optimizing the validation accuracy of Fashion MNIST dataset and the FLOPS of the model implemented in PyTorch.</p>
+<p>We use <a class="reference external" href="https://github.com/Lyken17/pytorch-OpCounter">thop</a> to measure FLOPS.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">thop</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">import</span> <span class="nn">torchvision</span>
+
+<span class="kn">import</span> <span class="nn">optuna</span>
+
+
+<span class="n">DEVICE</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">"cuda"</span><span class="p">)</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">"cpu"</span><span class="p">)</span>
+<a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str"><span class="n">DIR</span></a> <span class="o">=</span> <span class="s2">".."</span>
+<a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/functions.html#int" title="builtins.int"><span class="n">BATCHSIZE</span></a> <span class="o">=</span> <span class="mi">128</span>
+<a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/functions.html#int" title="builtins.int"><span class="n">N_TRAIN_EXAMPLES</span></a> <span class="o">=</span> <a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/functions.html#int" title="builtins.int"><span class="n">BATCHSIZE</span></a> <span class="o">*</span> <span class="mi">30</span>
+<a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/functions.html#int" title="builtins.int"><span class="n">N_VALID_EXAMPLES</span></a> <span class="o">=</span> <a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/functions.html#int" title="builtins.int"><span class="n">BATCHSIZE</span></a> <span class="o">*</span> <span class="mi">10</span>
+
+
+<span class="k">def</span> <span class="nf">define_model</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
+    <span class="n">n_layers</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_int</span><span class="p">(</span><span class="s2">"n_layers"</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">layers</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">in_features</span> <span class="o">=</span> <span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_layers</span><span class="p">):</span>
+        <span class="n">out_features</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_int</span><span class="p">(</span><span class="s2">"n_units_l</span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
+        <span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">))</span>
+        <span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">())</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"dropout_</span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">p</span><span class="p">))</span>
+
+        <span class="n">in_features</span> <span class="o">=</span> <span class="n">out_features</span>
+
+    <span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+    <span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">LogSoftmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="o">*</span><span class="n">layers</span><span class="p">)</span>
+
+
+<span class="c1"># Defines training and evaluation.</span>
+<span class="k">def</span> <span class="nf">train_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">):</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">train_loader</span><span class="p">):</span>
+        <span class="n">data</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">),</span> <span class="n">target</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">F</span><span class="o">.</span><span class="n">nll_loss</span><span class="p">(</span><span class="n">model</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">target</span><span class="p">)</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">eval_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">valid_loader</span><span class="p">):</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+    <span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">valid_loader</span><span class="p">):</span>
+            <span class="n">data</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">),</span> <span class="n">target</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
+            <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">correct</span> <span class="o">+=</span> <span class="n">pred</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">view_as</span><span class="p">(</span><span class="n">pred</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+
+    <span class="n">accuracy</span> <span class="o">=</span> <span class="n">correct</span> <span class="o">/</span> <a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/functions.html#int" title="builtins.int"><span class="n">N_VALID_EXAMPLES</span></a>
+
+    <span class="n">flops</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">thop</span><span class="o">.</span><span class="n">profile</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span> <span class="o">*</span> <span class="mi">28</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">),),</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">flops</span><span class="p">,</span> <span class="n">accuracy</span>
+</pre></div>
+</div>
+<p>Define multi-objective objective function.
+Objectives are FLOPS and accuracy.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
+    <span class="n">train_dataset</span> <span class="o">=</span> <a class="sphx-glr-backref-module-typing sphx-glr-backref-type-py-class" href="https://docs.python.org/3/library/typing.html#typing.Generic" title="typing.Generic"><span class="n">torchvision</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">FashionMNIST</span></a><span class="p">(</span>
+        <a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str"><span class="n">DIR</span></a><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">torchvision</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">()</span>
+    <span class="p">)</span>
+    <span class="n">train_loader</span> <span class="o">=</span> <a class="sphx-glr-backref-module-typing sphx-glr-backref-type-py-class" href="https://docs.python.org/3/library/typing.html#typing.Generic" title="typing.Generic"><span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span></a><span class="p">(</span>
+        <a class="sphx-glr-backref-module-typing sphx-glr-backref-type-py-class" href="https://docs.python.org/3/library/typing.html#typing.Generic" title="typing.Generic"><span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Subset</span></a><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/functions.html#int" title="builtins.int"><span class="n">N_TRAIN_EXAMPLES</span></a><span class="p">))),</span>
+        <span class="n">batch_size</span><span class="o">=</span><a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/functions.html#int" title="builtins.int"><span class="n">BATCHSIZE</span></a><span class="p">,</span>
+        <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">val_dataset</span> <span class="o">=</span> <a class="sphx-glr-backref-module-typing sphx-glr-backref-type-py-class" href="https://docs.python.org/3/library/typing.html#typing.Generic" title="typing.Generic"><span class="n">torchvision</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">FashionMNIST</span></a><span class="p">(</span>
+        <a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str"><span class="n">DIR</span></a><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">torchvision</span><span class="o">.</span><span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">()</span>
+    <span class="p">)</span>
+    <span class="n">val_loader</span> <span class="o">=</span> <a class="sphx-glr-backref-module-typing sphx-glr-backref-type-py-class" href="https://docs.python.org/3/library/typing.html#typing.Generic" title="typing.Generic"><span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span></a><span class="p">(</span>
+        <a class="sphx-glr-backref-module-typing sphx-glr-backref-type-py-class" href="https://docs.python.org/3/library/typing.html#typing.Generic" title="typing.Generic"><span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Subset</span></a><span class="p">(</span><span class="n">val_dataset</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/functions.html#int" title="builtins.int"><span class="n">N_VALID_EXAMPLES</span></a><span class="p">))),</span>
+        <span class="n">batch_size</span><span class="o">=</span><a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/functions.html#int" title="builtins.int"><span class="n">BATCHSIZE</span></a><span class="p">,</span>
+        <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">define_model</span><span class="p">(</span><span class="n">trial</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">DEVICE</span><span class="p">)</span>
+
+    <span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"lr"</span><span class="p">,</span> <span class="mf">1e-5</span><span class="p">,</span> <span class="mf">1e-1</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+        <span class="n">train_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">)</span>
+    <span class="n">flops</span><span class="p">,</span> <span class="n">accuracy</span> <span class="o">=</span> <span class="n">eval_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">val_loader</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">flops</span><span class="p">,</span> <span class="n">accuracy</span>
+</pre></div>
+</div>
+<div class="section" id="run-multi-objective-optimization">
+<h2>Run multi-objective optimization<a class="headerlink" href="#run-multi-objective-optimization" title="Permalink to this headline">¶</a></h2>
+<p>If your optimization problem is multi-objective,
+Optuna assumes that you will specify the optimization direction for each objective.
+Specifically, in this example, we want to minimize the FLOPS (we want a faster model)
+and maximize the accuracy. So we set <code class="docutils literal notranslate"><span class="pre">directions</span></code> to <code class="docutils literal notranslate"><span class="pre">["minimize",</span> <span class="pre">"maximize"]</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">study</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">create_study</span><span class="p">(</span><span class="n">directions</span><span class="o">=</span><span class="p">[</span><span class="s2">"minimize"</span><span class="p">,</span> <span class="s2">"maximize"</span><span class="p">])</span>
+<span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Number of finished trials: "</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">study</span><span class="o">.</span><span class="n">trials</span><span class="p">))</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-images-idx3-ubyte.gz to ../FashionMNIST/raw/train-images-idx3-ubyte.gz
+
+  0%|          | 0/26421880 [00:00&lt;?, ?it/s]
+  0%|          | 40960/26421880 [00:00&lt;01:17, 338337.59it/s]
+  0%|          | 104448/26421880 [00:00&lt;01:07, 392442.68it/s]
+  1%|1         | 299008/26421880 [00:00&lt;00:28, 903669.02it/s]
+  4%|3         | 946176/26421880 [00:00&lt;00:10, 2360855.44it/s]
+  9%|9         | 2478080/26421880 [00:00&lt;00:04, 5727572.58it/s]
+ 24%|##3       | 6215680/26421880 [00:00&lt;00:01, 14565149.68it/s]
+ 35%|###4      | 9160704/26421880 [00:00&lt;00:01, 16853160.36it/s]
+ 50%|####9     | 13085696/26421880 [00:01&lt;00:00, 22837756.15it/s]
+ 62%|######2   | 16436224/26421880 [00:01&lt;00:00, 24820092.33it/s]
+ 78%|#######7  | 20539392/26421880 [00:01&lt;00:00, 25799283.22it/s]
+ 92%|#########1| 24297472/26421880 [00:01&lt;00:00, 28801469.74it/s]
+26422272it [00:01, 18185802.06it/s]
+Extracting ../FashionMNIST/raw/train-images-idx3-ubyte.gz to ../FashionMNIST/raw
+Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/train-labels-idx1-ubyte.gz to ../FashionMNIST/raw/train-labels-idx1-ubyte.gz
+
+  0%|          | 0/29515 [00:00&lt;?, ?it/s]
+29696it [00:00, 325059.57it/s]
+Extracting ../FashionMNIST/raw/train-labels-idx1-ubyte.gz to ../FashionMNIST/raw
+Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/t10k-images-idx3-ubyte.gz to ../FashionMNIST/raw/t10k-images-idx3-ubyte.gz
+
+  0%|          | 0/4422102 [00:00&lt;?, ?it/s]
+  1%|          | 38912/4422102 [00:00&lt;00:11, 365879.85it/s]
+  2%|2         | 102400/4422102 [00:00&lt;00:11, 376725.63it/s]
+  6%|6         | 279552/4422102 [00:00&lt;00:04, 871416.52it/s]
+ 21%|##        | 920576/4422102 [00:00&lt;00:01, 2252384.64it/s]
+ 53%|#####2    | 2331648/4422102 [00:00&lt;00:00, 5506107.47it/s]
+4422656it [00:00, 6025822.32it/s]
+Extracting ../FashionMNIST/raw/t10k-images-idx3-ubyte.gz to ../FashionMNIST/raw
+Downloading http://fashion-mnist.s3-website.eu-central-1.amazonaws.com/t10k-labels-idx1-ubyte.gz to ../FashionMNIST/raw/t10k-labels-idx1-ubyte.gz
+
+  0%|          | 0/5148 [00:00&lt;?, ?it/s]
+6144it [00:00, 29860722.80it/s]
+Extracting ../FashionMNIST/raw/t10k-labels-idx1-ubyte.gz to ../FashionMNIST/raw
+Processing...
+/opt/hostedtoolcache/Python/3.7.12/x64/lib/python3.7/site-packages/torchvision/datasets/mnist.py:479: UserWarning:
+
+The given NumPy array is not writeable, and PyTorch does not support non-writeable tensors. This means you can write to the underlying (supposedly non-writeable) NumPy array using the tensor. You may want to copy the array to protect its data or make it writeable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at  /pytorch/torch/csrc/utils/tensor_numpy.cpp:143.)
+
+Done!
+Number of finished trials:  30
+</pre></div>
+</div>
+<p>Check trials on pareto front visually</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">optuna</span><span class="o">.</span><span class="n">visualization</span><span class="o">.</span><span class="n">plot_pareto_front</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="n">target_names</span><span class="o">=</span><span class="p">[</span><span class="s2">"FLOPS"</span><span class="p">,</span> <span class="s2">"accuracy"</span><span class="p">])</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/runner/work/dash-docset-optuna/dash-docset-optuna/optuna/tutorial/20_recipes/002_multi_objective.py:123: ExperimentalWarning:
+
+plot_pareto_front is experimental (supported from v2.4.0). The interface can change in the future.
+</pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<div> <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script type="text/javascript">if (window.MathJax) {MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script> <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+<script src="https://cdn.plot.ly/plotly-2.6.3.min.js"></script> <div class="plotly-graph-div" id="f93186f6-f10b-4619-8267-1d27e7973cca" style="height:525px; width:100%;"></div> <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("f93186f6-f10b-4619-8267-1d27e7973cca")) {                    Plotly.newPlot(                        "f93186f6-f10b-4619-8267-1d27e7973cca",                        [{"hovertemplate":"%{text}<extra>Trial</extra>","marker":{"color":[1,2,3,4,5,7,8,9,10,11,12,13,15,16,17,20,22,24,25,26,27,28,29],"colorbar":{"title":{"text":"#Trials"}},"colorscale":[[0.0,"rgb(247,251,255)"],[0.125,"rgb(222,235,247)"],[0.25,"rgb(198,219,239)"],[0.375,"rgb(158,202,225)"],[0.5,"rgb(107,174,214)"],[0.625,"rgb(66,146,198)"],[0.75,"rgb(33,113,181)"],[0.875,"rgb(8,81,156)"],[1.0,"rgb(8,48,107)"]],"line":{"color":"Grey","width":0.5}},"mode":"markers","showlegend":false,"text":["{<br>  \"number\": 1,<br>  \"values\": [<br>    39272.0,<br>    0.48984375<br>  ],<br>  \"params\": {<br>    \"n_layers\": 2,<br>    \"n_units_l0\": 42,<br>    \"dropout_0\": 0.4428440289489244,<br>    \"n_units_l1\": 122,<br>    \"dropout_1\": 0.2143423289762524,<br>    \"lr\": 4.409450522554315e-05<br>  }<br>}","{<br>  \"number\": 2,<br>  \"values\": [<br>    7692.0,<br>    0.22734375<br>  ],<br>  \"params\": {<br>    \"n_layers\": 3,<br>    \"n_units_l0\": 9,<br>    \"dropout_0\": 0.47049295684910636,<br>    \"n_units_l1\": 23,<br>    \"dropout_1\": 0.2799998770859631,<br>    \"n_units_l2\": 13,<br>    \"dropout_2\": 0.30480625466740496,<br>    \"lr\": 8.06988705072742e-05<br>  }<br>}","{<br>  \"number\": 3,<br>  \"values\": [<br>    89330.0,<br>    0.1015625<br>  ],<br>  \"params\": {<br>    \"n_layers\": 2,<br>    \"n_units_l0\": 113,<br>    \"dropout_0\": 0.4268740085417667,<br>    \"n_units_l1\": 6,<br>    \"dropout_1\": 0.3594656787929626,<br>    \"lr\": 0.018881149336476565<br>  }<br>}","{<br>  \"number\": 4,<br>  \"values\": [<br>    65108.0,<br>    0.7859375<br>  ],<br>  \"params\": {<br>    \"n_layers\": 1,<br>    \"n_units_l0\": 82,<br>    \"dropout_0\": 0.2902640118281418,<br>    \"lr\": 0.0004581031899589646<br>  }<br>}","{<br>  \"number\": 5,<br>  \"values\": [<br>    34142.0,<br>    0.80703125<br>  ],<br>  \"params\": {<br>    \"n_layers\": 1,<br>    \"n_units_l0\": 43,<br>    \"dropout_0\": 0.40234627089489106,<br>    \"lr\": 0.007913553571340243<br>  }<br>}","{<br>  \"number\": 7,<br>  \"values\": [<br>    17468.0,<br>    0.6734375<br>  ],<br>  \"params\": {<br>    \"n_layers\": 1,<br>    \"n_units_l0\": 22,<br>    \"dropout_0\": 0.3261988211455412,<br>    \"lr\": 0.05404083620648864<br>  }<br>}","{<br>  \"number\": 8,<br>  \"values\": [<br>    51610.0,<br>    0.675<br>  ],<br>  \"params\": {<br>    \"n_layers\": 1,<br>    \"n_units_l0\": 65,<br>    \"dropout_0\": 0.4686858935703957,<br>    \"lr\": 0.04785044158278934<br>  }<br>}","{<br>  \"number\": 9,<br>  \"values\": [<br>    111062.0,<br>    0.08984375<br>  ],<br>  \"params\": {<br>    \"n_layers\": 2,<br>    \"n_units_l0\": 123,<br>    \"dropout_0\": 0.33759375177322537,<br>    \"n_units_l1\": 110,<br>    \"dropout_1\": 0.33023029392656655,<br>    \"lr\": 0.09322036498873805<br>  }<br>}","{<br>  \"number\": 10,<br>  \"values\": [<br>    21212.0,<br>    0.68671875<br>  ],<br>  \"params\": {<br>    \"n_layers\": 2,<br>    \"n_units_l0\": 26,<br>    \"dropout_0\": 0.49343555310724724,<br>    \"n_units_l1\": 23,<br>    \"dropout_1\": 0.29990064717618337,<br>    \"lr\": 0.000753328903053532<br>  }<br>}","{<br>  \"number\": 11,<br>  \"values\": [<br>    86304.0,<br>    0.584375<br>  ],<br>  \"params\": {<br>    \"n_layers\": 3,<br>    \"n_units_l0\": 106,<br>    \"dropout_0\": 0.41974181375879993,<br>    \"n_units_l1\": 20,<br>    \"dropout_1\": 0.36265104358034617,<br>    \"n_units_l2\": 36,<br>    \"dropout_2\": 0.23723282133366644,<br>    \"lr\": 0.00011359291257522642<br>  }<br>}","{<br>  \"number\": 12,<br>  \"values\": [<br>    80758.0,<br>    0.6953125<br>  ],<br>  \"params\": {<br>    \"n_layers\": 3,<br>    \"n_units_l0\": 89,<br>    \"dropout_0\": 0.4720942310794499,<br>    \"n_units_l1\": 102,<br>    \"dropout_1\": 0.4737194569030314,<br>    \"n_units_l2\": 17,<br>    \"dropout_2\": 0.33118341511071636,<br>    \"lr\": 0.0005072559983378981<br>  }<br>}","{<br>  \"number\": 13,<br>  \"values\": [<br>    58756.0,<br>    0.66328125<br>  ],<br>  \"params\": {<br>    \"n_layers\": 1,<br>    \"n_units_l0\": 74,<br>    \"dropout_0\": 0.3951548332281138,<br>    \"lr\": 9.745665661258297e-05<br>  }<br>}","{<br>  \"number\": 15,<br>  \"values\": [<br>    49445.0,<br>    0.62109375<br>  ],<br>  \"params\": {<br>    \"n_layers\": 2,<br>    \"n_units_l0\": 57,<br>    \"dropout_0\": 0.4431772559250816,<br>    \"n_units_l1\": 71,<br>    \"dropout_1\": 0.47407598889816194,<br>    \"lr\": 0.00017403008734493566<br>  }<br>}","{<br>  \"number\": 16,<br>  \"values\": [<br>    92898.0,<br>    0.82109375<br>  ],<br>  \"params\": {<br>    \"n_layers\": 1,<br>    \"n_units_l0\": 117,<br>    \"dropout_0\": 0.32499287373280406,<br>    \"lr\": 0.012206250613330614<br>  }<br>}","{<br>  \"number\": 17,<br>  \"values\": [<br>    71832.0,<br>    0.48359375<br>  ],<br>  \"params\": {<br>    \"n_layers\": 2,<br>    \"n_units_l0\": 82,<br>    \"dropout_0\": 0.3302570200958719,<br>    \"n_units_l1\": 82,<br>    \"dropout_1\": 0.2614723312761632,<br>    \"lr\": 1.2377373100199741e-05<br>  }<br>}","{<br>  \"number\": 20,<br>  \"values\": [<br>    68830.0,<br>    0.80234375<br>  ],<br>  \"params\": {<br>    \"n_layers\": 2,<br>    \"n_units_l0\": 75,<br>    \"dropout_0\": 0.4977582550541221,<br>    \"n_units_l1\": 118,<br>    \"dropout_1\": 0.21550807058840427,<br>    \"lr\": 0.0024290544807347696<br>  }<br>}","{<br>  \"number\": 22,<br>  \"values\": [<br>    48928.0,<br>    0.809375<br>  ],<br>  \"params\": {<br>    \"n_layers\": 2,<br>    \"n_units_l0\": 54,<br>    \"dropout_0\": 0.3207745196047873,<br>    \"n_units_l1\": 103,<br>    \"dropout_1\": 0.3232335483561072,<br>    \"lr\": 0.007194948045962655<br>  }<br>}","{<br>  \"number\": 24,<br>  \"values\": [<br>    10514.0,<br>    0.67890625<br>  ],<br>  \"params\": {<br>    \"n_layers\": 2,<br>    \"n_units_l0\": 11,<br>    \"dropout_0\": 0.3784776001451148,<br>    \"n_units_l1\": 90,<br>    \"dropout_1\": 0.3379784008770932,<br>    \"lr\": 0.00046061665477999645<br>  }<br>}","{<br>  \"number\": 25,<br>  \"values\": [<br>    85752.0,<br>    0.73359375<br>  ],<br>  \"params\": {<br>    \"n_layers\": 1,<br>    \"n_units_l0\": 108,<br>    \"dropout_0\": 0.3641256943666116,<br>    \"lr\": 0.03487605241625489<br>  }<br>}","{<br>  \"number\": 26,<br>  \"values\": [<br>    48627.0,<br>    0.6046875<br>  ],<br>  \"params\": {<br>    \"n_layers\": 3,<br>    \"n_units_l0\": 57,<br>    \"dropout_0\": 0.37430771211173386,<br>    \"n_units_l1\": 17,<br>    \"dropout_1\": 0.2225578898169356,<br>    \"n_units_l2\": 110,<br>    \"dropout_2\": 0.2240964528626867,<br>    \"lr\": 8.518424535541788e-05<br>  }<br>}","{<br>  \"number\": 27,<br>  \"values\": [<br>    96868.0,<br>    0.75625<br>  ],<br>  \"params\": {<br>    \"n_layers\": 1,<br>    \"n_units_l0\": 122,<br>    \"dropout_0\": 0.42015629905543317,<br>    \"lr\": 0.00023940599220712594<br>  }<br>}","{<br>  \"number\": 28,<br>  \"values\": [<br>    63520.0,<br>    0.66015625<br>  ],<br>  \"params\": {<br>    \"n_layers\": 1,<br>    \"n_units_l0\": 80,<br>    \"dropout_0\": 0.21873906824007106,<br>    \"lr\": 5.2086416525338914e-05<br>  }<br>}","{<br>  \"number\": 29,<br>  \"values\": [<br>    100970.0,<br>    0.09453125<br>  ],<br>  \"params\": {<br>    \"n_layers\": 3,<br>    \"n_units_l0\": 125,<br>    \"dropout_0\": 0.3321419199559983,<br>    \"n_units_l1\": 10,<br>    \"dropout_1\": 0.2726471315905812,<br>    \"n_units_l2\": 86,<br>    \"dropout_2\": 0.26754693953255126,<br>    \"lr\": 0.06895289125526427<br>  }<br>}"],"x":[39272.0,7692.0,89330.0,65108.0,34142.0,17468.0,51610.0,111062.0,21212.0,86304.0,80758.0,58756.0,49445.0,92898.0,71832.0,68830.0,48928.0,10514.0,85752.0,48627.0,96868.0,63520.0,100970.0],"y":[0.48984375,0.22734375,0.1015625,0.7859375,0.80703125,0.6734375,0.675,0.08984375,0.68671875,0.584375,0.6953125,0.66328125,0.62109375,0.82109375,0.48359375,0.80234375,0.809375,0.67890625,0.73359375,0.6046875,0.75625,0.66015625,0.09453125],"type":"scatter"},{"hovertemplate":"%{text}<extra>Best Trial</extra>","marker":{"color":[0,6,14,18,19,21,23],"colorbar":{"title":{"text":"#Best trials"},"x":1.1,"xpad":40},"colorscale":[[0.0,"rgb(255,245,240)"],[0.125,"rgb(254,224,210)"],[0.25,"rgb(252,187,161)"],[0.375,"rgb(252,146,114)"],[0.5,"rgb(251,106,74)"],[0.625,"rgb(239,59,44)"],[0.75,"rgb(203,24,29)"],[0.875,"rgb(165,15,21)"],[1.0,"rgb(103,0,13)"]],"line":{"color":"Grey","width":0.5}},"mode":"markers","showlegend":false,"text":["{<br>  \"number\": 0,<br>  \"values\": [<br>    61932.0,<br>    0.82890625<br>  ],<br>  \"params\": {<br>    \"n_layers\": 1,<br>    \"n_units_l0\": 78,<br>    \"dropout_0\": 0.20822958469508174,<br>    \"lr\": 0.014095734026789826<br>  }<br>}","{<br>  \"number\": 6,<br>  \"values\": [<br>    6384.0,<br>    0.484375<br>  ],<br>  \"params\": {<br>    \"n_layers\": 2,<br>    \"n_units_l0\": 6,<br>    \"dropout_0\": 0.4302477924335111,<br>    \"n_units_l1\": 105,<br>    \"dropout_1\": 0.3049277524481775,<br>    \"lr\": 0.007582058165606046<br>  }<br>}","{<br>  \"number\": 14,<br>  \"values\": [<br>    30935.0,<br>    0.81328125<br>  ],<br>  \"params\": {<br>    \"n_layers\": 2,<br>    \"n_units_l0\": 37,<br>    \"dropout_0\": 0.23059212899603532,<br>    \"n_units_l1\": 41,<br>    \"dropout_1\": 0.28948089648743436,<br>    \"lr\": 0.009876865433866087<br>  }<br>}","{<br>  \"number\": 18,<br>  \"values\": [<br>    3970.0,<br>    0.40078125<br>  ],<br>  \"params\": {<br>    \"n_layers\": 1,<br>    \"n_units_l0\": 5,<br>    \"dropout_0\": 0.38626560128588183,<br>    \"lr\": 0.00018675468757902192<br>  }<br>}","{<br>  \"number\": 19,<br>  \"values\": [<br>    8734.0,<br>    0.78203125<br>  ],<br>  \"params\": {<br>    \"n_layers\": 1,<br>    \"n_units_l0\": 11,<br>    \"dropout_0\": 0.2696212643166964,<br>    \"lr\": 0.005436076175849954<br>  }<br>}","{<br>  \"number\": 21,<br>  \"values\": [<br>    92898.0,<br>    0.83984375<br>  ],<br>  \"params\": {<br>    \"n_layers\": 1,<br>    \"n_units_l0\": 117,<br>    \"dropout_0\": 0.2671504568925657,<br>    \"lr\": 0.0035376759994982785<br>  }<br>}","{<br>  \"number\": 23,<br>  \"values\": [<br>    6758.0,<br>    0.63125<br>  ],<br>  \"params\": {<br>    \"n_layers\": 2,<br>    \"n_units_l0\": 8,<br>    \"dropout_0\": 0.44355923199650016,<br>    \"n_units_l1\": 27,<br>    \"dropout_1\": 0.2003140563140196,<br>    \"lr\": 0.0010507156973940958<br>  }<br>}"],"x":[61932.0,6384.0,30935.0,3970.0,8734.0,92898.0,6758.0],"y":[0.82890625,0.484375,0.81328125,0.40078125,0.78203125,0.83984375,0.63125],"type":"scatter"}],                        {"title":{"text":"Pareto-front Plot"},"xaxis":{"title":{"text":"FLOPS"}},"yaxis":{"title":{"text":"accuracy"}},"template":{"data":{"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"heatmapgl":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmapgl"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"#E5ECF6","showlakes":true,"showland":true,"subunitcolor":"white"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2}}}},                        {"responsive": true}                    )                };                            </script> </div>
+</div>
+<br/>
+<br/><p>Learn which hyperparameters are affecting the flops most with hyperparameter importance.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">optuna</span><span class="o">.</span><span class="n">visualization</span><span class="o">.</span><span class="n">plot_param_importances</span><span class="p">(</span>
+    <span class="n">study</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">t</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">target_name</span><span class="o">=</span><span class="s2">"flops"</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<div> <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script type="text/javascript">if (window.MathJax) {MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script> <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+<script src="https://cdn.plot.ly/plotly-2.6.3.min.js"></script> <div class="plotly-graph-div" id="aa213fc0-7171-425e-a671-508dcb2fcb1f" style="height:525px; width:100%;"></div> <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("aa213fc0-7171-425e-a671-508dcb2fcb1f")) {                    Plotly.newPlot(                        "aa213fc0-7171-425e-a671-508dcb2fcb1f",                        [{"cliponaxis":false,"hovertemplate":["n_layers (IntUniformDistribution): 0.00048487091958541545<extra></extra>","dropout_0 (UniformDistribution): 0.0015181850414779908<extra></extra>","lr (LogUniformDistribution): 0.003000575731453282<extra></extra>","n_units_l0 (IntUniformDistribution): 0.9949963683074834<extra></extra>"],"marker":{"color":"rgb(66,146,198)"},"orientation":"h","text":["0.00048487091958541545","0.0015181850414779908","0.003000575731453282","0.9949963683074834"],"textposition":"outside","texttemplate":"%{text:.2f}","x":[0.00048487091958541545,0.0015181850414779908,0.003000575731453282,0.9949963683074834],"y":["n_layers","dropout_0","lr","n_units_l0"],"type":"bar"}],                        {"showlegend":false,"title":{"text":"Hyperparameter Importances"},"xaxis":{"title":{"text":"Importance for flops"}},"yaxis":{"title":{"text":"Hyperparameter"}},"template":{"data":{"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"choropleth":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"choropleth"}],"contour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"contour"}],"contourcarpet":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"contourcarpet"}],"heatmap":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmap"}],"heatmapgl":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"heatmapgl"}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"histogram2d":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2d"}],"histogram2dcontour":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"histogram2dcontour"}],"mesh3d":[{"colorbar":{"outlinewidth":0,"ticks":""},"type":"mesh3d"}],"parcoords":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"parcoords"}],"pie":[{"automargin":true,"type":"pie"}],"scatter":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter"}],"scatter3d":[{"line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatter3d"}],"scattercarpet":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattercarpet"}],"scattergeo":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergeo"}],"scattergl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattergl"}],"scattermapbox":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scattermapbox"}],"scatterpolar":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolar"}],"scatterpolargl":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterpolargl"}],"scatterternary":[{"marker":{"colorbar":{"outlinewidth":0,"ticks":""}},"type":"scatterternary"}],"surface":[{"colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"type":"surface"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}]},"layout":{"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"autotypenumbers":"strict","coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]],"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]},"colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"geo":{"bgcolor":"white","lakecolor":"white","landcolor":"#E5ECF6","showlakes":true,"showland":true,"subunitcolor":"white"},"hoverlabel":{"align":"left"},"hovermode":"closest","mapbox":{"style":"light"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","gridwidth":2,"linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white"}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"ternary":{"aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"bgcolor":"#E5ECF6","caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"title":{"x":0.05},"xaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2},"yaxis":{"automargin":true,"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","zerolinewidth":2}}}},                        {"responsive": true}                    )                };                            </script> </div>
+</div>
+<br/>
+<br/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 1 minutes  33.302 seconds)</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/sphx_glr_download_tutorial_20_recipes_002_multi_objective.py"></a><div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorial-20-recipes-002-multi-objective-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/82aa5c7e2a8d8749f9f6f65a6172eb9f/002_multi_objective.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">002_multi_objective.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/a4ea522762978cb29312e091bc523c7a/002_multi_objective.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">002_multi_objective.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="001_rdb.html" rel="prev" title="Saving/Resuming Study with RDB Backend"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="003_attributes.html" rel="next" title="User Attributes">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright 2018, Optuna Contributors..</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+    <a href="../../privacy.html">Privacy Policy</a>.
+     
+
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

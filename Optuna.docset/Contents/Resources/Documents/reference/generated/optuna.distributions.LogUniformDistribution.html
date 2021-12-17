@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>optuna.distributions.LogUniformDistribution — Optuna 2.10.0 documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-binder.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-dataframe.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-rendered-html.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/custom.css" rel="stylesheet" type="text/css"/><link href="../../_static/favicon.ico" rel="shortcut icon"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/clipboard.min.js"></script>
+<script src="../../_static/copybutton.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="optuna.distributions.DiscreteUniformDistribution.html" rel="next" title="optuna.distributions.DiscreteUniformDistribution"/>
+<link href="optuna.distributions.UniformDistribution.html" rel="prev" title="optuna.distributions.UniformDistribution"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="navbar">
+<div class="navbar ml-auto">
+<ul class="navbar-nav">
+<li>
+<a class="header_link" href="https://optuna.org/#key_features">Key Features</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#code_examples">Code Examples</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#installation">Installation</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#blog">Blog</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#video">Videos</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#paper">Paper</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#community">Community</a>
+</li>
+</ul>
+</div>
+</div>
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a href="../../index.html"><img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
+</a>
+<div class="version">
+                2.10.0
+              </div>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../optuna.html">optuna</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cli.html">optuna.cli</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../distributions.html">optuna.distributions</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="optuna.distributions.UniformDistribution.html">optuna.distributions.UniformDistribution</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">optuna.distributions.LogUniformDistribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.distributions.DiscreteUniformDistribution.html">optuna.distributions.DiscreteUniformDistribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.distributions.IntUniformDistribution.html">optuna.distributions.IntUniformDistribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.distributions.IntLogUniformDistribution.html">optuna.distributions.IntLogUniformDistribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.distributions.CategoricalDistribution.html">optuna.distributions.CategoricalDistribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.distributions.distribution_to_json.html">optuna.distributions.distribution_to_json</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.distributions.json_to_distribution.html">optuna.distributions.json_to_distribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.distributions.check_distribution_compatibility.html">optuna.distributions.check_distribution_compatibility</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../exceptions.html">optuna.exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../importance.html">optuna.importance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../integration.html">optuna.integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../logging.html">optuna.logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../multi_objective/index.html">optuna.multi_objective</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pruners.html">optuna.pruners</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samplers.html">optuna.samplers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storages.html">optuna.storages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../structs.html">optuna.structs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../study.html">optuna.study</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trial.html">optuna.trial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../visualization/index.html">optuna.visualization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Optuna</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../index.html"></a> »</li>
+<li><a href="../index.html">API Reference</a> »</li>
+<li><a href="../distributions.html">optuna.distributions</a> »</li>
+<li>optuna.distributions.LogUniformDistribution</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../_sources/reference/generated/optuna.distributions.LogUniformDistribution.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<div class="section" id="optuna-distributions-loguniformdistribution">
+<h1>optuna.distributions.LogUniformDistribution<a class="headerlink" href="#optuna-distributions-loguniformdistribution" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="optuna.distributions.LogUniformDistribution">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">optuna.distributions.</span></code><code class="sig-name descname"><span class="pre">LogUniformDistribution</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">low</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">high</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/distributions.html#LogUniformDistribution"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.distributions.LogUniformDistribution"></a><a class="headerlink" href="#optuna.distributions.LogUniformDistribution" title="Permalink to this definition">¶</a></dt>
+<dd><p>A uniform distribution in the log domain.</p>
+<p>This object is instantiated by <a class="reference internal" href="optuna.trial.Trial.html#optuna.trial.Trial.suggest_float" title="optuna.trial.Trial.suggest_float"><code class="xref py py-func docutils literal notranslate"><span class="pre">suggest_float()</span></code></a> with <code class="docutils literal notranslate"><span class="pre">log=True</span></code>
+and <a class="reference internal" href="optuna.trial.Trial.html#optuna.trial.Trial.suggest_loguniform" title="optuna.trial.Trial.suggest_loguniform"><code class="xref py py-func docutils literal notranslate"><span class="pre">suggest_loguniform()</span></code></a>, and passed to
+<a class="reference internal" href="../samplers.html#module-optuna.samplers" title="optuna.samplers"><code class="xref py py-mod docutils literal notranslate"><span class="pre">samplers</span></code></a> in general.</p>
+<dl class="py attribute">
+<dt id="optuna.distributions.LogUniformDistribution.low">
+<code class="sig-name descname"><span class="pre">low</span></code><a class="dashAnchor" name="//apple_ref/cpp/Attribute/optuna.distributions.LogUniformDistribution.low"></a><a class="headerlink" href="#optuna.distributions.LogUniformDistribution.low" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lower endpoint of the range of the distribution. <code class="docutils literal notranslate"><span class="pre">low</span></code> is included in the range.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt id="optuna.distributions.LogUniformDistribution.high">
+<code class="sig-name descname"><span class="pre">high</span></code><a class="dashAnchor" name="//apple_ref/cpp/Attribute/optuna.distributions.LogUniformDistribution.high"></a><a class="headerlink" href="#optuna.distributions.LogUniformDistribution.high" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upper endpoint of the range of the distribution. <code class="docutils literal notranslate"><span class="pre">high</span></code> is included from the range.</p>
+</dd></dl>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.10)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">low</span></code> value is larger than <code class="docutils literal notranslate"><span class="pre">high</span></code> value, or <code class="docutils literal notranslate"><span class="pre">low</span></code> value is smaller than or
+    equal to 0.</p>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%"/>
+<col style="width: 90%"/>
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.distributions.LogUniformDistribution.single" title="optuna.distributions.LogUniformDistribution.single"><code class="xref py py-obj docutils literal notranslate"><span class="pre">single</span></code></a>()</p></td>
+<td><p>Test whether the range of this distribution contains just a single value.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.distributions.LogUniformDistribution.to_external_repr" title="optuna.distributions.LogUniformDistribution.to_external_repr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_external_repr</span></code></a>(param_value_in_internal_repr)</p></td>
+<td><p>Convert internal representation of a parameter value into external representation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.distributions.LogUniformDistribution.to_internal_repr" title="optuna.distributions.LogUniformDistribution.to_internal_repr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_internal_repr</span></code></a>(param_value_in_external_repr)</p></td>
+<td><p>Convert external representation of a parameter value into internal representation.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="optuna.distributions.LogUniformDistribution.single">
+<code class="sig-name descname"><span class="pre">single</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/distributions.html#LogUniformDistribution.single"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.distributions.LogUniformDistribution.single"></a><a class="headerlink" href="#optuna.distributions.LogUniformDistribution.single" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test whether the range of this distribution contains just a single value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the range of this distribution contains just a single value,
+otherwise <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.distributions.LogUniformDistribution.to_external_repr">
+<code class="sig-name descname"><span class="pre">to_external_repr</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param_value_in_internal_repr</span></span></em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.distributions.LogUniformDistribution.to_external_repr"></a><a class="headerlink" href="#optuna.distributions.LogUniformDistribution.to_external_repr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert internal representation of a parameter value into external representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>param_value_in_internal_repr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Optuna’s internal representation of a parameter value.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Optuna’s external representation of a parameter value.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.distributions.LogUniformDistribution.to_internal_repr">
+<code class="sig-name descname"><span class="pre">to_internal_repr</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param_value_in_external_repr</span></span></em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.distributions.LogUniformDistribution.to_internal_repr"></a><a class="headerlink" href="#optuna.distributions.LogUniformDistribution.to_internal_repr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert external representation of a parameter value into internal representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>param_value_in_external_repr</strong> (<em>Any</em>) – Optuna’s external representation of a parameter value.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Optuna’s internal representation of a parameter value.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="optuna.distributions.UniformDistribution.html" rel="prev" title="optuna.distributions.UniformDistribution"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="optuna.distributions.DiscreteUniformDistribution.html" rel="next" title="optuna.distributions.DiscreteUniformDistribution">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright 2018, Optuna Contributors..</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+    <a href="../../privacy.html">Privacy Policy</a>.
+     
+
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

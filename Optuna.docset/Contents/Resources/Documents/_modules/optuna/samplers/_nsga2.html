@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>optuna.samplers._nsga2 &mdash; Optuna 2.10.0 documentation</title><link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/plot_directive.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-binder.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-dataframe.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/sg_gallery-rendered-html.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" /><link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/clipboard.min.js"></script>
+        <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+    <div class="navbar">
+        <div class="navbar ml-auto">
+            <ul class="navbar-nav">
+                <li>
+                    <a href="https://optuna.org/#key_features" class="header_link">Key Features</a>
+                </li>
+                <li>
+                    <a href="https://optuna.org/#code_examples" class="header_link">Code Examples</a>
+                </li>
+                <li>
+                    <a href="https://optuna.org/#installation" class="header_link">Installation</a>
+                </li>
+                <li>
+                    <a href="https://optuna.org/#blog" class="header_link">Blog</a>
+                </li>
+                <li>
+                    <a href="https://optuna.org/#video" class="header_link">Videos</a>
+                </li>
+                <li>
+                    <a href="https://optuna.org/#paper" class="header_link">Paper</a>
+                </li>
+                <li>
+                    <a href="https://optuna.org/#community" class="header_link">Community</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+     
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html"><img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.10.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Optuna</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>optuna.samplers._nsga2</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for optuna.samplers._nsga2</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">cast</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">DefaultDict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">optuna</span>
+<span class="kn">from</span> <span class="nn">optuna._experimental</span> <span class="kn">import</span> <span class="n">ExperimentalWarning</span>
+<span class="kn">from</span> <span class="nn">optuna.distributions</span> <span class="kn">import</span> <span class="n">BaseDistribution</span>
+<span class="kn">from</span> <span class="nn">optuna.samplers._base</span> <span class="kn">import</span> <span class="n">BaseSampler</span>
+<span class="kn">from</span> <span class="nn">optuna.samplers._random</span> <span class="kn">import</span> <span class="n">RandomSampler</span>
+<span class="kn">from</span> <span class="nn">optuna.study</span> <span class="kn">import</span> <span class="n">Study</span>
+<span class="kn">from</span> <span class="nn">optuna.study</span> <span class="kn">import</span> <span class="n">StudyDirection</span>
+<span class="kn">from</span> <span class="nn">optuna.study._multi_objective</span> <span class="kn">import</span> <span class="n">_dominates</span>
+<span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">FrozenTrial</span>
+<span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">TrialState</span>
+
+
+<span class="c1"># Define key names of `Trial.system_attrs`.</span>
+<span class="n">_CONSTRAINTS_KEY</span> <span class="o">=</span> <span class="s2">&quot;nsga2:constraints&quot;</span>
+<span class="n">_GENERATION_KEY</span> <span class="o">=</span> <span class="s2">&quot;nsga2:generation&quot;</span>
+<span class="n">_PARENTS_KEY</span> <span class="o">=</span> <span class="s2">&quot;nsga2:parents&quot;</span>
+<span class="n">_POPULATION_CACHE_KEY_PREFIX</span> <span class="o">=</span> <span class="s2">&quot;nsga2:population&quot;</span>
+
+
+<div class="viewcode-block" id="NSGAIISampler"><a class="viewcode-back" href="../../../reference/generated/optuna.samplers.NSGAIISampler.html#optuna.samplers.NSGAIISampler">[docs]</a><span class="k">class</span> <span class="nc">NSGAIISampler</span><span class="p">(</span><span class="n">BaseSampler</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Multi-objective sampler using the NSGA-II algorithm.</span>
+
+<span class="sd">    NSGA-II stands for &quot;Nondominated Sorting Genetic Algorithm II&quot;,</span>
+<span class="sd">    which is a well known, fast and elitist multi-objective genetic algorithm.</span>
+
+<span class="sd">    For further information about NSGA-II, please refer to the following paper:</span>
+
+<span class="sd">    - `A fast and elitist multiobjective genetic algorithm: NSGA-II</span>
+<span class="sd">      &lt;https://ieeexplore.ieee.org/document/996017&gt;`_</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        population_size:</span>
+<span class="sd">            Number of individuals (trials) in a generation.</span>
+
+<span class="sd">        mutation_prob:</span>
+<span class="sd">            Probability of mutating each parameter when creating a new individual.</span>
+<span class="sd">            If :obj:`None` is specified, the value ``1.0 / len(parent_trial.params)`` is used</span>
+<span class="sd">            where ``parent_trial`` is the parent trial of the target individual.</span>
+
+<span class="sd">        crossover_prob:</span>
+<span class="sd">            Probability that a crossover (parameters swapping between parents) will occur</span>
+<span class="sd">            when creating a new individual.</span>
+
+<span class="sd">        swapping_prob:</span>
+<span class="sd">            Probability of swapping each parameter of the parents during crossover.</span>
+
+<span class="sd">        seed:</span>
+<span class="sd">            Seed for random number generator.</span>
+
+<span class="sd">        constraints_func:</span>
+<span class="sd">            An optional function that computes the objective constraints. It must take a</span>
+<span class="sd">            :class:`~optuna.trial.FrozenTrial` and return the constraints. The return value must</span>
+<span class="sd">            be a sequence of :obj:`float` s. A value strictly larger than 0 means that a</span>
+<span class="sd">            constraints is violated. A value equal to or smaller than 0 is considered feasible.</span>
+<span class="sd">            If ``constraints_func`` returns more than one value for a trial, that trial is</span>
+<span class="sd">            considered feasible if and only if all values are equal to 0 or smaller.</span>
+
+<span class="sd">            The ``constraints_func`` will be evaluated after each successful trial.</span>
+<span class="sd">            The function won&#39;t be called when trials fail or they are pruned, but this behavior is</span>
+<span class="sd">            subject to change in the future releases.</span>
+
+<span class="sd">            The constraints are handled by the constrained domination. A trial x is said to</span>
+<span class="sd">            constrained-dominate a trial y, if any of the following conditions is true:</span>
+
+<span class="sd">            1. Trial x is feasible and trial y is not.</span>
+<span class="sd">            2. Trial x and y are both infeasible, but trial x has a smaller overall violation.</span>
+<span class="sd">            3. Trial x and y are feasible and trial x dominates trial y.</span>
+
+<span class="sd">            .. note::</span>
+<span class="sd">                Added in v2.5.0 as an experimental feature. The interface may change in newer</span>
+<span class="sd">                versions without prior notice. See</span>
+<span class="sd">                https://github.com/optuna/optuna/releases/tag/v2.5.0.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">population_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
+        <span class="n">mutation_prob</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">crossover_prob</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.9</span><span class="p">,</span>
+        <span class="n">swapping_prob</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">seed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">constraints_func</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">FrozenTrial</span><span class="p">],</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># TODO(ohta): Reconsider the default value of each parameter.</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">population_size</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;`population_size` must be an integer value.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">population_size</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`population_size` must be greater than or equal to 2.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">mutation_prob</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="mf">0.0</span> <span class="o">&lt;=</span> <span class="n">mutation_prob</span> <span class="o">&lt;=</span> <span class="mf">1.0</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;`mutation_prob` must be None or a float value within the range [0.0, 1.0].&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mf">0.0</span> <span class="o">&lt;=</span> <span class="n">crossover_prob</span> <span class="o">&lt;=</span> <span class="mf">1.0</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`crossover_prob` must be a float value within the range [0.0, 1.0].&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mf">0.0</span> <span class="o">&lt;=</span> <span class="n">swapping_prob</span> <span class="o">&lt;=</span> <span class="mf">1.0</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`swapping_prob` must be a float value within the range [0.0, 1.0].&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">constraints_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;The constraints_func option is an experimental feature.&quot;</span>
+                <span class="s2">&quot; The interface can change in the future.&quot;</span><span class="p">,</span>
+                <span class="n">ExperimentalWarning</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_population_size</span> <span class="o">=</span> <span class="n">population_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mutation_prob</span> <span class="o">=</span> <span class="n">mutation_prob</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_crossover_prob</span> <span class="o">=</span> <span class="n">crossover_prob</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_swapping_prob</span> <span class="o">=</span> <span class="n">swapping_prob</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_random_sampler</span> <span class="o">=</span> <span class="n">RandomSampler</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_constraints_func</span> <span class="o">=</span> <span class="n">constraints_func</span>
+
+<div class="viewcode-block" id="NSGAIISampler.reseed_rng"><a class="viewcode-back" href="../../../reference/generated/optuna.samplers.NSGAIISampler.html#optuna.samplers.NSGAIISampler.reseed_rng">[docs]</a>    <span class="k">def</span> <span class="nf">reseed_rng</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_random_sampler</span><span class="o">.</span><span class="n">reseed_rng</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="NSGAIISampler.infer_relative_search_space"><a class="viewcode-back" href="../../../reference/generated/optuna.samplers.NSGAIISampler.html#optuna.samplers.NSGAIISampler.infer_relative_search_space">[docs]</a>    <span class="k">def</span> <span class="nf">infer_relative_search_space</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="n">FrozenTrial</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">{}</span></div>
+
+<div class="viewcode-block" id="NSGAIISampler.sample_relative"><a class="viewcode-back" href="../../../reference/generated/optuna.samplers.NSGAIISampler.html#optuna.samplers.NSGAIISampler.sample_relative">[docs]</a>    <span class="k">def</span> <span class="nf">sample_relative</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span>
+        <span class="n">trial</span><span class="p">:</span> <span class="n">FrozenTrial</span><span class="p">,</span>
+        <span class="n">search_space</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="n">parent_generation</span><span class="p">,</span> <span class="n">parent_population</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_collect_parent_population</span><span class="p">(</span><span class="n">study</span><span class="p">)</span>
+        <span class="n">trial_id</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">_trial_id</span>
+
+        <span class="n">generation</span> <span class="o">=</span> <span class="n">parent_generation</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">study</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">set_trial_system_attr</span><span class="p">(</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">_GENERATION_KEY</span><span class="p">,</span> <span class="n">generation</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">parent_generation</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">p0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_select_parent</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="n">parent_population</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crossover_prob</span><span class="p">:</span>
+                <span class="n">p1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_select_parent</span><span class="p">(</span>
+                    <span class="n">study</span><span class="p">,</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">parent_population</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">_trial_id</span> <span class="o">!=</span> <span class="n">p0</span><span class="o">.</span><span class="n">_trial_id</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">p1</span> <span class="o">=</span> <span class="n">p0</span>
+
+            <span class="n">study</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">set_trial_system_attr</span><span class="p">(</span>
+                <span class="n">trial_id</span><span class="p">,</span> <span class="n">_PARENTS_KEY</span><span class="p">,</span> <span class="p">[</span><span class="n">p0</span><span class="o">.</span><span class="n">_trial_id</span><span class="p">,</span> <span class="n">p1</span><span class="o">.</span><span class="n">_trial_id</span><span class="p">]</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{}</span></div>
+
+<div class="viewcode-block" id="NSGAIISampler.sample_independent"><a class="viewcode-back" href="../../../reference/generated/optuna.samplers.NSGAIISampler.html#optuna.samplers.NSGAIISampler.sample_independent">[docs]</a>    <span class="k">def</span> <span class="nf">sample_independent</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span>
+        <span class="n">trial</span><span class="p">:</span> <span class="n">FrozenTrial</span><span class="p">,</span>
+        <span class="n">param_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">param_distribution</span><span class="p">:</span> <span class="n">BaseDistribution</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">_PARENTS_KEY</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">trial</span><span class="o">.</span><span class="n">system_attrs</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_random_sampler</span><span class="o">.</span><span class="n">sample_independent</span><span class="p">(</span>
+                <span class="n">study</span><span class="p">,</span> <span class="n">trial</span><span class="p">,</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">param_distribution</span>
+            <span class="p">)</span>
+
+        <span class="n">p0_id</span><span class="p">,</span> <span class="n">p1_id</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">system_attrs</span><span class="p">[</span><span class="n">_PARENTS_KEY</span><span class="p">]</span>
+        <span class="n">p0</span> <span class="o">=</span> <span class="n">study</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">get_trial</span><span class="p">(</span><span class="n">p0_id</span><span class="p">)</span>
+        <span class="n">p1</span> <span class="o">=</span> <span class="n">study</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">get_trial</span><span class="p">(</span><span class="n">p1_id</span><span class="p">)</span>
+
+        <span class="n">param</span> <span class="o">=</span> <span class="n">p0</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">param_name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">parent_params_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">p0</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_swapping_prob</span><span class="p">:</span>
+            <span class="n">param</span> <span class="o">=</span> <span class="n">p1</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">param_name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">parent_params_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">p1</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+
+        <span class="n">mutation_prob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mutation_prob</span>
+        <span class="k">if</span> <span class="n">mutation_prob</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">mutation_prob</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">parent_params_len</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">mutation_prob</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_random_sampler</span><span class="o">.</span><span class="n">sample_independent</span><span class="p">(</span>
+                <span class="n">study</span><span class="p">,</span> <span class="n">trial</span><span class="p">,</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">param_distribution</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">param</span></div>
+
+    <span class="k">def</span> <span class="nf">_collect_parent_population</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]]:</span>
+        <span class="n">trials</span> <span class="o">=</span> <span class="n">study</span><span class="o">.</span><span class="n">get_trials</span><span class="p">(</span><span class="n">deepcopy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">generation_to_runnings</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="n">generation_to_population</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">trials</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">_GENERATION_KEY</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">trial</span><span class="o">.</span><span class="n">system_attrs</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="n">generation</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">system_attrs</span><span class="p">[</span><span class="n">_GENERATION_KEY</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">trial</span><span class="o">.</span><span class="n">state</span> <span class="o">!=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">trial</span><span class="o">.</span><span class="n">TrialState</span><span class="o">.</span><span class="n">COMPLETE</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">trial</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">optuna</span><span class="o">.</span><span class="n">trial</span><span class="o">.</span><span class="n">TrialState</span><span class="o">.</span><span class="n">RUNNING</span><span class="p">:</span>
+                    <span class="n">generation_to_runnings</span><span class="p">[</span><span class="n">generation</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trial</span><span class="p">)</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># Do not use trials whose states are not COMPLETE, or `constraint` will be unavailable.</span>
+            <span class="n">generation_to_population</span><span class="p">[</span><span class="n">generation</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trial</span><span class="p">)</span>
+
+        <span class="n">hasher</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">()</span>
+        <span class="n">parent_population</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">parent_generation</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">generation</span> <span class="o">=</span> <span class="n">parent_generation</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">population</span> <span class="o">=</span> <span class="n">generation_to_population</span><span class="p">[</span><span class="n">generation</span><span class="p">]</span>
+
+            <span class="c1"># Under multi-worker settings, the population size might become larger than</span>
+            <span class="c1"># `self._population_size`.</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">population</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_population_size</span><span class="p">:</span>
+                <span class="k">break</span>
+
+            <span class="c1"># [NOTE]</span>
+            <span class="c1"># It&#39;s generally safe to assume that once the above condition is satisfied,</span>
+            <span class="c1"># there are no additional individuals added to the generation (i.e., the members of</span>
+            <span class="c1"># the generation have been fixed).</span>
+            <span class="c1"># If the number of parallel workers is huge, this assumption can be broken, but</span>
+            <span class="c1"># this is a very rare case and doesn&#39;t significantly impact optimization performance.</span>
+            <span class="c1"># So we can ignore the case.</span>
+
+            <span class="c1"># The cache key is calculated based on the key of the previous generation and</span>
+            <span class="c1"># the remaining running trials in the current population.</span>
+            <span class="c1"># If there are no running trials, the new cache key becomes exactly the same as</span>
+            <span class="c1"># the previous one, and the cached content will be overwritten. This allows us to</span>
+            <span class="c1"># skip redundant cache key calculations when this method is called for the subsequent</span>
+            <span class="c1"># trials.</span>
+            <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">generation_to_runnings</span><span class="p">[</span><span class="n">generation</span><span class="p">]:</span>
+                <span class="n">hasher</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">number</span><span class="p">),</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+
+            <span class="n">cache_key</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">_POPULATION_CACHE_KEY_PREFIX</span><span class="p">,</span> <span class="n">hasher</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">())</span>
+            <span class="n">cached_generation</span><span class="p">,</span> <span class="n">cached_population_numbers</span> <span class="o">=</span> <span class="n">study</span><span class="o">.</span><span class="n">system_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="n">cache_key</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">cached_generation</span> <span class="o">&gt;=</span> <span class="n">generation</span><span class="p">:</span>
+                <span class="n">generation</span> <span class="o">=</span> <span class="n">cached_generation</span>
+                <span class="n">population</span> <span class="o">=</span> <span class="p">[</span><span class="n">trials</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">cached_population_numbers</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">population</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">parent_population</span><span class="p">)</span>
+                <span class="n">population</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_select_elite_population</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="n">population</span><span class="p">)</span>
+
+                <span class="c1"># To reduce the number of system attribute entries,</span>
+                <span class="c1"># we cache the population information only if there are no running trials</span>
+                <span class="c1"># (i.e., the information of the population has been fixed).</span>
+                <span class="c1"># Usually, if there are no too delayed running trials, the single entry</span>
+                <span class="c1"># will be used.</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">generation_to_runnings</span><span class="p">[</span><span class="n">generation</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">population_numbers</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">number</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">population</span><span class="p">]</span>
+                    <span class="n">study</span><span class="o">.</span><span class="n">set_system_attr</span><span class="p">(</span><span class="n">cache_key</span><span class="p">,</span> <span class="p">(</span><span class="n">generation</span><span class="p">,</span> <span class="n">population_numbers</span><span class="p">))</span>
+
+            <span class="n">parent_generation</span> <span class="o">=</span> <span class="n">generation</span>
+            <span class="n">parent_population</span> <span class="o">=</span> <span class="n">population</span>
+
+        <span class="k">return</span> <span class="n">parent_generation</span><span class="p">,</span> <span class="n">parent_population</span>
+
+    <span class="k">def</span> <span class="nf">_select_elite_population</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span> <span class="n">population</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]:</span>
+        <span class="n">elite_population</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">population_per_rank</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fast_non_dominated_sort</span><span class="p">(</span><span class="n">population</span><span class="p">,</span> <span class="n">study</span><span class="o">.</span><span class="n">directions</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">population</span> <span class="ow">in</span> <span class="n">population_per_rank</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">elite_population</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">population</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_population_size</span><span class="p">:</span>
+                <span class="n">elite_population</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">population</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_population_size</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">elite_population</span><span class="p">)</span>
+                <span class="n">_crowding_distance_sort</span><span class="p">(</span><span class="n">population</span><span class="p">)</span>
+                <span class="n">elite_population</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">population</span><span class="p">[:</span><span class="n">n</span><span class="p">])</span>
+                <span class="k">break</span>
+
+        <span class="k">return</span> <span class="n">elite_population</span>
+
+    <span class="k">def</span> <span class="nf">_select_parent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span> <span class="n">population</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">FrozenTrial</span><span class="p">:</span>
+        <span class="c1"># TODO(ohta): Consider to allow users to specify the number of parent candidates.</span>
+        <span class="n">population_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">population</span><span class="p">)</span>
+        <span class="n">candidate0</span> <span class="o">=</span> <span class="n">population</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">population_size</span><span class="p">)]</span>
+        <span class="n">candidate1</span> <span class="o">=</span> <span class="n">population</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">population_size</span><span class="p">)]</span>
+
+        <span class="n">dominates</span> <span class="o">=</span> <span class="n">_dominates</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constraints_func</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">_constrained_dominates</span>
+
+        <span class="c1"># TODO(ohta): Consider crowding distance.</span>
+        <span class="k">if</span> <span class="n">dominates</span><span class="p">(</span><span class="n">candidate0</span><span class="p">,</span> <span class="n">candidate1</span><span class="p">,</span> <span class="n">study</span><span class="o">.</span><span class="n">directions</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">candidate0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">candidate1</span>
+
+    <span class="k">def</span> <span class="nf">_fast_non_dominated_sort</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">population</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">],</span>
+        <span class="n">directions</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">optuna</span><span class="o">.</span><span class="n">study</span><span class="o">.</span><span class="n">StudyDirection</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]]:</span>
+        <span class="n">dominated_count</span><span class="p">:</span> <span class="n">DefaultDict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+        <span class="n">dominates_list</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+
+        <span class="n">dominates</span> <span class="o">=</span> <span class="n">_dominates</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constraints_func</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">_constrained_dominates</span>
+
+        <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">population</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">dominates</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">directions</span><span class="p">):</span>
+                <span class="n">dominates_list</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">number</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">number</span><span class="p">)</span>
+                <span class="n">dominated_count</span><span class="p">[</span><span class="n">q</span><span class="o">.</span><span class="n">number</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">elif</span> <span class="n">dominates</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">directions</span><span class="p">):</span>
+                <span class="n">dominates_list</span><span class="p">[</span><span class="n">q</span><span class="o">.</span><span class="n">number</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">number</span><span class="p">)</span>
+                <span class="n">dominated_count</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">number</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">population_per_rank</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">while</span> <span class="n">population</span><span class="p">:</span>
+            <span class="n">non_dominated_population</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">population</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">dominated_count</span><span class="p">[</span><span class="n">population</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">number</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">individual</span> <span class="o">=</span> <span class="n">population</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">population</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">population</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">population</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">population</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+                    <span class="n">non_dominated_population</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">individual</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">non_dominated_population</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">dominates_list</span><span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">number</span><span class="p">]:</span>
+                    <span class="n">dominated_count</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+
+            <span class="k">assert</span> <span class="n">non_dominated_population</span>
+            <span class="n">population_per_rank</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">non_dominated_population</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">population_per_rank</span>
+
+<div class="viewcode-block" id="NSGAIISampler.after_trial"><a class="viewcode-back" href="../../../reference/generated/optuna.samplers.NSGAIISampler.html#optuna.samplers.NSGAIISampler.after_trial">[docs]</a>    <span class="k">def</span> <span class="nf">after_trial</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span>
+        <span class="n">trial</span><span class="p">:</span> <span class="n">FrozenTrial</span><span class="p">,</span>
+        <span class="n">state</span><span class="p">:</span> <span class="n">TrialState</span><span class="p">,</span>
+        <span class="n">values</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">state</span> <span class="ow">in</span> <span class="p">[</span><span class="n">TrialState</span><span class="o">.</span><span class="n">COMPLETE</span><span class="p">,</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">FAIL</span><span class="p">,</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">PRUNED</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">COMPLETE</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constraints_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">constraints</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">con</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constraints_func</span><span class="p">(</span><span class="n">trial</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">con</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;Constraints should be a sequence of floats but got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">con</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.&quot;</span>
+                    <span class="p">)</span>
+                <span class="n">constraints</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">con</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="k">raise</span>
+            <span class="k">finally</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="n">constraints</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">constraints</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span>
+
+                <span class="n">study</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">set_trial_system_attr</span><span class="p">(</span>
+                    <span class="n">trial</span><span class="o">.</span><span class="n">_trial_id</span><span class="p">,</span>
+                    <span class="n">_CONSTRAINTS_KEY</span><span class="p">,</span>
+                    <span class="n">constraints</span><span class="p">,</span>
+                <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_random_sampler</span><span class="o">.</span><span class="n">after_trial</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="n">trial</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span></div></div>
+
+
+<span class="k">def</span> <span class="nf">_crowding_distance_sort</span><span class="p">(</span><span class="n">population</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">manhattan_distances</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">population</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)):</span>
+        <span class="n">population</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">cast</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+
+        <span class="n">v_min</span> <span class="o">=</span> <span class="n">population</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">v_max</span> <span class="o">=</span> <span class="n">population</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">assert</span> <span class="n">v_min</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="k">assert</span> <span class="n">v_max</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+        <span class="n">width</span> <span class="o">=</span> <span class="n">v_max</span> <span class="o">-</span> <span class="n">v_min</span>
+        <span class="k">if</span> <span class="n">width</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="n">manhattan_distances</span><span class="p">[</span><span class="n">population</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">number</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>
+        <span class="n">manhattan_distances</span><span class="p">[</span><span class="n">population</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">number</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">population</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">v_high</span> <span class="o">=</span> <span class="n">population</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">v_low</span> <span class="o">=</span> <span class="n">population</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">assert</span> <span class="n">v_high</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="k">assert</span> <span class="n">v_low</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+            <span class="n">manhattan_distances</span><span class="p">[</span><span class="n">population</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">number</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="n">v_high</span> <span class="o">-</span> <span class="n">v_low</span><span class="p">)</span> <span class="o">/</span> <span class="n">width</span>
+
+    <span class="n">population</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">manhattan_distances</span><span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">number</span><span class="p">])</span>
+    <span class="n">population</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">_constrained_dominates</span><span class="p">(</span>
+    <span class="n">trial0</span><span class="p">:</span> <span class="n">FrozenTrial</span><span class="p">,</span> <span class="n">trial1</span><span class="p">:</span> <span class="n">FrozenTrial</span><span class="p">,</span> <span class="n">directions</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">StudyDirection</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Checks constrained-domination.</span>
+
+<span class="sd">    A trial x is said to constrained-dominate a trial y, if any of the following conditions is</span>
+<span class="sd">    true:</span>
+<span class="sd">    1) Trial x is feasible and trial y is not.</span>
+<span class="sd">    2) Trial x and y are both infeasible, but solution x has a smaller overall constraint</span>
+<span class="sd">    violation.</span>
+<span class="sd">    3) Trial x and y are feasible and trial x dominates trial y.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">constraints0</span> <span class="o">=</span> <span class="n">trial0</span><span class="o">.</span><span class="n">system_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_CONSTRAINTS_KEY</span><span class="p">)</span>
+    <span class="n">constraints1</span> <span class="o">=</span> <span class="n">trial1</span><span class="o">.</span><span class="n">system_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_CONSTRAINTS_KEY</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">constraints0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Trial </span><span class="si">{</span><span class="n">trial0</span><span class="o">.</span><span class="n">number</span><span class="si">}</span><span class="s2"> does not have constraint values.&quot;</span>
+            <span class="s2">&quot; It will be dominated by the other trials.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">constraints1</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Trial </span><span class="si">{</span><span class="n">trial1</span><span class="o">.</span><span class="n">number</span><span class="si">}</span><span class="s2"> does not have constraint values.&quot;</span>
+            <span class="s2">&quot; It will be dominated by the other trials.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">constraints0</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">constraints1</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Neither Trial x nor y has constraints values</span>
+        <span class="k">return</span> <span class="n">_dominates</span><span class="p">(</span><span class="n">trial0</span><span class="p">,</span> <span class="n">trial1</span><span class="p">,</span> <span class="n">directions</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">constraints0</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">constraints1</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Trial x has constraint values, but y doesn&#39;t.</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">if</span> <span class="n">constraints0</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">constraints1</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># If Trial y has constraint values, but x doesn&#39;t.</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">constraints0</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">constraints1</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">constraints0</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">constraints1</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Trials with different numbers of constraints cannot be compared.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">trial0</span><span class="o">.</span><span class="n">state</span> <span class="o">!=</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">COMPLETE</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">if</span> <span class="n">trial1</span><span class="o">.</span><span class="n">state</span> <span class="o">!=</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">COMPLETE</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="n">satisfy_constraints0</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span><span class="n">v</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">constraints0</span><span class="p">)</span>
+    <span class="n">satisfy_constraints1</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span><span class="n">v</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">constraints1</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">satisfy_constraints0</span> <span class="ow">and</span> <span class="n">satisfy_constraints1</span><span class="p">:</span>
+        <span class="c1"># Both trials satisfy the constraints.</span>
+        <span class="k">return</span> <span class="n">_dominates</span><span class="p">(</span><span class="n">trial0</span><span class="p">,</span> <span class="n">trial1</span><span class="p">,</span> <span class="n">directions</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">satisfy_constraints0</span><span class="p">:</span>
+        <span class="c1"># trial0 satisfies the constraints, but trial1 violates them.</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">if</span> <span class="n">satisfy_constraints1</span><span class="p">:</span>
+        <span class="c1"># trial1 satisfies the constraints, but trial0 violates them.</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="c1"># Both trials violate the constraints.</span>
+    <span class="n">violation0</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">constraints0</span> <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">violation1</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">constraints1</span> <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">violation0</span> <span class="o">&lt;</span> <span class="n">violation1</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018, Optuna Contributors..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+    <a href="../../../privacy.html">Privacy Policy</a>.
+     
+
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

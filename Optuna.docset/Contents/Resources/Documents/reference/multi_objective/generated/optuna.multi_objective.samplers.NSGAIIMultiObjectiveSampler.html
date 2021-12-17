@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>optuna.multi_objective.samplers.NSGAIIMultiObjectiveSampler — Optuna 2.10.0 documentation</title><link href="../../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sg_gallery.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sg_gallery-binder.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sg_gallery-dataframe.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sg_gallery-rendered-html.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/><link href="../../../_static/favicon.ico" rel="shortcut icon"/>
+<!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+<script src="../../../_static/jquery.js"></script>
+<script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/clipboard.min.js"></script>
+<script src="../../../_static/copybutton.js"></script>
+<script src="../../../_static/js/theme.js"></script>
+<link href="../../../genindex.html" rel="index" title="Index"/>
+<link href="../../../search.html" rel="search" title="Search"/>
+<link href="optuna.multi_objective.samplers.RandomMultiObjectiveSampler.html" rel="next" title="optuna.multi_objective.samplers.RandomMultiObjectiveSampler"/>
+<link href="optuna.multi_objective.samplers.BaseMultiObjectiveSampler.html" rel="prev" title="optuna.multi_objective.samplers.BaseMultiObjectiveSampler"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="navbar">
+<div class="navbar ml-auto">
+<ul class="navbar-nav">
+<li>
+<a class="header_link" href="https://optuna.org/#key_features">Key Features</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#code_examples">Code Examples</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#installation">Installation</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#blog">Blog</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#video">Videos</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#paper">Paper</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#community">Community</a>
+</li>
+</ul>
+</div>
+</div>
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a href="../../../index.html"><img alt="Logo" class="logo" src="../../../_static/optuna-logo.png"/>
+</a>
+<div class="version">
+                2.10.0
+              </div>
+<div role="search">
+<form action="../../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../optuna.html">optuna</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html">optuna.cli</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../distributions.html">optuna.distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exceptions.html">optuna.exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../importance.html">optuna.importance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../integration.html">optuna.integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../logging.html">optuna.logging</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">optuna.multi_objective</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../samplers.html">optuna.multi_objective.samplers</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="optuna.multi_objective.samplers.BaseMultiObjectiveSampler.html">optuna.multi_objective.samplers.BaseMultiObjectiveSampler</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">optuna.multi_objective.samplers.NSGAIIMultiObjectiveSampler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="optuna.multi_objective.samplers.RandomMultiObjectiveSampler.html">optuna.multi_objective.samplers.RandomMultiObjectiveSampler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="optuna.multi_objective.samplers.MOTPEMultiObjectiveSampler.html">optuna.multi_objective.samplers.MOTPEMultiObjectiveSampler</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../study.html">optuna.multi_objective.study</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../trial.html">optuna.multi_objective.trial</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../visualization.html">optuna.multi_objective.visualization</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../pruners.html">optuna.pruners</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../samplers.html">optuna.samplers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../storages.html">optuna.storages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../structs.html">optuna.structs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../study.html">optuna.study</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../trial.html">optuna.trial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../visualization/index.html">optuna.visualization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq.html">FAQ</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../../index.html">Optuna</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="../../../index.html"></a> »</li>
+<li><a href="../../index.html">API Reference</a> »</li>
+<li><a href="../index.html">optuna.multi_objective</a> »</li>
+<li><a href="../samplers.html">optuna.multi_objective.samplers</a> »</li>
+<li>optuna.multi_objective.samplers.NSGAIIMultiObjectiveSampler</li>
+<li class="wy-breadcrumbs-aside">
+<a href="../../../_sources/reference/multi_objective/generated/optuna.multi_objective.samplers.NSGAIIMultiObjectiveSampler.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<div class="section" id="optuna-multi-objective-samplers-nsgaiimultiobjectivesampler">
+<h1>optuna.multi_objective.samplers.NSGAIIMultiObjectiveSampler<a class="headerlink" href="#optuna-multi-objective-samplers-nsgaiimultiobjectivesampler" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="optuna.multi_objective.samplers.NSGAIIMultiObjectiveSampler">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">optuna.multi_objective.samplers.</span></code><code class="sig-name descname"><span class="pre">NSGAIIMultiObjectiveSampler</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">population_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mutation_prob</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crossover_prob</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.9</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">swapping_prob</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/optuna/multi_objective/samplers/_nsga2.html#NSGAIIMultiObjectiveSampler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.multi_objective.samplers.NSGAIIMultiObjectiveSampler"></a><a class="headerlink" href="#optuna.multi_objective.samplers.NSGAIIMultiObjectiveSampler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Multi-objective sampler using the NSGA-II algorithm.</p>
+<p>NSGA-II stands for “Nondominated Sorting Genetic Algorithm II”,
+which is a well known, fast and elitist multi-objective genetic algorithm.</p>
+<p>For further information about NSGA-II, please refer to the following paper:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://ieeexplore.ieee.org/document/996017">A fast and elitist multiobjective genetic algorithm: NSGA-II</a></p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>population_size</strong> – Number of individuals (trials) in a generation.</p></li>
+<li><p><strong>mutation_prob</strong> – Probability of mutating each parameter when creating a new individual.
+If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is specified, the value <code class="docutils literal notranslate"><span class="pre">1.0</span> <span class="pre">/</span> <span class="pre">len(parent_trial.params)</span></code> is used
+where <code class="docutils literal notranslate"><span class="pre">parent_trial</span></code> is the parent trial of the target individual.</p></li>
+<li><p><strong>crossover_prob</strong> – Probability that a crossover (parameters swapping between parents) will occur
+when creating a new individual.</p></li>
+<li><p><strong>swapping_prob</strong> – Probability of swapping each parameter of the parents during crossover.</p></li>
+<li><p><strong>seed</strong> – Seed for random number generator.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Deprecated in v2.4.0. This feature will be removed in the future. The removal of this
+feature is currently scheduled for v4.0.0, but this schedule is subject to change.
+See <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v2.4.0">https://github.com/optuna/optuna/releases/tag/v2.4.0</a>.</p>
+</div>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%"/>
+<col style="width: 90%"/>
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.multi_objective.samplers.NSGAIIMultiObjectiveSampler.infer_relative_search_space" title="optuna.multi_objective.samplers.NSGAIIMultiObjectiveSampler.infer_relative_search_space"><code class="xref py py-obj docutils literal notranslate"><span class="pre">infer_relative_search_space</span></code></a>(study, trial)</p></td>
+<td><p>Infer the search space that will be used by relative sampling in the target trial.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.multi_objective.samplers.NSGAIIMultiObjectiveSampler.reseed_rng" title="optuna.multi_objective.samplers.NSGAIIMultiObjectiveSampler.reseed_rng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reseed_rng</span></code></a>()</p></td>
+<td><p>Reseed sampler’s random number generator.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.multi_objective.samplers.NSGAIIMultiObjectiveSampler.sample_independent" title="optuna.multi_objective.samplers.NSGAIIMultiObjectiveSampler.sample_independent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample_independent</span></code></a>(study, trial, param_name, …)</p></td>
+<td><p>Sample a parameter for a given distribution.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.multi_objective.samplers.NSGAIIMultiObjectiveSampler.sample_relative" title="optuna.multi_objective.samplers.NSGAIIMultiObjectiveSampler.sample_relative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample_relative</span></code></a>(study, trial, search_space)</p></td>
+<td><p>Sample parameters in a given search space.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="optuna.multi_objective.samplers.NSGAIIMultiObjectiveSampler.infer_relative_search_space">
+<code class="sig-name descname"><span class="pre">infer_relative_search_space</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trial</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/optuna/multi_objective/samplers/_nsga2.html#NSGAIIMultiObjectiveSampler.infer_relative_search_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.multi_objective.samplers.NSGAIIMultiObjectiveSampler.infer_relative_search_space"></a><a class="headerlink" href="#optuna.multi_objective.samplers.NSGAIIMultiObjectiveSampler.infer_relative_search_space" title="Permalink to this definition">¶</a></dt>
+<dd><p>Infer the search space that will be used by relative sampling in the target trial.</p>
+<p>This method is called right before
+<a class="reference internal" href="optuna.multi_objective.samplers.BaseMultiObjectiveSampler.html#optuna.multi_objective.samplers.BaseMultiObjectiveSampler.sample_relative" title="optuna.multi_objective.samplers.BaseMultiObjectiveSampler.sample_relative"><code class="xref py py-func docutils literal notranslate"><span class="pre">sample_relative()</span></code></a>
+method, and the search space returned by this method is passed to it. The parameters not
+contained in the search space will be sampled by using
+<a class="reference internal" href="optuna.multi_objective.samplers.BaseMultiObjectiveSampler.html#optuna.multi_objective.samplers.BaseMultiObjectiveSampler.sample_independent" title="optuna.multi_objective.samplers.BaseMultiObjectiveSampler.sample_independent"><code class="xref py py-func docutils literal notranslate"><span class="pre">sample_independent()</span></code></a>
+method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>study</strong> (<a class="reference internal" href="optuna.multi_objective.study.MultiObjectiveStudy.html#optuna.multi_objective.study.MultiObjectiveStudy" title="optuna.multi_objective.study.MultiObjectiveStudy"><em>optuna.multi_objective.study.MultiObjectiveStudy</em></a>) – Target study object.</p></li>
+<li><p><strong>trial</strong> (<a class="reference internal" href="optuna.multi_objective.trial.FrozenMultiObjectiveTrial.html#optuna.multi_objective.trial.FrozenMultiObjectiveTrial" title="optuna.multi_objective.trial.FrozenMultiObjectiveTrial"><em>optuna.multi_objective.trial.FrozenMultiObjectiveTrial</em></a>) – Target trial object.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary containing the parameter names and parameter’s distributions.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a>, optuna.distributions.BaseDistribution]</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Please refer to <a class="reference internal" href="../../generated/optuna.samplers.intersection_search_space.html#optuna.samplers.intersection_search_space" title="optuna.samplers.intersection_search_space"><code class="xref py py-func docutils literal notranslate"><span class="pre">intersection_search_space()</span></code></a> as an
+implementation of
+<a class="reference internal" href="optuna.multi_objective.samplers.BaseMultiObjectiveSampler.html#optuna.multi_objective.samplers.BaseMultiObjectiveSampler.infer_relative_search_space" title="optuna.multi_objective.samplers.BaseMultiObjectiveSampler.infer_relative_search_space"><code class="xref py py-func docutils literal notranslate"><span class="pre">infer_relative_search_space()</span></code></a>.</p>
+</div>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.multi_objective.samplers.NSGAIIMultiObjectiveSampler.reseed_rng">
+<code class="sig-name descname"><span class="pre">reseed_rng</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/optuna/multi_objective/samplers/_nsga2.html#NSGAIIMultiObjectiveSampler.reseed_rng"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.multi_objective.samplers.NSGAIIMultiObjectiveSampler.reseed_rng"></a><a class="headerlink" href="#optuna.multi_objective.samplers.NSGAIIMultiObjectiveSampler.reseed_rng" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reseed sampler’s random number generator.</p>
+<p>This method is called by the <a class="reference internal" href="optuna.multi_objective.study.MultiObjectiveStudy.html#optuna.multi_objective.study.MultiObjectiveStudy" title="optuna.multi_objective.study.MultiObjectiveStudy"><code class="xref py py-class docutils literal notranslate"><span class="pre">MultiObjectiveStudy</span></code></a>
+instance if trials are executed in parallel with the option <code class="docutils literal notranslate"><span class="pre">n_jobs&gt;1</span></code>. In that case, the
+sampler instance will be replicated including the state of the random number generator, and
+they may suggest the same values. To prevent this issue, this method assigns a different
+seed to each random number generator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.multi_objective.samplers.NSGAIIMultiObjectiveSampler.sample_independent">
+<code class="sig-name descname"><span class="pre">sample_independent</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trial</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_distribution</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/optuna/multi_objective/samplers/_nsga2.html#NSGAIIMultiObjectiveSampler.sample_independent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.multi_objective.samplers.NSGAIIMultiObjectiveSampler.sample_independent"></a><a class="headerlink" href="#optuna.multi_objective.samplers.NSGAIIMultiObjectiveSampler.sample_independent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sample a parameter for a given distribution.</p>
+<p>This method is called only for the parameters not contained in the search space returned
+by <code class="xref py py-func docutils literal notranslate"><span class="pre">sample_relative()</span></code>
+method. This method is suitable for sampling algorithms that do not use the relationship
+between parameters such as random sampling.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>study</strong> (<a class="reference internal" href="optuna.multi_objective.study.MultiObjectiveStudy.html#optuna.multi_objective.study.MultiObjectiveStudy" title="optuna.multi_objective.study.MultiObjectiveStudy"><em>optuna.multi_objective.study.MultiObjectiveStudy</em></a>) – Target study object.</p></li>
+<li><p><strong>trial</strong> (<a class="reference internal" href="optuna.multi_objective.trial.FrozenMultiObjectiveTrial.html#optuna.multi_objective.trial.FrozenMultiObjectiveTrial" title="optuna.multi_objective.trial.FrozenMultiObjectiveTrial"><em>optuna.multi_objective.trial.FrozenMultiObjectiveTrial</em></a>) – Target trial object.</p></li>
+<li><p><strong>param_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Name of the sampled parameter.</p></li>
+<li><p><strong>param_distribution</strong> (<em>optuna.distributions.BaseDistribution</em>) – Distribution object that specifies a prior and/or scale of the sampling algorithm.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A parameter value.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt id="optuna.multi_objective.samplers.NSGAIIMultiObjectiveSampler.sample_relative">
+<code class="sig-name descname"><span class="pre">sample_relative</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trial</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_space</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/optuna/multi_objective/samplers/_nsga2.html#NSGAIIMultiObjectiveSampler.sample_relative"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.multi_objective.samplers.NSGAIIMultiObjectiveSampler.sample_relative"></a><a class="headerlink" href="#optuna.multi_objective.samplers.NSGAIIMultiObjectiveSampler.sample_relative" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sample parameters in a given search space.</p>
+<p>This method is called once at the beginning of each trial, i.e., right before the
+evaluation of the objective function. This method is suitable for sampling algorithms
+that use the relationship between parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>study</strong> (<a class="reference internal" href="optuna.multi_objective.study.MultiObjectiveStudy.html#optuna.multi_objective.study.MultiObjectiveStudy" title="optuna.multi_objective.study.MultiObjectiveStudy"><em>optuna.multi_objective.study.MultiObjectiveStudy</em></a>) – Target study object.</p></li>
+<li><p><strong>trial</strong> (<a class="reference internal" href="optuna.multi_objective.trial.FrozenMultiObjectiveTrial.html#optuna.multi_objective.trial.FrozenMultiObjectiveTrial" title="optuna.multi_objective.trial.FrozenMultiObjectiveTrial"><em>optuna.multi_objective.trial.FrozenMultiObjectiveTrial</em></a>) – Target trial object.</p></li>
+<li><p><strong>search_space</strong> (<em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><em>optuna.distributions.BaseDistribution</em><em>]</em>) – The search space returned by
+<a class="reference internal" href="optuna.multi_objective.samplers.BaseMultiObjectiveSampler.html#optuna.multi_objective.samplers.BaseMultiObjectiveSampler.infer_relative_search_space" title="optuna.multi_objective.samplers.BaseMultiObjectiveSampler.infer_relative_search_space"><code class="xref py py-func docutils literal notranslate"><span class="pre">infer_relative_search_space()</span></code></a>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary containing the parameter names and the values.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a>, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="optuna.multi_objective.samplers.BaseMultiObjectiveSampler.html" rel="prev" title="optuna.multi_objective.samplers.BaseMultiObjectiveSampler"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="optuna.multi_objective.samplers.RandomMultiObjectiveSampler.html" rel="next" title="optuna.multi_objective.samplers.RandomMultiObjectiveSampler">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright 2018, Optuna Contributors..</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+    <a href="../../../privacy.html">Privacy Policy</a>.
+     
+
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

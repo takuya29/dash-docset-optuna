@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FAQ — Optuna 2.10.0 documentation</title><link href="_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="_static/plot_directive.css" rel="stylesheet" type="text/css"/>
+<link href="_static/sg_gallery.css" rel="stylesheet" type="text/css"/>
+<link href="_static/sg_gallery-binder.css" rel="stylesheet" type="text/css"/>
+<link href="_static/sg_gallery-dataframe.css" rel="stylesheet" type="text/css"/>
+<link href="_static/sg_gallery-rendered-html.css" rel="stylesheet" type="text/css"/>
+<link href="_static/css/custom.css" rel="stylesheet" type="text/css"/><link href="_static/favicon.ico" rel="shortcut icon"/>
+<!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+<script src="_static/jquery.js"></script>
+<script src="_static/underscore.js"></script>
+<script src="_static/doctools.js"></script>
+<script src="_static/clipboard.min.js"></script>
+<script src="_static/copybutton.js"></script>
+<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="_static/js/theme.js"></script>
+<link href="genindex.html" rel="index" title="Index"/>
+<link href="search.html" rel="search" title="Search"/>
+<link href="reference/visualization/generated/optuna.visualization.matplotlib.is_available.html" rel="prev" title="optuna.visualization.matplotlib.is_available"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="navbar">
+<div class="navbar ml-auto">
+<ul class="navbar-nav">
+<li>
+<a class="header_link" href="https://optuna.org/#key_features">Key Features</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#code_examples">Code Examples</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#installation">Installation</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#blog">Blog</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#video">Videos</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#paper">Paper</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#community">Community</a>
+</li>
+</ul>
+</div>
+</div>
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a href="index.html"><img alt="Logo" class="logo" src="_static/optuna-logo.png"/>
+</a>
+<div class="version">
+                2.10.0
+              </div>
+<div role="search">
+<form action="search.html" class="wy-form" id="rtd-search-form" method="get">
+<input name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/index.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">FAQ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#can-i-use-optuna-with-x-where-x-is-your-favorite-ml-library">Can I use Optuna with X? (where X is your favorite ML library)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-define-objective-functions-that-have-own-arguments">How to define objective functions that have own arguments?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#can-i-use-optuna-without-remote-rdb-servers">Can I use Optuna without remote RDB servers?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-can-i-save-and-resume-studies">How can I save and resume studies?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-suppress-log-messages-of-optuna">How to suppress log messages of Optuna?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-save-machine-learning-models-trained-in-objective-functions">How to save machine learning models trained in objective functions?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-can-i-obtain-reproducible-optimization-results">How can I obtain reproducible optimization results?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-are-exceptions-from-trials-handled">How are exceptions from trials handled?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-are-nans-returned-by-trials-handled">How are NaNs returned by trials handled?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#what-happens-when-i-dynamically-alter-a-search-space">What happens when I dynamically alter a search space?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-can-i-use-two-gpus-for-evaluating-two-trials-simultaneously">How can I use two GPUs for evaluating two trials simultaneously?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-can-i-test-my-objective-functions">How can I test my objective functions?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-do-i-avoid-running-out-of-memory-oom-when-optimizing-studies">How do I avoid running out of memory (OOM) when optimizing studies?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-can-i-output-a-log-only-when-the-best-value-is-updated">How can I output a log only when the best value is updated?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-do-i-suggest-variables-which-represent-the-proportion-that-is-are-in-accordance-with-dirichlet-distribution">How do I suggest variables which represent the proportion, that is, are in accordance with Dirichlet distribution?</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="index.html">Optuna</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a class="icon icon-home" href="index.html"></a> »</li>
+<li>FAQ</li>
+<li class="wy-breadcrumbs-aside">
+<a href="_sources/faq.rst.txt" rel="nofollow"> View page source</a>
+</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<div class="section" id="faq">
+<h1>FAQ<a class="headerlink" href="#faq" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#can-i-use-optuna-with-x-where-x-is-your-favorite-ml-library" id="id1">Can I use Optuna with X? (where X is your favorite ML library)</a></p></li>
+<li><p><a class="reference internal" href="#how-to-define-objective-functions-that-have-own-arguments" id="id2">How to define objective functions that have own arguments?</a></p></li>
+<li><p><a class="reference internal" href="#can-i-use-optuna-without-remote-rdb-servers" id="id3">Can I use Optuna without remote RDB servers?</a></p></li>
+<li><p><a class="reference internal" href="#how-can-i-save-and-resume-studies" id="id4">How can I save and resume studies?</a></p></li>
+<li><p><a class="reference internal" href="#how-to-suppress-log-messages-of-optuna" id="id5">How to suppress log messages of Optuna?</a></p></li>
+<li><p><a class="reference internal" href="#how-to-save-machine-learning-models-trained-in-objective-functions" id="id6">How to save machine learning models trained in objective functions?</a></p></li>
+<li><p><a class="reference internal" href="#how-can-i-obtain-reproducible-optimization-results" id="id7">How can I obtain reproducible optimization results?</a></p></li>
+<li><p><a class="reference internal" href="#how-are-exceptions-from-trials-handled" id="id8">How are exceptions from trials handled?</a></p></li>
+<li><p><a class="reference internal" href="#how-are-nans-returned-by-trials-handled" id="id9">How are NaNs returned by trials handled?</a></p></li>
+<li><p><a class="reference internal" href="#what-happens-when-i-dynamically-alter-a-search-space" id="id10">What happens when I dynamically alter a search space?</a></p></li>
+<li><p><a class="reference internal" href="#how-can-i-use-two-gpus-for-evaluating-two-trials-simultaneously" id="id11">How can I use two GPUs for evaluating two trials simultaneously?</a></p></li>
+<li><p><a class="reference internal" href="#how-can-i-test-my-objective-functions" id="id12">How can I test my objective functions?</a></p></li>
+<li><p><a class="reference internal" href="#how-do-i-avoid-running-out-of-memory-oom-when-optimizing-studies" id="id13">How do I avoid running out of memory (OOM) when optimizing studies?</a></p></li>
+<li><p><a class="reference internal" href="#how-can-i-output-a-log-only-when-the-best-value-is-updated" id="id14">How can I output a log only when the best value is updated?</a></p></li>
+<li><p><a class="reference internal" href="#how-do-i-suggest-variables-which-represent-the-proportion-that-is-are-in-accordance-with-dirichlet-distribution" id="id15">How do I suggest variables which represent the proportion, that is, are in accordance with Dirichlet distribution?</a></p></li>
+</ul>
+</div>
+<div class="section" id="can-i-use-optuna-with-x-where-x-is-your-favorite-ml-library">
+<h2><a class="toc-backref" href="#id1">Can I use Optuna with X? (where X is your favorite ML library)</a><a class="headerlink" href="#can-i-use-optuna-with-x-where-x-is-your-favorite-ml-library" title="Permalink to this headline">¶</a></h2>
+<p>Optuna is compatible with most ML libraries, and it’s easy to use Optuna with those.
+Please refer to <a class="reference external" href="https://github.com/optuna/optuna-examples/">examples</a>.</p>
+</div>
+<div class="section" id="how-to-define-objective-functions-that-have-own-arguments">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/How to define objective functions that have own arguments?"></a><span id="objective-func-additional-args"></span><h2><a class="toc-backref" href="#id2">How to define objective functions that have own arguments?</a><a class="headerlink" href="#how-to-define-objective-functions-that-have-own-arguments" title="Permalink to this headline">¶</a></h2>
+<p>There are two ways to realize it.</p>
+<p>First, callable classes can be used for that purpose as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optuna</span>
+
+
+<span class="k">class</span> <span class="nc">Objective</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_x</span><span class="p">,</span> <span class="n">max_x</span><span class="p">):</span>
+        <span class="c1"># Hold this implementation specific arguments as the fields of the class.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min_x</span> <span class="o">=</span> <span class="n">min_x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_x</span> <span class="o">=</span> <span class="n">max_x</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial</span><span class="p">):</span>
+        <span class="c1"># Calculate an objective value by using the extra arguments.</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+
+
+<span class="c1"># Execute an optimization by using an `Objective` instance.</span>
+<span class="n">study</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">create_study</span><span class="p">()</span>
+<span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">Objective</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Second, you can use <code class="docutils literal notranslate"><span class="pre">lambda</span></code> or <code class="docutils literal notranslate"><span class="pre">functools.partial</span></code> for creating functions (closures) that hold extra arguments.
+Below is an example that uses <code class="docutils literal notranslate"><span class="pre">lambda</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optuna</span>
+
+<span class="c1"># Objective function that takes three arguments.</span>
+<span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">min_x</span><span class="p">,</span> <span class="n">max_x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="n">min_x</span><span class="p">,</span> <span class="n">max_x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+
+
+<span class="c1"># Extra arguments.</span>
+<span class="n">min_x</span> <span class="o">=</span> <span class="o">-</span><span class="mi">100</span>
+<span class="n">max_x</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="c1"># Execute an optimization by using the above objective function wrapped by `lambda`.</span>
+<span class="n">study</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">create_study</span><span class="p">()</span>
+<span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="k">lambda</span> <span class="n">trial</span><span class="p">:</span> <span class="n">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">min_x</span><span class="p">,</span> <span class="n">max_x</span><span class="p">),</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Please also refer to <a class="reference external" href="https://github.com/optuna/optuna-examples/tree/main/sklearn/sklearn_additional_args.py">sklearn_addtitional_args.py</a> example,
+which reuses the dataset instead of loading it in each trial execution.</p>
+</div>
+<div class="section" id="can-i-use-optuna-without-remote-rdb-servers">
+<h2><a class="toc-backref" href="#id3">Can I use Optuna without remote RDB servers?</a><a class="headerlink" href="#can-i-use-optuna-without-remote-rdb-servers" title="Permalink to this headline">¶</a></h2>
+<p>Yes, it’s possible.</p>
+<p>In the simplest form, Optuna works with in-memory storage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">study</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">create_study</span><span class="p">()</span>
+<span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you want to save and resume studies,  it’s handy to use SQLite as the local storage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">study</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">create_study</span><span class="p">(</span><span class="n">study_name</span><span class="o">=</span><span class="s2">"foo_study"</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="s2">"sqlite:///example.db"</span><span class="p">)</span>
+<span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">)</span>  <span class="c1"># The state of `study` will be persisted to the local SQLite file.</span>
+</pre></div>
+</div>
+<p>Please see <a class="reference internal" href="tutorial/20_recipes/001_rdb.html#rdb"><span class="std std-ref">Saving/Resuming Study with RDB Backend</span></a> for more details.</p>
+</div>
+<div class="section" id="how-can-i-save-and-resume-studies">
+<h2><a class="toc-backref" href="#id4">How can I save and resume studies?</a><a class="headerlink" href="#how-can-i-save-and-resume-studies" title="Permalink to this headline">¶</a></h2>
+<p>There are two ways of persisting studies, which depends if you are using
+in-memory storage (default) or remote databases (RDB). In-memory studies can be
+saved and loaded like usual Python objects using <code class="docutils literal notranslate"><span class="pre">pickle</span></code> or <code class="docutils literal notranslate"><span class="pre">joblib</span></code>. For
+example, using <code class="docutils literal notranslate"><span class="pre">joblib</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">study</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">create_study</span><span class="p">()</span>
+<span class="n">joblib</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="s2">"study.pkl"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>And to resume the study:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">study</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">"study.pkl"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Best trial until now:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">" Value: "</span><span class="p">,</span> <span class="n">study</span><span class="o">.</span><span class="n">best_trial</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">" Params: "</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">study</span><span class="o">.</span><span class="n">best_trial</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"    </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If you are using RDBs, see <a class="reference internal" href="tutorial/20_recipes/001_rdb.html#rdb"><span class="std std-ref">Saving/Resuming Study with RDB Backend</span></a> for more details.</p>
+</div>
+<div class="section" id="how-to-suppress-log-messages-of-optuna">
+<h2><a class="toc-backref" href="#id5">How to suppress log messages of Optuna?</a><a class="headerlink" href="#how-to-suppress-log-messages-of-optuna" title="Permalink to this headline">¶</a></h2>
+<p>By default, Optuna shows log messages at the <code class="docutils literal notranslate"><span class="pre">optuna.logging.INFO</span></code> level.
+You can change logging levels by using  <a class="reference internal" href="reference/generated/optuna.logging.set_verbosity.html#optuna.logging.set_verbosity" title="optuna.logging.set_verbosity"><code class="xref py py-func docutils literal notranslate"><span class="pre">optuna.logging.set_verbosity()</span></code></a>.</p>
+<p>For instance, you can stop showing each trial result as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">optuna</span><span class="o">.</span><span class="n">logging</span><span class="o">.</span><span class="n">set_verbosity</span><span class="p">(</span><span class="n">optuna</span><span class="o">.</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
+
+<span class="n">study</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">create_study</span><span class="p">()</span>
+<span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">)</span>
+<span class="c1"># Logs like '[I 2020-07-21 13:41:45,627] Trial 0 finished with value:...' are disabled.</span>
+</pre></div>
+</div>
+<p>Please refer to <a class="reference internal" href="reference/logging.html#module-optuna.logging" title="optuna.logging"><code class="xref py py-class docutils literal notranslate"><span class="pre">optuna.logging</span></code></a> for further details.</p>
+</div>
+<div class="section" id="how-to-save-machine-learning-models-trained-in-objective-functions">
+<h2><a class="toc-backref" href="#id6">How to save machine learning models trained in objective functions?</a><a class="headerlink" href="#how-to-save-machine-learning-models-trained-in-objective-functions" title="Permalink to this headline">¶</a></h2>
+<p>Optuna saves hyperparameter values with its corresponding objective value to storage,
+but it discards intermediate objects such as machine learning models and neural network weights.
+To save models or weights, please use features of the machine learning library you used.</p>
+<p>We recommend saving <a class="reference internal" href="reference/generated/optuna.trial.Trial.html#optuna.trial.Trial.number" title="optuna.trial.Trial.number"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.trial.Trial.number</span></code></a> with a model in order to identify its corresponding trial.
+For example, you can save SVM models trained in the objective function as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
+    <span class="n">svc_c</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"svc_c"</span><span class="p">,</span> <span class="mf">1e-10</span><span class="p">,</span> <span class="mf">1e10</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">clf</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="n">svc_c</span><span class="p">)</span>
+    <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+    <span class="c1"># Save a trained model to a file.</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"</span><span class="si">{}</span><span class="s2">.pickle"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">number</span><span class="p">),</span> <span class="s2">"wb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fout</span><span class="p">:</span>
+        <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">fout</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_valid</span><span class="p">,</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_valid</span><span class="p">))</span>
+
+
+<span class="n">study</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">create_study</span><span class="p">()</span>
+<span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="c1"># Load the best model.</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"</span><span class="si">{}</span><span class="s2">.pickle"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">study</span><span class="o">.</span><span class="n">best_trial</span><span class="o">.</span><span class="n">number</span><span class="p">),</span> <span class="s2">"rb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fin</span><span class="p">:</span>
+    <span class="n">best_clf</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fin</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_valid</span><span class="p">,</span> <span class="n">best_clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_valid</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="how-can-i-obtain-reproducible-optimization-results">
+<h2><a class="toc-backref" href="#id7">How can I obtain reproducible optimization results?</a><a class="headerlink" href="#how-can-i-obtain-reproducible-optimization-results" title="Permalink to this headline">¶</a></h2>
+<p>To make the parameters suggested by Optuna reproducible, you can specify a fixed random seed via <code class="docutils literal notranslate"><span class="pre">seed</span></code> argument of <a class="reference internal" href="reference/generated/optuna.samplers.RandomSampler.html#optuna.samplers.RandomSampler" title="optuna.samplers.RandomSampler"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomSampler</span></code></a> or <a class="reference internal" href="reference/generated/optuna.samplers.TPESampler.html#optuna.samplers.TPESampler" title="optuna.samplers.TPESampler"><code class="xref py py-class docutils literal notranslate"><span class="pre">TPESampler</span></code></a> as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sampler</span> <span class="o">=</span> <span class="n">TPESampler</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>  <span class="c1"># Make the sampler behave in a deterministic way.</span>
+<span class="n">study</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">create_study</span><span class="p">(</span><span class="n">sampler</span><span class="o">=</span><span class="n">sampler</span><span class="p">)</span>
+<span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>However, there are two caveats.</p>
+<p>First, when optimizing a study in distributed or parallel mode, there is inherent non-determinism.
+Thus it is very difficult to reproduce the same results in such condition.
+We recommend executing optimization of a study sequentially if you would like to reproduce the result.</p>
+<p>Second, if your objective function behaves in a non-deterministic way (i.e., it does not return the same value even if the same parameters were suggested), you cannot reproduce an optimization.
+To deal with this problem, please set an option (e.g., random seed) to make the behavior deterministic if your optimization target (e.g., an ML library) provides it.</p>
+</div>
+<div class="section" id="how-are-exceptions-from-trials-handled">
+<h2><a class="toc-backref" href="#id8">How are exceptions from trials handled?</a><a class="headerlink" href="#how-are-exceptions-from-trials-handled" title="Permalink to this headline">¶</a></h2>
+<p>Trials that raise exceptions without catching them will be treated as failures, i.e. with the <a class="reference internal" href="reference/generated/optuna.trial.TrialState.html#optuna.trial.TrialState.FAIL" title="optuna.trial.TrialState.FAIL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FAIL</span></code></a> status.</p>
+<p>By default, all exceptions except <a class="reference internal" href="reference/generated/optuna.exceptions.TrialPruned.html#optuna.exceptions.TrialPruned" title="optuna.exceptions.TrialPruned"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrialPruned</span></code></a> raised in objective functions are propagated to the caller of <a class="reference internal" href="reference/generated/optuna.study.Study.html#optuna.study.Study.optimize" title="optuna.study.Study.optimize"><code class="xref py py-func docutils literal notranslate"><span class="pre">optimize()</span></code></a>.
+In other words, studies are aborted when such exceptions are raised.
+It might be desirable to continue a study with the remaining trials.
+To do so, you can specify in <a class="reference internal" href="reference/generated/optuna.study.Study.html#optuna.study.Study.optimize" title="optuna.study.Study.optimize"><code class="xref py py-func docutils literal notranslate"><span class="pre">optimize()</span></code></a> which exception types to catch using the <code class="docutils literal notranslate"><span class="pre">catch</span></code> argument.
+Exceptions of these types are caught inside the study and will not propagate further.</p>
+<p>You can find the failed trials in log messages.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>W <span class="m">2018</span>-12-07 <span class="m">16</span>:38:36,889<span class="o">]</span> Setting status of trial#0 as TrialState.FAIL because of <span class="se">\</span>
+the following error: ValueError<span class="o">(</span><span class="s1">'A sample error in objective.'</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>You can also find the failed trials by checking the trial states as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">study</span><span class="o">.</span><span class="n">trials_dataframe</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 17%"/>
+<col style="width: 17%"/>
+<col style="width: 17%"/>
+<col style="width: 17%"/>
+<col style="width: 17%"/>
+<col style="width: 17%"/>
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>number</p></td>
+<td><p>state</p></td>
+<td><p>value</p></td>
+<td><p>…</p></td>
+<td><p>params</p></td>
+<td><p>system_attrs</p></td>
+</tr>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>TrialState.FAIL</p></td>
+<td></td>
+<td><p>…</p></td>
+<td><p>0</p></td>
+<td><p>Setting status of trial#0 as TrialState.FAIL because of the following error: ValueError(‘A test error in objective.’)</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>TrialState.COMPLETE</p></td>
+<td><p>1269</p></td>
+<td><p>…</p></td>
+<td><p>1</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">catch</span></code> argument in <a class="reference internal" href="reference/generated/optuna.study.Study.html#optuna.study.Study.optimize" title="optuna.study.Study.optimize"><code class="xref py py-func docutils literal notranslate"><span class="pre">optimize()</span></code></a>.</p>
+</div>
+</div>
+<div class="section" id="how-are-nans-returned-by-trials-handled">
+<h2><a class="toc-backref" href="#id9">How are NaNs returned by trials handled?</a><a class="headerlink" href="#how-are-nans-returned-by-trials-handled" title="Permalink to this headline">¶</a></h2>
+<p>Trials that return <code class="xref py py-obj docutils literal notranslate"><span class="pre">NaN</span></code> (<code class="docutils literal notranslate"><span class="pre">float('nan')</span></code>) are treated as failures, but they will not abort studies.</p>
+<p>Trials which return <code class="xref py py-obj docutils literal notranslate"><span class="pre">NaN</span></code> are shown as follows:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>W <span class="m">2018</span>-12-07 <span class="m">16</span>:41:59,000<span class="o">]</span> Setting status of trial#2 as TrialState.FAIL because the <span class="se">\</span>
+objective <span class="k">function</span> returned nan.
+</pre></div>
+</div>
+</div>
+<div class="section" id="what-happens-when-i-dynamically-alter-a-search-space">
+<h2><a class="toc-backref" href="#id10">What happens when I dynamically alter a search space?</a><a class="headerlink" href="#what-happens-when-i-dynamically-alter-a-search-space" title="Permalink to this headline">¶</a></h2>
+<p>Since parameters search spaces are specified in each call to the suggestion API, e.g.
+<a class="reference internal" href="reference/generated/optuna.trial.Trial.html#optuna.trial.Trial.suggest_float" title="optuna.trial.Trial.suggest_float"><code class="xref py py-func docutils literal notranslate"><span class="pre">suggest_float()</span></code></a> and <a class="reference internal" href="reference/generated/optuna.trial.Trial.html#optuna.trial.Trial.suggest_int" title="optuna.trial.Trial.suggest_int"><code class="xref py py-func docutils literal notranslate"><span class="pre">suggest_int()</span></code></a>,
+it is possible to, in a single study, alter the range by sampling parameters from different search
+spaces in different trials.
+The behavior when altered is defined by each sampler individually.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Discussion about the TPE sampler. <a class="reference external" href="https://github.com/optuna/optuna/issues/822">https://github.com/optuna/optuna/issues/822</a></p>
+</div>
+</div>
+<div class="section" id="how-can-i-use-two-gpus-for-evaluating-two-trials-simultaneously">
+<h2><a class="toc-backref" href="#id11">How can I use two GPUs for evaluating two trials simultaneously?</a><a class="headerlink" href="#how-can-i-use-two-gpus-for-evaluating-two-trials-simultaneously" title="Permalink to this headline">¶</a></h2>
+<p>If your optimization target supports GPU (CUDA) acceleration and you want to specify which GPU is used, the easiest way is to set <code class="docutils literal notranslate"><span class="pre">CUDA_VISIBLE_DEVICES</span></code> environment variable:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># On a terminal.</span>
+<span class="c1">#</span>
+<span class="c1"># Specify to use the first GPU, and run an optimization.</span>
+$ <span class="nb">export</span> <span class="nv">CUDA_VISIBLE_DEVICES</span><span class="o">=</span><span class="m">0</span>
+$ optuna study optimize foo.py objective --study-name foo --storage sqlite:///example.db
+
+<span class="c1"># On another terminal.</span>
+<span class="c1">#</span>
+<span class="c1"># Specify to use the second GPU, and run another optimization.</span>
+$ <span class="nb">export</span> <span class="nv">CUDA_VISIBLE_DEVICES</span><span class="o">=</span><span class="m">1</span>
+$ optuna study optimize bar.py objective --study-name bar --storage sqlite:///example.db
+</pre></div>
+</div>
+<p>Please refer to <a class="reference external" href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#env-vars">CUDA C Programming Guide</a> for further details.</p>
+</div>
+<div class="section" id="how-can-i-test-my-objective-functions">
+<h2><a class="toc-backref" href="#id12">How can I test my objective functions?</a><a class="headerlink" href="#how-can-i-test-my-objective-functions" title="Permalink to this headline">¶</a></h2>
+<p>When you test objective functions, you may prefer fixed parameter values to sampled ones.
+In that case, you can use <a class="reference internal" href="reference/generated/optuna.trial.FixedTrial.html#optuna.trial.FixedTrial" title="optuna.trial.FixedTrial"><code class="xref py py-class docutils literal notranslate"><span class="pre">FixedTrial</span></code></a>, which suggests fixed parameter values based on a given dictionary of parameters.
+For instance, you can input arbitrary values of <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> to the objective function <span class="math notranslate nohighlight">\(x + y\)</span> as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_int</span><span class="p">(</span><span class="s2">"y"</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+
+
+<span class="n">objective</span><span class="p">(</span><span class="n">FixedTrial</span><span class="p">({</span><span class="s2">"x"</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}))</span>  <span class="c1"># 0.0</span>
+<span class="n">objective</span><span class="p">(</span><span class="n">FixedTrial</span><span class="p">({</span><span class="s2">"x"</span><span class="p">:</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">:</span> <span class="o">-</span><span class="mi">4</span><span class="p">}))</span>  <span class="c1"># -5.0</span>
+</pre></div>
+</div>
+<p>Using <a class="reference internal" href="reference/generated/optuna.trial.FixedTrial.html#optuna.trial.FixedTrial" title="optuna.trial.FixedTrial"><code class="xref py py-class docutils literal notranslate"><span class="pre">FixedTrial</span></code></a>, you can write unit tests as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># A test function of pytest</span>
+<span class="k">def</span> <span class="nf">test_objective</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="mf">1.0</span> <span class="o">==</span> <span class="n">objective</span><span class="p">(</span><span class="n">FixedTrial</span><span class="p">({</span><span class="s2">"x"</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">:</span> <span class="mi">0</span><span class="p">}))</span>
+    <span class="k">assert</span> <span class="o">-</span><span class="mf">1.0</span> <span class="o">==</span> <span class="n">objective</span><span class="p">(</span><span class="n">FixedTrial</span><span class="p">({</span><span class="s2">"x"</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}))</span>
+    <span class="k">assert</span> <span class="mf">0.0</span> <span class="o">==</span> <span class="n">objective</span><span class="p">(</span><span class="n">FixedTrial</span><span class="p">({</span><span class="s2">"x"</span><span class="p">:</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">:</span> <span class="mi">1</span><span class="p">}))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="how-do-i-avoid-running-out-of-memory-oom-when-optimizing-studies">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/How do I avoid running out of memory (OOM) when optimizing studies?"></a><span id="out-of-memory-gc-collect"></span><h2><a class="toc-backref" href="#id13">How do I avoid running out of memory (OOM) when optimizing studies?</a><a class="headerlink" href="#how-do-i-avoid-running-out-of-memory-oom-when-optimizing-studies" title="Permalink to this headline">¶</a></h2>
+<p>If the memory footprint increases as you run more trials, try to periodically run the garbage collector.
+Specify <code class="docutils literal notranslate"><span class="pre">gc_after_trial</span></code> to <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> when calling <a class="reference internal" href="reference/generated/optuna.study.Study.html#optuna.study.Study.optimize" title="optuna.study.Study.optimize"><code class="xref py py-func docutils literal notranslate"><span class="pre">optimize()</span></code></a> or call <a class="reference external" href="https://docs.python.org/3/library/gc.html#gc.collect" title="(in Python v3.10)"><code class="xref py py-func docutils literal notranslate"><span class="pre">gc.collect()</span></code></a> inside a callback.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_int</span><span class="p">(</span><span class="s2">"y"</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+
+
+<span class="n">study</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">create_study</span><span class="p">()</span>
+<span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">gc_after_trial</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># `gc_after_trial=True` is more or less identical to the following.</span>
+<span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="k">lambda</span> <span class="n">study</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="n">gc</span><span class="o">.</span><span class="n">collect</span><span class="p">()])</span>
+</pre></div>
+</div>
+<p>There is a performance trade-off for running the garbage collector, which could be non-negligible depending on how fast your objective function otherwise is. Therefore, <code class="docutils literal notranslate"><span class="pre">gc_after_trial</span></code> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> by default.
+Note that the above examples are similar to running the garbage collector inside the objective function, except for the fact that <a class="reference external" href="https://docs.python.org/3/library/gc.html#gc.collect" title="(in Python v3.10)"><code class="xref py py-func docutils literal notranslate"><span class="pre">gc.collect()</span></code></a> is called even when errors, including <a class="reference internal" href="reference/generated/optuna.exceptions.TrialPruned.html#optuna.exceptions.TrialPruned" title="optuna.exceptions.TrialPruned"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrialPruned</span></code></a> are raised.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="reference/generated/optuna.integration.ChainerMNStudy.html#optuna.integration.ChainerMNStudy" title="optuna.integration.ChainerMNStudy"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChainerMNStudy</span></code></a> does currently not provide <code class="docutils literal notranslate"><span class="pre">gc_after_trial</span></code> nor callbacks for <a class="reference internal" href="reference/generated/optuna.integration.ChainerMNStudy.html#optuna.integration.ChainerMNStudy.optimize" title="optuna.integration.ChainerMNStudy.optimize"><code class="xref py py-func docutils literal notranslate"><span class="pre">optimize()</span></code></a>.
+When using this class, you will have to call the garbage collector inside the objective function.</p>
+</div>
+</div>
+<div class="section" id="how-can-i-output-a-log-only-when-the-best-value-is-updated">
+<h2><a class="toc-backref" href="#id14">How can I output a log only when the best value is updated?</a><a class="headerlink" href="#how-can-i-output-a-log-only-when-the-best-value-is-updated" title="Permalink to this headline">¶</a></h2>
+<p>Here’s how to replace the logging feature of optuna and with your own logging callback function.
+The implemented callback can be passed to <a class="reference internal" href="reference/generated/optuna.study.Study.html#optuna.study.Study.optimize" title="optuna.study.Study.optimize"><code class="xref py py-func docutils literal notranslate"><span class="pre">optimize()</span></code></a>.
+Here’s an example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optuna</span>
+
+
+<span class="c1"># Turn off optuna log notes.</span>
+<span class="n">optuna</span><span class="o">.</span><span class="n">logging</span><span class="o">.</span><span class="n">set_verbosity</span><span class="p">(</span><span class="n">optuna</span><span class="o">.</span><span class="n">logging</span><span class="o">.</span><span class="n">WARN</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span>
+
+
+<span class="k">def</span> <span class="nf">logging_callback</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="n">frozen_trial</span><span class="p">):</span>
+    <span class="n">previous_best_value</span> <span class="o">=</span> <span class="n">study</span><span class="o">.</span><span class="n">user_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"previous_best_value"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">previous_best_value</span> <span class="o">!=</span> <span class="n">study</span><span class="o">.</span><span class="n">best_value</span><span class="p">:</span>
+        <span class="n">study</span><span class="o">.</span><span class="n">set_user_attr</span><span class="p">(</span><span class="s2">"previous_best_value"</span><span class="p">,</span> <span class="n">study</span><span class="o">.</span><span class="n">best_value</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="s2">"Trial </span><span class="si">{}</span><span class="s2"> finished with best value: </span><span class="si">{}</span><span class="s2"> and parameters: </span><span class="si">{}</span><span class="s2">. "</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">frozen_trial</span><span class="o">.</span><span class="n">number</span><span class="p">,</span>
+            <span class="n">frozen_trial</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="n">frozen_trial</span><span class="o">.</span><span class="n">params</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+
+<span class="n">study</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">create_study</span><span class="p">()</span>
+<span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">logging_callback</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="how-do-i-suggest-variables-which-represent-the-proportion-that-is-are-in-accordance-with-dirichlet-distribution">
+<h2><a class="toc-backref" href="#id15">How do I suggest variables which represent the proportion, that is, are in accordance with Dirichlet distribution?</a><a class="headerlink" href="#how-do-i-suggest-variables-which-represent-the-proportion-that-is-are-in-accordance-with-dirichlet-distribution" title="Permalink to this headline">¶</a></h2>
+<p>When you want to suggest <span class="math notranslate nohighlight">\(n\)</span> variables which represent the proportion, that is, <span class="math notranslate nohighlight">\(p[0], p[1], ..., p[n-1]\)</span> which satisfy <span class="math notranslate nohighlight">\(0 \le p[k] \le 1\)</span> for any <span class="math notranslate nohighlight">\(k\)</span> and <span class="math notranslate nohighlight">\(p[0] + p[1] + ... + p[n-1] = 1\)</span>, try the below.
+For example, these variables can be used as weights when interpolating the loss functions.
+These variables are in accordance with the flat <a class="reference external" href="https://en.wikipedia.org/wiki/Dirichlet_distribution">Dirichlet distribution</a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">optuna</span>
+
+
+<span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="sa">f</span><span class="s2">"x_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+
+    <span class="n">p</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">trial</span><span class="o">.</span><span class="n">set_user_attr</span><span class="p">(</span><span class="sa">f</span><span class="s2">"p_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="mi">0</span>
+
+<span class="n">study</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">create_study</span><span class="p">(</span><span class="n">sampler</span><span class="o">=</span><span class="n">optuna</span><span class="o">.</span><span class="n">samplers</span><span class="o">.</span><span class="n">RandomSampler</span><span class="p">())</span>
+<span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">p</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">trial</span><span class="o">.</span><span class="n">user_attrs</span><span class="p">[</span><span class="sa">f</span><span class="s2">"p_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">study</span><span class="o">.</span><span class="n">trials</span><span class="p">])</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">))[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s2">"."</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">"p_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s2">"p_</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"sampled_ps.png"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This method is justified in the following way:
+First, if we apply the transformation <span class="math notranslate nohighlight">\(x = - \log (u)\)</span> to the variable <span class="math notranslate nohighlight">\(u\)</span> sampled from the uniform distribution <span class="math notranslate nohighlight">\(Uni(0, 1)\)</span> in the interval <span class="math notranslate nohighlight">\([0, 1]\)</span>, the variable <span class="math notranslate nohighlight">\(x\)</span> will follow the exponential distribution <span class="math notranslate nohighlight">\(Exp(1)\)</span> with scale parameter <span class="math notranslate nohighlight">\(1\)</span>.
+Furthermore, for <span class="math notranslate nohighlight">\(n\)</span> variables <span class="math notranslate nohighlight">\(x[0], ..., x[n-1]\)</span> that follow the exponential distribution of scale parameter <span class="math notranslate nohighlight">\(1\)</span> independently, normalizing them with <span class="math notranslate nohighlight">\(p[i] = x[i] / \sum_i x[i]\)</span>, the vector <span class="math notranslate nohighlight">\(p\)</span> follows the Dirichlet distribution <span class="math notranslate nohighlight">\(Dir(\alpha)\)</span> of scale parameter <span class="math notranslate nohighlight">\(\alpha = (1, ..., 1)\)</span>.
+You can verify the transformation by calculating the elements of the Jacobian.</p>
+</div>
+</div>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="reference/visualization/generated/optuna.visualization.matplotlib.is_available.html" rel="prev" title="optuna.visualization.matplotlib.is_available"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright 2018, Optuna Contributors..</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+    <a href="privacy.html">Privacy Policy</a>.
+     
+
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>
