@@ -3,6 +3,12 @@ on:
   schedule:
     - cron: "0 0 * * *"
   workflow_dispatch:
+    inputs:
+      debug:
+        description: 'Deebug flag (if true, no commits are pushed)'
+        required: false
+        type: boolean
+        default: true
 
 jobs:
 
@@ -94,6 +100,7 @@ jobs:
           name: optuna.docset
           path: ./optuna.docset
       - name: push docset
+        if:  ${{ github.event.inputs.debug == false }}
         run: |
           git config --global user.email "${{ secrets.CI_USER_EMAIL }}"
           git config --global user.name  "${{ secrets.CI_USER_USERNAME }}"
