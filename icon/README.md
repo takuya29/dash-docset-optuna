@@ -1,2 +1,2 @@
-Images in this directory are generated from https://github.com/optuna/optuna/blob/master/docs/image/favicon.ico.
+Images in this directory are converted from https://github.com/optuna/optuna/blob/master/docs/image/favicon.ico.
 Optuna is available under the MIT license. See the [OPTUNA.LICENSE](./LICENSE) file for more info.
