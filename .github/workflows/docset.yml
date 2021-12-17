@@ -43,7 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: fetch
     name: Build document
-    if: ${{ needs.fetch.outputs.latest != needs.fetch.outputs.current }} || ${{ github.event.inputs.debug == 'true' }}
+    if: ${{ needs.fetch.outputs.latest != needs.fetch.outputs.current || github.event.inputs.debug == 'true' }}
     outputs:
       latest: ${{ needs.fetch.outputs.latest }}
     steps:
@@ -51,7 +51,7 @@ jobs:
         run: |
           echo first condition: ${{ needs.fetch.outputs.latest != needs.fetch.outputs.current }}
           echo second condition: ${{ github.event.inputs.debug == 'true' }}
-          echo logical or: ${{ needs.fetch.outputs.latest != needs.fetch.outputs.current }} || ${{ github.event.inputs.debug == 'true' }}
+          echo logical or: ${{ needs.fetch.outputs.latest != needs.fetch.outputs.current || github.event.inputs.debug == 'true' }}
       - uses: actions/checkout@v2
         with:
           persist-credentials: false
