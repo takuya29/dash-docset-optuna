@@ -102,6 +102,8 @@ jobs:
       - name: push docset
         if:  ${{ github.event.inputs.debug != true }}
         run: |
+          # memo: what is this value when triggered by schedule?
+          echo github.event.inputs.debug: ${{ github.event.inputs.debug }}
           git config --global user.email "${{ secrets.CI_USER_EMAIL }}"
           git config --global user.name  "${{ secrets.CI_USER_USERNAME }}"
           printf "${{ needs.build.outputs.latest }}\n" > .version
