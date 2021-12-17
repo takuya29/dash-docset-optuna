@@ -43,7 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: fetch
     name: Build document
-    if: ${{ needs.fetch.outputs.latest != needs.fetch.outputs.current }}
+    if: ${{ needs.fetch.outputs.latest != needs.fetch.outputs.current }} || ${{ github.event.inputs.debug }}
     outputs:
       latest: ${{ needs.fetch.outputs.latest }}
     steps:
