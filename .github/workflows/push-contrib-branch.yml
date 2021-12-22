@@ -1,8 +1,8 @@
 name: Add new docset to contrib repository
 on:
-  # push:
-  #   tags:
-  #     - "v*"
+  push:
+    tags:
+      - "v*"
   workflow_dispatch:
     inputs:
       debug:
@@ -31,7 +31,7 @@ jobs:
         run: |
           tar --exclude='.DS_Store' -cvzf ./contrib/Optuna.tgz Optuna.docset
           mkdir ./contrib/versions/${{ steps.version.output.version }}
-          cp .contrib/Optuna.tgz ./contrib/versions/${{ steps.version.output.version }}
+          cp ./contrib/Optuna.tgz ./contrib/versions/${{ steps.version.output.version }}
       - name: push to new branch
         if:  ${{ github.event.inputs.debug != 'true' }}
         run: |
