@@ -1,0 +1,46 @@
+name: Add new docset to contrib repository
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      debug:
+        description: 'Deebug flag (if true, no commits are pushed)'
+        required: false
+        type: boolean
+        default: true
+jobs:
+  push:
+    name: Push to contrib repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+      - name: get version
+        id: version
+        run: |
+          version=$(cat .version | sed -e "s/v//")
+          echo ::set-output "name=version::$version"
+      - uses: actions/checkout@v2
+        with:
+          repository: Kapeli/Dash-User-Contributions
+          path: contrib
+      - name: update files
+        run: |
+          tar --exclude='.DS_Store' -cvzf ./contrib/Optuna.tgz Optuna.docset
+          mkdir ./contrib/versions/${{ steps.version.output.version }}
+          cp .contrib/Optuna.tgz ./contrib/versions/${{ steps.version.output.version }}
+      - name: push to new branch
+        if:  ${{ github.event.inputs.debug != 'true' }}
+        run: |
+          branch=optuna-${{ steps.version.output.version }}
+          cd contrib
+          git config --global user.email "${{ secrets.CI_USER_EMAIL }}"
+          git config --global user.name  "${{ secrets.CI_USER_USERNAME }}"
+          git add -A
+          git commit -m "Update Optuna docset to ${{ steps.version.output.version }}"
+          # git push \
+          #   "https://${{ secrets.CI_USER_USERNAME }}:${{ secrets.CI_USER_ACCESS_TOKEN }}@github.com/29Takuya/Dash-User-Contributions.git" \
+          #   HEAD:$branch
