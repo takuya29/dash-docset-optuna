@@ -30,17 +30,17 @@ jobs:
       - name: update files
         run: |
           tar --exclude='.DS_Store' -cvzf ./contrib/Optuna.tgz Optuna.docset
-          mkdir ./contrib/versions/${{ steps.version.output.version }}
-          cp ./contrib/Optuna.tgz ./contrib/versions/${{ steps.version.output.version }}
+          mkdir ./contrib/versions/${{ steps.version.outputs.version }}
+          cp ./contrib/Optuna.tgz ./contrib/versions/${{ steps.version.outputs.version }}
       - name: push to new branch
         if:  ${{ github.event.inputs.debug != 'true' }}
         run: |
-          branch=optuna-${{ steps.version.output.version }}
+          branch=optuna-${{ steps.version.outputs.version }}
           cd contrib
           git config --global user.email "${{ secrets.CI_USER_EMAIL }}"
           git config --global user.name  "${{ secrets.CI_USER_USERNAME }}"
           git add -A
-          git commit -m "Update Optuna docset to ${{ steps.version.output.version }}"
+          git commit -m "Update Optuna docset to ${{ steps.version.outputs.version }}"
           # git push \
           #   "https://${{ secrets.CI_USER_USERNAME }}:${{ secrets.CI_USER_ACCESS_TOKEN }}@github.com/29Takuya/Dash-User-Contributions.git" \
           #   HEAD:$branch
