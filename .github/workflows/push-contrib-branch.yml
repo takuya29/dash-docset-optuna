@@ -30,20 +30,26 @@ jobs:
           persist-credentials: false
       - name: update files
         run: |
+          mkdir ./contrib/docsets/Optuna/versions/${{ steps.version.outputs.version }}
           tar --exclude='.DS_Store' -cvzf Optuna.tgz Optuna.docset
           cp Optuna.tgz ./contrib/docsets/Optuna/
-          mkdir ./contrib/docsets/Optuna/versions/${{ steps.version.outputs.version }}
           cp Optuna.tgz ./contrib/docsets/Optuna/versions/${{ steps.version.outputs.version }}
-      - name: push to new branch
-        if:  ${{ github.event.inputs.debug != 'true' }}
+      - name: commit
         run: |
           cd contrib
-          branch=optuna-${{ steps.version.outputs.version }}
-          git checkout -b $branch
           git config --global user.email "${{ secrets.CI_USER_EMAIL }}"
           git config --global user.name  "${{ secrets.CI_USER_USERNAME }}"
           git add -A
-          git commit -m "Update Optuna docset to ${{ steps.version.outputs.version }}"
+          git commit -m "update Optuna docset to ${{ steps.version.outputs.version }}"
+      - name: push
+        if:  ${{ github.event.inputs.debug != 'true' }}
+        run: |
+          git push \
+            "https://${{ secrets.CI_USER_USERNAME }}:${{ secrets.CI_USER_ACCESS_TOKEN }}@github.com/29Takuya/Dash-User-Contributions.git" \
+            HEAD:optuna-${{ steps.version.outputs.version }}
+      - name: push (dry-run)
+        if:  ${{ github.event.inputs.debug == 'true' }}
+        run: |
           git push -n \
             "https://${{ secrets.CI_USER_USERNAME }}:${{ secrets.CI_USER_ACCESS_TOKEN }}@github.com/29Takuya/Dash-User-Contributions.git" \
-            HEAD:$branch
+            HEAD:optuna-${{ steps.version.outputs.version }}
