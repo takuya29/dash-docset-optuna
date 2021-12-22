@@ -29,10 +29,10 @@ jobs:
           path: contrib
       - name: update files
         run: |
-          ls
-          tar --exclude='.DS_Store' -cvzf ./contrib/Optuna.tgz Optuna.docset
-          mkdir ./contrib/versions/${{ steps.version.outputs.version }}
-          cp ./contrib/Optuna.tgz ./contrib/versions/${{ steps.version.outputs.version }}
+          tar --exclude='.DS_Store' -cvzf Optuna.tgz Optuna.docset
+          cp Optuna.tgz ./contrib/docsets/Optuna/
+          mkdir ./contrib/docsets/Optuna/versions/${{ steps.version.outputs.version }}
+          cp Optuna.tgz ./contrib/docsets/Optuna/versions/${{ steps.version.outputs.version }}
       - name: push to new branch
         if:  ${{ github.event.inputs.debug != 'true' }}
         run: |
