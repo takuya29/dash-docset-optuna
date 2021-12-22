@@ -36,8 +36,9 @@ jobs:
       - name: push to new branch
         if:  ${{ github.event.inputs.debug != 'true' }}
         run: |
-          branch=optuna-${{ steps.version.outputs.version }}
           cd contrib
+          branch=optuna-${{ steps.version.outputs.version }}
+          git checkout -b $branch
           git config --global user.email "${{ secrets.CI_USER_EMAIL }}"
           git config --global user.name  "${{ secrets.CI_USER_USERNAME }}"
           git add -A
