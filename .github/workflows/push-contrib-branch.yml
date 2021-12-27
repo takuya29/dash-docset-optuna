@@ -23,11 +23,14 @@ jobs:
         run: |
           version=$(cat .version | sed -e "s/v//")
           echo ::set-output "name=version::$version"
-      - uses: actions/checkout@v2
-        with:
-          repository: Kapeli/Dash-User-Contributions
-          path: contrib
-          persist-credentials: false
+      - name: clone upstream master
+        run: |
+          git clone --branch master https://github.com/Kapeli/Dash-User-Contributions.git contrib
+      # - uses: actions/checkout@v2
+      #   with:
+      #     repository: Kapeli/Dash-User-Contributions
+      #     path: contrib
+      #     persist-credentials: false
       - name: update archives
         run: |
           mkdir ./contrib/docsets/Optuna/versions/${{ steps.version.outputs.version }}
@@ -50,7 +53,6 @@ jobs:
           cd contrib
           git config --global user.email "${{ secrets.CI_USER_EMAIL }}"
           git config --global user.name  "${{ secrets.CI_USER_USERNAME }}"
-          git fetch --unshallow
           git add -A
           git commit -m "update Optuna docset to ${{ steps.version.outputs.version }}"
       - name: push
