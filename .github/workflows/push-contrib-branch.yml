@@ -28,12 +28,22 @@ jobs:
           repository: Kapeli/Dash-User-Contributions
           path: contrib
           persist-credentials: false
-      - name: update files
+      - name: update archives
         run: |
           mkdir ./contrib/docsets/Optuna/versions/${{ steps.version.outputs.version }}
           tar --exclude='.DS_Store' -cvzf Optuna.tgz Optuna.docset
           cp Optuna.tgz ./contrib/docsets/Optuna/
           cp Optuna.tgz ./contrib/docsets/Optuna/versions/${{ steps.version.outputs.version }}
+      - name: update docset.json
+        run: |
+          $docset_json=contrib/docsets/Optuna/docset.json
+          jq --arg version ${{ steps.version.outputs.version }} '
+          .specific_versions = [
+              {
+                "version": $version, 
+                "archive": ("versions/" + $version + "/Optuna.tgz")
+              }
+            ] + .specific_versions' $docset_json > $docset_json
       - name: commit
         run: |
           cd contrib
@@ -53,3 +63,4 @@ jobs:
           git push -n \
             "https://${{ secrets.CI_USER_USERNAME }}:${{ secrets.CI_USER_ACCESS_TOKEN }}@github.com/29Takuya/Dash-User-Contributions.git" \
             HEAD:optuna-${{ steps.version.outputs.version }}
+          git diff HEAD
