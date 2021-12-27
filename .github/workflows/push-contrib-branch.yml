@@ -28,7 +28,6 @@ jobs:
           repository: Kapeli/Dash-User-Contributions
           path: contrib
           persist-credentials: false
-          fetch-depth: 0
       - name: update archives
         run: |
           mkdir ./contrib/docsets/Optuna/versions/${{ steps.version.outputs.version }}
@@ -39,6 +38,7 @@ jobs:
         run: |
           docset_json=contrib/docsets/Optuna/docset.json
           jq --arg version ${{ steps.version.outputs.version }} '
+          .version=$version | 
           .specific_versions = [
               {
                 "version": $version, 
@@ -48,9 +48,9 @@ jobs:
       - name: commit
         run: |
           cd contrib
-          git checkout -b optuna-${{ steps.version.outputs.version }}
           git config --global user.email "${{ secrets.CI_USER_EMAIL }}"
           git config --global user.name  "${{ secrets.CI_USER_USERNAME }}"
+          git fetch --unshallow
           git add -A
           git commit -m "update Optuna docset to ${{ steps.version.outputs.version }}"
       - name: push
