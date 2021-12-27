@@ -36,7 +36,7 @@ jobs:
           cp Optuna.tgz ./contrib/docsets/Optuna/versions/${{ steps.version.outputs.version }}
       - name: update docset.json
         run: |
-          $docset_json=contrib/docsets/Optuna/docset.json
+          docset_json=contrib/docsets/Optuna/docset.json
           jq --arg version ${{ steps.version.outputs.version }} '
           .specific_versions = [
               {
