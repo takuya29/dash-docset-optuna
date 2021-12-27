@@ -28,6 +28,7 @@ jobs:
           repository: Kapeli/Dash-User-Contributions
           path: contrib
           persist-credentials: false
+          fetch-depth: 0
       - name: update archives
         run: |
           mkdir ./contrib/docsets/Optuna/versions/${{ steps.version.outputs.version }}
