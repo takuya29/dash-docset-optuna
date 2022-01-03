@@ -1,8 +1,8 @@
 name: Add new docset to contrib repository
 on:
-  # push:
-  #   tags:
-  #     - "v*"
+  push:
+    tags:
+      - "v*"
   workflow_dispatch:
     inputs:
       debug:
@@ -26,21 +26,36 @@ jobs:
       - uses: actions/checkout@v2
         with:
           repository: Kapeli/Dash-User-Contributions
+          ref: master
           path: contrib
-      - name: update files
+          persist-credentials: false
+          fetch-depth: 0
+      - name: update archives
         run: |
-          tar --exclude='.DS_Store' -cvzf ./contrib/Optuna.tgz Optuna.docset
-          mkdir ./contrib/versions/${{ steps.version.output.version }}
-          cp .contrib/Optuna.tgz ./contrib/versions/${{ steps.version.output.version }}
-      - name: push to new branch
+          mkdir ./contrib/docsets/Optuna/versions/${{ steps.version.outputs.version }}
+          tar --exclude='.DS_Store' -cvzf Optuna.tgz Optuna.docset
+          cp Optuna.tgz ./contrib/docsets/Optuna/
+          cp Optuna.tgz ./contrib/docsets/Optuna/versions/${{ steps.version.outputs.version }}
+      - name: update docset.json
+        run: |
+          docset_json=contrib/docsets/Optuna/docset.json
+          jq --indent 4 --arg version ${{ steps.version.outputs.version }} '
+          .version=$version | 
+          .specific_versions = [
+              {
+                "version": $version, 
+                "archive": ("versions/" + $version + "/Optuna.tgz")
+              }
+            ] + .specific_versions' $docset_json > docset.json.tmp
+          mv docset.json.tmp $docset_json
+      - name: commit and push
         if:  ${{ github.event.inputs.debug != 'true' }}
         run: |
-          branch=optuna-${{ steps.version.output.version }}
           cd contrib
           git config --global user.email "${{ secrets.CI_USER_EMAIL }}"
           git config --global user.name  "${{ secrets.CI_USER_USERNAME }}"
           git add -A
-          git commit -m "Update Optuna docset to ${{ steps.version.output.version }}"
-          # git push \
-          #   "https://${{ secrets.CI_USER_USERNAME }}:${{ secrets.CI_USER_ACCESS_TOKEN }}@github.com/29Takuya/Dash-User-Contributions.git" \
-          #   HEAD:$branch
+          git commit -m "update Optuna docset to ${{ steps.version.outputs.version }}"
+          git push \
+            "https://${{ secrets.CI_USER_USERNAME }}:${{ secrets.CI_USER_ACCESS_TOKEN }}@github.com/29Takuya/Dash-User-Contributions.git" \
+            HEAD:optuna-${{ steps.version.outputs.version }}
