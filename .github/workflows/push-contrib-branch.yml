@@ -54,7 +54,7 @@ jobs:
           git config --global user.name  "${{ secrets.CI_USER_USERNAME }}"
           git add -A
           git commit -m "update Optuna docset to ${{ steps.version.outputs.version }}"
-      - name debug:
+      - name: debug
         run: |
           echo is_shallow: $(git rev-parse --is-shallow-repository)
       - name: push
