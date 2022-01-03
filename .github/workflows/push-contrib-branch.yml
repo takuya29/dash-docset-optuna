@@ -26,6 +26,9 @@ jobs:
       - name: clone upstream master
         run: |
           git clone --branch master https://github.com/Kapeli/Dash-User-Contributions.git contrib
+          cd contrib
+          git checkout -b optuna-${{ steps.version.outputs.version }}
+          cd ..
       # - uses: actions/checkout@v2
       #   with:
       #     repository: Kapeli/Dash-User-Contributions
