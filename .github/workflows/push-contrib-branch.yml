@@ -39,7 +39,7 @@ jobs:
       - name: update docset.json
         run: |
           docset_json=contrib/docsets/Optuna/docset.json
-          jq --arg version ${{ steps.version.outputs.version }} '
+          jq --indent 4 --arg version ${{ steps.version.outputs.version }} '
           .version=$version | 
           .specific_versions = [
               {
