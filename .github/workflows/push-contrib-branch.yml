@@ -59,6 +59,7 @@ jobs:
       - name: push
         if:  ${{ github.event.inputs.debug != 'true' }}
         run: |
+          echo is_shallow: $(git rev-parse --is-shallow-repository)
           git push \
             "https://${{ secrets.CI_USER_USERNAME }}:${{ secrets.CI_USER_ACCESS_TOKEN }}@github.com/29Takuya/Dash-User-Contributions.git" \
             HEAD:optuna-${{ steps.version.outputs.version }}
