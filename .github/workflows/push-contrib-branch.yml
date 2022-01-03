@@ -50,12 +50,11 @@ jobs:
       - name: commit
         run: |
           cd contrib
+          echo is_shallow: $(git rev-parse --is-shallow-repository)
           git config --global user.email "${{ secrets.CI_USER_EMAIL }}"
           git config --global user.name  "${{ secrets.CI_USER_USERNAME }}"
           git add -A
           git commit -m "update Optuna docset to ${{ steps.version.outputs.version }}"
-      - name: debug
-        run: |
           echo is_shallow: $(git rev-parse --is-shallow-repository)
       - name: push
         if:  ${{ github.event.inputs.debug != 'true' }}
