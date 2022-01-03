@@ -27,7 +27,9 @@ jobs:
         run: |
           git clone --branch master https://github.com/Kapeli/Dash-User-Contributions.git contrib
           cd contrib
-          git checkout -b optuna-${{ steps.version.outputs.version }}
+          echo is_shallow: $(git rev-parse --is-shallow-repository)
+          git fetch --unshallow
+          echo is_shallow: $(git rev-parse --is-shallow-repository)
           cd ..
       # - uses: actions/checkout@v2
       #   with:
