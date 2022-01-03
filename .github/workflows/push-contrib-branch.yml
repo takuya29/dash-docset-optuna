@@ -55,7 +55,7 @@ jobs:
           git config --global user.email "${{ secrets.CI_USER_EMAIL }}"
           git config --global user.name  "${{ secrets.CI_USER_USERNAME }}"
           git add -A
-          git commit -v -m "update Optuna docset to ${{ steps.version.outputs.version }}"
+          git commit -m "update Optuna docset to ${{ steps.version.outputs.version }}"
           git push \
             "https://${{ secrets.CI_USER_USERNAME }}:${{ secrets.CI_USER_ACCESS_TOKEN }}@github.com/29Takuya/Dash-User-Contributions.git" \
             HEAD:optuna-${{ steps.version.outputs.version }}
