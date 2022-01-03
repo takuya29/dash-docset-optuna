@@ -23,19 +23,13 @@ jobs:
         run: |
           version=$(cat .version | sed -e "s/v//")
           echo ::set-output "name=version::$version"
-      - name: clone upstream master
-        run: |
-          git clone --branch master https://github.com/Kapeli/Dash-User-Contributions.git contrib
-          cd contrib
-          echo is_shallow: $(git rev-parse --is-shallow-repository)
-          git fetch --unshallow
-          echo is_shallow: $(git rev-parse --is-shallow-repository)
-          cd ..
-      # - uses: actions/checkout@v2
-      #   with:
-      #     repository: Kapeli/Dash-User-Contributions
-      #     path: contrib
-      #     persist-credentials: false
+      - uses: actions/checkout@v2
+        with:
+          repository: Kapeli/Dash-User-Contributions
+          ref: master
+          path: contrib
+          persist-credentials: false
+          fetch-depth: 0
       - name: update archives
         run: |
           mkdir ./contrib/docsets/Optuna/versions/${{ steps.version.outputs.version }}
@@ -60,6 +54,9 @@ jobs:
           git config --global user.name  "${{ secrets.CI_USER_USERNAME }}"
           git add -A
           git commit -m "update Optuna docset to ${{ steps.version.outputs.version }}"
+      - name debug:
+        run: |
+          echo is_shallow: $(git rev-parse --is-shallow-repository)
       - name: push
         if:  ${{ github.event.inputs.debug != 'true' }}
         run: |
