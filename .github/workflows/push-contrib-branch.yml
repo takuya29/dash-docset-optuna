@@ -46,7 +46,8 @@ jobs:
                 "version": $version, 
                 "archive": ("versions/" + $version + "/Optuna.tgz")
               }
-            ] + .specific_versions' $docset_json > $docset_json
+            ] + .specific_versions' $docset_json > docset.json.tmp
+          mv docset.json.tmp $docset_json
       - name: commit and push
         if:  ${{ github.event.inputs.debug != 'true' }}
         run: |
@@ -54,7 +55,7 @@ jobs:
           git config --global user.email "${{ secrets.CI_USER_EMAIL }}"
           git config --global user.name  "${{ secrets.CI_USER_USERNAME }}"
           git add -A
-          git commit -m "update Optuna docset to ${{ steps.version.outputs.version }}"
+          git commit -v -m "update Optuna docset to ${{ steps.version.outputs.version }}"
           git push \
             "https://${{ secrets.CI_USER_USERNAME }}:${{ secrets.CI_USER_ACCESS_TOKEN }}@github.com/29Takuya/Dash-User-Contributions.git" \
             HEAD:optuna-${{ steps.version.outputs.version }}
