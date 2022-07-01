@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Ask-and-Tell Interface — Optuna 2.10.0 documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<title>Ask-and-Tell Interface — Optuna 2.10.1 documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
@@ -64,7 +64,7 @@
 <a href="../../index.html"><img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                2.10.0
+                2.10.1
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -180,16 +180,6 @@ such that it takes <code class="docutils literal notranslate"><span class="pre">
 <span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/functions.html#int" title="builtins.int"><span class="n">n_trials</span></a><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
-<p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/opt/hostedtoolcache/Python/3.7.12/x64/lib/python3.7/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning:
-
-The max_iter was reached which means the coef_ did not converge
-
-/opt/hostedtoolcache/Python/3.7.12/x64/lib/python3.7/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning:
-
-The max_iter was reached which means the coef_ did not converge
-</pre></div>
-</div>
 <p>This interface is not flexible enough.
 For example, if <code class="docutils literal notranslate"><span class="pre">objective</span></code> requires additional arguments other than <code class="docutils literal notranslate"><span class="pre">trial</span></code>,
 you need to define a class as in
@@ -210,12 +200,6 @@ The following example is equivalent to the previous code block.</p>
     <span class="n">val_accuracy</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
 
     <span class="n">study</span><span class="o">.</span><span class="n">tell</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">val_accuracy</span><span class="p">)</span>  <span class="c1"># tell the pair of trial and objective value</span>
-</pre></div>
-</div>
-<p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/opt/hostedtoolcache/Python/3.7.12/x64/lib/python3.7/site-packages/sklearn/linear_model/_sag.py:329: ConvergenceWarning:
-
-The max_iter was reached which means the coef_ did not converge
 </pre></div>
 </div>
 <p>The main difference is to use two methods: <a class="reference internal" href="../../reference/generated/optuna.study.Study.html#optuna.study.Study.ask" title="optuna.study.Study.ask"><code class="xref py py-func docutils literal notranslate"><span class="pre">optuna.study.Study.ask()</span></code></a>
@@ -351,7 +335,7 @@ Note that you need to store either <code class="docutils literal notranslate"><s
         <span class="n">study</span><span class="o">.</span><span class="n">tell</span><span class="p">(</span><a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/functions.html#int" title="builtins.int"><span class="n">trial_id</span></a><span class="p">,</span> <span class="n">objective</span><span class="p">)</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.116 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.105 seconds)</p>
 <a class="dashAnchor" name="//apple_ref/cpp/Section/sphx_glr_download_tutorial_20_recipes_009_ask_and_tell.py"></a><div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorial-20-recipes-009-ask-and-tell-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/a6d16f5a7630e2042b959f18c4d3f2e5/009_ask_and_tell.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">009_ask_and_tell.py</span></code></a></p>
