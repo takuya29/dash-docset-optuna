@@ -2,23 +2,26 @@
 
 <html class="writer-html5" lang="en">
 <head>
-<meta charset="utf-8"/>
+<meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.integration.lightgbm.LightGBMTunerCV — Optuna 2.10.1 documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<title>optuna.integration.lightgbm.LightGBMTunerCV — Optuna 3.0.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-binder.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-dataframe.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-rendered-html.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/css/custom.css" rel="stylesheet" type="text/css"/><link href="../../_static/favicon.ico" rel="shortcut icon"/>
+<link href="../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/favicon.ico" rel="shortcut icon"/>
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
 <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
 <script src="../../_static/jquery.js"></script>
 <script src="../../_static/underscore.js"></script>
+<script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
 <script src="../../_static/doctools.js"></script>
 <script src="../../_static/clipboard.min.js"></script>
 <script src="../../_static/copybutton.js"></script>
@@ -60,10 +63,11 @@
 <nav class="wy-nav-side" data-toggle="wy-nav-shift">
 <div class="wy-side-scroll">
 <div class="wy-side-nav-search">
-<a href="../../index.html"><img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
+<a href="../../index.html">
+<img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                2.10.1
+                3.0.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -73,7 +77,7 @@
 </form>
 </div>
 </div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
@@ -87,6 +91,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#allennlp">AllenNLP</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#botorch">BoTorch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#catalyst">Catalyst</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#catboost">CatBoost</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#chainer">Chainer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#fast-ai">fast.ai</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#keras">Keras</a></li>
@@ -104,6 +109,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#pytorch">PyTorch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#scikit-learn">scikit-learn</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#scikit-optimize">scikit-optimize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#shap">SHAP</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#skorch">skorch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#tensorflow">TensorFlow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#xgboost">XGBoost</a></li>
@@ -112,9 +118,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../logging.html">optuna.logging</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../multi_objective/index.html">optuna.multi_objective</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pruners.html">optuna.pruners</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../samplers.html">optuna.samplers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samplers/index.html">optuna.samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../storages.html">optuna.storages</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../structs.html">optuna.structs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../study.html">optuna.study</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../trial.html">optuna.trial</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../visualization/index.html">optuna.visualization</a></li>
@@ -138,18 +143,17 @@
 <li><a href="../integration.html">optuna.integration</a> »</li>
 <li>optuna.integration.lightgbm.LightGBMTunerCV</li>
 <li class="wy-breadcrumbs-aside">
-<a href="../../_sources/reference/generated/optuna.integration.lightgbm.LightGBMTunerCV.rst.txt" rel="nofollow"> View page source</a>
 </li>
 </ul>
 <hr/>
 </div>
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div itemprop="articleBody">
-<div class="section" id="optuna-integration-lightgbm-lightgbmtunercv">
-<h1>optuna.integration.lightgbm.LightGBMTunerCV<a class="headerlink" href="#optuna-integration-lightgbm-lightgbmtunercv" title="Permalink to this headline">¶</a></h1>
+<section id="optuna-integration-lightgbm-lightgbmtunercv">
+<h1>optuna.integration.lightgbm.LightGBMTunerCV<a class="headerlink" href="#optuna-integration-lightgbm-lightgbmtunercv" title="Permalink to this heading"></a></h1>
 <dl class="py class">
-<dt id="optuna.integration.lightgbm.LightGBMTunerCV">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">optuna.integration.lightgbm.</span></code><code class="sig-name descname"><span class="pre">LightGBMTunerCV</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_set</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_boost_round</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nfold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stratified</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fobj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">categorical_feature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">early_stopping_rounds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fpreproc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose_eval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_stdv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callbacks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_budget</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">study</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optuna_callbacks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_progress_bar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_cvbooster</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optuna_seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/_lightgbm_tuner/optimize.html#LightGBMTunerCV"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.integration.lightgbm.LightGBMTunerCV"></a><a class="headerlink" href="#optuna.integration.lightgbm.LightGBMTunerCV" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.integration.lightgbm.LightGBMTunerCV">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.integration.lightgbm.</span></span><span class="sig-name descname"><span class="pre">LightGBMTunerCV</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_set</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_boost_round</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nfold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stratified</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fobj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">categorical_feature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">early_stopping_rounds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fpreproc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose_eval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_stdv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callbacks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_budget</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">study</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optuna_callbacks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbosity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_progress_bar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_cvbooster</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optuna_seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/_lightgbm_tuner/optimize.html#LightGBMTunerCV"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.integration._lightgbm_tuner.optimize.LightGBMTunerCV"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.integration.lightgbm.LightGBMTunerCV"></a><a class="headerlink" href="#optuna.integration.lightgbm.LightGBMTunerCV" title="Permalink to this definition"></a></dt>
 <dd><p>Hyperparameter tuner for LightGBM with cross-validation.</p>
 <p>It employs the same stepwise approach as
 <a class="reference internal" href="optuna.integration.lightgbm.LightGBMTuner.html#optuna.integration.lightgbm.LightGBMTuner" title="optuna.integration.lightgbm.LightGBMTuner"><code class="xref py py-class docutils literal notranslate"><span class="pre">LightGBMTuner</span></code></a>.
@@ -164,25 +168,25 @@ listed below:</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>time_budget</strong> – A time budget for parameter tuning in seconds.</p></li>
-<li><p><strong>study</strong> – A <a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> instance to store optimization results. The
+<li><p><strong>time_budget</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>]</em>) – A time budget for parameter tuning in seconds.</p></li>
+<li><p><strong>study</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.study.Study"><em>Study</em></a><em>]</em>) – A <a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> instance to store optimization results. The
 <a class="reference internal" href="optuna.trial.Trial.html#optuna.trial.Trial" title="optuna.trial.Trial"><code class="xref py py-class docutils literal notranslate"><span class="pre">Trial</span></code></a> instances in it has the following user attributes:
 <code class="docutils literal notranslate"><span class="pre">elapsed_secs</span></code> is the elapsed time since the optimization starts.
 <code class="docutils literal notranslate"><span class="pre">average_iteration_time</span></code> is the average time of iteration to train the booster
 model in the trial. <code class="docutils literal notranslate"><span class="pre">lgbm_params</span></code> is a JSON-serialized dictionary of LightGBM
 parameters used in the trial.</p></li>
-<li><p><strong>optuna_callbacks</strong> – List of Optuna callback functions that are invoked at the end of each trial.
+<li><p><strong>optuna_callbacks</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><em>Callable</em></a><em>[</em><em>[</em><a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.study.Study"><em>Study</em></a><em>, </em><a class="reference internal" href="optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial._frozen.FrozenTrial"><em>FrozenTrial</em></a><em>]</em><em>, </em><em>None</em><em>]</em><em>]</em><em>]</em>) – List of Optuna callback functions that are invoked at the end of each trial.
 Each function must accept two parameters with the following types in this order:
-<a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> and <code class="xref py py-class docutils literal notranslate"><span class="pre">FrozenTrial</span></code>.
+<a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> and <a class="reference internal" href="optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrozenTrial</span></code></a>.
 Please note that this is not a <code class="docutils literal notranslate"><span class="pre">callbacks</span></code> argument of <a class="reference external" href="https://lightgbm.readthedocs.io/en/latest/pythonapi/lightgbm.train.html">lightgbm.train()</a> .</p></li>
-<li><p><strong>model_dir</strong> – A directory to save boosters. By default, it is set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> and no boosters are
+<li><p><strong>model_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>]</em>) – A directory to save boosters. By default, it is set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> and no boosters are
 saved. Please set shared directory (e.g., directories on NFS) if you want to access
 <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_best_booster()</span></code>
 in distributed environments.
 Otherwise, it may raise <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ValueError</span></code></a>. If the directory does not exist, it will be
 created. The filenames of the boosters will be <code class="docutils literal notranslate"><span class="pre">{model_dir}/{trial_number}.pkl</span></code>
 (e.g., <code class="docutils literal notranslate"><span class="pre">./boosters/0.pkl</span></code>).</p></li>
-<li><p><strong>verbosity</strong> – <p>A verbosity level to change Optuna’s logging level. The level is aligned to
+<li><p><strong>verbosity</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>]</em>) – <p>A verbosity level to change Optuna’s logging level. The level is aligned to
 <a class="reference external" href="https://lightgbm.readthedocs.io/en/latest/Parameters.html#verbosity">LightGBM’s verbosity</a> .</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -192,15 +196,15 @@ but this schedule is subject to change.</p>
 <p>Please use <a class="reference internal" href="optuna.logging.set_verbosity.html#optuna.logging.set_verbosity" title="optuna.logging.set_verbosity"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_verbosity()</span></code></a> instead.</p>
 </div>
 </p></li>
-<li><p><strong>show_progress_bar</strong> – <p>Flag to show progress bars or not. To disable progress bar, set this <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</p>
+<li><p><strong>show_progress_bar</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – <p>Flag to show progress bars or not. To disable progress bar, set this <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Progress bars will be fragmented by logging messages of LightGBM and Optuna.
 Please suppress such messages to show the progress bars properly.</p>
 </div>
 </p></li>
-<li><p><strong>return_cvbooster</strong> – Flag to enable <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_best_booster()</span></code>.</p></li>
-<li><p><strong>optuna_seed</strong> – <p><code class="docutils literal notranslate"><span class="pre">seed</span></code> of <a class="reference internal" href="optuna.samplers.TPESampler.html#optuna.samplers.TPESampler" title="optuna.samplers.TPESampler"><code class="xref py py-class docutils literal notranslate"><span class="pre">TPESampler</span></code></a> for random number generator
+<li><p><strong>return_cvbooster</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Flag to enable <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_best_booster()</span></code>.</p></li>
+<li><p><strong>optuna_seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>]</em>) – <p><code class="docutils literal notranslate"><span class="pre">seed</span></code> of <a class="reference internal" href="../samplers/generated/optuna.samplers.TPESampler.html#optuna.samplers.TPESampler" title="optuna.samplers.TPESampler"><code class="xref py py-class docutils literal notranslate"><span class="pre">TPESampler</span></code></a> for random number generator
 that affects sampling for <code class="docutils literal notranslate"><span class="pre">num_leaves</span></code>, <code class="docutils literal notranslate"><span class="pre">bagging_fraction</span></code>, <code class="docutils literal notranslate"><span class="pre">bagging_freq</span></code>,
 <code class="docutils literal notranslate"><span class="pre">lambda_l1</span></code>, and <code class="docutils literal notranslate"><span class="pre">lambda_l2</span></code>.</p>
 <div class="admonition note">
@@ -209,11 +213,29 @@ that affects sampling for <code class="docutils literal notranslate"><span class
 Please enable it when you use this argument.</p>
 </div>
 </p></li>
+<li><p><strong>params</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.10)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><em>Any</em></a><em>]</em>) – </p></li>
+<li><p><strong>train_set</strong> (<em>lgb.Dataset</em>) – </p></li>
+<li><p><strong>num_boost_round</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – </p></li>
+<li><p><strong>folds</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><em>Union</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Generator" title="(in Python v3.10)"><em>Generator</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.10)"><em>Tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>]</em><em>, </em><em>None</em><em>, </em><em>None</em><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterator" title="(in Python v3.10)"><em>Iterator</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.10)"><em>Tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>]</em><em>]</em><em>, </em><em>BaseCrossValidator</em><em>]</em><em>]</em>) – </p></li>
+<li><p><strong>nfold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – </p></li>
+<li><p><strong>stratified</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – </p></li>
+<li><p><strong>shuffle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – </p></li>
+<li><p><strong>fobj</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><em>Callable</em></a><em>[</em><em>[</em><em>...</em><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><em>Any</em></a><em>]</em><em>]</em>) – </p></li>
+<li><p><strong>feval</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><em>Callable</em></a><em>[</em><em>[</em><em>...</em><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><em>Any</em></a><em>]</em><em>]</em>) – </p></li>
+<li><p><strong>feature_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – </p></li>
+<li><p><strong>categorical_feature</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – </p></li>
+<li><p><strong>early_stopping_rounds</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>]</em>) – </p></li>
+<li><p><strong>fpreproc</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><em>Callable</em></a><em>[</em><em>[</em><em>...</em><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><em>Any</em></a><em>]</em><em>]</em>) – </p></li>
+<li><p><strong>verbose_eval</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><em>Union</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>]</em><em>]</em>) – </p></li>
+<li><p><strong>show_stdv</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – </p></li>
+<li><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – </p></li>
+<li><p><strong>callbacks</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><em>Callable</em></a><em>[</em><em>[</em><em>...</em><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><em>Any</em></a><em>]</em><em>]</em><em>]</em>) – </p></li>
+<li><p><strong>sample_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>]</em>) – </p></li>
 </ul>
 </dd>
 </dl>
 <p class="rubric">Methods</p>
-<table class="longtable docutils align-default">
+<table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
@@ -255,7 +277,7 @@ Please enable it when you use this argument.</p>
 </tbody>
 </table>
 <p class="rubric">Attributes</p>
-<table class="longtable docutils align-default">
+<table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
@@ -269,19 +291,19 @@ Please enable it when you use this argument.</p>
 </tr>
 </tbody>
 </table>
-<dl class="py method">
-<dt id="optuna.integration.lightgbm.LightGBMTunerCV.best_params">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">best_params</span></code><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.lightgbm.LightGBMTunerCV.best_params"></a><a class="headerlink" href="#optuna.integration.lightgbm.LightGBMTunerCV.best_params" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="optuna.integration.lightgbm.LightGBMTunerCV.best_params">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">best_params</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.10)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></em><a class="dashAnchor" name="//apple_ref/cpp/Property/optuna.integration.lightgbm.LightGBMTunerCV.best_params"></a><a class="headerlink" href="#optuna.integration.lightgbm.LightGBMTunerCV.best_params" title="Permalink to this definition"></a></dt>
 <dd><p>Return parameters of the best booster.</p>
 </dd></dl>
-<dl class="py method">
-<dt id="optuna.integration.lightgbm.LightGBMTunerCV.best_score">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">best_score</span></code><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.lightgbm.LightGBMTunerCV.best_score"></a><a class="headerlink" href="#optuna.integration.lightgbm.LightGBMTunerCV.best_score" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="optuna.integration.lightgbm.LightGBMTunerCV.best_score">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">best_score</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><span class="pre">float</span></a></em><a class="dashAnchor" name="//apple_ref/cpp/Property/optuna.integration.lightgbm.LightGBMTunerCV.best_score"></a><a class="headerlink" href="#optuna.integration.lightgbm.LightGBMTunerCV.best_score" title="Permalink to this definition"></a></dt>
 <dd><p>Return the score of the best booster.</p>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.integration.lightgbm.LightGBMTunerCV.get_best_booster">
-<code class="sig-name descname"><span class="pre">get_best_booster</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/_lightgbm_tuner/optimize.html#LightGBMTunerCV.get_best_booster"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.lightgbm.LightGBMTunerCV.get_best_booster"></a><a class="headerlink" href="#optuna.integration.lightgbm.LightGBMTunerCV.get_best_booster" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.integration.lightgbm.LightGBMTunerCV.get_best_booster">
+<span class="sig-name descname"><span class="pre">get_best_booster</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/_lightgbm_tuner/optimize.html#LightGBMTunerCV.get_best_booster"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.lightgbm.LightGBMTunerCV.get_best_booster"></a><a class="headerlink" href="#optuna.integration.lightgbm.LightGBMTunerCV.get_best_booster" title="Permalink to this definition"></a></dt>
 <dd><p>Return the best cvbooster.</p>
 <p>If the best booster cannot be found, <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></a> will be raised.
 To prevent the errors, please save boosters by specifying
@@ -290,32 +312,32 @@ both of the <code class="docutils literal notranslate"><span class="pre">model_d
 when you resume tuning or you run tuning in parallel.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>lightgbm.engine.CVBooster</p>
+<dd class="field-odd"><p><em>CVBooster</em></p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.integration.lightgbm.LightGBMTunerCV.run">
-<code class="sig-name descname"><span class="pre">run</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.lightgbm.LightGBMTunerCV.run"></a><a class="headerlink" href="#optuna.integration.lightgbm.LightGBMTunerCV.run" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.integration.lightgbm.LightGBMTunerCV.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.lightgbm.LightGBMTunerCV.run"></a><a class="headerlink" href="#optuna.integration.lightgbm.LightGBMTunerCV.run" title="Permalink to this definition"></a></dt>
 <dd><p>Perform the hyperparameter-tuning with given parameters.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+<dd class="field-odd"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.integration.lightgbm.LightGBMTunerCV.sample_train_set">
-<code class="sig-name descname"><span class="pre">sample_train_set</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.lightgbm.LightGBMTunerCV.sample_train_set"></a><a class="headerlink" href="#optuna.integration.lightgbm.LightGBMTunerCV.sample_train_set" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.integration.lightgbm.LightGBMTunerCV.sample_train_set">
+<span class="sig-name descname"><span class="pre">sample_train_set</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.lightgbm.LightGBMTunerCV.sample_train_set"></a><a class="headerlink" href="#optuna.integration.lightgbm.LightGBMTunerCV.sample_train_set" title="Permalink to this definition"></a></dt>
 <dd><p>Make subset of <cite>self.train_set</cite> Dataset object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+<dd class="field-odd"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
 </dd></dl>
-</div>
+</section>
 </div>
 </div>
 <footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
@@ -324,7 +346,7 @@ when you resume tuning or you run tuning in parallel.</p>
 </div>
 <hr/>
 <div role="contentinfo">
-<p>© Copyright 2018, Optuna Contributors..</p>
+<p>© Copyright 2018, Optuna Contributors.</p>
 </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

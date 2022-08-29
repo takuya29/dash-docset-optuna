@@ -2,23 +2,26 @@
 
 <html class="writer-html5" lang="en">
 <head>
-<meta charset="utf-8"/>
+<meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.study.StudySummary — Optuna 2.10.1 documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<title>optuna.study.StudySummary — Optuna 3.0.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-binder.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-dataframe.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-rendered-html.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/css/custom.css" rel="stylesheet" type="text/css"/><link href="../../_static/favicon.ico" rel="shortcut icon"/>
+<link href="../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/favicon.ico" rel="shortcut icon"/>
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
 <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
 <script src="../../_static/jquery.js"></script>
 <script src="../../_static/underscore.js"></script>
+<script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
 <script src="../../_static/doctools.js"></script>
 <script src="../../_static/clipboard.min.js"></script>
 <script src="../../_static/copybutton.js"></script>
@@ -60,10 +63,11 @@
 <nav class="wy-nav-side" data-toggle="wy-nav-shift">
 <div class="wy-side-scroll">
 <div class="wy-side-nav-search">
-<a href="../../index.html"><img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
+<a href="../../index.html">
+<img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                2.10.1
+                3.0.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -73,7 +77,7 @@
 </form>
 </div>
 </div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
@@ -87,9 +91,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../logging.html">optuna.logging</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../multi_objective/index.html">optuna.multi_objective</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pruners.html">optuna.pruners</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../samplers.html">optuna.samplers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samplers/index.html">optuna.samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../storages.html">optuna.storages</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../structs.html">optuna.structs</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../study.html">optuna.study</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="optuna.study.Study.html">optuna.study.Study</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.study.create_study.html">optuna.study.create_study</a></li>
@@ -124,28 +127,42 @@
 <li><a href="../study.html">optuna.study</a> »</li>
 <li>optuna.study.StudySummary</li>
 <li class="wy-breadcrumbs-aside">
-<a href="../../_sources/reference/generated/optuna.study.StudySummary.rst.txt" rel="nofollow"> View page source</a>
 </li>
 </ul>
 <hr/>
 </div>
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div itemprop="articleBody">
-<div class="section" id="optuna-study-studysummary">
-<h1>optuna.study.StudySummary<a class="headerlink" href="#optuna-study-studysummary" title="Permalink to this headline">¶</a></h1>
+<section id="optuna-study-studysummary">
+<h1>optuna.study.StudySummary<a class="headerlink" href="#optuna-study-studysummary" title="Permalink to this heading"></a></h1>
 <dl class="py class">
-<dt id="optuna.study.StudySummary">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">optuna.study.</span></code><code class="sig-name descname"><span class="pre">StudySummary</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_trial</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_attrs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">system_attrs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_trials</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datetime_start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/study/_study_summary.html#StudySummary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.study.StudySummary"></a><a class="headerlink" href="#optuna.study.StudySummary" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.study.StudySummary">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.study.</span></span><span class="sig-name descname"><span class="pre">StudySummary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">best_trial</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_attrs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">system_attrs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_trials</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datetime_start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/study/_study_summary.html#StudySummary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.study.StudySummary"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.study._study_summary.StudySummary"></a><a class="headerlink" href="#optuna.study.StudySummary" title="Permalink to this definition"></a></dt>
 <dd><p>Basic attributes and aggregated results of a <a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a>.</p>
 <p>See also <a class="reference internal" href="optuna.study.get_all_study_summaries.html#optuna.study.get_all_study_summaries" title="optuna.study.get_all_study_summaries"><code class="xref py py-func docutils literal notranslate"><span class="pre">optuna.study.get_all_study_summaries()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>study_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – </p></li>
+<li><p><strong>direction</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference internal" href="optuna.study.StudyDirection.html#optuna.study.StudyDirection" title="optuna.study._study_direction.StudyDirection"><em>StudyDirection</em></a><em>]</em>) – </p></li>
+<li><p><strong>best_trial</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference internal" href="optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial._frozen.FrozenTrial"><em>FrozenTrial</em></a><em>]</em>) – </p></li>
+<li><p><strong>user_attrs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.10)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><em>Any</em></a><em>]</em>) – </p></li>
+<li><p><strong>system_attrs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.10)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><em>Any</em></a><em>]</em>) – </p></li>
+<li><p><strong>n_trials</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – </p></li>
+<li><p><strong>datetime_start</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.10)"><em>datetime</em></a><em>]</em>) – </p></li>
+<li><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – </p></li>
+<li><p><strong>directions</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.10)"><em>Sequence</em></a><em>[</em><a class="reference internal" href="optuna.study.StudyDirection.html#optuna.study.StudyDirection" title="optuna.study._study_direction.StudyDirection"><em>StudyDirection</em></a><em>]</em><em>]</em>) – </p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py attribute">
-<dt id="optuna.study.StudySummary.study_name">
-<code class="sig-name descname"><span class="pre">study_name</span></code><a class="dashAnchor" name="//apple_ref/cpp/Attribute/optuna.study.StudySummary.study_name"></a><a class="headerlink" href="#optuna.study.StudySummary.study_name" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.study.StudySummary.study_name">
+<span class="sig-name descname"><span class="pre">study_name</span></span><a class="dashAnchor" name="//apple_ref/cpp/Attribute/optuna.study.StudySummary.study_name"></a><a class="headerlink" href="#optuna.study.StudySummary.study_name" title="Permalink to this definition"></a></dt>
 <dd><p>Name of the <a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a>.</p>
 </dd></dl>
 <dl class="py attribute">
-<dt id="optuna.study.StudySummary.direction">
-<code class="sig-name descname"><span class="pre">direction</span></code><a class="dashAnchor" name="//apple_ref/cpp/Attribute/optuna.study.StudySummary.direction"></a><a class="headerlink" href="#optuna.study.StudySummary.direction" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.study.StudySummary.direction">
+<span class="sig-name descname"><span class="pre">direction</span></span><a class="dashAnchor" name="//apple_ref/cpp/Attribute/optuna.study.StudySummary.direction"></a><a class="headerlink" href="#optuna.study.StudySummary.direction" title="Permalink to this definition"></a></dt>
 <dd><p><a class="reference internal" href="optuna.study.StudyDirection.html#optuna.study.StudyDirection" title="optuna.study.StudyDirection"><code class="xref py py-class docutils literal notranslate"><span class="pre">StudyDirection</span></code></a> of the <a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -153,39 +170,40 @@
 </div>
 </dd></dl>
 <dl class="py attribute">
-<dt id="optuna.study.StudySummary.directions">
-<code class="sig-name descname"><span class="pre">directions</span></code><a class="dashAnchor" name="//apple_ref/cpp/Attribute/optuna.study.StudySummary.directions"></a><a class="headerlink" href="#optuna.study.StudySummary.directions" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.study.StudySummary.directions">
+<span class="sig-name descname"><span class="pre">directions</span></span><a class="dashAnchor" name="//apple_ref/cpp/Attribute/optuna.study.StudySummary.directions"></a><a class="headerlink" href="#optuna.study.StudySummary.directions" title="Permalink to this definition"></a></dt>
 <dd><p>A sequence of <a class="reference internal" href="optuna.study.StudyDirection.html#optuna.study.StudyDirection" title="optuna.study.StudyDirection"><code class="xref py py-class docutils literal notranslate"><span class="pre">StudyDirection</span></code></a> objects.</p>
 </dd></dl>
 <dl class="py attribute">
-<dt id="optuna.study.StudySummary.best_trial">
-<code class="sig-name descname"><span class="pre">best_trial</span></code><a class="dashAnchor" name="//apple_ref/cpp/Attribute/optuna.study.StudySummary.best_trial"></a><a class="headerlink" href="#optuna.study.StudySummary.best_trial" title="Permalink to this definition">¶</a></dt>
-<dd><p><code class="xref py py-class docutils literal notranslate"><span class="pre">FrozenTrial</span></code> with best objective value in the <a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a>.</p>
+<dt class="sig sig-object py" id="optuna.study.StudySummary.best_trial">
+<span class="sig-name descname"><span class="pre">best_trial</span></span><a class="dashAnchor" name="//apple_ref/cpp/Attribute/optuna.study.StudySummary.best_trial"></a><a class="headerlink" href="#optuna.study.StudySummary.best_trial" title="Permalink to this definition"></a></dt>
+<dd><p><a class="reference internal" href="optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><code class="xref py py-class docutils literal notranslate"><span class="pre">optuna.trial.FrozenTrial</span></code></a> with best objective value in the
+<a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a>.</p>
 </dd></dl>
 <dl class="py attribute">
-<dt id="optuna.study.StudySummary.user_attrs">
-<code class="sig-name descname"><span class="pre">user_attrs</span></code><a class="dashAnchor" name="//apple_ref/cpp/Attribute/optuna.study.StudySummary.user_attrs"></a><a class="headerlink" href="#optuna.study.StudySummary.user_attrs" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.study.StudySummary.user_attrs">
+<span class="sig-name descname"><span class="pre">user_attrs</span></span><a class="dashAnchor" name="//apple_ref/cpp/Attribute/optuna.study.StudySummary.user_attrs"></a><a class="headerlink" href="#optuna.study.StudySummary.user_attrs" title="Permalink to this definition"></a></dt>
 <dd><p>Dictionary that contains the attributes of the <a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> set with
 <a class="reference internal" href="optuna.study.Study.html#optuna.study.Study.set_user_attr" title="optuna.study.Study.set_user_attr"><code class="xref py py-func docutils literal notranslate"><span class="pre">optuna.study.Study.set_user_attr()</span></code></a>.</p>
 </dd></dl>
 <dl class="py attribute">
-<dt id="optuna.study.StudySummary.system_attrs">
-<code class="sig-name descname"><span class="pre">system_attrs</span></code><a class="dashAnchor" name="//apple_ref/cpp/Attribute/optuna.study.StudySummary.system_attrs"></a><a class="headerlink" href="#optuna.study.StudySummary.system_attrs" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.study.StudySummary.system_attrs">
+<span class="sig-name descname"><span class="pre">system_attrs</span></span><a class="dashAnchor" name="//apple_ref/cpp/Attribute/optuna.study.StudySummary.system_attrs"></a><a class="headerlink" href="#optuna.study.StudySummary.system_attrs" title="Permalink to this definition"></a></dt>
 <dd><p>Dictionary that contains the attributes of the <a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> internally
 set by Optuna.</p>
 </dd></dl>
 <dl class="py attribute">
-<dt id="optuna.study.StudySummary.n_trials">
-<code class="sig-name descname"><span class="pre">n_trials</span></code><a class="dashAnchor" name="//apple_ref/cpp/Attribute/optuna.study.StudySummary.n_trials"></a><a class="headerlink" href="#optuna.study.StudySummary.n_trials" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.study.StudySummary.n_trials">
+<span class="sig-name descname"><span class="pre">n_trials</span></span><a class="dashAnchor" name="//apple_ref/cpp/Attribute/optuna.study.StudySummary.n_trials"></a><a class="headerlink" href="#optuna.study.StudySummary.n_trials" title="Permalink to this definition"></a></dt>
 <dd><p>The number of trials ran in the <a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a>.</p>
 </dd></dl>
 <dl class="py attribute">
-<dt id="optuna.study.StudySummary.datetime_start">
-<code class="sig-name descname"><span class="pre">datetime_start</span></code><a class="dashAnchor" name="//apple_ref/cpp/Attribute/optuna.study.StudySummary.datetime_start"></a><a class="headerlink" href="#optuna.study.StudySummary.datetime_start" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.study.StudySummary.datetime_start">
+<span class="sig-name descname"><span class="pre">datetime_start</span></span><a class="dashAnchor" name="//apple_ref/cpp/Attribute/optuna.study.StudySummary.datetime_start"></a><a class="headerlink" href="#optuna.study.StudySummary.datetime_start" title="Permalink to this definition"></a></dt>
 <dd><p>Datetime where the <a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> started.</p>
 </dd></dl>
 <p class="rubric">Attributes</p>
-<table class="longtable docutils align-default">
+<table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
@@ -200,7 +218,7 @@ set by Optuna.</p>
 </tbody>
 </table>
 </dd></dl>
-</div>
+</section>
 </div>
 </div>
 <footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
@@ -209,7 +227,7 @@ set by Optuna.</p>
 </div>
 <hr/>
 <div role="contentinfo">
-<p>© Copyright 2018, Optuna Contributors..</p>
+<p>© Copyright 2018, Optuna Contributors.</p>
 </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -82,7 +82,7 @@ such that it takes ``trial`` and calls ``suggest_*`` methods of ``trial`` to sam
         X, y = make_classification(n_features=10)
         X_train, X_test, y_train, y_test = train_test_split(X, y)
 
-        C = trial.suggest_loguniform("C", 1e-7, 10.0)
+        C = trial.suggest_float("C", 1e-7, 10.0, log=True)
         solver = trial.suggest_categorical("solver", ("lbfgs", "saga"))
 
         clf = LogisticRegression(C=C, solver=solver)
@@ -97,6 +97,19 @@ such that it takes ``trial`` and calls ``suggest_*`` methods of ``trial`` to sam
 
 
 
+
+
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/sklearn/linear_model/_sag.py:354: ConvergenceWarning:
+
+    The max_iter was reached which means the coef_ did not converge
+
+    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/sklearn/linear_model/_sag.py:354: ConvergenceWarning:
+
+    The max_iter was reached which means the coef_ did not converge
 
 
 
@@ -122,7 +135,7 @@ The following example is equivalent to the previous code block.
     for _ in range(n_trials):
         trial = study.ask()  # `trial` is a `Trial` and not a `FrozenTrial`.
 
-        C = trial.suggest_loguniform("C", 1e-7, 10.0)
+        C = trial.suggest_float("C", 1e-7, 10.0, log=True)
         solver = trial.suggest_categorical("solver", ("lbfgs", "saga"))
 
         clf = LogisticRegression(C=C, solver=solver)
@@ -133,6 +146,15 @@ The following example is equivalent to the previous code block.
 
 
 
+
+
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/sklearn/linear_model/_sag.py:354: ConvergenceWarning:
+
+    The max_iter was reached which means the coef_ did not converge
 
 
 
@@ -176,7 +198,7 @@ to the argument of :func:`optuna.study.Study.tell` method as follows:
    for _ in range(20):
        trial = study.ask()
 
-       alpha = trial.suggest_uniform("alpha", 0.0, 1.0)
+       alpha = trial.suggest_float("alpha", 0.0, 1.0)
 
        clf = SGDClassifier(alpha=alpha)
        pruned_trial = False
@@ -225,7 +247,7 @@ For example,
 
 
     distributions = {
-        "C": optuna.distributions.LogUniformDistribution(1e-7, 10.0),
+        "C": optuna.distributions.FloatDistribution(1e-7, 10.0, log=True),
         "solver": optuna.distributions.CategoricalDistribution(("lbfgs", "saga")),
     }
 
@@ -266,6 +288,19 @@ The retuned ``trial`` contains the suggested hyperparameters.
 
 
 
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/sklearn/linear_model/_sag.py:354: ConvergenceWarning:
+
+    The max_iter was reached which means the coef_ did not converge
+
+    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/sklearn/linear_model/_sag.py:354: ConvergenceWarning:
+
+    The max_iter was reached which means the coef_ did not converge
+
+
 
 
 
@@ -291,7 +326,7 @@ pair of hyperparameters ``x`` and ``y`` and calculates the objective over the fu
 
 
     def batched_objective(xs: np.ndarray, ys: np.ndarray):
-        return xs ** 2 + ys
+        return xs**2 + ys
 
 
 
@@ -306,7 +341,7 @@ pair of hyperparameters ``x`` and ``y`` and calculates the objective over the fu
 In the following example, the number of pairs of hyperparameters in a batch is :math:`10`,
 and ``batched_objective`` is evaluated three times.
 Thus, the number of trials is :math:`30`.
-Note that you need to store either ``trial_ids`` or ``trial`` to call
+Note that you need to store either ``trial_numbers`` or ``trial`` to call
 :func:`optuna.study.Study.tell` method after the batched evaluations.
 
 .. GENERATED FROM PYTHON SOURCE LINES 213-237
@@ -320,12 +355,12 @@ Note that you need to store either ``trial_ids`` or ``trial`` to call
     for _ in range(3):
 
         # create batch
-        trial_ids = []
+        trial_numbers = []
         x_batch = []
         y_batch = []
         for _ in range(batch_size):
             trial = study.ask()
-            trial_ids.append(trial.number)
+            trial_numbers.append(trial.number)
             x_batch.append(trial.suggest_float("x", -10, 10))
             y_batch.append(trial.suggest_float("y", -10, 10))
 
@@ -335,8 +370,8 @@ Note that you need to store either ``trial_ids`` or ``trial`` to call
         objectives = batched_objective(x_batch, y_batch)
 
         # finish all trials in the batch
-        for trial_id, objective in zip(trial_ids, objectives):
-            study.tell(trial_id, objective)
+        for trial_number, objective in zip(trial_numbers, objectives):
+            study.tell(trial_number, objective)
 
 
 
@@ -347,28 +382,23 @@ Note that you need to store either ``trial_ids`` or ``trial`` to call
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.105 seconds)
+   **Total running time of the script:** ( 0 minutes  0.123 seconds)
 
 
 .. _sphx_glr_download_tutorial_20_recipes_009_ask_and_tell.py:
 
+.. only:: html
 
-.. only :: html
-
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: 009_ask_and_tell.py <009_ask_and_tell.py>`
 
-     :download:`Download Python source code: 009_ask_and_tell.py <009_ask_and_tell.py>`
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: 009_ask_and_tell.ipynb <009_ask_and_tell.ipynb>`
+      :download:`Download Jupyter notebook: 009_ask_and_tell.ipynb <009_ask_and_tell.ipynb>`
 
 
 .. only:: html

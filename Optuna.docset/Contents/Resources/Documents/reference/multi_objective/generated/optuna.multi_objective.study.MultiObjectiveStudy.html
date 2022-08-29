@@ -2,23 +2,26 @@
 
 <html class="writer-html5" lang="en">
 <head>
-<meta charset="utf-8"/>
+<meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.multi_objective.study.MultiObjectiveStudy — Optuna 2.10.1 documentation</title><link href="../../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<title>optuna.multi_objective.study.MultiObjectiveStudy — Optuna 3.0.0 documentation</title>
 <link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/sg_gallery.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/sg_gallery-binder.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/sg_gallery-dataframe.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/sg_gallery-rendered-html.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/><link href="../../../_static/favicon.ico" rel="shortcut icon"/>
+<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/favicon.ico" rel="shortcut icon"/>
 <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
 <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
 <script src="../../../_static/jquery.js"></script>
 <script src="../../../_static/underscore.js"></script>
+<script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
 <script src="../../../_static/doctools.js"></script>
 <script src="../../../_static/clipboard.min.js"></script>
 <script src="../../../_static/copybutton.js"></script>
@@ -60,10 +63,11 @@
 <nav class="wy-nav-side" data-toggle="wy-nav-shift">
 <div class="wy-side-scroll">
 <div class="wy-side-nav-search">
-<a href="../../../index.html"><img alt="Logo" class="logo" src="../../../_static/optuna-logo.png"/>
+<a href="../../../index.html">
+<img alt="Logo" class="logo" src="../../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                2.10.1
+                3.0.0
               </div>
 <div role="search">
 <form action="../../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -73,7 +77,7 @@
 </form>
 </div>
 </div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
@@ -98,9 +102,8 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../pruners.html">optuna.pruners</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../samplers.html">optuna.samplers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../samplers/index.html">optuna.samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../storages.html">optuna.storages</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../structs.html">optuna.structs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../study.html">optuna.study</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../trial.html">optuna.trial</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../visualization/index.html">optuna.visualization</a></li>
@@ -125,18 +128,17 @@
 <li><a href="../study.html">optuna.multi_objective.study</a> »</li>
 <li>optuna.multi_objective.study.MultiObjectiveStudy</li>
 <li class="wy-breadcrumbs-aside">
-<a href="../../../_sources/reference/multi_objective/generated/optuna.multi_objective.study.MultiObjectiveStudy.rst.txt" rel="nofollow"> View page source</a>
 </li>
 </ul>
 <hr/>
 </div>
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div itemprop="articleBody">
-<div class="section" id="optuna-multi-objective-study-multiobjectivestudy">
-<h1>optuna.multi_objective.study.MultiObjectiveStudy<a class="headerlink" href="#optuna-multi-objective-study-multiobjectivestudy" title="Permalink to this headline">¶</a></h1>
+<section id="optuna-multi-objective-study-multiobjectivestudy">
+<h1>optuna.multi_objective.study.MultiObjectiveStudy<a class="headerlink" href="#optuna-multi-objective-study-multiobjectivestudy" title="Permalink to this heading"></a></h1>
 <dl class="py class">
-<dt id="optuna.multi_objective.study.MultiObjectiveStudy">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">optuna.multi_objective.study.</span></code><code class="sig-name descname"><span class="pre">MultiObjectiveStudy</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/optuna/multi_objective/study.html#MultiObjectiveStudy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.multi_objective.study.MultiObjectiveStudy"></a><a class="headerlink" href="#optuna.multi_objective.study.MultiObjectiveStudy" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.multi_objective.study.MultiObjectiveStudy">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.multi_objective.study.</span></span><span class="sig-name descname"><span class="pre">MultiObjectiveStudy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/optuna/multi_objective/study.html#MultiObjectiveStudy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.multi_objective.study.MultiObjectiveStudy"></a><a class="headerlink" href="#optuna.multi_objective.study.MultiObjectiveStudy" title="Permalink to this definition"></a></dt>
 <dd><p>A study corresponds to a multi-objective optimization task, i.e., a set of trials.</p>
 <p>This object provides interfaces to run a new
 <code class="xref py py-class docutils literal notranslate"><span class="pre">Trial</span></code>, access trials’
@@ -152,7 +154,7 @@ feature is currently scheduled for v4.0.0, but this schedule is subject to chang
 See <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v2.4.0">https://github.com/optuna/optuna/releases/tag/v2.4.0</a>.</p>
 </div>
 <p class="rubric">Methods</p>
-<table class="longtable docutils align-default">
+<table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
@@ -167,7 +169,7 @@ See <a class="reference external" href="https://github.com/optuna/optuna/release
 <tr class="row-odd"><td><p><a class="reference internal" href="#optuna.multi_objective.study.MultiObjectiveStudy.get_trials" title="optuna.multi_objective.study.MultiObjectiveStudy.get_trials"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trials</span></code></a>([deepcopy, states])</p></td>
 <td><p>Return all trials in the study.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#optuna.multi_objective.study.MultiObjectiveStudy.optimize" title="optuna.multi_objective.study.MultiObjectiveStudy.optimize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optimize</span></code></a>(objective[, timeout, n_trials, …])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.multi_objective.study.MultiObjectiveStudy.optimize" title="optuna.multi_objective.study.MultiObjectiveStudy.optimize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optimize</span></code></a>(objective[, timeout, n_trials, ...])</p></td>
 <td><p>Optimize an objective function.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#optuna.multi_objective.study.MultiObjectiveStudy.set_system_attr" title="optuna.multi_objective.study.MultiObjectiveStudy.set_system_attr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_system_attr</span></code></a>(key, value)</p></td>
@@ -179,7 +181,7 @@ See <a class="reference external" href="https://github.com/optuna/optuna/release
 </tbody>
 </table>
 <p class="rubric">Attributes</p>
-<table class="longtable docutils align-default">
+<table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
@@ -205,9 +207,14 @@ See <a class="reference external" href="https://github.com/optuna/optuna/release
 </tr>
 </tbody>
 </table>
-<dl class="py method">
-<dt id="optuna.multi_objective.study.MultiObjectiveStudy.directions">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">directions</span></code><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.multi_objective.study.MultiObjectiveStudy.directions"></a><a class="headerlink" href="#optuna.multi_objective.study.MultiObjectiveStudy.directions" title="Permalink to this definition">¶</a></dt>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>study</strong> (<a class="reference internal" href="../../generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.study.Study"><em>Study</em></a>) – </p>
+</dd>
+</dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="optuna.multi_objective.study.MultiObjectiveStudy.directions">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">directions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../generated/optuna.study.StudyDirection.html#optuna.study.StudyDirection" title="optuna.study._study_direction.StudyDirection"><span class="pre">StudyDirection</span></a><span class="p"><span class="pre">]</span></span></em><a class="dashAnchor" name="//apple_ref/cpp/Property/optuna.multi_objective.study.MultiObjectiveStudy.directions"></a><a class="headerlink" href="#optuna.multi_objective.study.MultiObjectiveStudy.directions" title="Permalink to this definition"></a></dt>
 <dd><p>Return the optimization direction list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -216,8 +223,8 @@ See <a class="reference external" href="https://github.com/optuna/optuna/release
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.multi_objective.study.MultiObjectiveStudy.enqueue_trial">
-<code class="sig-name descname"><span class="pre">enqueue_trial</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/optuna/multi_objective/study.html#MultiObjectiveStudy.enqueue_trial"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.multi_objective.study.MultiObjectiveStudy.enqueue_trial"></a><a class="headerlink" href="#optuna.multi_objective.study.MultiObjectiveStudy.enqueue_trial" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.multi_objective.study.MultiObjectiveStudy.enqueue_trial">
+<span class="sig-name descname"><span class="pre">enqueue_trial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/optuna/multi_objective/study.html#MultiObjectiveStudy.enqueue_trial"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.multi_objective.study.MultiObjectiveStudy.enqueue_trial"></a><a class="headerlink" href="#optuna.multi_objective.study.MultiObjectiveStudy.enqueue_trial" title="Permalink to this definition"></a></dt>
 <dd><p>Enqueue a trial with given parameter values.</p>
 <p>You can fix the next sampling parameters which will be evaluated in your
 objective function.</p>
@@ -225,16 +232,16 @@ objective function.</p>
 for further details.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>params</strong> (<em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><em>Any</em><em>]</em>) – Parameter values to pass your objective function.</p>
+<dd class="field-odd"><p><strong>params</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.10)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><em>Any</em></a><em>]</em>) – Parameter values to pass your objective function.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.multi_objective.study.MultiObjectiveStudy.get_pareto_front_trials">
-<code class="sig-name descname"><span class="pre">get_pareto_front_trials</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/optuna/multi_objective/study.html#MultiObjectiveStudy.get_pareto_front_trials"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.multi_objective.study.MultiObjectiveStudy.get_pareto_front_trials"></a><a class="headerlink" href="#optuna.multi_objective.study.MultiObjectiveStudy.get_pareto_front_trials" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.multi_objective.study.MultiObjectiveStudy.get_pareto_front_trials">
+<span class="sig-name descname"><span class="pre">get_pareto_front_trials</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/optuna/multi_objective/study.html#MultiObjectiveStudy.get_pareto_front_trials"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.multi_objective.study.MultiObjectiveStudy.get_pareto_front_trials"></a><a class="headerlink" href="#optuna.multi_objective.study.MultiObjectiveStudy.get_pareto_front_trials" title="Permalink to this definition"></a></dt>
 <dd><p>Return trials located at the pareto front in the study.</p>
 <p>A trial is located at the pareto front if there are no trials that dominate the trial.
 It’s called that a trial <code class="docutils literal notranslate"><span class="pre">t0</span></code> dominates another trial <code class="docutils literal notranslate"><span class="pre">t1</span></code> if
@@ -245,13 +252,13 @@ It’s called that a trial <code class="docutils literal notranslate"><span clas
 <dd class="field-odd"><p>A list of <a class="reference internal" href="optuna.multi_objective.trial.FrozenMultiObjectiveTrial.html#optuna.multi_objective.trial.FrozenMultiObjectiveTrial" title="optuna.multi_objective.trial.FrozenMultiObjectiveTrial"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrozenMultiObjectiveTrial</span></code></a> objects.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[<a class="reference internal" href="optuna.multi_objective.trial.FrozenMultiObjectiveTrial.html#optuna.multi_objective.trial.FrozenMultiObjectiveTrial" title="optuna.multi_objective.trial.FrozenMultiObjectiveTrial">optuna.multi_objective.trial.FrozenMultiObjectiveTrial</a>]</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><em>List</em></a>[<a class="reference internal" href="optuna.multi_objective.trial.FrozenMultiObjectiveTrial.html#optuna.multi_objective.trial.FrozenMultiObjectiveTrial" title="optuna.multi_objective.trial.FrozenMultiObjectiveTrial"><em>FrozenMultiObjectiveTrial</em></a>]</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.multi_objective.study.MultiObjectiveStudy.get_trials">
-<code class="sig-name descname"><span class="pre">get_trials</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">deepcopy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">states</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/optuna/multi_objective/study.html#MultiObjectiveStudy.get_trials"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.multi_objective.study.MultiObjectiveStudy.get_trials"></a><a class="headerlink" href="#optuna.multi_objective.study.MultiObjectiveStudy.get_trials" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.multi_objective.study.MultiObjectiveStudy.get_trials">
+<span class="sig-name descname"><span class="pre">get_trials</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">deepcopy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">states</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/optuna/multi_objective/study.html#MultiObjectiveStudy.get_trials"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.multi_objective.study.MultiObjectiveStudy.get_trials"></a><a class="headerlink" href="#optuna.multi_objective.study.MultiObjectiveStudy.get_trials" title="Permalink to this definition"></a></dt>
 <dd><p>Return all trials in the study.</p>
 <p>The returned trials are ordered by trial number.</p>
 <dl class="field-list simple">
@@ -261,20 +268,20 @@ It’s called that a trial <code class="docutils literal notranslate"><span clas
 Note that if you set the flag to <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>, you shouldn’t mutate
 any fields of the returned trial. Otherwise the internal state of
 the study may corrupt and unexpected behavior may happen.</p></li>
-<li><p><strong>states</strong> (<em>Optional</em><em>[</em><em>Tuple</em><em>[</em><em>optuna.trial._state.TrialState</em><em>, </em><em>..</em><em>]</em><em>]</em>) – Trial states to filter on. If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, include all states.</p></li>
+<li><p><strong>states</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Container" title="(in Python v3.10)"><em>Container</em></a><em>[</em><a class="reference internal" href="../../generated/optuna.trial.TrialState.html#optuna.trial.TrialState" title="optuna.trial._state.TrialState"><em>TrialState</em></a><em>]</em><em>]</em>) – Trial states to filter on. If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, include all states.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>A list of <a class="reference internal" href="optuna.multi_objective.trial.FrozenMultiObjectiveTrial.html#optuna.multi_objective.trial.FrozenMultiObjectiveTrial" title="optuna.multi_objective.trial.FrozenMultiObjectiveTrial"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrozenMultiObjectiveTrial</span></code></a> objects.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>List[<a class="reference internal" href="optuna.multi_objective.trial.FrozenMultiObjectiveTrial.html#optuna.multi_objective.trial.FrozenMultiObjectiveTrial" title="optuna.multi_objective.trial.FrozenMultiObjectiveTrial">optuna.multi_objective.trial.FrozenMultiObjectiveTrial</a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><em>List</em></a>[<a class="reference internal" href="optuna.multi_objective.trial.FrozenMultiObjectiveTrial.html#optuna.multi_objective.trial.FrozenMultiObjectiveTrial" title="optuna.multi_objective.trial.FrozenMultiObjectiveTrial"><em>FrozenMultiObjectiveTrial</em></a>]</p>
 </dd>
 </dl>
 </dd></dl>
-<dl class="py method">
-<dt id="optuna.multi_objective.study.MultiObjectiveStudy.n_objectives">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">n_objectives</span></code><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.multi_objective.study.MultiObjectiveStudy.n_objectives"></a><a class="headerlink" href="#optuna.multi_objective.study.MultiObjectiveStudy.n_objectives" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="optuna.multi_objective.study.MultiObjectiveStudy.n_objectives">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n_objectives</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></em><a class="dashAnchor" name="//apple_ref/cpp/Property/optuna.multi_objective.study.MultiObjectiveStudy.n_objectives"></a><a class="headerlink" href="#optuna.multi_objective.study.MultiObjectiveStudy.n_objectives" title="Permalink to this definition"></a></dt>
 <dd><p>Return the number of objectives.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -283,8 +290,8 @@ the study may corrupt and unexpected behavior may happen.</p></li>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.multi_objective.study.MultiObjectiveStudy.optimize">
-<code class="sig-name descname"><span class="pre">optimize</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_trials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">catch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callbacks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gc_after_trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_progress_bar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/optuna/multi_objective/study.html#MultiObjectiveStudy.optimize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.multi_objective.study.MultiObjectiveStudy.optimize"></a><a class="headerlink" href="#optuna.multi_objective.study.MultiObjectiveStudy.optimize" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.multi_objective.study.MultiObjectiveStudy.optimize">
+<span class="sig-name descname"><span class="pre">optimize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">objective</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_trials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">catch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callbacks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gc_after_trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_progress_bar</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/optuna/multi_objective/study.html#MultiObjectiveStudy.optimize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.multi_objective.study.MultiObjectiveStudy.optimize"></a><a class="headerlink" href="#optuna.multi_objective.study.MultiObjectiveStudy.optimize" title="Permalink to this definition"></a></dt>
 <dd><p>Optimize an objective function.</p>
 <p>This method is the same as <a class="reference internal" href="../../generated/optuna.study.Study.html#optuna.study.Study.optimize" title="optuna.study.Study.optimize"><code class="xref py py-func docutils literal notranslate"><span class="pre">optuna.study.Study.optimize()</span></code></a> except for
 taking an objective function that returns multi-objective values as the argument.</p>
@@ -299,7 +306,7 @@ for further details.</p>
     <span class="n">x</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"y"</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 
-    <span class="n">v0</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">y</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="n">v0</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span>
     <span class="n">v1</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">5</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="mi">5</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
     <span class="k">return</span> <span class="n">v0</span><span class="p">,</span> <span class="n">v1</span>
 
@@ -311,24 +318,24 @@ for further details.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>objective</strong> (<em>Callable</em><em>[</em><em>[</em><a class="reference internal" href="optuna.multi_objective.trial.MultiObjectiveTrial.html#optuna.multi_objective.trial.MultiObjectiveTrial" title="optuna.multi_objective.trial.MultiObjectiveTrial"><em>optuna.multi_objective.trial.MultiObjectiveTrial</em></a><em>]</em><em>, </em><em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a><em>]</em><em>]</em>) – </p></li>
-<li><p><strong>timeout</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>]</em>) – </p></li>
-<li><p><strong>n_trials</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>]</em>) – </p></li>
+<li><p><strong>objective</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><em>Callable</em></a><em>[</em><em>[</em><a class="reference internal" href="optuna.multi_objective.trial.MultiObjectiveTrial.html#optuna.multi_objective.trial.MultiObjectiveTrial" title="optuna.multi_objective.trial.MultiObjectiveTrial"><em>MultiObjectiveTrial</em></a><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.10)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a><em>]</em><em>]</em>) – </p></li>
+<li><p><strong>timeout</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>]</em>) – </p></li>
+<li><p><strong>n_trials</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>]</em>) – </p></li>
 <li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – </p></li>
-<li><p><strong>catch</strong> (<em>Tuple</em><em>[</em><em>Type</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.10)"><em>Exception</em></a><em>]</em><em>, </em><em>..</em><em>]</em>) – </p></li>
-<li><p><strong>callbacks</strong> (<em>Optional</em><em>[</em><em>List</em><em>[</em><em>Callable</em><em>[</em><em>[</em><a class="reference internal" href="#optuna.multi_objective.study.MultiObjectiveStudy" title="optuna.multi_objective.study.MultiObjectiveStudy"><em>optuna.multi_objective.study.MultiObjectiveStudy</em></a><em>, </em><a class="reference internal" href="optuna.multi_objective.trial.FrozenMultiObjectiveTrial.html#optuna.multi_objective.trial.FrozenMultiObjectiveTrial" title="optuna.multi_objective.trial.FrozenMultiObjectiveTrial"><em>optuna.multi_objective.trial.FrozenMultiObjectiveTrial</em></a><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><em>None</em></a><em>]</em><em>]</em><em>]</em>) – </p></li>
+<li><p><strong>catch</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.10)"><em>Tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.10)"><em>Type</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.10)"><em>Exception</em></a><em>]</em><em>, </em><em>...</em><em>]</em>) – </p></li>
+<li><p><strong>callbacks</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><em>Callable</em></a><em>[</em><em>[</em><a class="reference internal" href="#optuna.multi_objective.study.MultiObjectiveStudy" title="optuna.multi_objective.study.MultiObjectiveStudy"><em>MultiObjectiveStudy</em></a><em>, </em><a class="reference internal" href="optuna.multi_objective.trial.FrozenMultiObjectiveTrial.html#optuna.multi_objective.trial.FrozenMultiObjectiveTrial" title="optuna.multi_objective.trial.FrozenMultiObjectiveTrial"><em>FrozenMultiObjectiveTrial</em></a><em>]</em><em>, </em><em>None</em><em>]</em><em>]</em><em>]</em>) – </p></li>
 <li><p><strong>gc_after_trial</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – </p></li>
 <li><p><strong>show_progress_bar</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
-<dl class="py method">
-<dt id="optuna.multi_objective.study.MultiObjectiveStudy.sampler">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">sampler</span></code><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.multi_objective.study.MultiObjectiveStudy.sampler"></a><a class="headerlink" href="#optuna.multi_objective.study.MultiObjectiveStudy.sampler" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="optuna.multi_objective.study.MultiObjectiveStudy.sampler">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sampler</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="optuna.multi_objective.samplers.BaseMultiObjectiveSampler.html#optuna.multi_objective.samplers.BaseMultiObjectiveSampler" title="optuna.multi_objective.samplers._base.BaseMultiObjectiveSampler"><span class="pre">BaseMultiObjectiveSampler</span></a></em><a class="dashAnchor" name="//apple_ref/cpp/Property/optuna.multi_objective.study.MultiObjectiveStudy.sampler"></a><a class="headerlink" href="#optuna.multi_objective.study.MultiObjectiveStudy.sampler" title="Permalink to this definition"></a></dt>
 <dd><p>Return the sampler.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -337,8 +344,8 @@ for further details.</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.multi_objective.study.MultiObjectiveStudy.set_system_attr">
-<code class="sig-name descname"><span class="pre">set_system_attr</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/optuna/multi_objective/study.html#MultiObjectiveStudy.set_system_attr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.multi_objective.study.MultiObjectiveStudy.set_system_attr"></a><a class="headerlink" href="#optuna.multi_objective.study.MultiObjectiveStudy.set_system_attr" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.multi_objective.study.MultiObjectiveStudy.set_system_attr">
+<span class="sig-name descname"><span class="pre">set_system_attr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/optuna/multi_objective/study.html#MultiObjectiveStudy.set_system_attr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.multi_objective.study.MultiObjectiveStudy.set_system_attr"></a><a class="headerlink" href="#optuna.multi_objective.study.MultiObjectiveStudy.set_system_attr" title="Permalink to this definition"></a></dt>
 <dd><p>Set a system attribute to the study.</p>
 <p>Note that Optuna internally uses this method to save system messages. Please use
 <a class="reference internal" href="#optuna.multi_objective.study.MultiObjectiveStudy.set_user_attr" title="optuna.multi_objective.study.MultiObjectiveStudy.set_user_attr"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_user_attr()</span></code></a>
@@ -347,33 +354,33 @@ to set users’ attributes.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – A key string of the attribute.</p></li>
-<li><p><strong>value</strong> (<em>Any</em>) – A value of the attribute. The value should be JSON serializable.</p></li>
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><em>Any</em></a>) – A value of the attribute. The value should be JSON serializable.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.multi_objective.study.MultiObjectiveStudy.set_user_attr">
-<code class="sig-name descname"><span class="pre">set_user_attr</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/optuna/multi_objective/study.html#MultiObjectiveStudy.set_user_attr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.multi_objective.study.MultiObjectiveStudy.set_user_attr"></a><a class="headerlink" href="#optuna.multi_objective.study.MultiObjectiveStudy.set_user_attr" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.multi_objective.study.MultiObjectiveStudy.set_user_attr">
+<span class="sig-name descname"><span class="pre">set_user_attr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/optuna/multi_objective/study.html#MultiObjectiveStudy.set_user_attr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.multi_objective.study.MultiObjectiveStudy.set_user_attr"></a><a class="headerlink" href="#optuna.multi_objective.study.MultiObjectiveStudy.set_user_attr" title="Permalink to this definition"></a></dt>
 <dd><p>Set a user attribute to the study.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – A key string of the attribute.</p></li>
-<li><p><strong>value</strong> (<em>Any</em>) – A value of the attribute. The value should be JSON serializable.</p></li>
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><em>Any</em></a>) – A value of the attribute. The value should be JSON serializable.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
-<dl class="py method">
-<dt id="optuna.multi_objective.study.MultiObjectiveStudy.system_attrs">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">system_attrs</span></code><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.multi_objective.study.MultiObjectiveStudy.system_attrs"></a><a class="headerlink" href="#optuna.multi_objective.study.MultiObjectiveStudy.system_attrs" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="optuna.multi_objective.study.MultiObjectiveStudy.system_attrs">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">system_attrs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.10)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></em><a class="dashAnchor" name="//apple_ref/cpp/Property/optuna.multi_objective.study.MultiObjectiveStudy.system_attrs"></a><a class="headerlink" href="#optuna.multi_objective.study.MultiObjectiveStudy.system_attrs" title="Permalink to this definition"></a></dt>
 <dd><p>Return system attributes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -381,9 +388,9 @@ to set users’ attributes.</p>
 </dd>
 </dl>
 </dd></dl>
-<dl class="py method">
-<dt id="optuna.multi_objective.study.MultiObjectiveStudy.trials">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">trials</span></code><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.multi_objective.study.MultiObjectiveStudy.trials"></a><a class="headerlink" href="#optuna.multi_objective.study.MultiObjectiveStudy.trials" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="optuna.multi_objective.study.MultiObjectiveStudy.trials">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">trials</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="optuna.multi_objective.trial.FrozenMultiObjectiveTrial.html#optuna.multi_objective.trial.FrozenMultiObjectiveTrial" title="optuna.multi_objective.trial.FrozenMultiObjectiveTrial"><span class="pre">FrozenMultiObjectiveTrial</span></a><span class="p"><span class="pre">]</span></span></em><a class="dashAnchor" name="//apple_ref/cpp/Property/optuna.multi_objective.study.MultiObjectiveStudy.trials"></a><a class="headerlink" href="#optuna.multi_objective.study.MultiObjectiveStudy.trials" title="Permalink to this definition"></a></dt>
 <dd><p>Return all trials in the study.</p>
 <p>The returned trials are ordered by trial number.</p>
 <p>This is a short form of <code class="docutils literal notranslate"><span class="pre">self.get_trials(deepcopy=True,</span> <span class="pre">states=None)</span></code>.</p>
@@ -393,9 +400,9 @@ to set users’ attributes.</p>
 </dd>
 </dl>
 </dd></dl>
-<dl class="py method">
-<dt id="optuna.multi_objective.study.MultiObjectiveStudy.user_attrs">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">user_attrs</span></code><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.multi_objective.study.MultiObjectiveStudy.user_attrs"></a><a class="headerlink" href="#optuna.multi_objective.study.MultiObjectiveStudy.user_attrs" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="optuna.multi_objective.study.MultiObjectiveStudy.user_attrs">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">user_attrs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.10)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></em><a class="dashAnchor" name="//apple_ref/cpp/Property/optuna.multi_objective.study.MultiObjectiveStudy.user_attrs"></a><a class="headerlink" href="#optuna.multi_objective.study.MultiObjectiveStudy.user_attrs" title="Permalink to this definition"></a></dt>
 <dd><p>Return user attributes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -404,7 +411,7 @@ to set users’ attributes.</p>
 </dl>
 </dd></dl>
 </dd></dl>
-</div>
+</section>
 </div>
 </div>
 <footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
@@ -413,7 +420,7 @@ to set users’ attributes.</p>
 </div>
 <hr/>
 <div role="contentinfo">
-<p>© Copyright 2018, Optuna Contributors..</p>
+<p>© Copyright 2018, Optuna Contributors.</p>
 </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

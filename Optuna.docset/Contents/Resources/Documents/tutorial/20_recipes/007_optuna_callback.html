@@ -2,23 +2,26 @@
 
 <html class="writer-html5" lang="en">
 <head>
-<meta charset="utf-8"/>
+<meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Callback for Study.optimize — Optuna 2.10.1 documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<title>Callback for Study.optimize — Optuna 3.0.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-binder.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-dataframe.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-rendered-html.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/css/custom.css" rel="stylesheet" type="text/css"/><link href="../../_static/favicon.ico" rel="shortcut icon"/>
+<link href="../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/favicon.ico" rel="shortcut icon"/>
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
 <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
 <script src="../../_static/jquery.js"></script>
 <script src="../../_static/underscore.js"></script>
+<script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
 <script src="../../_static/doctools.js"></script>
 <script src="../../_static/clipboard.min.js"></script>
 <script src="../../_static/copybutton.js"></script>
@@ -60,10 +63,11 @@
 <nav class="wy-nav-side" data-toggle="wy-nav-shift">
 <div class="wy-side-scroll">
 <div class="wy-side-nav-search">
-<a href="../../index.html"><img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
+<a href="../../index.html">
+<img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                2.10.1
+                3.0.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -73,25 +77,26 @@
 </form>
 </div>
 </div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Tutorial</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../index.html#key-features">Key Features</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html#recipes">Recipes</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="001_rdb.html">Saving/Resuming Study with RDB Backend</a></li>
-<li class="toctree-l3"><a class="reference internal" href="002_multi_objective.html">Multi-objective Optimization with Optuna</a></li>
-<li class="toctree-l3"><a class="reference internal" href="003_attributes.html">User Attributes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="004_cli.html">Command-Line Interface</a></li>
-<li class="toctree-l3"><a class="reference internal" href="005_user_defined_sampler.html">User-Defined Sampler</a></li>
-<li class="toctree-l3"><a class="reference internal" href="006_user_defined_pruner.html">User-Defined Pruner</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Callback for Study.optimize</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#stop-optimization-after-some-trials-are-pruned-in-a-row">Stop optimization after some trials are pruned in a row</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../10_key_features/index.html">Key Features</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Recipes</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="001_rdb.html">Saving/Resuming Study with RDB Backend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="002_multi_objective.html">Multi-objective Optimization with Optuna</a></li>
+<li class="toctree-l4"><a class="reference internal" href="003_attributes.html">User Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="004_cli.html">Command-Line Interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="005_user_defined_sampler.html">User-Defined Sampler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="006_user_defined_pruner.html">User-Defined Pruner</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Callback for Study.optimize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="008_specify_params.html">Specify Hyperparameters Manually</a></li>
+<li class="toctree-l4"><a class="reference internal" href="009_ask_and_tell.html">Ask-and-Tell Interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="010_reuse_best_trial.html">Re-use the best trial</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="008_specify_params.html">Specify Hyperparameters Manually</a></li>
-<li class="toctree-l3"><a class="reference internal" href="009_ask_and_tell.html">Ask-and-Tell Interface</a></li>
-<li class="toctree-l3"><a class="reference internal" href="010_reuse_best_trial.html">Re-use the best values</a></li>
 </ul>
 </li>
 </ul>
@@ -112,9 +117,9 @@
 <ul class="wy-breadcrumbs">
 <li><a class="icon icon-home" href="../../index.html"></a> »</li>
 <li><a href="../index.html">Tutorial</a> »</li>
+<li><a href="index.html">Recipes</a> »</li>
 <li>Callback for Study.optimize</li>
 <li class="wy-breadcrumbs-aside">
-<a href="../../_sources/tutorial/20_recipes/007_optuna_callback.rst.txt" rel="nofollow"> View page source</a>
 </li>
 </ul>
 <hr/>
@@ -126,14 +131,14 @@
 <p>Click <a class="reference internal" href="#sphx-glr-download-tutorial-20-recipes-007-optuna-callback-py"><span class="std std-ref">here</span></a>
 to download the full example code</p>
 </div>
-<div class="sphx-glr-example-title section" id="callback-for-study-optimize">
-<a class="dashAnchor" name="//apple_ref/cpp/Section/Callback for Study.optimize"></a><span id="optuna-callback"></span><a class="dashAnchor" name="//apple_ref/cpp/Section/Callback for Study.optimize"></a><span id="sphx-glr-tutorial-20-recipes-007-optuna-callback-py"></span><h1>Callback for Study.optimize<a class="headerlink" href="#callback-for-study-optimize" title="Permalink to this headline">¶</a></h1>
+<section class="sphx-glr-example-title" id="callback-for-study-optimize">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Callback for Study.optimize"></a><span id="optuna-callback"></span><a class="dashAnchor" name="//apple_ref/cpp/Section/Callback for Study.optimize"></a><span id="sphx-glr-tutorial-20-recipes-007-optuna-callback-py"></span><h1>Callback for Study.optimize<a class="headerlink" href="#callback-for-study-optimize" title="Permalink to this heading"></a></h1>
 <p>This tutorial showcases how to use &amp; implement Optuna <code class="docutils literal notranslate"><span class="pre">Callback</span></code> for <a class="reference internal" href="../../reference/generated/optuna.study.Study.html#optuna.study.Study.optimize" title="optuna.study.Study.optimize"><code class="xref py py-func docutils literal notranslate"><span class="pre">optimize()</span></code></a>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">Callback</span></code> is called after every evaluation of <code class="docutils literal notranslate"><span class="pre">objective</span></code>, and
 it takes <a class="reference internal" href="../../reference/generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> and <a class="reference internal" href="../../reference/generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrozenTrial</span></code></a> as arguments, and does some work.</p>
 <p><a class="reference internal" href="../../reference/generated/optuna.integration.MLflowCallback.html#optuna.integration.MLflowCallback" title="optuna.integration.MLflowCallback"><code class="xref py py-class docutils literal notranslate"><span class="pre">MLflowCallback</span></code></a> is a great example.</p>
-<div class="section" id="stop-optimization-after-some-trials-are-pruned-in-a-row">
-<h2>Stop optimization after some trials are pruned in a row<a class="headerlink" href="#stop-optimization-after-some-trials-are-pruned-in-a-row" title="Permalink to this headline">¶</a></h2>
+<section id="stop-optimization-after-some-trials-are-pruned-in-a-row">
+<h2>Stop optimization after some trials are pruned in a row<a class="headerlink" href="#stop-optimization-after-some-trials-are-pruned-in-a-row" title="Permalink to this heading"></a></h2>
 <p>This example implements a stateful callback which stops the optimization
 if a certain number of trials are pruned in a row.
 The number of trials pruned in a row is specified by <code class="docutils literal notranslate"><span class="pre">threshold</span></code>.</p>
@@ -176,20 +181,19 @@ So, we expect this study to stop after 7 trials.</p>
 <span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">study_stop_cb</span><span class="p">])</span>
 </pre></div>
 </div>
-<p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>A new study created in memory with name: no-name-59935d55-774e-44c8-8f9e-8d58b1794db2
-Trial 0 finished with value: 0.13645008515113322 and parameters: {'x': 0.13645008515113322}. Best is trial 0 with value: 0.13645008515113322.
-Trial 1 finished with value: 0.5140703634104707 and parameters: {'x': 0.5140703634104707}. Best is trial 0 with value: 0.13645008515113322.
-Trial 2 finished with value: 0.9294259806015142 and parameters: {'x': 0.9294259806015142}. Best is trial 0 with value: 0.13645008515113322.
-Trial 3 finished with value: 0.5985833289229887 and parameters: {'x': 0.5985833289229887}. Best is trial 0 with value: 0.13645008515113322.
-Trial 4 finished with value: 0.2174979034043999 and parameters: {'x': 0.2174979034043999}. Best is trial 0 with value: 0.13645008515113322.
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>A new study created in memory with name: no-name-a14fce70-6c9c-45ba-8792-ceb19f5c6ac0
+Trial 0 finished with value: 0.22416903535812582 and parameters: {'x': 0.22416903535812582}. Best is trial 0 with value: 0.22416903535812582.
+Trial 1 finished with value: 0.38202927583559076 and parameters: {'x': 0.38202927583559076}. Best is trial 0 with value: 0.22416903535812582.
+Trial 2 finished with value: 0.06712962300881264 and parameters: {'x': 0.06712962300881264}. Best is trial 2 with value: 0.06712962300881264.
+Trial 3 finished with value: 0.744216731066706 and parameters: {'x': 0.744216731066706}. Best is trial 2 with value: 0.06712962300881264.
+Trial 4 finished with value: 0.918961423469902 and parameters: {'x': 0.918961423469902}. Best is trial 2 with value: 0.06712962300881264.
 Trial 5 pruned.
 Trial 6 pruned.
 </pre></div>
 </div>
 <p>As you can see in the log above, the study stopped after 7 trials as expected.</p>
 <p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.006 seconds)</p>
-<a class="dashAnchor" name="//apple_ref/cpp/Section/sphx_glr_download_tutorial_20_recipes_007_optuna_callback.py"></a><div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorial-20-recipes-007-optuna-callback-py">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/sphx_glr_download_tutorial_20_recipes_007_optuna_callback.py"></a><div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorial-20-recipes-007-optuna-callback-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/69c9a8896808997c60d5d1879065fad2/007_optuna_callback.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">007_optuna_callback.py</span></code></a></p>
 </div>
@@ -198,8 +202,8 @@ Trial 6 pruned.
 </div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
-</div>
-</div>
+</section>
+</section>
 </div>
 </div>
 <footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
@@ -208,7 +212,7 @@ Trial 6 pruned.
 </div>
 <hr/>
 <div role="contentinfo">
-<p>© Copyright 2018, Optuna Contributors..</p>
+<p>© Copyright 2018, Optuna Contributors.</p>
 </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

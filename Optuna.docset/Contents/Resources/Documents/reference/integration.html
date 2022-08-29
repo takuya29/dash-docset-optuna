@@ -2,23 +2,26 @@
 
 <html class="writer-html5" lang="en">
 <head>
-<meta charset="utf-8"/>
+<meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.integration — Optuna 2.10.1 documentation</title><link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<title>optuna.integration — Optuna 3.0.0 documentation</title>
 <link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../_static/copybutton.css" rel="stylesheet" type="text/css"/>
 <link href="../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
 <link href="../_static/sg_gallery.css" rel="stylesheet" type="text/css"/>
 <link href="../_static/sg_gallery-binder.css" rel="stylesheet" type="text/css"/>
 <link href="../_static/sg_gallery-dataframe.css" rel="stylesheet" type="text/css"/>
 <link href="../_static/sg_gallery-rendered-html.css" rel="stylesheet" type="text/css"/>
-<link href="../_static/css/custom.css" rel="stylesheet" type="text/css"/><link href="../_static/favicon.ico" rel="shortcut icon"/>
+<link href="../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/favicon.ico" rel="shortcut icon"/>
 <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
 <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
 <script src="../_static/jquery.js"></script>
 <script src="../_static/underscore.js"></script>
+<script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
 <script src="../_static/doctools.js"></script>
 <script src="../_static/clipboard.min.js"></script>
 <script src="../_static/copybutton.js"></script>
@@ -60,10 +63,11 @@
 <nav class="wy-nav-side" data-toggle="wy-nav-shift">
 <div class="wy-side-scroll">
 <div class="wy-side-nav-search">
-<a href="../index.html"><img alt="Logo" class="logo" src="../_static/optuna-logo.png"/>
+<a href="../index.html">
+<img alt="Logo" class="logo" src="../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                2.10.1
+                3.0.0
               </div>
 <div role="search">
 <form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -73,7 +77,7 @@
 </form>
 </div>
 </div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a></li>
@@ -99,6 +103,10 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#catalyst">Catalyst</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="generated/optuna.integration.CatalystPruningCallback.html">optuna.integration.CatalystPruningCallback</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#catboost">CatBoost</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/optuna.integration.CatBoostPruningCallback.html">optuna.integration.CatBoostPruningCallback</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#chainer">Chainer</a><ul>
@@ -154,6 +162,10 @@
 <li class="toctree-l4"><a class="reference internal" href="generated/optuna.integration.SkoptSampler.html">optuna.integration.SkoptSampler</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#shap">SHAP</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/optuna.integration.ShapleyImportanceEvaluator.html">optuna.integration.ShapleyImportanceEvaluator</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#skorch">skorch</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="generated/optuna.integration.SkorchPruningCallback.html">optuna.integration.SkorchPruningCallback</a></li>
 </ul>
@@ -173,9 +185,8 @@
 <li class="toctree-l2"><a class="reference internal" href="logging.html">optuna.logging</a></li>
 <li class="toctree-l2"><a class="reference internal" href="multi_objective/index.html">optuna.multi_objective</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pruners.html">optuna.pruners</a></li>
-<li class="toctree-l2"><a class="reference internal" href="samplers.html">optuna.samplers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="samplers/index.html">optuna.samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="storages.html">optuna.storages</a></li>
-<li class="toctree-l2"><a class="reference internal" href="structs.html">optuna.structs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="study.html">optuna.study</a></li>
 <li class="toctree-l2"><a class="reference internal" href="trial.html">optuna.trial</a></li>
 <li class="toctree-l2"><a class="reference internal" href="visualization/index.html">optuna.visualization</a></li>
@@ -198,15 +209,14 @@
 <li><a href="index.html">API Reference</a> »</li>
 <li>optuna.integration</li>
 <li class="wy-breadcrumbs-aside">
-<a href="../_sources/reference/integration.rst.txt" rel="nofollow"> View page source</a>
 </li>
 </ul>
 <hr/>
 </div>
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div itemprop="articleBody">
-<span class="target" id="module-optuna.integration"></span><div class="section" id="optuna-integration">
-<a class="dashAnchor" name="//apple_ref/cpp/Module/optuna.integration"></a><h1>optuna.integration<a class="headerlink" href="#optuna-integration" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-optuna.integration"></span><section id="optuna-integration">
+<a class="dashAnchor" name="//apple_ref/cpp/Module/optuna.integration"></a><h1>optuna.integration<a class="headerlink" href="#optuna-integration" title="Permalink to this heading"></a></h1>
 <p>The <a class="reference internal" href="#module-optuna.integration" title="optuna.integration"><code class="xref py py-mod docutils literal notranslate"><span class="pre">integration</span></code></a> module contains classes used to integrate Optuna with external machine learning frameworks.</p>
 <p>For most of the ML frameworks supported by Optuna, the corresponding Optuna integration class serves only to implement a callback object and functions, compliant with the framework’s specific callback API, to be called with each intermediate step in the model training. The functionality implemented in these callbacks across the different ML frameworks includes:</p>
 <ol class="arabic simple">
@@ -215,9 +225,9 @@
 <li><p>Reporting intermediate Optuna data such as the current trial number back to the framework, as done in <a class="reference internal" href="generated/optuna.integration.MLflowCallback.html#optuna.integration.MLflowCallback" title="optuna.integration.MLflowCallback"><code class="xref py py-class docutils literal notranslate"><span class="pre">MLflowCallback</span></code></a>.</p></li>
 </ol>
 <p>For scikit-learn, an integrated <a class="reference internal" href="generated/optuna.integration.OptunaSearchCV.html#optuna.integration.OptunaSearchCV" title="optuna.integration.OptunaSearchCV"><code class="xref py py-class docutils literal notranslate"><span class="pre">OptunaSearchCV</span></code></a> estimator is available that combines scikit-learn BaseEstimator functionality with access to a class-level <code class="docutils literal notranslate"><span class="pre">Study</span></code> object.</p>
-<div class="section" id="allennlp">
-<h2>AllenNLP<a class="headerlink" href="#allennlp" title="Permalink to this headline">¶</a></h2>
-<table class="longtable docutils align-default">
+<section id="allennlp">
+<h2>AllenNLP<a class="headerlink" href="#allennlp" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
@@ -234,10 +244,10 @@
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="botorch">
-<h2>BoTorch<a class="headerlink" href="#botorch" title="Permalink to this headline">¶</a></h2>
-<table class="longtable docutils align-default">
+</section>
+<section id="botorch">
+<h2>BoTorch<a class="headerlink" href="#botorch" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
@@ -257,10 +267,10 @@
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="catalyst">
-<h2>Catalyst<a class="headerlink" href="#catalyst" title="Permalink to this headline">¶</a></h2>
-<table class="longtable docutils align-default">
+</section>
+<section id="catalyst">
+<h2>Catalyst<a class="headerlink" href="#catalyst" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
@@ -271,10 +281,24 @@
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="chainer">
-<h2>Chainer<a class="headerlink" href="#chainer" title="Permalink to this headline">¶</a></h2>
-<table class="longtable docutils align-default">
+</section>
+<section id="catboost">
+<h2>CatBoost<a class="headerlink" href="#catboost" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%"/>
+<col style="width: 90%"/>
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.CatBoostPruningCallback.html#optuna.integration.CatBoostPruningCallback" title="optuna.integration.CatBoostPruningCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.CatBoostPruningCallback</span></code></a></p></td>
+<td><p>Callback for catboost to prune unpromising trials.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="chainer">
+<h2>Chainer<a class="headerlink" href="#chainer" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
@@ -288,10 +312,10 @@
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="fast-ai">
-<h2>fast.ai<a class="headerlink" href="#fast-ai" title="Permalink to this headline">¶</a></h2>
-<table class="longtable docutils align-default">
+</section>
+<section id="fast-ai">
+<h2>fast.ai<a class="headerlink" href="#fast-ai" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
@@ -304,14 +328,14 @@
 <td><p>FastAI callback to prune unpromising trials for fastai.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.FastAIPruningCallback.html#optuna.integration.FastAIPruningCallback" title="optuna.integration.FastAIPruningCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.FastAIPruningCallback</span></code></a></p></td>
-<td><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">optuna.integration.fastaiv2.FastAIV2PruningCallback</span></code></p></td>
+<td><p>alias of <a class="reference internal" href="generated/optuna.integration.FastAIV2PruningCallback.html#optuna.integration.FastAIV2PruningCallback" title="optuna.integration.fastaiv2.FastAIV2PruningCallback"><code class="xref py py-class docutils literal notranslate"><span class="pre">FastAIV2PruningCallback</span></code></a></p></td>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="keras">
-<h2>Keras<a class="headerlink" href="#keras" title="Permalink to this headline">¶</a></h2>
-<table class="longtable docutils align-default">
+</section>
+<section id="keras">
+<h2>Keras<a class="headerlink" href="#keras" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
@@ -322,10 +346,10 @@
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="lightgbm">
-<h2>LightGBM<a class="headerlink" href="#lightgbm" title="Permalink to this headline">¶</a></h2>
-<table class="longtable docutils align-default">
+</section>
+<section id="lightgbm">
+<h2>LightGBM<a class="headerlink" href="#lightgbm" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
@@ -345,10 +369,10 @@
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="mlflow">
-<h2>MLflow<a class="headerlink" href="#mlflow" title="Permalink to this headline">¶</a></h2>
-<table class="longtable docutils align-default">
+</section>
+<section id="mlflow">
+<h2>MLflow<a class="headerlink" href="#mlflow" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
@@ -359,10 +383,10 @@
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="weights-biases">
-<h2>Weights &amp; Biases<a class="headerlink" href="#weights-biases" title="Permalink to this headline">¶</a></h2>
-<table class="longtable docutils align-default">
+</section>
+<section id="weights-biases">
+<h2>Weights &amp; Biases<a class="headerlink" href="#weights-biases" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
@@ -373,10 +397,10 @@
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="mxnet">
-<h2>MXNet<a class="headerlink" href="#mxnet" title="Permalink to this headline">¶</a></h2>
-<table class="longtable docutils align-default">
+</section>
+<section id="mxnet">
+<h2>MXNet<a class="headerlink" href="#mxnet" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
@@ -387,10 +411,10 @@
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="pycma">
-<h2>pycma<a class="headerlink" href="#pycma" title="Permalink to this headline">¶</a></h2>
-<table class="longtable docutils align-default">
+</section>
+<section id="pycma">
+<h2>pycma<a class="headerlink" href="#pycma" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
@@ -404,10 +428,10 @@
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="pytorch">
-<h2>PyTorch<a class="headerlink" href="#pytorch" title="Permalink to this headline">¶</a></h2>
-<table class="longtable docutils align-default">
+</section>
+<section id="pytorch">
+<h2>PyTorch<a class="headerlink" href="#pytorch" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
@@ -424,10 +448,10 @@
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="scikit-learn">
-<h2>scikit-learn<a class="headerlink" href="#scikit-learn" title="Permalink to this headline">¶</a></h2>
-<table class="longtable docutils align-default">
+</section>
+<section id="scikit-learn">
+<h2>scikit-learn<a class="headerlink" href="#scikit-learn" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
@@ -438,10 +462,10 @@
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="scikit-optimize">
-<h2>scikit-optimize<a class="headerlink" href="#scikit-optimize" title="Permalink to this headline">¶</a></h2>
-<table class="longtable docutils align-default">
+</section>
+<section id="scikit-optimize">
+<h2>scikit-optimize<a class="headerlink" href="#scikit-optimize" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
@@ -452,10 +476,24 @@
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="skorch">
-<h2>skorch<a class="headerlink" href="#skorch" title="Permalink to this headline">¶</a></h2>
-<table class="longtable docutils align-default">
+</section>
+<section id="shap">
+<h2>SHAP<a class="headerlink" href="#shap" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%"/>
+<col style="width: 90%"/>
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.ShapleyImportanceEvaluator.html#optuna.integration.ShapleyImportanceEvaluator" title="optuna.integration.ShapleyImportanceEvaluator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.ShapleyImportanceEvaluator</span></code></a></p></td>
+<td><p>Shapley (SHAP) parameter importance evaluator.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="skorch">
+<h2>skorch<a class="headerlink" href="#skorch" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
@@ -466,10 +504,10 @@
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="tensorflow">
-<h2>TensorFlow<a class="headerlink" href="#tensorflow" title="Permalink to this headline">¶</a></h2>
-<table class="longtable docutils align-default">
+</section>
+<section id="tensorflow">
+<h2>TensorFlow<a class="headerlink" href="#tensorflow" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
@@ -486,10 +524,10 @@
 </tr>
 </tbody>
 </table>
-</div>
-<div class="section" id="xgboost">
-<h2>XGBoost<a class="headerlink" href="#xgboost" title="Permalink to this headline">¶</a></h2>
-<table class="longtable docutils align-default">
+</section>
+<section id="xgboost">
+<h2>XGBoost<a class="headerlink" href="#xgboost" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
@@ -500,8 +538,8 @@
 </tr>
 </tbody>
 </table>
-</div>
-</div>
+</section>
+</section>
 </div>
 </div>
 <footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
@@ -510,7 +548,7 @@
 </div>
 <hr/>
 <div role="contentinfo">
-<p>© Copyright 2018, Optuna Contributors..</p>
+<p>© Copyright 2018, Optuna Contributors.</p>
 </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

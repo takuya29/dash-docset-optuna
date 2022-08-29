@@ -2,23 +2,26 @@
 
 <html class="writer-html5" lang="en">
 <head>
-<meta charset="utf-8"/>
+<meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Re-use the best values — Optuna 2.10.1 documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<title>Re-use the best trial — Optuna 3.0.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-binder.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-dataframe.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-rendered-html.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/css/custom.css" rel="stylesheet" type="text/css"/><link href="../../_static/favicon.ico" rel="shortcut icon"/>
+<link href="../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/favicon.ico" rel="shortcut icon"/>
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
 <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
 <script src="../../_static/jquery.js"></script>
 <script src="../../_static/underscore.js"></script>
+<script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
 <script src="../../_static/doctools.js"></script>
 <script src="../../_static/clipboard.min.js"></script>
 <script src="../../_static/copybutton.js"></script>
@@ -60,10 +63,11 @@
 <nav class="wy-nav-side" data-toggle="wy-nav-shift">
 <div class="wy-side-scroll">
 <div class="wy-side-nav-search">
-<a href="../../index.html"><img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
+<a href="../../index.html">
+<img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                2.10.1
+                3.0.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -73,24 +77,24 @@
 </form>
 </div>
 </div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Tutorial</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../index.html#key-features">Key Features</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html#recipes">Recipes</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="001_rdb.html">Saving/Resuming Study with RDB Backend</a></li>
-<li class="toctree-l3"><a class="reference internal" href="002_multi_objective.html">Multi-objective Optimization with Optuna</a></li>
-<li class="toctree-l3"><a class="reference internal" href="003_attributes.html">User Attributes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="004_cli.html">Command-Line Interface</a></li>
-<li class="toctree-l3"><a class="reference internal" href="005_user_defined_sampler.html">User-Defined Sampler</a></li>
-<li class="toctree-l3"><a class="reference internal" href="006_user_defined_pruner.html">User-Defined Pruner</a></li>
-<li class="toctree-l3"><a class="reference internal" href="007_optuna_callback.html">Callback for Study.optimize</a></li>
-<li class="toctree-l3"><a class="reference internal" href="008_specify_params.html">Specify Hyperparameters Manually</a></li>
-<li class="toctree-l3"><a class="reference internal" href="009_ask_and_tell.html">Ask-and-Tell Interface</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Re-use the best values</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#investigating-the-best-model-further">Investigating the best model further</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#the-difference-between-best-trial-and-ordinal-trials">The difference between <code class="xref py py-class docutils literal notranslate"><span class="pre">best_trial</span></code> and ordinal trials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../10_key_features/index.html">Key Features</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Recipes</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="001_rdb.html">Saving/Resuming Study with RDB Backend</a></li>
+<li class="toctree-l4"><a class="reference internal" href="002_multi_objective.html">Multi-objective Optimization with Optuna</a></li>
+<li class="toctree-l4"><a class="reference internal" href="003_attributes.html">User Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="004_cli.html">Command-Line Interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="005_user_defined_sampler.html">User-Defined Sampler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="006_user_defined_pruner.html">User-Defined Pruner</a></li>
+<li class="toctree-l4"><a class="reference internal" href="007_optuna_callback.html">Callback for Study.optimize</a></li>
+<li class="toctree-l4"><a class="reference internal" href="008_specify_params.html">Specify Hyperparameters Manually</a></li>
+<li class="toctree-l4"><a class="reference internal" href="009_ask_and_tell.html">Ask-and-Tell Interface</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Re-use the best trial</a></li>
 </ul>
 </li>
 </ul>
@@ -113,9 +117,9 @@
 <ul class="wy-breadcrumbs">
 <li><a class="icon icon-home" href="../../index.html"></a> »</li>
 <li><a href="../index.html">Tutorial</a> »</li>
-<li>Re-use the best values</li>
+<li><a href="index.html">Recipes</a> »</li>
+<li>Re-use the best trial</li>
 <li class="wy-breadcrumbs-aside">
-<a href="../../_sources/tutorial/20_recipes/010_reuse_best_trial.rst.txt" rel="nofollow"> View page source</a>
 </li>
 </ul>
 <hr/>
@@ -127,8 +131,8 @@
 <p>Click <a class="reference internal" href="#sphx-glr-download-tutorial-20-recipes-010-reuse-best-trial-py"><span class="std std-ref">here</span></a>
 to download the full example code</p>
 </div>
-<div class="sphx-glr-example-title section" id="re-use-the-best-values">
-<a class="dashAnchor" name="//apple_ref/cpp/Section/Re-use the best values"></a><span id="reuse-best-trial"></span><a class="dashAnchor" name="//apple_ref/cpp/Section/Re-use the best values"></a><span id="sphx-glr-tutorial-20-recipes-010-reuse-best-trial-py"></span><h1>Re-use the best values<a class="headerlink" href="#re-use-the-best-values" title="Permalink to this headline">¶</a></h1>
+<section class="sphx-glr-example-title" id="re-use-the-best-trial">
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Re-use the best trial"></a><span id="reuse-best-trial"></span><a class="dashAnchor" name="//apple_ref/cpp/Section/Re-use the best trial"></a><span id="sphx-glr-tutorial-20-recipes-010-reuse-best-trial-py"></span><h1>Re-use the best trial<a class="headerlink" href="#re-use-the-best-trial" title="Permalink to this heading"></a></h1>
 <p>In some cases, you may want to re-evaluate the objective function with the best
 hyperparameters again after the hyperparameter optimization.</p>
 <p>For example,</p>
@@ -138,8 +142,8 @@ hyperparameters again after the hyperparameter optimization.</p>
 </ul>
 <p><a class="reference internal" href="../../reference/generated/optuna.study.Study.html#optuna.study.Study.best_trial" title="optuna.study.Study.best_trial"><code class="xref py py-class docutils literal notranslate"><span class="pre">best_trial</span></code></a> provides an interface to re-evaluate the objective function with the current best hyperparameter values.</p>
 <p>This tutorial shows an example of how to re-run a different <cite>objective</cite> function with the current best values, like the first example above.</p>
-<div class="section" id="investigating-the-best-model-further">
-<h2>Investigating the best model further<a class="headerlink" href="#investigating-the-best-model-further" title="Permalink to this headline">¶</a></h2>
+<section id="investigating-the-best-model-further">
+<h2>Investigating the best model further<a class="headerlink" href="#investigating-the-best-model-further" title="Permalink to this heading"></a></h2>
 <p>Let’s consider a classical supervised classification problem with Optuna as follows:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">metrics</span>
 <span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_classification</span>
@@ -154,7 +158,7 @@ hyperparameters again after the hyperparameter optimization.</p>
     <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_classification</span><span class="p">(</span><span class="n">n_features</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-    <span class="n">C</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_loguniform</span><span class="p">(</span><span class="s2">"C"</span><span class="p">,</span> <span class="mf">1e-7</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">)</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"C"</span><span class="p">,</span> <span class="mf">1e-7</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">clf</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">)</span>
     <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
@@ -168,7 +172,6 @@ hyperparameters again after the hyperparameter optimization.</p>
 <span class="nb">print</span><span class="p">(</span><span class="n">study</span><span class="o">.</span><span class="n">best_trial</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>  <span class="c1"># Show the best value.</span>
 </pre></div>
 </div>
-<p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>0.92
 </pre></div>
 </div>
@@ -181,7 +184,7 @@ function to reproduce the model with the best hyperparameters.</p>
     <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_classification</span><span class="p">(</span><span class="n">n_features</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-    <span class="n">C</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_loguniform</span><span class="p">(</span><span class="s2">"C"</span><span class="p">,</span> <span class="mf">1e-7</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">)</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"C"</span><span class="p">,</span> <span class="mf">1e-7</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">clf</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">)</span>
     <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
@@ -201,21 +204,26 @@ function to reproduce the model with the best hyperparameters.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">detailed_objective</span><span class="p">(</span><span class="n">study</span><span class="o">.</span><span class="n">best_trial</span><span class="p">)</span>  <span class="c1"># calculate acc, f1, recall, and precision</span>
 </pre></div>
 </div>
-<p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>(0.92, 0.9285714285714286, 0.9285714285714286, 0.9285714285714286)
 </pre></div>
 </div>
-</div>
-<div class="section" id="the-difference-between-best-trial-and-ordinal-trials">
-<h2>The difference between <a class="reference internal" href="../../reference/generated/optuna.study.Study.html#optuna.study.Study.best_trial" title="optuna.study.Study.best_trial"><code class="xref py py-class docutils literal notranslate"><span class="pre">best_trial</span></code></a> and ordinal trials<a class="headerlink" href="#the-difference-between-best-trial-and-ordinal-trials" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="the-difference-between-best-trial-and-ordinal-trials">
+<h2>The difference between <a class="reference internal" href="../../reference/generated/optuna.study.Study.html#optuna.study.Study.best_trial" title="optuna.study.Study.best_trial"><code class="xref py py-class docutils literal notranslate"><span class="pre">best_trial</span></code></a> and ordinal trials<a class="headerlink" href="#the-difference-between-best-trial-and-ordinal-trials" title="Permalink to this heading"></a></h2>
 <p>This uses <a class="reference internal" href="../../reference/generated/optuna.study.Study.html#optuna.study.Study.best_trial" title="optuna.study.Study.best_trial"><code class="xref py py-class docutils literal notranslate"><span class="pre">best_trial</span></code></a>, which returns the <cite>best_trial</cite> as a
 <a class="reference internal" href="../../reference/generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrozenTrial</span></code></a>.
 The <a class="reference internal" href="../../reference/generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrozenTrial</span></code></a> is different from an active trial
 and behaves differently from <a class="reference internal" href="../../reference/generated/optuna.trial.Trial.html#optuna.trial.Trial" title="optuna.trial.Trial"><code class="xref py py-class docutils literal notranslate"><span class="pre">Trial</span></code></a> in some situations.
 For example, pruning does not work because <a class="reference internal" href="../../reference/generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial.should_prune" title="optuna.trial.FrozenTrial.should_prune"><code class="xref py py-class docutils literal notranslate"><span class="pre">should_prune</span></code></a>
 always returns <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.049 seconds)</p>
-<a class="dashAnchor" name="//apple_ref/cpp/Section/sphx_glr_download_tutorial_20_recipes_010_reuse_best_trial.py"></a><div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorial-20-recipes-010-reuse-best-trial-py">
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For multi-objective optimization as demonstrated by <a class="reference internal" href="002_multi_objective.html#multi-objective"><span class="std std-ref">Multi-objective Optimization with Optuna</span></a>,
+<a class="reference internal" href="../../reference/generated/optuna.study.Study.html#optuna.study.Study.best_trials" title="optuna.study.Study.best_trials"><code class="xref py py-attr docutils literal notranslate"><span class="pre">best_trials</span></code></a> returns a list of <a class="reference internal" href="../../reference/generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrozenTrial</span></code></a>
+on Pareto front. So we can re-use each trial in the list by the similar way above.</p>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.052 seconds)</p>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/sphx_glr_download_tutorial_20_recipes_010_reuse_best_trial.py"></a><div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorial-20-recipes-010-reuse-best-trial-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/ae616d9a7a740c0b0d5df3ce2f1219c0/010_reuse_best_trial.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">010_reuse_best_trial.py</span></code></a></p>
 </div>
@@ -224,8 +232,8 @@ always returns <code class="docutils literal notranslate"><span class="pre">Fals
 </div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
-</div>
-</div>
+</section>
+</section>
 </div>
 </div>
 <footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
@@ -234,7 +242,7 @@ always returns <code class="docutils literal notranslate"><span class="pre">Fals
 </div>
 <hr/>
 <div role="contentinfo">
-<p>© Copyright 2018, Optuna Contributors..</p>
+<p>© Copyright 2018, Optuna Contributors.</p>
 </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

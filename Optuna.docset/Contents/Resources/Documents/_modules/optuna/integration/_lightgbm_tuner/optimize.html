@@ -3,21 +3,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.integration._lightgbm_tuner.optimize &mdash; Optuna 2.10.1 documentation</title><link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <title>optuna.integration._lightgbm_tuner.optimize &mdash; Optuna 3.0.0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/plot_directive.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/sg_gallery.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/sg_gallery-binder.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/sg_gallery-dataframe.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/sg_gallery-rendered-html.css" type="text/css" />
-      <link rel="stylesheet" href="../../../../_static/css/custom.css" type="text/css" /><link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+      <link rel="stylesheet" href="../../../../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  <script id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
         <script src="../../../../_static/jquery.js"></script>
         <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../_static/doctools.js"></script>
         <script src="../../../../_static/clipboard.min.js"></script>
         <script src="../../../../_static/copybutton.js"></script>
@@ -60,10 +64,11 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../../index.html"><img src="../../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
+            <a href="../../../../index.html">
+            <img src="../../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                2.10.1
+                3.0.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -73,7 +78,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/index.html">Tutorial</a></li>
@@ -116,6 +121,7 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">cast</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Container</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Generator</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterator</span>
@@ -126,11 +132,9 @@
 <span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">packaging</span> <span class="kn">import</span> <span class="n">version</span>
 <span class="kn">import</span> <span class="nn">tqdm</span>
 
 <span class="kn">import</span> <span class="nn">optuna</span>
-<span class="kn">from</span> <span class="nn">optuna._deprecated</span> <span class="kn">import</span> <span class="n">deprecated</span>
 <span class="kn">from</span> <span class="nn">optuna._imports</span> <span class="kn">import</span> <span class="n">try_import</span>
 <span class="kn">from</span> <span class="nn">optuna.integration._lightgbm_tuner.alias</span> <span class="kn">import</span> <span class="n">_handling_alias_metrics</span>
 <span class="kn">from</span> <span class="nn">optuna.integration._lightgbm_tuner.alias</span> <span class="kn">import</span> <span class="n">_handling_alias_parameters</span>
@@ -171,7 +175,7 @@
 <span class="n">_logger</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">logging</span><span class="o">.</span><span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<span class="k">class</span> <span class="nc">_BaseTuner</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">_BaseTuner</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">lgbm_params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -320,7 +324,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">lgbm_params</span><span class="p">[</span><span class="s2">&quot;lambda_l2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">&quot;lambda_l2&quot;</span><span class="p">,</span> <span class="mf">1e-8</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="s2">&quot;num_leaves&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_param_names</span><span class="p">:</span>
             <span class="n">tree_depth</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lgbm_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;max_depth&quot;</span><span class="p">,</span> <span class="n">_DEFAULT_TUNER_TREE_DEPTH</span><span class="p">)</span>
-            <span class="n">max_num_leaves</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">tree_depth</span> <span class="k">if</span> <span class="n">tree_depth</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">_DEFAULT_TUNER_TREE_DEPTH</span>
+            <span class="n">max_num_leaves</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">tree_depth</span> <span class="k">if</span> <span class="n">tree_depth</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">2</span><span class="o">**</span><span class="n">_DEFAULT_TUNER_TREE_DEPTH</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">lgbm_params</span><span class="p">[</span><span class="s2">&quot;num_leaves&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_int</span><span class="p">(</span><span class="s2">&quot;num_leaves&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">max_num_leaves</span><span class="p">)</span>
         <span class="k">if</span> <span class="s2">&quot;feature_fraction&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_param_names</span><span class="p">:</span>
             <span class="c1"># `GridSampler` is used for sampling feature_fraction value.</span>
@@ -470,7 +474,7 @@
         <span class="n">feature_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span>
         <span class="n">categorical_feature</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span>
         <span class="n">early_stopping_rounds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">verbose_eval</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">verbose_eval</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">callbacks</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">time_budget</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">sample_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -807,7 +811,7 @@
             <span class="k">def</span> <span class="nf">get_trials</span><span class="p">(</span>
                 <span class="bp">self</span><span class="p">,</span>
                 <span class="n">deepcopy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-                <span class="n">states</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">TrialState</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">states</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Container</span><span class="p">[</span><span class="n">TrialState</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
             <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">optuna</span><span class="o">.</span><span class="n">trial</span><span class="o">.</span><span class="n">FrozenTrial</span><span class="p">]:</span>
 
                 <span class="n">trials</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_trials</span><span class="p">(</span><span class="n">deepcopy</span><span class="o">=</span><span class="n">deepcopy</span><span class="p">,</span> <span class="n">states</span><span class="o">=</span><span class="n">states</span><span class="p">)</span>
@@ -867,7 +871,7 @@
 <span class="sd">        optuna_callbacks:</span>
 <span class="sd">            List of Optuna callback functions that are invoked at the end of each trial.</span>
 <span class="sd">            Each function must accept two parameters with the following types in this order:</span>
-<span class="sd">            :class:`~optuna.study.Study` and :class:`~optuna.FrozenTrial`.</span>
+<span class="sd">            :class:`~optuna.study.Study` and :class:`~optuna.trial.FrozenTrial`.</span>
 <span class="sd">            Please note that this is not a ``callbacks`` argument of `lightgbm.train()`_ .</span>
 
 <span class="sd">        model_dir:</span>
@@ -923,7 +927,7 @@
         <span class="n">categorical_feature</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span>
         <span class="n">early_stopping_rounds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">evals_result</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">verbose_eval</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">verbose_eval</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="s2">&quot;warn&quot;</span><span class="p">,</span>
         <span class="n">learning_rates</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">keep_training_booster</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">callbacks</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -969,19 +973,6 @@
 
         <span class="k">if</span> <span class="n">valid_sets</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`valid_sets` is required.&quot;</span><span class="p">)</span>
-
-    <span class="nd">@property</span>  <span class="c1"># type: ignore</span>
-    <span class="nd">@deprecated</span><span class="p">(</span>
-        <span class="s2">&quot;1.4.0&quot;</span><span class="p">,</span>
-        <span class="n">text</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;Please get the best booster via &quot;</span>
-            <span class="s2">&quot;:class:`~optuna.integration.lightgbm.LightGBMTuner.get_best_booster` instead.&quot;</span>
-        <span class="p">),</span>
-    <span class="p">)</span>
-    <span class="k">def</span> <span class="nf">best_booster</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;lgb.Booster&quot;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Return the best booster.&quot;&quot;&quot;</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_best_booster</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_create_objective</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -1033,7 +1024,7 @@
 <span class="sd">        optuna_callbacks:</span>
 <span class="sd">            List of Optuna callback functions that are invoked at the end of each trial.</span>
 <span class="sd">            Each function must accept two parameters with the following types in this order:</span>
-<span class="sd">            :class:`~optuna.study.Study` and :class:`~optuna.FrozenTrial`.</span>
+<span class="sd">            :class:`~optuna.study.Study` and :class:`~optuna.trial.FrozenTrial`.</span>
 <span class="sd">            Please note that this is not a ``callbacks`` argument of `lightgbm.train()`_ .</span>
 
 <span class="sd">        model_dir:</span>
@@ -1102,7 +1093,7 @@
         <span class="n">categorical_feature</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span>
         <span class="n">early_stopping_rounds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">fpreproc</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">verbose_eval</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">verbose_eval</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">show_stdv</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
         <span class="n">callbacks</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1113,7 +1104,7 @@
         <span class="n">verbosity</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">show_progress_bar</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">model_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">return_cvbooster</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">return_cvbooster</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">optuna_seed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -1146,10 +1137,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">lgbm_kwargs</span><span class="p">[</span><span class="s2">&quot;show_stdv&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">show_stdv</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lgbm_kwargs</span><span class="p">[</span><span class="s2">&quot;seed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">seed</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lgbm_kwargs</span><span class="p">[</span><span class="s2">&quot;fpreproc&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fpreproc</span>
-        <span class="k">if</span> <span class="n">return_cvbooster</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">lgb</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">version</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;3.0.0&quot;</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;return_cvbooster requires lightgbm&gt;=3.0.0.&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">lgbm_kwargs</span><span class="p">[</span><span class="s2">&quot;return_cvbooster&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">return_cvbooster</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lgbm_kwargs</span><span class="p">[</span><span class="s2">&quot;return_cvbooster&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">return_cvbooster</span>
 
     <span class="k">def</span> <span class="nf">_create_objective</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -1225,7 +1213,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2018, Optuna Contributors..</p>
+    <p>&#169; Copyright 2018, Optuna Contributors.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

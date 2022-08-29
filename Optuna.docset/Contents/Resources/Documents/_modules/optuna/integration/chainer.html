@@ -3,21 +3,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.integration.chainer &mdash; Optuna 2.10.1 documentation</title><link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <title>optuna.integration.chainer &mdash; Optuna 3.0.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/plot_directive.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery-binder.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery-dataframe.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery-rendered-html.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" /><link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+      <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
         <script src="../../../_static/clipboard.min.js"></script>
         <script src="../../../_static/copybutton.js"></script>
@@ -60,10 +64,11 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../index.html"><img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
+            <a href="../../../index.html">
+            <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                2.10.1
+                3.0.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -73,7 +78,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
@@ -119,7 +124,7 @@
     <span class="kn">from</span> <span class="nn">chainer.training.triggers</span> <span class="kn">import</span> <span class="n">ManualScheduleTrigger</span>
 
 <span class="k">if</span> <span class="ow">not</span> <span class="n">_imports</span><span class="o">.</span><span class="n">is_successful</span><span class="p">():</span>
-    <span class="n">Extension</span> <span class="o">=</span> <span class="nb">object</span>  <span class="c1"># type: ignore # NOQA</span>
+    <span class="n">Extension</span> <span class="o">=</span> <span class="nb">object</span>  <span class="c1"># type: ignore  # NOQA</span>
 
 
 <div class="viewcode-block" id="ChainerPruningExtension"><a class="viewcode-back" href="../../../reference/generated/optuna.integration.ChainerPruningExtension.html#optuna.integration.ChainerPruningExtension">[docs]</a><span class="k">class</span> <span class="nc">ChainerPruningExtension</span><span class="p">(</span><span class="n">Extension</span><span class="p">):</span>
@@ -162,7 +167,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_trial</span> <span class="o">=</span> <span class="n">trial</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_observation_key</span> <span class="o">=</span> <span class="n">observation_key</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_pruner_trigger</span> <span class="o">=</span> <span class="n">chainer</span><span class="o">.</span><span class="n">training</span><span class="o">.</span><span class="n">get_trigger</span><span class="p">(</span><span class="n">pruner_trigger</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pruner_trigger</span> <span class="o">=</span> <span class="n">chainer</span><span class="o">.</span><span class="n">training</span><span class="o">.</span><span class="n">get_trigger</span><span class="p">(</span><span class="n">pruner_trigger</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pruner_trigger</span><span class="p">,</span> <span class="p">(</span><span class="n">IntervalTrigger</span><span class="p">,</span> <span class="n">ManualScheduleTrigger</span><span class="p">)):</span>
             <span class="n">pruner_type</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pruner_trigger</span><span class="p">)</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
@@ -176,18 +181,16 @@
 
         <span class="n">_imports</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
 
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">observation_value</span><span class="p">,</span> <span class="n">chainer</span><span class="o">.</span><span class="n">Variable</span><span class="p">):</span>
-            <span class="n">observation_value</span> <span class="o">=</span> <span class="n">observation_value</span><span class="o">.</span><span class="n">data</span>  <span class="c1"># type: ignore</span>
-
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">observation_value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">observation_value</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">observation_value</span><span class="p">,</span> <span class="n">chainer</span><span class="o">.</span><span class="n">Variable</span><span class="p">):</span>
+                <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">observation_value</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">observation_value</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
                 <span class="s2">&quot;Type of observation value is not supported by ChainerPruningExtension.</span><span class="se">\n</span><span class="s2">&quot;</span>
                 <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> cannot be cast to float.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">observation_value</span><span class="p">))</span>
             <span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
-
-        <span class="k">return</span> <span class="n">observation_value</span>
 
     <span class="k">def</span> <span class="nf">_observation_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainer</span><span class="p">:</span> <span class="s2">&quot;chainer.training.Trainer&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 
@@ -213,7 +216,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2018, Optuna Contributors..</p>
+    <p>&#169; Copyright 2018, Optuna Contributors.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

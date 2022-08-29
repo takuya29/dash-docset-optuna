@@ -2,27 +2,30 @@
 
 <html class="writer-html5" lang="en">
 <head>
-<meta charset="utf-8"/>
+<meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.distributions.IntUniformDistribution — Optuna 2.10.1 documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<title>optuna.distributions.IntUniformDistribution — Optuna 3.0.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-binder.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-dataframe.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-rendered-html.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/css/custom.css" rel="stylesheet" type="text/css"/><link href="../../_static/favicon.ico" rel="shortcut icon"/>
+<link href="../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/favicon.ico" rel="shortcut icon"/>
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
 <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
 <script src="../../_static/jquery.js"></script>
 <script src="../../_static/underscore.js"></script>
+<script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
 <script src="../../_static/doctools.js"></script>
 <script src="../../_static/clipboard.min.js"></script>
 <script src="../../_static/copybutton.js"></script>
-<script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <script src="../../_static/js/theme.js"></script>
 <link href="../../genindex.html" rel="index" title="Index"/>
 <link href="../../search.html" rel="search" title="Search"/>
@@ -61,10 +64,11 @@
 <nav class="wy-nav-side" data-toggle="wy-nav-shift">
 <div class="wy-side-scroll">
 <div class="wy-side-nav-search">
-<a href="../../index.html"><img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
+<a href="../../index.html">
+<img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                2.10.1
+                3.0.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -74,7 +78,7 @@
 </form>
 </div>
 </div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
@@ -82,6 +86,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../optuna.html">optuna</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cli.html">optuna.cli</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../distributions.html">optuna.distributions</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="optuna.distributions.FloatDistribution.html">optuna.distributions.FloatDistribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.distributions.IntDistribution.html">optuna.distributions.IntDistribution</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.distributions.UniformDistribution.html">optuna.distributions.UniformDistribution</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.distributions.LogUniformDistribution.html">optuna.distributions.LogUniformDistribution</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.distributions.DiscreteUniformDistribution.html">optuna.distributions.DiscreteUniformDistribution</a></li>
@@ -99,9 +105,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../logging.html">optuna.logging</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../multi_objective/index.html">optuna.multi_objective</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pruners.html">optuna.pruners</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../samplers.html">optuna.samplers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samplers/index.html">optuna.samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../storages.html">optuna.storages</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../structs.html">optuna.structs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../study.html">optuna.study</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../trial.html">optuna.trial</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../visualization/index.html">optuna.visualization</a></li>
@@ -125,21 +130,20 @@
 <li><a href="../distributions.html">optuna.distributions</a> »</li>
 <li>optuna.distributions.IntUniformDistribution</li>
 <li class="wy-breadcrumbs-aside">
-<a href="../../_sources/reference/generated/optuna.distributions.IntUniformDistribution.rst.txt" rel="nofollow"> View page source</a>
 </li>
 </ul>
 <hr/>
 </div>
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div itemprop="articleBody">
-<div class="section" id="optuna-distributions-intuniformdistribution">
-<h1>optuna.distributions.IntUniformDistribution<a class="headerlink" href="#optuna-distributions-intuniformdistribution" title="Permalink to this headline">¶</a></h1>
+<section id="optuna-distributions-intuniformdistribution">
+<h1>optuna.distributions.IntUniformDistribution<a class="headerlink" href="#optuna-distributions-intuniformdistribution" title="Permalink to this heading"></a></h1>
 <dl class="py class">
-<dt id="optuna.distributions.IntUniformDistribution">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">optuna.distributions.</span></code><code class="sig-name descname"><span class="pre">IntUniformDistribution</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">low</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">high</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/distributions.html#IntUniformDistribution"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.distributions.IntUniformDistribution"></a><a class="headerlink" href="#optuna.distributions.IntUniformDistribution" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.distributions.IntUniformDistribution">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.distributions.</span></span><span class="sig-name descname"><span class="pre">IntUniformDistribution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">low</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">high</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/distributions.html#IntUniformDistribution"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.distributions.IntUniformDistribution"></a><a class="headerlink" href="#optuna.distributions.IntUniformDistribution" title="Permalink to this definition"></a></dt>
 <dd><p>A uniform distribution on integers.</p>
 <p>This object is instantiated by <a class="reference internal" href="optuna.trial.Trial.html#optuna.trial.Trial.suggest_int" title="optuna.trial.Trial.suggest_int"><code class="xref py py-func docutils literal notranslate"><span class="pre">suggest_int()</span></code></a>, and passed to
-<a class="reference internal" href="../samplers.html#module-optuna.samplers" title="optuna.samplers"><code class="xref py py-mod docutils literal notranslate"><span class="pre">samplers</span></code></a> in general.</p>
+<a class="reference internal" href="../samplers/index.html#module-optuna.samplers" title="optuna.samplers"><code class="xref py py-mod docutils literal notranslate"><span class="pre">samplers</span></code></a> in general.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>If the range <span class="math notranslate nohighlight">\([\mathsf{low}, \mathsf{high}]\)</span> is not divisible by
@@ -147,29 +151,41 @@
 <span class="math notranslate nohighlight">\(k \times \mathsf{step} + \mathsf{low} &lt; \mathsf{high}\)</span>, where <span class="math notranslate nohighlight">\(k\)</span> is
 an integer.</p>
 </div>
-<dl class="py attribute">
-<dt id="optuna.distributions.IntUniformDistribution.low">
-<code class="sig-name descname"><span class="pre">low</span></code><a class="dashAnchor" name="//apple_ref/cpp/Attribute/optuna.distributions.IntUniformDistribution.low"></a><a class="headerlink" href="#optuna.distributions.IntUniformDistribution.low" title="Permalink to this definition">¶</a></dt>
-<dd><p>Lower endpoint of the range of the distribution. <code class="docutils literal notranslate"><span class="pre">low</span></code> is included in the range.</p>
-</dd></dl>
-<dl class="py attribute">
-<dt id="optuna.distributions.IntUniformDistribution.high">
-<code class="sig-name descname"><span class="pre">high</span></code><a class="dashAnchor" name="//apple_ref/cpp/Attribute/optuna.distributions.IntUniformDistribution.high"></a><a class="headerlink" href="#optuna.distributions.IntUniformDistribution.high" title="Permalink to this definition">¶</a></dt>
-<dd><p>Upper endpoint of the range of the distribution. <code class="docutils literal notranslate"><span class="pre">high</span></code> is included in the range.</p>
-</dd></dl>
-<dl class="py attribute">
-<dt id="optuna.distributions.IntUniformDistribution.step">
-<code class="sig-name descname"><span class="pre">step</span></code><a class="dashAnchor" name="//apple_ref/cpp/Attribute/optuna.distributions.IntUniformDistribution.step"></a><a class="headerlink" href="#optuna.distributions.IntUniformDistribution.step" title="Permalink to this definition">¶</a></dt>
-<dd><p>A step for spacing between values.</p>
-</dd></dl>
 <dl class="field-list simple">
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.10)"><strong>ValueError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">low</span></code> value is larger than <code class="docutils literal notranslate"><span class="pre">high</span></code> value, or <code class="docutils literal notranslate"><span class="pre">step</span></code> value is smaller or
-    equal to 0.</p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>low</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – </p></li>
+<li><p><strong>high</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – </p></li>
+<li><p><strong>step</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – </p></li>
+</ul>
 </dd>
 </dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optuna.distributions.IntUniformDistribution.low">
+<span class="sig-name descname"><span class="pre">low</span></span><a class="dashAnchor" name="//apple_ref/cpp/Attribute/optuna.distributions.IntUniformDistribution.low"></a><a class="headerlink" href="#optuna.distributions.IntUniformDistribution.low" title="Permalink to this definition"></a></dt>
+<dd><p>Lower endpoint of the range of the distribution. <code class="docutils literal notranslate"><span class="pre">low</span></code> is included in the range.
+<code class="docutils literal notranslate"><span class="pre">low</span></code> must be less than or equal to <code class="docutils literal notranslate"><span class="pre">high</span></code>.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optuna.distributions.IntUniformDistribution.high">
+<span class="sig-name descname"><span class="pre">high</span></span><a class="dashAnchor" name="//apple_ref/cpp/Attribute/optuna.distributions.IntUniformDistribution.high"></a><a class="headerlink" href="#optuna.distributions.IntUniformDistribution.high" title="Permalink to this definition"></a></dt>
+<dd><p>Upper endpoint of the range of the distribution. <code class="docutils literal notranslate"><span class="pre">high</span></code> is included in the range.
+<code class="docutils literal notranslate"><span class="pre">high</span></code> must be greater than or equal to <code class="docutils literal notranslate"><span class="pre">low</span></code>.</p>
+</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="optuna.distributions.IntUniformDistribution.step">
+<span class="sig-name descname"><span class="pre">step</span></span><a class="dashAnchor" name="//apple_ref/cpp/Attribute/optuna.distributions.IntUniformDistribution.step"></a><a class="headerlink" href="#optuna.distributions.IntUniformDistribution.step" title="Permalink to this definition"></a></dt>
+<dd><p>A discretization step. <code class="docutils literal notranslate"><span class="pre">step</span></code> must be a positive integer.</p>
+</dd></dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Deprecated in v3.0.0. This feature will be removed in the future. The removal of this
+feature is currently scheduled for v6.0.0, but this schedule is subject to change.
+See <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v3.0.0">https://github.com/optuna/optuna/releases/tag/v3.0.0</a>.</p>
+<p>Use <a class="reference internal" href="optuna.distributions.IntDistribution.html#optuna.distributions.IntDistribution" title="optuna.distributions.IntDistribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntDistribution</span></code></a> instead.</p>
+</div>
 <p class="rubric">Methods</p>
-<table class="longtable docutils align-default">
+<table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
@@ -187,8 +203,8 @@ an integer.</p>
 </tbody>
 </table>
 <dl class="py method">
-<dt id="optuna.distributions.IntUniformDistribution.single">
-<code class="sig-name descname"><span class="pre">single</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/distributions.html#IntUniformDistribution.single"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.distributions.IntUniformDistribution.single"></a><a class="headerlink" href="#optuna.distributions.IntUniformDistribution.single" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.distributions.IntUniformDistribution.single">
+<span class="sig-name descname"><span class="pre">single</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.distributions.IntUniformDistribution.single"></a><a class="headerlink" href="#optuna.distributions.IntUniformDistribution.single" title="Permalink to this definition"></a></dt>
 <dd><p>Test whether the range of this distribution contains just a single value.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -201,8 +217,8 @@ otherwise <a class="reference external" href="https://docs.python.org/3/library/
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.distributions.IntUniformDistribution.to_external_repr">
-<code class="sig-name descname"><span class="pre">to_external_repr</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param_value_in_internal_repr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/distributions.html#IntUniformDistribution.to_external_repr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.distributions.IntUniformDistribution.to_external_repr"></a><a class="headerlink" href="#optuna.distributions.IntUniformDistribution.to_external_repr" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.distributions.IntUniformDistribution.to_external_repr">
+<span class="sig-name descname"><span class="pre">to_external_repr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param_value_in_internal_repr</span></span></em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.distributions.IntUniformDistribution.to_external_repr"></a><a class="headerlink" href="#optuna.distributions.IntUniformDistribution.to_external_repr" title="Permalink to this definition"></a></dt>
 <dd><p>Convert internal representation of a parameter value into external representation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -217,8 +233,8 @@ otherwise <a class="reference external" href="https://docs.python.org/3/library/
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.distributions.IntUniformDistribution.to_internal_repr">
-<code class="sig-name descname"><span class="pre">to_internal_repr</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param_value_in_external_repr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/distributions.html#IntUniformDistribution.to_internal_repr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.distributions.IntUniformDistribution.to_internal_repr"></a><a class="headerlink" href="#optuna.distributions.IntUniformDistribution.to_internal_repr" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.distributions.IntUniformDistribution.to_internal_repr">
+<span class="sig-name descname"><span class="pre">to_internal_repr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param_value_in_external_repr</span></span></em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.distributions.IntUniformDistribution.to_internal_repr"></a><a class="headerlink" href="#optuna.distributions.IntUniformDistribution.to_internal_repr" title="Permalink to this definition"></a></dt>
 <dd><p>Convert external representation of a parameter value into internal representation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -233,7 +249,7 @@ otherwise <a class="reference external" href="https://docs.python.org/3/library/
 </dl>
 </dd></dl>
 </dd></dl>
-</div>
+</section>
 </div>
 </div>
 <footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
@@ -242,7 +258,7 @@ otherwise <a class="reference external" href="https://docs.python.org/3/library/
 </div>
 <hr/>
 <div role="contentinfo">
-<p>© Copyright 2018, Optuna Contributors..</p>
+<p>© Copyright 2018, Optuna Contributors.</p>
 </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

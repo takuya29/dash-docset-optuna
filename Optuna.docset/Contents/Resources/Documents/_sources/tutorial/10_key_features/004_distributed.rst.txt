@@ -20,8 +20,8 @@
 
 .. _distributed:
 
-Easy Parallelization
-====================
+4. Easy Parallelization
+=======================
 
 It's straightforward to parallelize :func:`optuna.study.Study.optimize`.
 
@@ -99,6 +99,9 @@ Process 2 (the same command as process 1):
     ...
 
 .. note::
+    ``n_trials`` is the number of trials each process will run, not the total number of trials across all processes. For example, the script given above runs 100 trials for each process, 100 trials * 2 processes = 200 trials. :class:`optuna.study.MaxTrialsCallback` can ensure how many times trials will be performed across all processes.
+
+.. note::
     We do not recommend SQLite for distributed optimizations at scale because it may cause deadlocks and serious performance issues. Please consider to use another database engine like PostgreSQL or MySQL.
 
 .. note::
@@ -112,23 +115,18 @@ Process 2 (the same command as process 1):
 
 .. _sphx_glr_download_tutorial_10_key_features_004_distributed.py:
 
+.. only:: html
 
-.. only :: html
-
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: 004_distributed.py <004_distributed.py>`
 
-     :download:`Download Python source code: 004_distributed.py <004_distributed.py>`
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: 004_distributed.ipynb <004_distributed.ipynb>`
+      :download:`Download Jupyter notebook: 004_distributed.ipynb <004_distributed.ipynb>`
 
 
 .. only:: html

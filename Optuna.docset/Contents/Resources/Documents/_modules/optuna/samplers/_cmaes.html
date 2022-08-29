@@ -3,21 +3,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.samplers._cmaes &mdash; Optuna 2.10.1 documentation</title><link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <title>optuna.samplers._cmaes &mdash; Optuna 3.0.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/plot_directive.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery-binder.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery-dataframe.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery-rendered-html.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" /><link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+      <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
         <script src="../../../_static/clipboard.min.js"></script>
         <script src="../../../_static/copybutton.js"></script>
@@ -60,10 +64,11 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../index.html"><img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
+            <a href="../../../index.html">
+            <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                2.10.1
+                3.0.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -73,7 +78,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
@@ -145,7 +150,7 @@
 <span class="n">CmaClass</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">CMA</span><span class="p">,</span> <span class="n">SepCMA</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="CmaEsSampler"><a class="viewcode-back" href="../../../reference/generated/optuna.samplers.CmaEsSampler.html#optuna.samplers.CmaEsSampler">[docs]</a><span class="k">class</span> <span class="nc">CmaEsSampler</span><span class="p">(</span><span class="n">BaseSampler</span><span class="p">):</span>
+<div class="viewcode-block" id="CmaEsSampler"><a class="viewcode-back" href="../../../reference/samplers/generated/optuna.samplers.CmaEsSampler.html#optuna.samplers.CmaEsSampler">[docs]</a><span class="k">class</span> <span class="nc">CmaEsSampler</span><span class="p">(</span><span class="n">BaseSampler</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A sampler using `cmaes &lt;https://github.com/CyberAgentAILab/cmaes&gt;`_ as the backend.</span>
 
 <span class="sd">    Example:</span>
@@ -160,7 +165,7 @@
 <span class="sd">            def objective(trial):</span>
 <span class="sd">                x = trial.suggest_float(&quot;x&quot;, -1, 1)</span>
 <span class="sd">                y = trial.suggest_int(&quot;y&quot;, -1, 1)</span>
-<span class="sd">                return x ** 2 + y</span>
+<span class="sd">                return x**2 + y</span>
 
 
 <span class="sd">            sampler = optuna.samplers.CmaEsSampler()</span>
@@ -168,9 +173,10 @@
 <span class="sd">            study.optimize(objective, n_trials=20)</span>
 
 <span class="sd">    Please note that this sampler does not support CategoricalDistribution.</span>
-<span class="sd">    However, :class:`~optuna.distributions.DiscreteUniformDistribution`</span>
-<span class="sd">    (:func:`~optuna.trial.Trial.suggest_discrete_uniform`) and</span>
-<span class="sd">    Int(Log)Distribution (:func:`~optuna.trial.Trial.suggest_int`) are supported.</span>
+<span class="sd">    However, :class:`~optuna.distributions.FloatDistribution` with ``step``,</span>
+<span class="sd">    (:func:`~optuna.trial.Trial.suggest_float`) and</span>
+<span class="sd">    :class:`~optuna.distributions.IntDistribution` (:func:`~optuna.trial.Trial.suggest_int`)</span>
+<span class="sd">    are supported.</span>
 
 <span class="sd">    If your search space contains categorical parameters, I recommend you</span>
 <span class="sd">    to use :class:`~optuna.samplers.TPESampler` instead.</span>
@@ -251,6 +257,10 @@
 <span class="sd">                versions without prior notice. See</span>
 <span class="sd">                https://github.com/optuna/optuna/releases/tag/v2.1.0.</span>
 
+<span class="sd">        popsize:</span>
+<span class="sd">            A population size of CMA-ES. When set ``restart_strategy = &#39;ipop&#39;``, this is used</span>
+<span class="sd">            as the initial population size.</span>
+
 <span class="sd">        inc_popsize:</span>
 <span class="sd">            Multiplier for increasing population size before each restart.</span>
 <span class="sd">            This argument will be used when setting ``restart_strategy = &#39;ipop&#39;``.</span>
@@ -292,9 +302,6 @@
 <span class="sd">                versions without prior notice. See</span>
 <span class="sd">                https://github.com/optuna/optuna/releases/tag/v2.6.0.</span>
 
-<span class="sd">    Raises:</span>
-<span class="sd">        ValueError:</span>
-<span class="sd">            If ``restart_strategy`` is not &#39;ipop&#39; or :obj:`None`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
@@ -308,6 +315,7 @@
         <span class="o">*</span><span class="p">,</span>
         <span class="n">consider_pruned_trials</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">restart_strategy</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">popsize</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">inc_popsize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
         <span class="n">use_separable_cma</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">source_trials</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -321,6 +329,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_search_space</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">samplers</span><span class="o">.</span><span class="n">IntersectionSearchSpace</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_consider_pruned_trials</span> <span class="o">=</span> <span class="n">consider_pruned_trials</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_restart_strategy</span> <span class="o">=</span> <span class="n">restart_strategy</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_popsize</span> <span class="o">=</span> <span class="n">popsize</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_inc_popsize</span> <span class="o">=</span> <span class="n">inc_popsize</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_use_separable_cma</span> <span class="o">=</span> <span class="n">use_separable_cma</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_source_trials</span> <span class="o">=</span> <span class="n">source_trials</span>
@@ -362,7 +371,7 @@
         <span class="c1"># TODO(c-bata): Support WS-sep-CMA-ES.</span>
         <span class="k">if</span> <span class="n">source_trials</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">use_separable_cma</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;It is prohibited to pass `source_trials` argument when &quot;</span> <span class="s2">&quot;using separable CMA-ES.&quot;</span>
+                <span class="s2">&quot;It is prohibited to pass `source_trials` argument when using separable CMA-ES.&quot;</span>
             <span class="p">)</span>
 
         <span class="c1"># TODO(c-bata): Support BIPOP-CMA-ES.</span>
@@ -376,11 +385,11 @@
                 <span class="p">)</span>
             <span class="p">)</span>
 
-<div class="viewcode-block" id="CmaEsSampler.reseed_rng"><a class="viewcode-back" href="../../../reference/generated/optuna.samplers.CmaEsSampler.html#optuna.samplers.CmaEsSampler.reseed_rng">[docs]</a>    <span class="k">def</span> <span class="nf">reseed_rng</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="CmaEsSampler.reseed_rng"><a class="viewcode-back" href="../../../reference/samplers/generated/optuna.samplers.CmaEsSampler.html#optuna.samplers.CmaEsSampler.reseed_rng">[docs]</a>    <span class="k">def</span> <span class="nf">reseed_rng</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># _cma_rng doesn&#39;t require reseeding because the relative sampling reseeds in each trial.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_independent_sampler</span><span class="o">.</span><span class="n">reseed_rng</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="CmaEsSampler.infer_relative_search_space"><a class="viewcode-back" href="../../../reference/generated/optuna.samplers.CmaEsSampler.html#optuna.samplers.CmaEsSampler.infer_relative_search_space">[docs]</a>    <span class="k">def</span> <span class="nf">infer_relative_search_space</span><span class="p">(</span>
+<div class="viewcode-block" id="CmaEsSampler.infer_relative_search_space"><a class="viewcode-back" href="../../../reference/samplers/generated/optuna.samplers.CmaEsSampler.html#optuna.samplers.CmaEsSampler.infer_relative_search_space">[docs]</a>    <span class="k">def</span> <span class="nf">infer_relative_search_space</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="s2">&quot;optuna.Study&quot;</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="s2">&quot;optuna.trial.FrozenTrial&quot;</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">]:</span>
         <span class="n">search_space</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
@@ -394,11 +403,8 @@
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
                 <span class="n">distribution</span><span class="p">,</span>
                 <span class="p">(</span>
-                    <span class="n">optuna</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">UniformDistribution</span><span class="p">,</span>
-                    <span class="n">optuna</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">LogUniformDistribution</span><span class="p">,</span>
-                    <span class="n">optuna</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">DiscreteUniformDistribution</span><span class="p">,</span>
-                    <span class="n">optuna</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">IntUniformDistribution</span><span class="p">,</span>
-                    <span class="n">optuna</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">IntLogUniformDistribution</span><span class="p">,</span>
+                    <span class="n">optuna</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">FloatDistribution</span><span class="p">,</span>
+                    <span class="n">optuna</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">IntDistribution</span><span class="p">,</span>
                 <span class="p">),</span>
             <span class="p">):</span>
                 <span class="c1"># Categorical distribution is unsupported.</span>
@@ -407,7 +413,7 @@
 
         <span class="k">return</span> <span class="n">search_space</span></div>
 
-<div class="viewcode-block" id="CmaEsSampler.sample_relative"><a class="viewcode-back" href="../../../reference/generated/optuna.samplers.CmaEsSampler.html#optuna.samplers.CmaEsSampler.sample_relative">[docs]</a>    <span class="k">def</span> <span class="nf">sample_relative</span><span class="p">(</span>
+<div class="viewcode-block" id="CmaEsSampler.sample_relative"><a class="viewcode-back" href="../../../reference/samplers/generated/optuna.samplers.CmaEsSampler.html#optuna.samplers.CmaEsSampler.sample_relative">[docs]</a>    <span class="k">def</span> <span class="nf">sample_relative</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">study</span><span class="p">:</span> <span class="s2">&quot;optuna.Study&quot;</span><span class="p">,</span>
         <span class="n">trial</span><span class="p">:</span> <span class="s2">&quot;optuna.trial.FrozenTrial&quot;</span><span class="p">,</span>
@@ -438,10 +444,10 @@
         <span class="n">optimizer</span><span class="p">,</span> <span class="n">n_restarts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_restore_optimizer</span><span class="p">(</span><span class="n">completed_trials</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">optimizer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">n_restarts</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">optimizer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_optimizer</span><span class="p">(</span><span class="n">trans</span><span class="p">,</span> <span class="n">study</span><span class="o">.</span><span class="n">direction</span><span class="p">)</span>
+            <span class="n">optimizer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_optimizer</span><span class="p">(</span><span class="n">trans</span><span class="p">,</span> <span class="n">study</span><span class="o">.</span><span class="n">direction</span><span class="p">,</span> <span class="n">population_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_popsize</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_restart_strategy</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">generation_attr_key</span> <span class="o">=</span> <span class="s2">&quot;cma:generation&quot;</span>  <span class="c1"># for backward compatibility</span>
+            <span class="n">generation_attr_key</span> <span class="o">=</span> <span class="s2">&quot;cma:generation&quot;</span>  <span class="c1"># For backward compatibility.</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">generation_attr_key</span> <span class="o">=</span> <span class="s2">&quot;cma:restart_</span><span class="si">{}</span><span class="s2">:generation&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_restarts</span><span class="p">)</span>
 
@@ -480,15 +486,15 @@
                     <span class="n">trans</span><span class="p">,</span> <span class="n">study</span><span class="o">.</span><span class="n">direction</span><span class="p">,</span> <span class="n">population_size</span><span class="o">=</span><span class="n">popsize</span><span class="p">,</span> <span class="n">randomize_start_point</span><span class="o">=</span><span class="kc">True</span>
                 <span class="p">)</span>
 
-            <span class="c1"># Store optimizer</span>
+            <span class="c1"># Store optimizer.</span>
             <span class="n">optimizer_str</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">optimizer</span><span class="p">)</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span>
             <span class="n">optimizer_attrs</span> <span class="o">=</span> <span class="n">_split_optimizer_str</span><span class="p">(</span><span class="n">optimizer_str</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">optimizer_attrs</span><span class="p">:</span>
                 <span class="n">study</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">set_trial_system_attr</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">_trial_id</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">optimizer_attrs</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
 
-        <span class="c1"># Caution: optimizer should update its seed value</span>
-        <span class="n">seed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cma_rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span> <span class="o">**</span> <span class="mi">16</span><span class="p">)</span> <span class="o">+</span> <span class="n">trial</span><span class="o">.</span><span class="n">number</span>
-        <span class="n">optimizer</span><span class="o">.</span><span class="n">_rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+        <span class="c1"># Caution: optimizer should update its seed value.</span>
+        <span class="n">seed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cma_rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">16</span><span class="p">)</span> <span class="o">+</span> <span class="n">trial</span><span class="o">.</span><span class="n">number</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">_rng</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
         <span class="n">params</span> <span class="o">=</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">ask</span><span class="p">()</span>
 
         <span class="n">study</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">set_trial_system_attr</span><span class="p">(</span>
@@ -586,7 +592,7 @@
                 <span class="n">mean</span><span class="o">=</span><span class="n">mean</span><span class="p">,</span>
                 <span class="n">sigma</span><span class="o">=</span><span class="n">sigma0</span><span class="p">,</span>
                 <span class="n">bounds</span><span class="o">=</span><span class="n">trans</span><span class="o">.</span><span class="n">bounds</span><span class="p">,</span>
-                <span class="n">seed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_cma_rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span> <span class="o">**</span> <span class="mi">31</span> <span class="o">-</span> <span class="mi">2</span><span class="p">),</span>
+                <span class="n">seed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_cma_rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">31</span> <span class="o">-</span> <span class="mi">2</span><span class="p">),</span>
                 <span class="n">n_max_resampling</span><span class="o">=</span><span class="mi">10</span> <span class="o">*</span> <span class="n">n_dimension</span><span class="p">,</span>
                 <span class="n">population_size</span><span class="o">=</span><span class="n">population_size</span><span class="p">,</span>
             <span class="p">)</span>
@@ -596,12 +602,12 @@
             <span class="n">sigma</span><span class="o">=</span><span class="n">sigma0</span><span class="p">,</span>
             <span class="n">cov</span><span class="o">=</span><span class="n">cov</span><span class="p">,</span>
             <span class="n">bounds</span><span class="o">=</span><span class="n">trans</span><span class="o">.</span><span class="n">bounds</span><span class="p">,</span>
-            <span class="n">seed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_cma_rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span> <span class="o">**</span> <span class="mi">31</span> <span class="o">-</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="n">seed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_cma_rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">31</span> <span class="o">-</span> <span class="mi">2</span><span class="p">),</span>
             <span class="n">n_max_resampling</span><span class="o">=</span><span class="mi">10</span> <span class="o">*</span> <span class="n">n_dimension</span><span class="p">,</span>
             <span class="n">population_size</span><span class="o">=</span><span class="n">population_size</span><span class="p">,</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="CmaEsSampler.sample_independent"><a class="viewcode-back" href="../../../reference/generated/optuna.samplers.CmaEsSampler.html#optuna.samplers.CmaEsSampler.sample_independent">[docs]</a>    <span class="k">def</span> <span class="nf">sample_independent</span><span class="p">(</span>
+<div class="viewcode-block" id="CmaEsSampler.sample_independent"><a class="viewcode-back" href="../../../reference/samplers/generated/optuna.samplers.CmaEsSampler.html#optuna.samplers.CmaEsSampler.sample_independent">[docs]</a>    <span class="k">def</span> <span class="nf">sample_independent</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">study</span><span class="p">:</span> <span class="s2">&quot;optuna.Study&quot;</span><span class="p">,</span>
         <span class="n">trial</span><span class="p">:</span> <span class="s2">&quot;optuna.trial.FrozenTrial&quot;</span><span class="p">,</span>
@@ -652,7 +658,7 @@
                 <span class="n">complete_trials</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">copied_t</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">complete_trials</span>
 
-<div class="viewcode-block" id="CmaEsSampler.after_trial"><a class="viewcode-back" href="../../../reference/generated/optuna.samplers.CmaEsSampler.html#optuna.samplers.CmaEsSampler.after_trial">[docs]</a>    <span class="k">def</span> <span class="nf">after_trial</span><span class="p">(</span>
+<div class="viewcode-block" id="CmaEsSampler.after_trial"><a class="viewcode-back" href="../../../reference/samplers/generated/optuna.samplers.CmaEsSampler.html#optuna.samplers.CmaEsSampler.after_trial">[docs]</a>    <span class="k">def</span> <span class="nf">after_trial</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">study</span><span class="p">:</span> <span class="s2">&quot;optuna.Study&quot;</span><span class="p">,</span>
         <span class="n">trial</span><span class="p">:</span> <span class="s2">&quot;optuna.trial.FrozenTrial&quot;</span><span class="p">,</span>
@@ -693,7 +699,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2018, Optuna Contributors..</p>
+    <p>&#169; Copyright 2018, Optuna Contributors.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

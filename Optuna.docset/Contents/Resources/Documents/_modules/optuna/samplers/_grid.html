@@ -3,21 +3,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.samplers._grid &mdash; Optuna 2.10.1 documentation</title><link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <title>optuna.samplers._grid &mdash; Optuna 3.0.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/plot_directive.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery-binder.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery-dataframe.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery-rendered-html.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" /><link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+      <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
         <script src="../../../_static/clipboard.min.js"></script>
         <script src="../../../_static/copybutton.js"></script>
@@ -60,10 +64,11 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../index.html"><img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
+            <a href="../../../index.html">
+            <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                2.10.1
+                3.0.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -73,7 +78,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
@@ -108,9 +113,8 @@
   <h1>Source code for optuna.samplers._grid</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">collections</span>
 <span class="kn">import</span> <span class="nn">itertools</span>
-<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">numbers</span> <span class="kn">import</span> <span class="n">Real</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">cast</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Mapping</span>
@@ -118,6 +122,8 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">optuna.distributions</span> <span class="kn">import</span> <span class="n">BaseDistribution</span>
 <span class="kn">from</span> <span class="nn">optuna.logging</span> <span class="kn">import</span> <span class="n">get_logger</span>
@@ -128,13 +134,12 @@
 
 
 <span class="n">GridValueType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
-<span class="n">SortableParamValueSequenceType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]]</span>
 
 
 <span class="n">_logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="GridSampler"><a class="viewcode-back" href="../../../reference/generated/optuna.samplers.GridSampler.html#optuna.samplers.GridSampler">[docs]</a><span class="k">class</span> <span class="nc">GridSampler</span><span class="p">(</span><span class="n">BaseSampler</span><span class="p">):</span>
+<div class="viewcode-block" id="GridSampler"><a class="viewcode-back" href="../../../reference/samplers/generated/optuna.samplers.GridSampler.html#optuna.samplers.GridSampler">[docs]</a><span class="k">class</span> <span class="nc">GridSampler</span><span class="p">(</span><span class="n">BaseSampler</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Sampler using grid search.</span>
 
 <span class="sd">    With :class:`~optuna.samplers.GridSampler`, the trials suggest all combinations of parameters</span>
@@ -150,7 +155,7 @@
 <span class="sd">            def objective(trial):</span>
 <span class="sd">                x = trial.suggest_float(&quot;x&quot;, -100, 100)</span>
 <span class="sd">                y = trial.suggest_int(&quot;y&quot;, -100, 100)</span>
-<span class="sd">                return x ** 2 + y ** 2</span>
+<span class="sd">                return x**2 + y**2</span>
 
 
 <span class="sd">            search_space = {&quot;x&quot;: [-50, 0, 50], &quot;y&quot;: [-99, 0, 99]}</span>
@@ -178,7 +183,7 @@
 <span class="sd">            def objective(trial):</span>
 <span class="sd">                # The following suggest method specifies integer points between -5 and 5.</span>
 <span class="sd">                x = trial.suggest_float(&quot;x&quot;, -5, 5, step=1)</span>
-<span class="sd">                return x ** 2</span>
+<span class="sd">                return x**2</span>
 
 
 <span class="sd">            # Non-int points are specified in the grid.</span>
@@ -193,45 +198,59 @@
 <span class="sd">        The total number of actual trials may therefore exceed the size of the grid.</span>
 
 <span class="sd">    Note:</span>
-<span class="sd">        The grid is randomly shuffled and the order in which parameter configurations are</span>
-<span class="sd">        suggested may vary. This is to reduce duplicate suggestions during distributed</span>
-<span class="sd">        optimization.</span>
+<span class="sd">        All parameters must be specified when using :class:`~optuna.samplers.GridSampler` with</span>
+<span class="sd">        :meth:`~optuna.study.Study.enqueue_trial`.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        search_space:</span>
 <span class="sd">            A dictionary whose key and value are a parameter name and the corresponding candidates</span>
 <span class="sd">            of values, respectively.</span>
+<span class="sd">        seed:</span>
+<span class="sd">            A seed to fix the order of trials as the grid is randomly shuffled. Please note that</span>
+<span class="sd">            it is not recommended using this option in distributed optimization settings since</span>
+<span class="sd">            this option cannot ensure the order of trials and may increase the number of duplicate</span>
+<span class="sd">            suggestions during distributed optimization.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">search_space</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">GridValueType</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">search_space</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">GridValueType</span><span class="p">]],</span> <span class="n">seed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 
         <span class="k">for</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">param_values</span> <span class="ow">in</span> <span class="n">search_space</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">param_values</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_check_value</span><span class="p">(</span><span class="n">param_name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_search_space</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">param_values</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">search_space</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-            <span class="n">param_values</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">SortableParamValueSequenceType</span><span class="p">,</span> <span class="n">param_values</span><span class="p">)</span>
-
-            <span class="bp">self</span><span class="o">.</span><span class="n">_search_space</span><span class="p">[</span><span class="n">param_name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">param_values</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">param_values</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">search_space</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_search_space</span><span class="p">[</span><span class="n">param_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">param_values</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_all_grids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_search_space</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_param_names</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">search_space</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_n_min_trials</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_all_grids</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
 
-<div class="viewcode-block" id="GridSampler.infer_relative_search_space"><a class="viewcode-back" href="../../../reference/generated/optuna.samplers.GridSampler.html#optuna.samplers.GridSampler.infer_relative_search_space">[docs]</a>    <span class="k">def</span> <span class="nf">infer_relative_search_space</span><span class="p">(</span>
+<div class="viewcode-block" id="GridSampler.reseed_rng"><a class="viewcode-back" href="../../../reference/samplers/generated/optuna.samplers.GridSampler.html#optuna.samplers.GridSampler.reseed_rng">[docs]</a>    <span class="k">def</span> <span class="nf">reseed_rng</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="o">.</span><span class="n">seed</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="GridSampler.infer_relative_search_space"><a class="viewcode-back" href="../../../reference/samplers/generated/optuna.samplers.GridSampler.html#optuna.samplers.GridSampler.infer_relative_search_space">[docs]</a>    <span class="k">def</span> <span class="nf">infer_relative_search_space</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="n">FrozenTrial</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">]:</span>
 
         <span class="k">return</span> <span class="p">{}</span></div>
 
-<div class="viewcode-block" id="GridSampler.sample_relative"><a class="viewcode-back" href="../../../reference/generated/optuna.samplers.GridSampler.html#optuna.samplers.GridSampler.sample_relative">[docs]</a>    <span class="k">def</span> <span class="nf">sample_relative</span><span class="p">(</span>
+<div class="viewcode-block" id="GridSampler.sample_relative"><a class="viewcode-back" href="../../../reference/samplers/generated/optuna.samplers.GridSampler.html#optuna.samplers.GridSampler.sample_relative">[docs]</a>    <span class="k">def</span> <span class="nf">sample_relative</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="n">FrozenTrial</span><span class="p">,</span> <span class="n">search_space</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
         <span class="c1"># Instead of returning param values, GridSampler puts the target grid id as a system attr,</span>
         <span class="c1"># and the values are returned from `sample_independent`. This is because the distribution</span>
         <span class="c1"># object is hard to get at the beginning of trial, while we need the access to the object</span>
         <span class="c1"># to validate the sampled value.</span>
+
+        <span class="c1"># When the trial is created by RetryFailedTrialCallback or enqueue_trial, we should not</span>
+        <span class="c1"># assign a new grid_id.</span>
+        <span class="k">if</span> <span class="s2">&quot;grid_id&quot;</span> <span class="ow">in</span> <span class="n">trial</span><span class="o">.</span><span class="n">system_attrs</span> <span class="ow">or</span> <span class="s2">&quot;fixed_params&quot;</span> <span class="ow">in</span> <span class="n">trial</span><span class="o">.</span><span class="n">system_attrs</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{}</span>
 
         <span class="n">target_grids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_unvisited_grid_ids</span><span class="p">(</span><span class="n">study</span><span class="p">)</span>
 
@@ -251,20 +270,24 @@
 
         <span class="c1"># In distributed optimization, multiple workers may simultaneously pick up the same grid.</span>
         <span class="c1"># To make the conflict less frequent, the grid is chosen randomly.</span>
-        <span class="n">grid_id</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">target_grids</span><span class="p">)</span>
+        <span class="n">grid_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">target_grids</span><span class="p">)</span>
 
         <span class="n">study</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">set_trial_system_attr</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">_trial_id</span><span class="p">,</span> <span class="s2">&quot;search_space&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_search_space</span><span class="p">)</span>
         <span class="n">study</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">set_trial_system_attr</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">_trial_id</span><span class="p">,</span> <span class="s2">&quot;grid_id&quot;</span><span class="p">,</span> <span class="n">grid_id</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="p">{}</span></div>
 
-<div class="viewcode-block" id="GridSampler.sample_independent"><a class="viewcode-back" href="../../../reference/generated/optuna.samplers.GridSampler.html#optuna.samplers.GridSampler.sample_independent">[docs]</a>    <span class="k">def</span> <span class="nf">sample_independent</span><span class="p">(</span>
+<div class="viewcode-block" id="GridSampler.sample_independent"><a class="viewcode-back" href="../../../reference/samplers/generated/optuna.samplers.GridSampler.html#optuna.samplers.GridSampler.sample_independent">[docs]</a>    <span class="k">def</span> <span class="nf">sample_independent</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span>
         <span class="n">trial</span><span class="p">:</span> <span class="n">FrozenTrial</span><span class="p">,</span>
         <span class="n">param_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">param_distribution</span><span class="p">:</span> <span class="n">BaseDistribution</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+
+        <span class="k">if</span> <span class="s2">&quot;grid_id&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">trial</span><span class="o">.</span><span class="n">system_attrs</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;All parameters must be specified when using GridSampler with enqueue_trial.&quot;</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">param_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_search_space</span><span class="p">:</span>
             <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;The parameter name, </span><span class="si">{}</span><span class="s2">, is not found in the given grid.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">param_name</span><span class="p">)</span>
@@ -284,7 +307,7 @@
 
         <span class="k">return</span> <span class="n">param_value</span></div>
 
-<div class="viewcode-block" id="GridSampler.after_trial"><a class="viewcode-back" href="../../../reference/generated/optuna.samplers.GridSampler.html#optuna.samplers.GridSampler.after_trial">[docs]</a>    <span class="k">def</span> <span class="nf">after_trial</span><span class="p">(</span>
+<div class="viewcode-block" id="GridSampler.after_trial"><a class="viewcode-back" href="../../../reference/samplers/generated/optuna.samplers.GridSampler.html#optuna.samplers.GridSampler.after_trial">[docs]</a>    <span class="k">def</span> <span class="nf">after_trial</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span>
         <span class="n">trial</span><span class="p">:</span> <span class="n">FrozenTrial</span><span class="p">,</span>
@@ -306,11 +329,12 @@
         <span class="k">if</span> <span class="n">param_value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">param_value</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)):</span>
             <span class="k">return</span>
 
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="p">(</span>
             <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> contains a value with the type of </span><span class="si">{}</span><span class="s2">, which is not supported by &quot;</span>
             <span class="s2">&quot;`GridSampler`. Please make sure a value is `str`, `int`, `float`, `bool`&quot;</span>
-            <span class="s2">&quot; or `None`.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">param_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">param_value</span><span class="p">))</span>
+            <span class="s2">&quot; or `None` for persistent storage.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">param_name</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">param_value</span><span class="p">))</span>
         <span class="p">)</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_get_unvisited_grid_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
 
@@ -341,6 +365,12 @@
 
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">unvisited_grids</span><span class="p">)</span>
 
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_grid_value_equal</span><span class="p">(</span><span class="n">value1</span><span class="p">:</span> <span class="n">GridValueType</span><span class="p">,</span> <span class="n">value2</span><span class="p">:</span> <span class="n">GridValueType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="n">value1_is_nan</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value1</span><span class="p">,</span> <span class="n">Real</span><span class="p">)</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">value1</span><span class="p">))</span>
+        <span class="n">value2_is_nan</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value2</span><span class="p">,</span> <span class="n">Real</span><span class="p">)</span> <span class="ow">and</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">value2</span><span class="p">))</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">value1</span> <span class="o">==</span> <span class="n">value2</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">value1_is_nan</span> <span class="ow">and</span> <span class="n">value2_is_nan</span><span class="p">)</span>
+
     <span class="k">def</span> <span class="nf">_same_search_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">search_space</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">GridValueType</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 
         <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">search_space</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">!=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_search_space</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
@@ -350,9 +380,8 @@
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">search_space</span><span class="p">[</span><span class="n">param_name</span><span class="p">])</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_search_space</span><span class="p">[</span><span class="n">param_name</span><span class="p">]):</span>
                 <span class="k">return</span> <span class="kc">False</span>
 
-            <span class="n">param_values</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">SortableParamValueSequenceType</span><span class="p">,</span> <span class="n">search_space</span><span class="p">[</span><span class="n">param_name</span><span class="p">])</span>
-            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">param_value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">param_values</span><span class="p">)):</span>
-                <span class="k">if</span> <span class="n">param_value</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_search_space</span><span class="p">[</span><span class="n">param_name</span><span class="p">][</span><span class="n">i</span><span class="p">]:</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">param_value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">search_space</span><span class="p">[</span><span class="n">param_name</span><span class="p">]):</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_grid_value_equal</span><span class="p">(</span><span class="n">param_value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_search_space</span><span class="p">[</span><span class="n">param_name</span><span class="p">][</span><span class="n">i</span><span class="p">]):</span>
                     <span class="k">return</span> <span class="kc">False</span>
 
         <span class="k">return</span> <span class="kc">True</span></div>
@@ -365,7 +394,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2018, Optuna Contributors..</p>
+    <p>&#169; Copyright 2018, Optuna Contributors.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

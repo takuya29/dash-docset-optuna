@@ -3,21 +3,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.multi_objective.study &mdash; Optuna 2.10.1 documentation</title><link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <title>optuna.multi_objective.study &mdash; Optuna 3.0.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/plot_directive.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery-binder.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery-dataframe.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery-rendered-html.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" /><link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+      <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
         <script src="../../../_static/clipboard.min.js"></script>
         <script src="../../../_static/copybutton.js"></script>
@@ -60,10 +64,11 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../index.html"><img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
+            <a href="../../../index.html">
+            <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                2.10.1
+                3.0.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -73,7 +78,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
@@ -109,6 +114,7 @@
 <span></span><span class="kn">import</span> <span class="nn">types</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Container</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
@@ -120,7 +126,8 @@
 
 <span class="kn">from</span> <span class="nn">optuna</span> <span class="kn">import</span> <span class="n">logging</span>
 <span class="kn">from</span> <span class="nn">optuna</span> <span class="kn">import</span> <span class="n">multi_objective</span>
-<span class="kn">from</span> <span class="nn">optuna._deprecated</span> <span class="kn">import</span> <span class="n">deprecated</span>
+<span class="kn">from</span> <span class="nn">optuna._deprecated</span> <span class="kn">import</span> <span class="n">deprecated_class</span>
+<span class="kn">from</span> <span class="nn">optuna._deprecated</span> <span class="kn">import</span> <span class="n">deprecated_func</span>
 <span class="kn">from</span> <span class="nn">optuna.pruners</span> <span class="kn">import</span> <span class="n">NopPruner</span>
 <span class="kn">from</span> <span class="nn">optuna.storages</span> <span class="kn">import</span> <span class="n">BaseStorage</span>
 <span class="kn">from</span> <span class="nn">optuna.study</span> <span class="kn">import</span> <span class="n">create_study</span> <span class="k">as</span> <span class="n">_create_study</span>
@@ -149,7 +156,7 @@
 <span class="c1">#</span>
 <span class="c1"># TODO(ohta): Consider to add `objective_labels` argument.</span>
 <span class="c1"># See: https://github.com/optuna/optuna/pull/1054#issuecomment-616382152</span>
-<div class="viewcode-block" id="create_study"><a class="viewcode-back" href="../../../reference/multi_objective/generated/optuna.multi_objective.study.create_study.html#optuna.multi_objective.study.create_study">[docs]</a><span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;2.4.0&quot;</span><span class="p">,</span> <span class="s2">&quot;4.0.0&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="create_study"><a class="viewcode-back" href="../../../reference/multi_objective/generated/optuna.multi_objective.study.create_study.html#optuna.multi_objective.study.create_study">[docs]</a><span class="nd">@deprecated_func</span><span class="p">(</span><span class="s2">&quot;2.4.0&quot;</span><span class="p">,</span> <span class="s2">&quot;4.0.0&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">create_study</span><span class="p">(</span>
     <span class="n">directions</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">study_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -171,7 +178,7 @@
 <span class="sd">                x = trial.suggest_float(&quot;x&quot;, 0, 5)</span>
 <span class="sd">                y = trial.suggest_float(&quot;y&quot;, 0, 3)</span>
 
-<span class="sd">                v0 = 4 * x ** 2 + 4 * y ** 2</span>
+<span class="sd">                v0 = 4 * x**2 + 4 * y**2</span>
 <span class="sd">                v1 = (x - 5) ** 2 + (y - 5) ** 2</span>
 <span class="sd">                return v0, v1</span>
 
@@ -241,7 +248,7 @@
     <span class="k">return</span> <span class="n">MultiObjectiveStudy</span><span class="p">(</span><span class="n">study</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="load_study"><a class="viewcode-back" href="../../../reference/multi_objective/generated/optuna.multi_objective.study.load_study.html#optuna.multi_objective.study.load_study">[docs]</a><span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;2.4.0&quot;</span><span class="p">,</span> <span class="s2">&quot;4.0.0&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="load_study"><a class="viewcode-back" href="../../../reference/multi_objective/generated/optuna.multi_objective.study.load_study.html#optuna.multi_objective.study.load_study">[docs]</a><span class="nd">@deprecated_func</span><span class="p">(</span><span class="s2">&quot;2.4.0&quot;</span><span class="p">,</span> <span class="s2">&quot;4.0.0&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">load_study</span><span class="p">(</span>
     <span class="n">study_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">storage</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseStorage</span><span class="p">],</span>
@@ -268,7 +275,7 @@
 <span class="sd">                x = trial.suggest_float(&quot;x&quot;, 0, 5)</span>
 <span class="sd">                y = trial.suggest_float(&quot;y&quot;, 0, 3)</span>
 
-<span class="sd">                v0 = 4 * x ** 2 + 4 * y ** 2</span>
+<span class="sd">                v0 = 4 * x**2 + 4 * y**2</span>
 <span class="sd">                v1 = (x - 5) ** 2 + (y - 5) ** 2</span>
 <span class="sd">                return v0, v1</span>
 
@@ -313,8 +320,8 @@
     <span class="k">return</span> <span class="n">MultiObjectiveStudy</span><span class="p">(</span><span class="n">study</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="MultiObjectiveStudy"><a class="viewcode-back" href="../../../reference/multi_objective/generated/optuna.multi_objective.study.MultiObjectiveStudy.html#optuna.multi_objective.study.MultiObjectiveStudy">[docs]</a><span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;2.4.0&quot;</span><span class="p">,</span> <span class="s2">&quot;4.0.0&quot;</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">MultiObjectiveStudy</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="MultiObjectiveStudy"><a class="viewcode-back" href="../../../reference/multi_objective/generated/optuna.multi_objective.study.MultiObjectiveStudy.html#optuna.multi_objective.study.MultiObjectiveStudy">[docs]</a><span class="nd">@deprecated_class</span><span class="p">(</span><span class="s2">&quot;2.4.0&quot;</span><span class="p">,</span> <span class="s2">&quot;4.0.0&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">MultiObjectiveStudy</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;A study corresponds to a multi-objective optimization task, i.e., a set of trials.</span>
 
 <span class="sd">    This object provides interfaces to run a new</span>
@@ -411,7 +418,7 @@
 <span class="sd">                    x = trial.suggest_float(&quot;x&quot;, 0, 5)</span>
 <span class="sd">                    y = trial.suggest_float(&quot;y&quot;, 0, 3)</span>
 
-<span class="sd">                    v0 = 4 * x ** 2 + 4 * y ** 2</span>
+<span class="sd">                    v0 = 4 * x**2 + 4 * y**2</span>
 <span class="sd">                    v1 = (x - 5) ** 2 + (y - 5) ** 2</span>
 <span class="sd">                    return v0, v1</span>
 
@@ -508,7 +515,7 @@
 <span class="sd">                Parameter values to pass your objective function.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_study</span><span class="o">.</span><span class="n">enqueue_trial</span><span class="p">(</span><span class="n">params</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_study</span><span class="o">.</span><span class="n">enqueue_trial</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">skip_if_exists</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">trials</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s2">&quot;multi_objective.trial.FrozenMultiObjectiveTrial&quot;</span><span class="p">]:</span>
@@ -527,7 +534,7 @@
 <div class="viewcode-block" id="MultiObjectiveStudy.get_trials"><a class="viewcode-back" href="../../../reference/multi_objective/generated/optuna.multi_objective.study.MultiObjectiveStudy.html#optuna.multi_objective.study.MultiObjectiveStudy.get_trials">[docs]</a>    <span class="k">def</span> <span class="nf">get_trials</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">deepcopy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="n">states</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">TrialState</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">states</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Container</span><span class="p">[</span><span class="n">TrialState</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s2">&quot;multi_objective.trial.FrozenMultiObjectiveTrial&quot;</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Return all trials in the study.</span>
 
@@ -588,11 +595,16 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_study</span><span class="o">.</span><span class="n">_study_id</span></div>
 
 
-<span class="k">def</span> <span class="nf">_log_completed_trial</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="n">Trial</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">_log_completed_trial</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="n">FrozenTrial</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">_logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">):</span>
         <span class="k">return</span>
 
-    <span class="n">actual_values</span> <span class="o">=</span> <span class="n">multi_objective</span><span class="o">.</span><span class="n">trial</span><span class="o">.</span><span class="n">MultiObjectiveTrial</span><span class="p">(</span><span class="n">trial</span><span class="p">)</span><span class="o">.</span><span class="n">_get_values</span><span class="p">()</span>
+    <span class="n">n_objectives</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">directions</span><span class="p">)</span>
+    <span class="n">frozen_multi_objective_trial</span> <span class="o">=</span> <span class="n">multi_objective</span><span class="o">.</span><span class="n">trial</span><span class="o">.</span><span class="n">FrozenMultiObjectiveTrial</span><span class="p">(</span>
+        <span class="n">n_objectives</span><span class="p">,</span>
+        <span class="n">trial</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">actual_values</span> <span class="o">=</span> <span class="n">frozen_multi_objective_trial</span><span class="o">.</span><span class="n">values</span>
     <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
         <span class="s2">&quot;Trial </span><span class="si">{}</span><span class="s2"> finished with values: </span><span class="si">{}</span><span class="s2"> with parameters: </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="n">trial</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">actual_values</span><span class="p">,</span> <span class="n">trial</span><span class="o">.</span><span class="n">params</span>
@@ -607,7 +619,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2018, Optuna Contributors..</p>
+    <p>&#169; Copyright 2018, Optuna Contributors.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

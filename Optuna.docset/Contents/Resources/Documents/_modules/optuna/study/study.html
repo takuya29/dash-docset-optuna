@@ -3,21 +3,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.study.study &mdash; Optuna 2.10.1 documentation</title><link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <title>optuna.study.study &mdash; Optuna 3.0.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/plot_directive.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery-binder.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery-dataframe.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery-rendered-html.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" /><link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+      <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
         <script src="../../../_static/clipboard.min.js"></script>
         <script src="../../../_static/copybutton.js"></script>
@@ -60,10 +64,11 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../index.html"><img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
+            <a href="../../../index.html">
+            <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                2.10.1
+                3.0.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -73,7 +78,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
@@ -107,9 +112,12 @@
              
   <h1>Source code for optuna.study.study</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">from</span> <span class="nn">numbers</span> <span class="kn">import</span> <span class="n">Real</span>
 <span class="kn">import</span> <span class="nn">threading</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">cast</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Container</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
@@ -117,8 +125,11 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">optuna</span> <span class="kn">import</span> <span class="n">exceptions</span>
 <span class="kn">from</span> <span class="nn">optuna</span> <span class="kn">import</span> <span class="n">logging</span>
@@ -126,19 +137,27 @@
 <span class="kn">from</span> <span class="nn">optuna</span> <span class="kn">import</span> <span class="n">samplers</span>
 <span class="kn">from</span> <span class="nn">optuna</span> <span class="kn">import</span> <span class="n">storages</span>
 <span class="kn">from</span> <span class="nn">optuna</span> <span class="kn">import</span> <span class="n">trial</span> <span class="k">as</span> <span class="n">trial_module</span>
-<span class="kn">from</span> <span class="nn">optuna._deprecated</span> <span class="kn">import</span> <span class="n">deprecated</span>
-<span class="kn">from</span> <span class="nn">optuna._experimental</span> <span class="kn">import</span> <span class="n">experimental</span>
+<span class="kn">from</span> <span class="nn">optuna._convert_positional_args</span> <span class="kn">import</span> <span class="n">convert_positional_args</span>
+<span class="kn">from</span> <span class="nn">optuna._deprecated</span> <span class="kn">import</span> <span class="n">deprecated_func</span>
+<span class="kn">from</span> <span class="nn">optuna._imports</span> <span class="kn">import</span> <span class="n">_LazyImport</span>
+<span class="kn">from</span> <span class="nn">optuna.distributions</span> <span class="kn">import</span> <span class="n">_convert_old_distribution_to_new_distribution</span>
 <span class="kn">from</span> <span class="nn">optuna.distributions</span> <span class="kn">import</span> <span class="n">BaseDistribution</span>
-<span class="kn">from</span> <span class="nn">optuna.study._dataframe</span> <span class="kn">import</span> <span class="n">_trials_dataframe</span>
-<span class="kn">from</span> <span class="nn">optuna.study._dataframe</span> <span class="kn">import</span> <span class="n">pd</span>
+<span class="kn">from</span> <span class="nn">optuna.storages._cached_storage</span> <span class="kn">import</span> <span class="n">_CachedStorage</span>
+<span class="kn">from</span> <span class="nn">optuna.storages._heartbeat</span> <span class="kn">import</span> <span class="n">is_heartbeat_enabled</span>
 <span class="kn">from</span> <span class="nn">optuna.study._multi_objective</span> <span class="kn">import</span> <span class="n">_get_pareto_front_trials</span>
-<span class="kn">from</span> <span class="nn">optuna.study._optimize</span> <span class="kn">import</span> <span class="n">_check_and_convert_to_values</span>
 <span class="kn">from</span> <span class="nn">optuna.study._optimize</span> <span class="kn">import</span> <span class="n">_optimize</span>
 <span class="kn">from</span> <span class="nn">optuna.study._study_direction</span> <span class="kn">import</span> <span class="n">StudyDirection</span>
 <span class="kn">from</span> <span class="nn">optuna.study._study_summary</span> <span class="kn">import</span> <span class="n">StudySummary</span>  <span class="c1"># NOQA</span>
+<span class="kn">from</span> <span class="nn">optuna.study._tell</span> <span class="kn">import</span> <span class="n">_tell_with_warning</span>
 <span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">create_trial</span>
 <span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">FrozenTrial</span>
 <span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">TrialState</span>
+
+
+<span class="n">_dataframe</span> <span class="o">=</span> <span class="n">_LazyImport</span><span class="p">(</span><span class="s2">&quot;optuna.study._dataframe&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">optuna.study._dataframe</span> <span class="kn">import</span> <span class="n">pd</span>
 
 
 <span class="n">ObjectiveFuncType</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">trial_module</span><span class="o">.</span><span class="n">Trial</span><span class="p">],</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]]]</span>
@@ -147,22 +166,59 @@
 <span class="n">_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<span class="k">class</span> <span class="nc">BaseStudy</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">storage</span><span class="p">:</span> <span class="n">storages</span><span class="o">.</span><span class="n">BaseStorage</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="Study"><a class="viewcode-back" href="../../../reference/generated/optuna.study.Study.html#optuna.Study">[docs]</a><span class="k">class</span> <span class="nc">Study</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;A study corresponds to an optimization task, i.e., a set of trials.</span>
 
+<span class="sd">    This object provides interfaces to run a new :class:`~optuna.trial.Trial`, access trials&#39;</span>
+<span class="sd">    history, set/get user-defined attributes of the study itself.</span>
+
+<span class="sd">    Note that the direct use of this constructor is not recommended.</span>
+<span class="sd">    To create and load a study, please refer to the documentation of</span>
+<span class="sd">    :func:`~optuna.study.create_study` and :func:`~optuna.study.load_study` respectively.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">study_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">storage</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">storages</span><span class="o">.</span><span class="n">BaseStorage</span><span class="p">],</span>
+        <span class="n">sampler</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;samplers.BaseSampler&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">pruner</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pruners</span><span class="o">.</span><span class="n">BasePruner</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">study_name</span> <span class="o">=</span> <span class="n">study_name</span>
+        <span class="n">storage</span> <span class="o">=</span> <span class="n">storages</span><span class="o">.</span><span class="n">get_storage</span><span class="p">(</span><span class="n">storage</span><span class="p">)</span>
+        <span class="n">study_id</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">get_study_id_from_name</span><span class="p">(</span><span class="n">study_name</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_study_id</span> <span class="o">=</span> <span class="n">study_id</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span> <span class="o">=</span> <span class="n">storage</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sampler</span> <span class="o">=</span> <span class="n">sampler</span> <span class="ow">or</span> <span class="n">samplers</span><span class="o">.</span><span class="n">TPESampler</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pruner</span> <span class="o">=</span> <span class="n">pruner</span> <span class="ow">or</span> <span class="n">pruners</span><span class="o">.</span><span class="n">MedianPruner</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_optimize_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stop_flag</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">del</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;_optimize_lock&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">state</span>
+
+    <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_optimize_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">best_params</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Return parameters of the best trial in the study.</span>
 
+<span class="sd">        .. note::</span>
+<span class="sd">            This feature can only be used for single-objective optimization.</span>
+
 <span class="sd">        Returns:</span>
 <span class="sd">            A dictionary containing parameters of the best trial.</span>
 
-<span class="sd">        Raises:</span>
-<span class="sd">            :exc:`RuntimeError`:</span>
-<span class="sd">                If the study has more than one direction.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_trial</span><span class="o">.</span><span class="n">params</span>
@@ -171,12 +227,12 @@
     <span class="k">def</span> <span class="nf">best_value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Return the best objective value in the study.</span>
 
+<span class="sd">        .. note::</span>
+<span class="sd">            This feature can only be used for single-objective optimization.</span>
+
 <span class="sd">        Returns:</span>
 <span class="sd">            A float representing the best objective value.</span>
 
-<span class="sd">        Raises:</span>
-<span class="sd">            :exc:`RuntimeError`:</span>
-<span class="sd">                If the study has more than one direction.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">best_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_trial</span><span class="o">.</span><span class="n">value</span>
@@ -188,12 +244,18 @@
     <span class="k">def</span> <span class="nf">best_trial</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FrozenTrial</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Return the best trial in the study.</span>
 
-<span class="sd">        Returns:</span>
-<span class="sd">            A :class:`~optuna.FrozenTrial` object of the best trial.</span>
+<span class="sd">        .. note::</span>
+<span class="sd">            This feature can only be used for single-objective optimization.</span>
+<span class="sd">            If your study is multi-objective,</span>
+<span class="sd">            use :attr:`~optuna.study.Study.best_trials` instead.</span>
 
-<span class="sd">        Raises:</span>
-<span class="sd">            :exc:`RuntimeError`:</span>
-<span class="sd">                If the study has more than one direction.</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            A :class:`~optuna.trial.FrozenTrial` object of the best trial.</span>
+
+<span class="sd">        .. seealso::</span>
+<span class="sd">            The :ref:`reuse_best_trial` tutorial provides a detailed example of how to use this</span>
+<span class="sd">            method.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_multi_objective</span><span class="p">():</span>
@@ -223,12 +285,14 @@
     <span class="k">def</span> <span class="nf">direction</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StudyDirection</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Return the direction of the study.</span>
 
+<span class="sd">        .. note::</span>
+<span class="sd">            This feature can only be used for single-objective optimization.</span>
+<span class="sd">            If your study is multi-objective,</span>
+<span class="sd">            use :attr:`~optuna.study.Study.directions` instead.</span>
+
 <span class="sd">        Returns:</span>
 <span class="sd">            A :class:`~optuna.study.StudyDirection` object.</span>
 
-<span class="sd">        Raises:</span>
-<span class="sd">            :exc:`RuntimeError`:</span>
-<span class="sd">                If the study has more than one direction.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_multi_objective</span><span class="p">():</span>
@@ -258,28 +322,26 @@
 <span class="sd">        This is a short form of ``self.get_trials(deepcopy=True, states=None)``.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            A list of :class:`~optuna.FrozenTrial` objects.</span>
+<span class="sd">            A list of :class:`~optuna.trial.FrozenTrial` objects.</span>
+
+<span class="sd">            .. seealso::</span>
+<span class="sd">                See :func:`~optuna.study.Study.get_trials` for related method.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_trials</span><span class="p">(</span><span class="n">deepcopy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">states</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_is_multi_objective</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Return :obj:`True` if the study has multiple objectives.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            A boolean value indicates if `self.directions` has more than 1 element or not.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">directions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span>
-
-    <span class="k">def</span> <span class="nf">get_trials</span><span class="p">(</span>
+<div class="viewcode-block" id="Study.get_trials"><a class="viewcode-back" href="../../../reference/generated/optuna.study.Study.html#optuna.Study.get_trials">[docs]</a>    <span class="k">def</span> <span class="nf">get_trials</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">deepcopy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="n">states</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">TrialState</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">states</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Container</span><span class="p">[</span><span class="n">TrialState</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Return all trials in the study.</span>
 
 <span class="sd">        The returned trials are ordered by trial number.</span>
+
+<span class="sd">        .. seealso::</span>
+<span class="sd">            See :attr:`~optuna.study.Study.trials` for related property.</span>
 
 <span class="sd">        Example:</span>
 <span class="sd">            .. testcode::</span>
@@ -289,7 +351,7 @@
 
 <span class="sd">                def objective(trial):</span>
 <span class="sd">                    x = trial.suggest_float(&quot;x&quot;, -1, 1)</span>
-<span class="sd">                    return x ** 2</span>
+<span class="sd">                    return x**2</span>
 
 
 <span class="sd">                study = optuna.create_study()</span>
@@ -307,54 +369,12 @@
 <span class="sd">                Trial states to filter on. If :obj:`None`, include all states.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            A list of :class:`~optuna.FrozenTrial` objects.</span>
+<span class="sd">            A list of :class:`~optuna.trial.FrozenTrial` objects.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_storage</span><span class="p">,</span> <span class="n">_CachedStorage</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">read_trials_from_remote_storage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_study_id</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">read_trials_from_remote_storage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_study_id</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">get_all_trials</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_study_id</span><span class="p">,</span> <span class="n">deepcopy</span><span class="o">=</span><span class="n">deepcopy</span><span class="p">,</span> <span class="n">states</span><span class="o">=</span><span class="n">states</span><span class="p">)</span>
-
-
-<div class="viewcode-block" id="Study"><a class="viewcode-back" href="../../../reference/generated/optuna.study.Study.html#optuna.Study">[docs]</a><span class="k">class</span> <span class="nc">Study</span><span class="p">(</span><span class="n">BaseStudy</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;A study corresponds to an optimization task, i.e., a set of trials.</span>
-
-<span class="sd">    This object provides interfaces to run a new :class:`~optuna.trial.Trial`, access trials&#39;</span>
-<span class="sd">    history, set/get user-defined attributes of the study itself.</span>
-
-<span class="sd">    Note that the direct use of this constructor is not recommended.</span>
-<span class="sd">    To create and load a study, please refer to the documentation of</span>
-<span class="sd">    :func:`~optuna.study.create_study` and :func:`~optuna.study.load_study` respectively.</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">study_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">storage</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">storages</span><span class="o">.</span><span class="n">BaseStorage</span><span class="p">],</span>
-        <span class="n">sampler</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;samplers.BaseSampler&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">pruner</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pruners</span><span class="o">.</span><span class="n">BasePruner</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">study_name</span> <span class="o">=</span> <span class="n">study_name</span>
-        <span class="n">storage</span> <span class="o">=</span> <span class="n">storages</span><span class="o">.</span><span class="n">get_storage</span><span class="p">(</span><span class="n">storage</span><span class="p">)</span>
-        <span class="n">study_id</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">get_study_id_from_name</span><span class="p">(</span><span class="n">study_name</span><span class="p">)</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">study_id</span><span class="p">,</span> <span class="n">storage</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">sampler</span> <span class="o">=</span> <span class="n">sampler</span> <span class="ow">or</span> <span class="n">samplers</span><span class="o">.</span><span class="n">TPESampler</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pruner</span> <span class="o">=</span> <span class="n">pruner</span> <span class="ow">or</span> <span class="n">pruners</span><span class="o">.</span><span class="n">MedianPruner</span><span class="p">()</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">_optimize_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_stop_flag</span> <span class="o">=</span> <span class="kc">False</span>
-
-    <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-
-        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="k">del</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;_optimize_lock&quot;</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">state</span>
-
-    <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_optimize_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">get_all_trials</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_study_id</span><span class="p">,</span> <span class="n">deepcopy</span><span class="o">=</span><span class="n">deepcopy</span><span class="p">,</span> <span class="n">states</span><span class="o">=</span><span class="n">states</span><span class="p">)</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">user_attrs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
@@ -374,7 +394,7 @@
 <span class="sd">                def objective(trial):</span>
 <span class="sd">                    x = trial.suggest_float(&quot;x&quot;, 0, 1)</span>
 <span class="sd">                    y = trial.suggest_float(&quot;y&quot;, 0, 1)</span>
-<span class="sd">                    return x ** 2 + y ** 2</span>
+<span class="sd">                    return x**2 + y**2</span>
 
 
 <span class="sd">                study = optuna.create_study()</span>
@@ -424,6 +444,11 @@
 <span class="sd">        default choice for the sampler is TPE.</span>
 <span class="sd">        See also :class:`~optuna.samplers.TPESampler` for more details on &#39;TPE&#39;.</span>
 
+<span class="sd">        Optimization will be stopped when receiving a termination signal such as SIGINT and</span>
+<span class="sd">        SIGTERM. Unlike other signals, a trial is automatically and cleanly failed when receiving</span>
+<span class="sd">        SIGINT (Ctrl+C). If :obj:`n_jobs` is greater than one or if another signal than SIGINT</span>
+<span class="sd">        is used, the interrupted trial state won&#39;t be properly updated.</span>
+
 <span class="sd">        Example:</span>
 
 <span class="sd">            .. testcode::</span>
@@ -433,7 +458,7 @@
 
 <span class="sd">                def objective(trial):</span>
 <span class="sd">                    x = trial.suggest_float(&quot;x&quot;, -1, 1)</span>
-<span class="sd">                    return x ** 2</span>
+<span class="sd">                    return x**2</span>
 
 
 <span class="sd">                study = optuna.create_study()</span>
@@ -443,15 +468,21 @@
 <span class="sd">            func:</span>
 <span class="sd">                A callable that implements objective function.</span>
 <span class="sd">            n_trials:</span>
-<span class="sd">                The number of trials. If this argument is set to :obj:`None`, there is no</span>
-<span class="sd">                limitation on the number of trials. If :obj:`timeout` is also set to :obj:`None`,</span>
-<span class="sd">                the study continues to create trials until it receives a termination signal such</span>
-<span class="sd">                as Ctrl+C or SIGTERM.</span>
+<span class="sd">                The number of trials for each process. :obj:`None` represents no limit in terms of</span>
+<span class="sd">                the number of trials. The study continues to create trials until the number of</span>
+<span class="sd">                trials reaches ``n_trials``, ``timeout`` period elapses,</span>
+<span class="sd">                :func:`~optuna.study.Study.stop` is called, or a termination signal such as</span>
+<span class="sd">                SIGTERM or Ctrl+C is received.</span>
+
+<span class="sd">                .. seealso::</span>
+<span class="sd">                    :class:`optuna.study.MaxTrialsCallback` can ensure how many times trials</span>
+<span class="sd">                    will be performed across all processes.</span>
 <span class="sd">            timeout:</span>
-<span class="sd">                Stop study after the given number of second(s). If this argument is set to</span>
-<span class="sd">                :obj:`None`, the study is executed without time limitation. If :obj:`n_trials` is</span>
-<span class="sd">                also set to :obj:`None`, the study continues to create trials until it receives a</span>
-<span class="sd">                termination signal such as Ctrl+C or SIGTERM.</span>
+<span class="sd">                Stop study after the given number of second(s). :obj:`None` represents no limit in</span>
+<span class="sd">                terms of elapsed time. The study continues to create trials until the number of</span>
+<span class="sd">                trials reaches ``n_trials``, ``timeout`` period elapses,</span>
+<span class="sd">                :func:`~optuna.study.Study.stop` is called or, a termination signal such as</span>
+<span class="sd">                SIGTERM or Ctrl+C is received.</span>
 <span class="sd">            n_jobs:</span>
 <span class="sd">                The number of parallel jobs. If this argument is set to :obj:`-1`, the number is</span>
 <span class="sd">                set to CPU count.</span>
@@ -462,13 +493,6 @@
 <span class="sd">                    It is recommended to use :ref:`process-based parallelization&lt;distributed&gt;`</span>
 <span class="sd">                    if ``func`` is CPU bound.</span>
 
-<span class="sd">                .. warning::</span>
-<span class="sd">                    Deprecated in v2.7.0. This feature will be removed in the future.</span>
-<span class="sd">                    It is recommended to use :ref:`process-based parallelization&lt;distributed&gt;`.</span>
-<span class="sd">                    The removal of this feature is currently scheduled for v4.0.0, but this</span>
-<span class="sd">                    schedule is subject to change.</span>
-<span class="sd">                    See https://github.com/optuna/optuna/releases/tag/v2.7.0.</span>
-
 <span class="sd">            catch:</span>
 <span class="sd">                A study continues to run even when a trial raises one of the exceptions specified</span>
 <span class="sd">                in this argument. Default is an empty tuple, i.e. the study will stop for any</span>
@@ -476,7 +500,13 @@
 <span class="sd">            callbacks:</span>
 <span class="sd">                List of callback functions that are invoked at the end of each trial. Each function</span>
 <span class="sd">                must accept two parameters with the following types in this order:</span>
-<span class="sd">                :class:`~optuna.study.Study` and :class:`~optuna.FrozenTrial`.</span>
+<span class="sd">                :class:`~optuna.study.Study` and :class:`~optuna.trial.FrozenTrial`.</span>
+
+<span class="sd">                .. seealso::</span>
+
+<span class="sd">                    See the tutorial of :ref:`optuna_callback` for how to use and implement</span>
+<span class="sd">                    callback functions.</span>
+
 <span class="sd">            gc_after_trial:</span>
 <span class="sd">                Flag to determine whether to automatically run garbage collection after each trial.</span>
 <span class="sd">                Set to :obj:`True` to run the garbage collection, :obj:`False` otherwise.</span>
@@ -491,19 +521,13 @@
 <span class="sd">            show_progress_bar:</span>
 <span class="sd">                Flag to show progress bars or not. To disable progress bar, set this :obj:`False`.</span>
 <span class="sd">                Currently, progress bar is experimental feature and disabled</span>
-<span class="sd">                when ``n_jobs`` :math:`\\ne 1`.</span>
+<span class="sd">                when ``n_trials`` is :obj:`None`, ``timeout`` not is :obj:`None`, and</span>
+<span class="sd">                ``n_jobs`` :math:`\\ne 1`.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            RuntimeError:</span>
 <span class="sd">                If nested invocation of this method occurs.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">n_jobs</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;`n_jobs` argument has been deprecated in v2.7.0. &quot;</span>
-                <span class="s2">&quot;This feature will be removed in v4.0.0. &quot;</span>
-                <span class="s2">&quot;See https://github.com/optuna/optuna/releases/tag/v2.7.0.&quot;</span><span class="p">,</span>
-                <span class="ne">FutureWarning</span><span class="p">,</span>
-            <span class="p">)</span>
 
         <span class="n">_optimize</span><span class="p">(</span>
             <span class="n">study</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
@@ -546,7 +570,7 @@
 
 <span class="sd">                x = trial.suggest_float(&quot;x&quot;, -1, 1)</span>
 
-<span class="sd">                study.tell(trial, x ** 2)</span>
+<span class="sd">                study.tell(trial, x**2)</span>
 
 <span class="sd">        Example:</span>
 
@@ -562,7 +586,7 @@
 
 <span class="sd">                distributions = {</span>
 <span class="sd">                    &quot;optimizer&quot;: optuna.distributions.CategoricalDistribution([&quot;adam&quot;, &quot;sgd&quot;]),</span>
-<span class="sd">                    &quot;lr&quot;: optuna.distributions.LogUniformDistribution(0.0001, 0.1),</span>
+<span class="sd">                    &quot;lr&quot;: optuna.distributions.FloatDistribution(0.0001, 0.1, log=True),</span>
 <span class="sd">                }</span>
 
 <span class="sd">                # You can pass the distributions previously defined.</span>
@@ -583,10 +607,19 @@
 <span class="sd">            A :class:`~optuna.trial.Trial`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_optimize_lock</span><span class="o">.</span><span class="n">locked</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">is_heartbeat_enabled</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_storage</span><span class="p">):</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Heartbeat of storage is supposed to be used with Study.optimize.&quot;</span><span class="p">)</span>
+
         <span class="n">fixed_distributions</span> <span class="o">=</span> <span class="n">fixed_distributions</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="n">fixed_distributions</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">key</span><span class="p">:</span> <span class="n">_convert_old_distribution_to_new_distribution</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">fixed_distributions</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">}</span>
 
         <span class="c1"># Sync storage once every trial.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">read_trials_from_remote_storage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_study_id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_storage</span><span class="p">,</span> <span class="n">_CachedStorage</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">read_trials_from_remote_storage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_study_id</span><span class="p">)</span>
 
         <span class="n">trial_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pop_waiting_trial_id</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">trial_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -602,8 +635,9 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">trial</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">trial_module</span><span class="o">.</span><span class="n">Trial</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
         <span class="n">values</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">state</span><span class="p">:</span> <span class="n">TrialState</span> <span class="o">=</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">COMPLETE</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TrialState</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">skip_if_finished</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FrozenTrial</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Finish a trial created with :func:`~optuna.study.Study.ask`.</span>
 
 <span class="sd">        .. seealso::</span>
@@ -663,113 +697,27 @@
 <span class="sd">                is :class:`~optuna.trial.TrialState.FAIL` or</span>
 <span class="sd">                :class:`~optuna.trial.TrialState.PRUNED`.</span>
 <span class="sd">            state:</span>
-<span class="sd">                State to be reported. Must be :class:`~optuna.trial.TrialState.COMPLETE`,</span>
-<span class="sd">                :class:`~optuna.trial.TrialState.FAIL` or</span>
-<span class="sd">                :class:`~optuna.trial.TrialState.PRUNED`.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            TypeError:</span>
-<span class="sd">                If ``trial`` is not a :class:`~optuna.trial.Trial` or an :obj:`int`.</span>
-<span class="sd">            ValueError:</span>
-<span class="sd">                If any of the following.</span>
-<span class="sd">                ``values`` is a sequence but its length does not match the number of objectives</span>
-<span class="sd">                for its associated study.</span>
-<span class="sd">                ``state`` is :class:`~optuna.trial.TrialState.COMPLETE` but</span>
-<span class="sd">                ``values`` is :obj:`None`.</span>
-<span class="sd">                ``state`` is :class:`~optuna.trial.TrialState.FAIL` or</span>
-<span class="sd">                :class:`~optuna.trial.TrialState.PRUNED` but</span>
-<span class="sd">                ``values`` is not :obj:`None`.</span>
-<span class="sd">                ``state`` is not</span>
+<span class="sd">                State to be reported. Must be :obj:`None`,</span>
 <span class="sd">                :class:`~optuna.trial.TrialState.COMPLETE`,</span>
 <span class="sd">                :class:`~optuna.trial.TrialState.FAIL` or</span>
 <span class="sd">                :class:`~optuna.trial.TrialState.PRUNED`.</span>
-<span class="sd">                ``trial`` is a trial number but no</span>
-<span class="sd">                trial exists with that number.</span>
+<span class="sd">                If ``state`` is :obj:`None`,</span>
+<span class="sd">                it will be updated to :class:`~optuna.trial.TrialState.COMPLETE`</span>
+<span class="sd">                or :class:`~optuna.trial.TrialState.FAIL` depending on whether</span>
+<span class="sd">                validation for ``values`` reported succeed or not.</span>
+<span class="sd">            skip_if_finished:</span>
+<span class="sd">                Flag to control whether exception should be raised when values for already</span>
+<span class="sd">                finished trial are told. If :obj:`True`, tell is skipped without any error</span>
+<span class="sd">                when the trial is already finished.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A :class:`~optuna.trial.FrozenTrial` representing the resulting trial.</span>
+<span class="sd">            A returned trial is deep copied thus user can modify it as needed.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="p">(</span><span class="n">trial_module</span><span class="o">.</span><span class="n">Trial</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Trial must be a trial object or trial number.&quot;</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">COMPLETE</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">values</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="s2">&quot;No values were told. Values are required when state is TrialState.COMPLETE.&quot;</span>
-                <span class="p">)</span>
-        <span class="k">elif</span> <span class="n">state</span> <span class="ow">in</span> <span class="p">(</span><span class="n">TrialState</span><span class="o">.</span><span class="n">PRUNED</span><span class="p">,</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">FAIL</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">values</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="s2">&quot;Values were told. Values cannot be specified when state is &quot;</span>
-                    <span class="s2">&quot;TrialState.PRUNED or TrialState.FAIL.&quot;</span>
-                <span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot tell with state </span><span class="si">{</span><span class="n">state</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">trial_module</span><span class="o">.</span><span class="n">Trial</span><span class="p">):</span>
-            <span class="n">trial_number</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">number</span>
-            <span class="n">trial_id</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">_trial_id</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-            <span class="n">trial_number</span> <span class="o">=</span> <span class="n">trial</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">trial_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">get_trial_id_from_study_id_trial_number</span><span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_study_id</span><span class="p">,</span> <span class="n">trial_number</span>
-                <span class="p">)</span>
-            <span class="k">except</span> <span class="ne">NotImplementedError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                    <span class="s2">&quot;Study.tell may be slow because the trial was represented by its number but &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;the storage </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> does not implement the &quot;</span>
-                    <span class="s2">&quot;method required to map numbers back. Please provide the trial object &quot;</span>
-                    <span class="s2">&quot;to avoid performance degradation.&quot;</span>
-                <span class="p">)</span>
-
-                <span class="n">trials</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_trials</span><span class="p">(</span><span class="n">deepcopy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">trials</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">trial_number</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Cannot tell for trial with number </span><span class="si">{</span><span class="n">trial_number</span><span class="si">}</span><span class="s2"> since it has not been &quot;</span>
-                        <span class="s2">&quot;created.&quot;</span>
-                    <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
-
-                <span class="n">trial_id</span> <span class="o">=</span> <span class="n">trials</span><span class="p">[</span><span class="n">trial_number</span><span class="p">]</span><span class="o">.</span><span class="n">_trial_id</span>
-            <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Cannot tell for trial with number </span><span class="si">{</span><span class="n">trial_number</span><span class="si">}</span><span class="s2"> since it has not been &quot;</span>
-                    <span class="s2">&quot;created.&quot;</span>
-                <span class="p">)</span> <span class="kn">from</span> <span class="nn">e</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Should not reach.&quot;</span>
-
-        <span class="n">frozen_trial</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">get_trial</span><span class="p">(</span><span class="n">trial_id</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">PRUNED</span><span class="p">:</span>
-            <span class="c1"># Register the last intermediate value if present as the value of the trial.</span>
-            <span class="c1"># TODO(hvy): Whether a pruned trials should have an actual value can be discussed.</span>
-            <span class="k">assert</span> <span class="n">values</span> <span class="ow">is</span> <span class="kc">None</span>
-
-            <span class="n">last_step</span> <span class="o">=</span> <span class="n">frozen_trial</span><span class="o">.</span><span class="n">last_step</span>
-            <span class="k">if</span> <span class="n">last_step</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">frozen_trial</span><span class="o">.</span><span class="n">intermediate_values</span><span class="p">[</span><span class="n">last_step</span><span class="p">]]</span>
-
-        <span class="k">if</span> <span class="n">values</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">values</span><span class="p">,</span> <span class="n">values_conversion_failure_message</span> <span class="o">=</span> <span class="n">_check_and_convert_to_values</span><span class="p">(</span>
-                <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">directions</span><span class="p">),</span> <span class="n">values</span><span class="p">,</span> <span class="n">trial_number</span>
-            <span class="p">)</span>
-            <span class="c1"># When called from `Study.optimize` and `state` is pruned, the given `values` contains</span>
-            <span class="c1"># the intermediate value with the largest step so far. In this case, the value is</span>
-            <span class="c1"># allowed to be NaN and errors should not be raised.</span>
-            <span class="k">if</span> <span class="n">state</span> <span class="o">!=</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">PRUNED</span> <span class="ow">and</span> <span class="n">values_conversion_failure_message</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">values_conversion_failure_message</span><span class="p">)</span>
-
-        <span class="k">try</span><span class="p">:</span>
-            <span class="c1"># Sampler defined trial post-processing.</span>
-            <span class="n">study</span> <span class="o">=</span> <span class="n">pruners</span><span class="o">.</span><span class="n">_filter_study</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frozen_trial</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">after_trial</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="n">frozen_trial</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-            <span class="k">raise</span>
-        <span class="k">finally</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">values</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">set_trial_values</span><span class="p">(</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
-
-            <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">set_trial_state</span><span class="p">(</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">_tell_with_warning</span><span class="p">(</span>
+            <span class="n">study</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial</span><span class="o">=</span><span class="n">trial</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">values</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span> <span class="n">skip_if_finished</span><span class="o">=</span><span class="n">skip_if_finished</span>
+        <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Study.set_user_attr"><a class="viewcode-back" href="../../../reference/generated/optuna.study.Study.html#optuna.Study.set_user_attr">[docs]</a>    <span class="k">def</span> <span class="nf">set_user_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Set a user attribute to the study.</span>
@@ -777,6 +725,10 @@
 <span class="sd">        .. seealso::</span>
 
 <span class="sd">            See :attr:`~optuna.study.Study.user_attrs` for related attribute.</span>
+
+<span class="sd">        .. seealso::</span>
+
+<span class="sd">            See the recipe on :ref:`attributes`.</span>
 
 <span class="sd">        Example:</span>
 
@@ -788,7 +740,7 @@
 <span class="sd">                def objective(trial):</span>
 <span class="sd">                    x = trial.suggest_float(&quot;x&quot;, 0, 1)</span>
 <span class="sd">                    y = trial.suggest_float(&quot;y&quot;, 0, 1)</span>
-<span class="sd">                    return x ** 2 + y ** 2</span>
+<span class="sd">                    return x**2 + y**2</span>
 
 
 <span class="sd">                study = optuna.create_study()</span>
@@ -856,7 +808,7 @@
 
 <span class="sd">                def objective(trial):</span>
 <span class="sd">                    x = trial.suggest_float(&quot;x&quot;, -1, 1)</span>
-<span class="sd">                    return x ** 2</span>
+<span class="sd">                    return x**2</span>
 
 
 <span class="sd">                study = optuna.create_study()</span>
@@ -869,7 +821,7 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            attrs:</span>
-<span class="sd">                Specifies field names of :class:`~optuna.FrozenTrial` to include them to a</span>
+<span class="sd">                Specifies field names of :class:`~optuna.trial.FrozenTrial` to include them to a</span>
 <span class="sd">                DataFrame of trials.</span>
 <span class="sd">            multi_index:</span>
 <span class="sd">                Specifies whether the returned DataFrame_ employs MultiIndex_ or not. Columns that</span>
@@ -886,16 +838,16 @@
 <span class="sd">            If ``value`` is in ``attrs`` during multi-objective optimization, it is implicitly</span>
 <span class="sd">            replaced with ``values``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">_trials_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">multi_index</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">_dataframe</span><span class="o">.</span><span class="n">_trials_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">multi_index</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Study.stop"><a class="viewcode-back" href="../../../reference/generated/optuna.study.Study.html#optuna.Study.stop">[docs]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="sd">&quot;&quot;&quot;Exit from the current optimization loop after the running trials finish.</span>
 
 <span class="sd">        This method lets the running :meth:`~optuna.study.Study.optimize` method return</span>
 <span class="sd">        immediately after all trials which the :meth:`~optuna.study.Study.optimize` method</span>
 <span class="sd">        spawned finishes.</span>
 <span class="sd">        This method does not affect any behaviors of parallel or successive study processes.</span>
+<span class="sd">        This method only works when it is called inside an objective function or callback.</span>
 
 <span class="sd">        Example:</span>
 
@@ -908,16 +860,13 @@
 <span class="sd">                    if trial.number == 4:</span>
 <span class="sd">                        trial.study.stop()</span>
 <span class="sd">                    x = trial.suggest_float(&quot;x&quot;, 0, 10)</span>
-<span class="sd">                    return x ** 2</span>
+<span class="sd">                    return x**2</span>
 
 
 <span class="sd">                study = optuna.create_study()</span>
 <span class="sd">                study.optimize(objective, n_trials=10)</span>
 <span class="sd">                assert len(study.trials) == 5</span>
 
-<span class="sd">        Raises:</span>
-<span class="sd">            RuntimeError:</span>
-<span class="sd">                If this method is called outside an objective function or callback.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_optimize_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">(</span><span class="kc">False</span><span class="p">):</span>
@@ -929,8 +878,12 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_stop_flag</span> <span class="o">=</span> <span class="kc">True</span></div>
 
-<div class="viewcode-block" id="Study.enqueue_trial"><a class="viewcode-back" href="../../../reference/generated/optuna.study.Study.html#optuna.Study.enqueue_trial">[docs]</a>    <span class="nd">@experimental</span><span class="p">(</span><span class="s2">&quot;1.2.0&quot;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">enqueue_trial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="Study.enqueue_trial"><a class="viewcode-back" href="../../../reference/generated/optuna.study.Study.html#optuna.Study.enqueue_trial">[docs]</a>    <span class="k">def</span> <span class="nf">enqueue_trial</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+        <span class="n">user_attrs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">skip_if_exists</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Enqueue a trial with given parameter values.</span>
 
 <span class="sd">        You can fix the next sampling parameters which will be evaluated in your</span>
@@ -945,28 +898,49 @@
 
 <span class="sd">                def objective(trial):</span>
 <span class="sd">                    x = trial.suggest_float(&quot;x&quot;, 0, 10)</span>
-<span class="sd">                    return x ** 2</span>
+<span class="sd">                    return x**2</span>
 
 
 <span class="sd">                study = optuna.create_study()</span>
 <span class="sd">                study.enqueue_trial({&quot;x&quot;: 5})</span>
-<span class="sd">                study.enqueue_trial({&quot;x&quot;: 0})</span>
+<span class="sd">                study.enqueue_trial({&quot;x&quot;: 0}, user_attrs={&quot;memo&quot;: &quot;optimal&quot;})</span>
 <span class="sd">                study.optimize(objective, n_trials=2)</span>
 
 <span class="sd">                assert study.trials[0].params == {&quot;x&quot;: 5}</span>
 <span class="sd">                assert study.trials[1].params == {&quot;x&quot;: 0}</span>
+<span class="sd">                assert study.trials[1].user_attrs == {&quot;memo&quot;: &quot;optimal&quot;}</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            params:</span>
 <span class="sd">                Parameter values to pass your objective function.</span>
+<span class="sd">            user_attrs:</span>
+<span class="sd">                A dictionary of user-specific attributes other than ``params``.</span>
+<span class="sd">            skip_if_exists:</span>
+<span class="sd">                When :obj:`True`, prevents duplicate trials from being enqueued again.</span>
+
+<span class="sd">                .. note::</span>
+<span class="sd">                    This method might produce duplicated trials if called simultaneously</span>
+<span class="sd">                    by multiple processes at the same time with same ``params`` dict.</span>
+
+<span class="sd">        .. seealso::</span>
+
+<span class="sd">            Please refer to :ref:`enqueue_trial_tutorial` for the tutorial of specifying</span>
+<span class="sd">            hyperparameters manually.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
+        <span class="k">if</span> <span class="n">skip_if_exists</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_should_skip_enqueue</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+            <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Trial with params </span><span class="si">{</span><span class="n">params</span><span class="si">}</span><span class="s2"> already exists. Skipping enqueue.&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">add_trial</span><span class="p">(</span>
-            <span class="n">create_trial</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">TrialState</span><span class="o">.</span><span class="n">WAITING</span><span class="p">,</span> <span class="n">system_attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;fixed_params&quot;</span><span class="p">:</span> <span class="n">params</span><span class="p">})</span>
+            <span class="n">create_trial</span><span class="p">(</span>
+                <span class="n">state</span><span class="o">=</span><span class="n">TrialState</span><span class="o">.</span><span class="n">WAITING</span><span class="p">,</span>
+                <span class="n">system_attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;fixed_params&quot;</span><span class="p">:</span> <span class="n">params</span><span class="p">},</span>
+                <span class="n">user_attrs</span><span class="o">=</span><span class="n">user_attrs</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="Study.add_trial"><a class="viewcode-back" href="../../../reference/generated/optuna.study.Study.html#optuna.Study.add_trial">[docs]</a>    <span class="nd">@experimental</span><span class="p">(</span><span class="s2">&quot;2.0.0&quot;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">add_trial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="n">FrozenTrial</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="Study.add_trial"><a class="viewcode-back" href="../../../reference/generated/optuna.study.Study.html#optuna.Study.add_trial">[docs]</a>    <span class="k">def</span> <span class="nf">add_trial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="n">FrozenTrial</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Add trial to study.</span>
 
 <span class="sd">        The trial is validated before being added.</span>
@@ -976,12 +950,12 @@
 <span class="sd">            .. testcode::</span>
 
 <span class="sd">                import optuna</span>
-<span class="sd">                from optuna.distributions import UniformDistribution</span>
+<span class="sd">                from optuna.distributions import FloatDistribution</span>
 
 
 <span class="sd">                def objective(trial):</span>
 <span class="sd">                    x = trial.suggest_float(&quot;x&quot;, 0, 10)</span>
-<span class="sd">                    return x ** 2</span>
+<span class="sd">                    return x**2</span>
 
 
 <span class="sd">                study = optuna.create_study()</span>
@@ -989,7 +963,7 @@
 
 <span class="sd">                trial = optuna.trial.create_trial(</span>
 <span class="sd">                    params={&quot;x&quot;: 2.0},</span>
-<span class="sd">                    distributions={&quot;x&quot;: UniformDistribution(0, 10)},</span>
+<span class="sd">                    distributions={&quot;x&quot;: FloatDistribution(0, 10)},</span>
 <span class="sd">                    value=4.0,</span>
 <span class="sd">                )</span>
 
@@ -1018,12 +992,12 @@
 
 <span class="sd">            See :func:`~optuna.trial.create_trial` for how to create trials.</span>
 
+<span class="sd">        .. seealso::</span>
+<span class="sd">            Please refer to :ref:`add_trial_tutorial` for the tutorial of specifying</span>
+<span class="sd">            hyperparameters with the evaluated value manually.</span>
+
 <span class="sd">        Args:</span>
 <span class="sd">            trial: Trial to add.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            :exc:`ValueError`:</span>
-<span class="sd">                If trial is an invalid state.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -1031,8 +1005,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">create_new_trial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_study_id</span><span class="p">,</span> <span class="n">template_trial</span><span class="o">=</span><span class="n">trial</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Study.add_trials"><a class="viewcode-back" href="../../../reference/generated/optuna.study.Study.html#optuna.Study.add_trials">[docs]</a>    <span class="nd">@experimental</span><span class="p">(</span><span class="s2">&quot;2.5.0&quot;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">add_trials</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trials</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="Study.add_trials"><a class="viewcode-back" href="../../../reference/generated/optuna.study.Study.html#optuna.Study.add_trials">[docs]</a>    <span class="k">def</span> <span class="nf">add_trials</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trials</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Add trials to study.</span>
 
 <span class="sd">        The trials are validated before being added.</span>
@@ -1042,12 +1015,11 @@
 <span class="sd">            .. testcode::</span>
 
 <span class="sd">                import optuna</span>
-<span class="sd">                from optuna.distributions import UniformDistribution</span>
 
 
 <span class="sd">                def objective(trial):</span>
 <span class="sd">                    x = trial.suggest_float(&quot;x&quot;, 0, 10)</span>
-<span class="sd">                    return x ** 2</span>
+<span class="sd">                    return x**2</span>
 
 
 <span class="sd">                study = optuna.create_study()</span>
@@ -1068,22 +1040,26 @@
 <span class="sd">        Args:</span>
 <span class="sd">            trials: Trials to add.</span>
 
-<span class="sd">        Raises:</span>
-<span class="sd">            :exc:`ValueError`:</span>
-<span class="sd">                If ``trials`` include invalid trial.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">trials</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">add_trial</span><span class="p">(</span><span class="n">trial</span><span class="p">)</span></div>
 
+    <span class="k">def</span> <span class="nf">_is_multi_objective</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return :obj:`True` if the study has multiple objectives.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A boolean value indicates if `self.directions` has more than 1 element or not.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">directions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span>
+
     <span class="k">def</span> <span class="nf">_pop_waiting_trial_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
 
-        <span class="c1"># TODO(c-bata): Reduce database query counts for extracting waiting trials.</span>
-        <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">get_all_trials</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_study_id</span><span class="p">,</span> <span class="n">deepcopy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">trial</span><span class="o">.</span><span class="n">state</span> <span class="o">!=</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">WAITING</span><span class="p">:</span>
-                <span class="k">continue</span>
-
-            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">set_trial_state</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">_trial_id</span><span class="p">,</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">RUNNING</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">get_all_trials</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_study_id</span><span class="p">,</span> <span class="n">deepcopy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">states</span><span class="o">=</span><span class="p">(</span><span class="n">TrialState</span><span class="o">.</span><span class="n">WAITING</span><span class="p">,)</span>
+        <span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">set_trial_state_values</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">_trial_id</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="n">TrialState</span><span class="o">.</span><span class="n">RUNNING</span><span class="p">):</span>
                 <span class="k">continue</span>
 
             <span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Trial </span><span class="si">{}</span><span class="s2"> popped from the trial queue.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">number</span><span class="p">))</span>
@@ -1091,50 +1067,92 @@
 
         <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;2.5.0&quot;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_should_skip_enqueue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+
+        <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_trials</span><span class="p">(</span><span class="n">deepcopy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+            <span class="n">trial_params</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">system_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fixed_params&quot;</span><span class="p">,</span> <span class="n">trial</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">trial_params</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="o">!=</span> <span class="n">params</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="c1"># Can&#39;t have repeated trials if different params are suggested.</span>
+                <span class="k">continue</span>
+
+            <span class="n">repeated_params</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">param_value</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">existing_param</span> <span class="o">=</span> <span class="n">trial_params</span><span class="p">[</span><span class="n">param_name</span><span class="p">]</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">param_value</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">existing_param</span><span class="p">)):</span>
+                    <span class="c1"># Enqueued param has distribution that does not match existing param</span>
+                    <span class="c1"># (e.g. trying to enqueue categorical to float param).</span>
+                    <span class="c1"># We are not doing anything about it here, since sanitization should</span>
+                    <span class="c1"># be handled regardless if `skip_if_exists` is `True`.</span>
+                    <span class="n">repeated_params</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+                    <span class="k">continue</span>
+
+                <span class="n">is_repeated</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">param_value</span><span class="p">))</span>
+                    <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">param_value</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">existing_param</span><span class="p">),</span> <span class="n">atol</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">param_value</span><span class="p">,</span> <span class="n">Real</span><span class="p">)</span>
+                    <span class="k">else</span> <span class="n">param_value</span> <span class="o">==</span> <span class="n">existing_param</span>
+                <span class="p">)</span>
+                <span class="n">repeated_params</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">is_repeated</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">repeated_params</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="nd">@deprecated_func</span><span class="p">(</span><span class="s2">&quot;2.5.0&quot;</span><span class="p">,</span> <span class="s2">&quot;4.0.0&quot;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">_ask</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">trial_module</span><span class="o">.</span><span class="n">Trial</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ask</span><span class="p">()</span>
 
-    <span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;2.5.0&quot;</span><span class="p">)</span>
+    <span class="nd">@deprecated_func</span><span class="p">(</span><span class="s2">&quot;2.5.0&quot;</span><span class="p">,</span> <span class="s2">&quot;4.0.0&quot;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">_tell</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="n">trial_module</span><span class="o">.</span><span class="n">Trial</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">TrialState</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tell</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_log_completed_trial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="n">trial_module</span><span class="o">.</span><span class="n">Trial</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
+    <span class="k">def</span> <span class="nf">_log_completed_trial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="n">trial_module</span><span class="o">.</span><span class="n">FrozenTrial</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">_logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">):</span>
             <span class="k">return</span>
 
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
                 <span class="s2">&quot;Trial </span><span class="si">{}</span><span class="s2"> finished with values: </span><span class="si">{}</span><span class="s2"> and parameters: </span><span class="si">{}</span><span class="s2">. &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="n">trial</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">trial</span><span class="o">.</span><span class="n">params</span>
+                    <span class="n">trial</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="n">trial</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">trial</span><span class="o">.</span><span class="n">params</span>
                 <span class="p">)</span>
             <span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">best_trial</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_trial</span>
             <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
                 <span class="s2">&quot;Trial </span><span class="si">{}</span><span class="s2"> finished with value: </span><span class="si">{}</span><span class="s2"> and parameters: </span><span class="si">{}</span><span class="s2">. &quot;</span>
                 <span class="s2">&quot;Best is trial </span><span class="si">{}</span><span class="s2"> with value: </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                     <span class="n">trial</span><span class="o">.</span><span class="n">number</span><span class="p">,</span>
-                    <span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="n">trial</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                     <span class="n">trial</span><span class="o">.</span><span class="n">params</span><span class="p">,</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">best_trial</span><span class="o">.</span><span class="n">number</span><span class="p">,</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">best_value</span><span class="p">,</span>
+                    <span class="n">best_trial</span><span class="o">.</span><span class="n">number</span><span class="p">,</span>
+                    <span class="n">best_trial</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Should not reach.&quot;</span></div>
 
 
-<div class="viewcode-block" id="create_study"><a class="viewcode-back" href="../../../reference/generated/optuna.study.create_study.html#optuna.create_study">[docs]</a><span class="k">def</span> <span class="nf">create_study</span><span class="p">(</span>
+<div class="viewcode-block" id="create_study"><a class="viewcode-back" href="../../../reference/generated/optuna.study.create_study.html#optuna.create_study">[docs]</a><span class="nd">@convert_positional_args</span><span class="p">(</span>
+    <span class="n">previous_positional_arg_names</span><span class="o">=</span><span class="p">[</span>
+        <span class="s2">&quot;storage&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;sampler&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;pruner&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;study_name&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;direction&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;load_if_exists&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">create_study</span><span class="p">(</span>
+    <span class="o">*</span><span class="p">,</span>
     <span class="n">storage</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">storages</span><span class="o">.</span><span class="n">BaseStorage</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">sampler</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;samplers.BaseSampler&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">pruner</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pruners</span><span class="o">.</span><span class="n">BasePruner</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">study_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">direction</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">StudyDirection</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">load_if_exists</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="o">*</span><span class="p">,</span>
     <span class="n">directions</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">StudyDirection</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Study</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Create a new :class:`~optuna.study.Study`.</span>
@@ -1148,7 +1166,7 @@
 
 <span class="sd">            def objective(trial):</span>
 <span class="sd">                x = trial.suggest_float(&quot;x&quot;, 0, 10)</span>
-<span class="sd">                return x ** 2</span>
+<span class="sd">                return x**2</span>
 
 
 <span class="sd">            study = optuna.create_study()</span>
@@ -1186,7 +1204,7 @@
 <span class="sd">        direction:</span>
 <span class="sd">            Direction of optimization. Set ``minimize`` for minimization and ``maximize`` for</span>
 <span class="sd">            maximization. You can also pass the corresponding :class:`~optuna.study.StudyDirection`</span>
-<span class="sd">            object.</span>
+<span class="sd">            object. ``direction`` and ``directions`` must not be specified at the same time.</span>
 
 <span class="sd">            .. note::</span>
 <span class="sd">                If none of `direction` and `directions` are specified, the direction of the study</span>
@@ -1199,19 +1217,17 @@
 <span class="sd">            Otherwise, the creation of the study is skipped, and the existing one is returned.</span>
 <span class="sd">        directions:</span>
 <span class="sd">            A sequence of directions during multi-objective optimization.</span>
+<span class="sd">            ``direction`` and ``directions`` must not be specified at the same time.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        A :class:`~optuna.study.Study` object.</span>
 
-<span class="sd">    Raises:</span>
-<span class="sd">        :exc:`ValueError`:</span>
-<span class="sd">            If the length of ``directions`` is zero.</span>
-<span class="sd">            Or, if ``direction`` is neither &#39;minimize&#39; nor &#39;maximize&#39; when it is a string.</span>
-<span class="sd">            Or, if the element of ``directions`` is neither `minimize` nor `maximize`.</span>
-<span class="sd">            Or, if both ``direction`` and ``directions`` are specified.</span>
-
 <span class="sd">    See also:</span>
 <span class="sd">        :func:`optuna.create_study` is an alias of :func:`optuna.study.create_study`.</span>
+
+<span class="sd">    See also:</span>
+<span class="sd">        The :ref:`rdb` tutorial provides concrete examples to save and resume optimization using</span>
+<span class="sd">        RDB.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -1267,7 +1283,16 @@
     <span class="k">return</span> <span class="n">study</span></div>
 
 
-<div class="viewcode-block" id="load_study"><a class="viewcode-back" href="../../../reference/generated/optuna.study.load_study.html#optuna.load_study">[docs]</a><span class="k">def</span> <span class="nf">load_study</span><span class="p">(</span>
+<div class="viewcode-block" id="load_study"><a class="viewcode-back" href="../../../reference/generated/optuna.study.load_study.html#optuna.load_study">[docs]</a><span class="nd">@convert_positional_args</span><span class="p">(</span>
+    <span class="n">previous_positional_arg_names</span><span class="o">=</span><span class="p">[</span>
+        <span class="s2">&quot;study_name&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;storage&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;sampler&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;pruner&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">load_study</span><span class="p">(</span>
+    <span class="o">*</span><span class="p">,</span>
     <span class="n">study_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">storage</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">storages</span><span class="o">.</span><span class="n">BaseStorage</span><span class="p">],</span>
     <span class="n">sampler</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;samplers.BaseSampler&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1291,7 +1316,7 @@
 
 <span class="sd">            def objective(trial):</span>
 <span class="sd">                x = trial.suggest_float(&quot;x&quot;, 0, 10)</span>
-<span class="sd">                return x ** 2</span>
+<span class="sd">                return x**2</span>
 
 
 <span class="sd">            study = optuna.create_study(storage=&quot;sqlite:///example.db&quot;, study_name=&quot;my_study&quot;)</span>
@@ -1308,6 +1333,7 @@
 <span class="sd">        study_name:</span>
 <span class="sd">            Study&#39;s name. Each study has a unique name as an identifier. If :obj:`None`, checks</span>
 <span class="sd">            whether the storage contains a single study, and if so loads that study.</span>
+<span class="sd">            ``study_name`` is required if there are multiple studies in the storage.</span>
 <span class="sd">        storage:</span>
 <span class="sd">            Database URL such as ``sqlite:///example.db``. Please see also the documentation of</span>
 <span class="sd">            :func:`~optuna.study.create_study` for further details.</span>
@@ -1319,10 +1345,6 @@
 <span class="sd">            A pruner object that decides early stopping of unpromising trials.</span>
 <span class="sd">            If :obj:`None` is specified, :class:`~optuna.pruners.MedianPruner` is used</span>
 <span class="sd">            as the default. See also :class:`~optuna.pruners`.</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        :exc:`ValueError`:</span>
-<span class="sd">            If ``study_name`` is :obj:`None` and the storage contains more than 1 study.</span>
 
 <span class="sd">    See also:</span>
 <span class="sd">        :func:`optuna.load_study` is an alias of :func:`optuna.study.load_study`.</span>
@@ -1344,7 +1366,14 @@
     <span class="k">return</span> <span class="n">Study</span><span class="p">(</span><span class="n">study_name</span><span class="o">=</span><span class="n">study_name</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="n">storage</span><span class="p">,</span> <span class="n">sampler</span><span class="o">=</span><span class="n">sampler</span><span class="p">,</span> <span class="n">pruner</span><span class="o">=</span><span class="n">pruner</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="delete_study"><a class="viewcode-back" href="../../../reference/generated/optuna.study.delete_study.html#optuna.delete_study">[docs]</a><span class="k">def</span> <span class="nf">delete_study</span><span class="p">(</span>
+<div class="viewcode-block" id="delete_study"><a class="viewcode-back" href="../../../reference/generated/optuna.study.delete_study.html#optuna.delete_study">[docs]</a><span class="nd">@convert_positional_args</span><span class="p">(</span>
+    <span class="n">previous_positional_arg_names</span><span class="o">=</span><span class="p">[</span>
+        <span class="s2">&quot;study_name&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;storage&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+<span class="k">def</span> <span class="nf">delete_study</span><span class="p">(</span>
+    <span class="o">*</span><span class="p">,</span>
     <span class="n">study_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">storage</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">storages</span><span class="o">.</span><span class="n">BaseStorage</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -1395,8 +1424,17 @@
     <span class="n">storage</span><span class="o">.</span><span class="n">delete_study</span><span class="p">(</span><span class="n">study_id</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="copy_study"><a class="viewcode-back" href="../../../reference/generated/optuna.study.copy_study.html#optuna.copy_study">[docs]</a><span class="nd">@experimental</span><span class="p">(</span><span class="s2">&quot;2.8.0&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="copy_study"><a class="viewcode-back" href="../../../reference/generated/optuna.study.copy_study.html#optuna.copy_study">[docs]</a><span class="nd">@convert_positional_args</span><span class="p">(</span>
+    <span class="n">previous_positional_arg_names</span><span class="o">=</span><span class="p">[</span>
+        <span class="s2">&quot;from_study_name&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;from_storage&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;to_storage&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;to_study_name&quot;</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="n">warning_stacklevel</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="k">def</span> <span class="nf">copy_study</span><span class="p">(</span>
+    <span class="o">*</span><span class="p">,</span>
     <span class="n">from_study_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">from_storage</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">storages</span><span class="o">.</span><span class="n">BaseStorage</span><span class="p">],</span>
     <span class="n">to_storage</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">storages</span><span class="o">.</span><span class="n">BaseStorage</span><span class="p">],</span>
@@ -1406,6 +1444,10 @@
 
 <span class="sd">    The direction(s) of the objective(s) in the study, trials, user attributes and system</span>
 <span class="sd">    attributes are copied.</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        :func:`~optuna.copy_study` copies a study even if the optimization is working on.</span>
+<span class="sd">        It means users will get a copied study that contains a trial that is not finished.</span>
 
 <span class="sd">    Example:</span>
 
@@ -1485,7 +1527,9 @@
     <span class="n">to_study</span><span class="o">.</span><span class="n">add_trials</span><span class="p">(</span><span class="n">from_study</span><span class="o">.</span><span class="n">get_trials</span><span class="p">(</span><span class="n">deepcopy</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="get_all_study_summaries"><a class="viewcode-back" href="../../../reference/generated/optuna.study.get_all_study_summaries.html#optuna.get_all_study_summaries">[docs]</a><span class="k">def</span> <span class="nf">get_all_study_summaries</span><span class="p">(</span><span class="n">storage</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">storages</span><span class="o">.</span><span class="n">BaseStorage</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">StudySummary</span><span class="p">]:</span>
+<div class="viewcode-block" id="get_all_study_summaries"><a class="viewcode-back" href="../../../reference/generated/optuna.study.get_all_study_summaries.html#optuna.get_all_study_summaries">[docs]</a><span class="k">def</span> <span class="nf">get_all_study_summaries</span><span class="p">(</span>
+    <span class="n">storage</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">storages</span><span class="o">.</span><span class="n">BaseStorage</span><span class="p">],</span> <span class="n">include_best_trial</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">StudySummary</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;Get all history of studies stored in a specified storage.</span>
 
 <span class="sd">    Example:</span>
@@ -1524,6 +1568,9 @@
 <span class="sd">        storage:</span>
 <span class="sd">            Database URL such as ``sqlite:///example.db``. Please see also the documentation of</span>
 <span class="sd">            :func:`~optuna.study.create_study` for further details.</span>
+<span class="sd">        include_best_trial:</span>
+<span class="sd">            Include the best trials if exist. It potentially increases the number of queries and</span>
+<span class="sd">            may take longer to fetch summaries depending on the storage.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        List of study history summarized as :class:`~optuna.study.StudySummary` objects.</span>
@@ -1535,7 +1582,50 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">storage</span> <span class="o">=</span> <span class="n">storages</span><span class="o">.</span><span class="n">get_storage</span><span class="p">(</span><span class="n">storage</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">storage</span><span class="o">.</span><span class="n">get_all_study_summaries</span><span class="p">()</span></div>
+    <span class="n">frozen_studies</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">get_all_studies</span><span class="p">()</span>
+    <span class="n">study_summaries</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">frozen_studies</span><span class="p">:</span>
+
+        <span class="n">all_trials</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">get_all_trials</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">_study_id</span><span class="p">)</span>
+        <span class="n">completed_trials</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">all_trials</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">COMPLETE</span><span class="p">]</span>
+
+        <span class="n">n_trials</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">all_trials</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">directions</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">direction</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">direction</span>
+            <span class="n">directions</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="n">include_best_trial</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">completed_trials</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">direction</span> <span class="o">==</span> <span class="n">StudyDirection</span><span class="o">.</span><span class="n">MAXIMIZE</span><span class="p">:</span>
+                    <span class="n">best_trial</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">completed_trials</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">cast</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">best_trial</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">completed_trials</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">cast</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">best_trial</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">direction</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">directions</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">directions</span>
+            <span class="n">best_trial</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">datetime_start</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">datetime_start</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">all_trials</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">datetime_start</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span>
+        <span class="p">)</span>
+
+        <span class="n">study_summaries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">StudySummary</span><span class="p">(</span>
+                <span class="n">study_name</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">study_name</span><span class="p">,</span>
+                <span class="n">direction</span><span class="o">=</span><span class="n">direction</span><span class="p">,</span>
+                <span class="n">best_trial</span><span class="o">=</span><span class="n">best_trial</span><span class="p">,</span>
+                <span class="n">user_attrs</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">user_attrs</span><span class="p">,</span>
+                <span class="n">system_attrs</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">system_attrs</span><span class="p">,</span>
+                <span class="n">n_trials</span><span class="o">=</span><span class="n">n_trials</span><span class="p">,</span>
+                <span class="n">datetime_start</span><span class="o">=</span><span class="n">datetime_start</span><span class="p">,</span>
+                <span class="n">study_id</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">_study_id</span><span class="p">,</span>
+                <span class="n">directions</span><span class="o">=</span><span class="n">directions</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">study_summaries</span></div>
 </pre></div>
 
            </div>
@@ -1545,7 +1635,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2018, Optuna Contributors..</p>
+    <p>&#169; Copyright 2018, Optuna Contributors.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

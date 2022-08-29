@@ -25,7 +25,7 @@ Specify Hyperparameters Manually
 
 It's natural that you have some specific sets of hyperparameters to try first such as initial learning rate
 values and the number of leaves.
-Also, it's also possible that you've already tried those sets before having Optuna find better
+Also, it's possible that you've already tried those sets before having Optuna find better
 sets of hyperparameters.
 
 Optuna provides two APIs to support such cases:
@@ -33,6 +33,9 @@ Optuna provides two APIs to support such cases:
 1. Passing those sets of hyperparameters and let Optuna evaluate them - :func:`~optuna.study.Study.enqueue_trial`
 2. Adding the results of those sets as completed ``Trial``\s - :func:`~optuna.study.Study.add_trial`
 
+.. _enqueue_trial_tutorial:
+
+---------------------------------------------------------
 First Scenario: Have Optuna evaluate your hyperparameters
 ---------------------------------------------------------
 
@@ -44,7 +47,7 @@ hyperparameters to Optuna and Optuna will evaluate them.
 
 This section walks you through how to use this lit API with `LightGBM <https://lightgbm.readthedocs.io/en/latest/>`_.
 
-.. GENERATED FROM PYTHON SOURCE LINES 28-38
+.. GENERATED FROM PYTHON SOURCE LINES 31-41
 
 .. code-block:: default
 
@@ -65,11 +68,11 @@ This section walks you through how to use this lit API with `LightGBM <https://l
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 39-40
+.. GENERATED FROM PYTHON SOURCE LINES 42-43
 
 Define the objective function.
 
-.. GENERATED FROM PYTHON SOURCE LINES 40-68
+.. GENERATED FROM PYTHON SOURCE LINES 43-71
 
 .. code-block:: default
 
@@ -108,11 +111,11 @@ Define the objective function.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 69-70
+.. GENERATED FROM PYTHON SOURCE LINES 72-73
 
 Then, construct ``Study`` for hyperparameter optimization.
 
-.. GENERATED FROM PYTHON SOURCE LINES 70-73
+.. GENERATED FROM PYTHON SOURCE LINES 73-76
 
 .. code-block:: default
 
@@ -126,12 +129,12 @@ Then, construct ``Study`` for hyperparameter optimization.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 74-76
+.. GENERATED FROM PYTHON SOURCE LINES 77-79
 
 Here, we get Optuna evaluate some sets with larger ``"bagging_fraq"`` value and
 the default values.
 
-.. GENERATED FROM PYTHON SOURCE LINES 76-100
+.. GENERATED FROM PYTHON SOURCE LINES 79-103
 
 .. code-block:: default
 
@@ -165,25 +168,7 @@ the default values.
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
-
-    /home/runner/work/dash-docset-optuna/dash-docset-optuna/optuna/tutorial/20_recipes/008_specify_params.py:81: ExperimentalWarning:
-
-    enqueue_trial is experimental (supported from v1.2.0). The interface can change in the future.
-
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/optuna/study/study.py:857: ExperimentalWarning:
-
-    create_trial is experimental (supported from v2.0.0). The interface can change in the future.
-
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/optuna/study/study.py:857: ExperimentalWarning:
-
-    add_trial is experimental (supported from v2.0.0). The interface can change in the future.
-
-    /home/runner/work/dash-docset-optuna/dash-docset-optuna/optuna/tutorial/20_recipes/008_specify_params.py:89: ExperimentalWarning:
-
-    enqueue_trial is experimental (supported from v1.2.0). The interface can change in the future.
 
     /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
 
@@ -199,498 +184,161 @@ the default values.
 
     'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
 
-    Trial 2 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.6498642533844206, 'bagging_freq': 6, 'min_child_samples': 59}. Best is trial 1 with value: 0.986013986013986.
+    Trial 2 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.9175714991921211, 'bagging_freq': 7, 'min_child_samples': 37}. Best is trial 1 with value: 0.986013986013986.
     /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
 
     'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
 
-    Trial 3 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.6300325298317948, 'bagging_freq': 2, 'min_child_samples': 27}. Best is trial 1 with value: 0.986013986013986.
+    Trial 3 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.7432497981885867, 'bagging_freq': 7, 'min_child_samples': 44}. Best is trial 1 with value: 0.986013986013986.
     /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
 
     'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
 
-    Trial 4 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.6262636471140336, 'bagging_freq': 3, 'min_child_samples': 17}. Best is trial 1 with value: 0.986013986013986.
+    Trial 4 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.9063290835324059, 'bagging_freq': 7, 'min_child_samples': 87}. Best is trial 1 with value: 0.986013986013986.
     /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
 
     'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
 
     Trial 5 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 6 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 7 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 8 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 9 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 10 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 11 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 12 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 13 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.8577600215915934, 'bagging_freq': 7, 'min_child_samples': 36}. Best is trial 1 with value: 0.986013986013986.
+    Trial 13 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.8311997613450747, 'bagging_freq': 5, 'min_child_samples': 34}. Best is trial 1 with value: 0.986013986013986.
     /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
 
     'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
 
     Trial 14 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 15 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 16 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 17 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 18 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 19 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 20 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 21 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 22 pruned. Trial was pruned at iteration 0.
+    Trial 23 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.8711678851764918, 'bagging_freq': 6, 'min_child_samples': 16}. Best is trial 1 with value: 0.986013986013986.
     /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
 
     'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
 
-    Trial 23 pruned. Trial was pruned at iteration 0.
+    Trial 24 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.711731699750046, 'bagging_freq': 5, 'min_child_samples': 16}. Best is trial 1 with value: 0.986013986013986.
     /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
 
     'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
 
-    Trial 24 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.8242778462422067, 'bagging_freq': 6, 'min_child_samples': 36}. Best is trial 1 with value: 0.986013986013986.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 25 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.579496735621341, 'bagging_freq': 4, 'min_child_samples': 13}. Best is trial 1 with value: 0.986013986013986.
+    Trial 25 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.6951156252759171, 'bagging_freq': 4, 'min_child_samples': 13}. Best is trial 1 with value: 0.986013986013986.
     /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
 
     'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
 
     Trial 26 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 27 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 28 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 29 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 30 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 31 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 32 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 33 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 34 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 35 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 36 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 37 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 38 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 39 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 40 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 41 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 42 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.9929899980808458, 'bagging_freq': 2, 'min_child_samples': 21}. Best is trial 1 with value: 0.986013986013986.
+    Trial 42 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.9354738565204725, 'bagging_freq': 7, 'min_child_samples': 16}. Best is trial 1 with value: 0.986013986013986.
     /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
 
     'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
 
     Trial 43 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 44 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 45 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 46 pruned. Trial was pruned at iteration 21.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 47 pruned. Trial was pruned at iteration 0.
+    Trial 45 pruned. Trial was pruned at iteration 14.
+    Trial 46 pruned. Trial was pruned at iteration 0.
+    Trial 47 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.8440449532142256, 'bagging_freq': 6, 'min_child_samples': 49}. Best is trial 1 with value: 0.986013986013986.
     /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
 
     'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
 
     Trial 48 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 49 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 50 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 51 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 52 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
+    Trial 52 pruned. Trial was pruned at iteration 3.
     Trial 53 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 54 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 55 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.8929347730830458, 'bagging_freq': 7, 'min_child_samples': 19}. Best is trial 1 with value: 0.986013986013986.
+    Trial 55 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.8772772887455551, 'bagging_freq': 7, 'min_child_samples': 7}. Best is trial 1 with value: 0.986013986013986.
     /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
 
     'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
 
     Trial 56 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 57 pruned. Trial was pruned at iteration 2.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 58 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.82966418018585, 'bagging_freq': 6, 'min_child_samples': 7}. Best is trial 1 with value: 0.986013986013986.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
+    Trial 57 pruned. Trial was pruned at iteration 1.
+    Trial 58 pruned. Trial was pruned at iteration 0.
     Trial 59 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 60 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 61 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 62 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 63 pruned. Trial was pruned at iteration 2.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 64 pruned. Trial was pruned at iteration 0.
+    Trial 63 pruned. Trial was pruned at iteration 0.
+    Trial 64 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.8808022231368156, 'bagging_freq': 6, 'min_child_samples': 17}. Best is trial 1 with value: 0.986013986013986.
     /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
 
     'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
 
     Trial 65 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 66 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 67 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
+    Trial 67 pruned. Trial was pruned at iteration 4.
     Trial 68 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 69 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 70 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 71 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.7677919586999388, 'bagging_freq': 5, 'min_child_samples': 6}. Best is trial 1 with value: 0.986013986013986.
+    Trial 71 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.9359275744518578, 'bagging_freq': 7, 'min_child_samples': 13}. Best is trial 1 with value: 0.986013986013986.
     /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
 
     'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
 
     Trial 72 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 73 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
+    Trial 73 pruned. Trial was pruned at iteration 1.
     Trial 74 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 75 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 76 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 77 pruned. Trial was pruned at iteration 38.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
+    Trial 77 pruned. Trial was pruned at iteration 0.
     Trial 78 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 79 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 80 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 81 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 82 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 83 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 84 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 85 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 86 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 87 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 88 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 89 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 90 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 91 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 92 pruned. Trial was pruned at iteration 21.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
+    Trial 92 pruned. Trial was pruned at iteration 0.
     Trial 93 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 94 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 95 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
+    Trial 95 pruned. Trial was pruned at iteration 17.
     Trial 96 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 97 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 98 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 99 pruned. Trial was pruned at iteration 21.
+    Trial 99 pruned. Trial was pruned at iteration 0.
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 101-112
+.. GENERATED FROM PYTHON SOURCE LINES 104-118
 
+.. _add_trial_tutorial:
+
+----------------------------------------------------------------------
 Second scenario: Have Optuna utilize already evaluated hyperparameters
 ----------------------------------------------------------------------
 
@@ -703,7 +351,7 @@ to Optuna and then Optuna will sample hyperparameters taking them into account.
 
 In this section,  the ``objective`` is the same as the first scenario.
 
-.. GENERATED FROM PYTHON SOURCE LINES 112-145
+.. GENERATED FROM PYTHON SOURCE LINES 118-151
 
 .. code-block:: default
 
@@ -717,9 +365,9 @@ In this section,  the ``objective`` is the same as the first scenario.
                 "min_child_samples": 20,
             },
             distributions={
-                "bagging_fraction": optuna.distributions.UniformDistribution(0.4, 1.0 + 1e-12),
-                "bagging_freq": optuna.distributions.IntUniformDistribution(0, 7),
-                "min_child_samples": optuna.distributions.IntUniformDistribution(5, 100),
+                "bagging_fraction": optuna.distributions.FloatDistribution(0.4, 1.0 + 1e-12),
+                "bagging_freq": optuna.distributions.IntDistribution(0, 7),
+                "min_child_samples": optuna.distributions.IntDistribution(5, 100),
             },
             value=0.94,
         )
@@ -732,9 +380,9 @@ In this section,  the ``objective`` is the same as the first scenario.
                 "min_child_samples": 20,
             },
             distributions={
-                "bagging_fraction": optuna.distributions.UniformDistribution(0.4, 1.0 + 1e-12),
-                "bagging_freq": optuna.distributions.IntUniformDistribution(0, 7),
-                "min_child_samples": optuna.distributions.IntUniformDistribution(5, 100),
+                "bagging_fraction": optuna.distributions.FloatDistribution(0.4, 1.0 + 1e-12),
+                "bagging_freq": optuna.distributions.IntDistribution(0, 7),
+                "min_child_samples": optuna.distributions.IntDistribution(5, 100),
             },
             value=0.95,
         )
@@ -746,527 +394,145 @@ In this section,  the ``objective`` is the same as the first scenario.
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
-    A new study created in memory with name: no-name-186c772f-46db-42b9-af6f-d90b393deb72
-    /home/runner/work/dash-docset-optuna/dash-docset-optuna/optuna/tutorial/20_recipes/008_specify_params.py:126: ExperimentalWarning:
-
-    create_trial is experimental (supported from v2.0.0). The interface can change in the future.
-
-    /home/runner/work/dash-docset-optuna/dash-docset-optuna/optuna/tutorial/20_recipes/008_specify_params.py:126: ExperimentalWarning:
-
-    add_trial is experimental (supported from v2.0.0). The interface can change in the future.
-
-    /home/runner/work/dash-docset-optuna/dash-docset-optuna/optuna/tutorial/20_recipes/008_specify_params.py:141: ExperimentalWarning:
-
-    create_trial is experimental (supported from v2.0.0). The interface can change in the future.
-
-    /home/runner/work/dash-docset-optuna/dash-docset-optuna/optuna/tutorial/20_recipes/008_specify_params.py:141: ExperimentalWarning:
-
-    add_trial is experimental (supported from v2.0.0). The interface can change in the future.
-
+    A new study created in memory with name: no-name-8c6f42b5-8645-41bc-ab01-593c84299add
     /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
 
     'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
 
-    Trial 2 finished with value: 0.9440559440559441 and parameters: {'bagging_fraction': 0.9238081464878569, 'bagging_freq': 2, 'min_child_samples': 93}. Best is trial 1 with value: 0.95.
+    Trial 2 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.8858484769975372, 'bagging_freq': 4, 'min_child_samples': 49}. Best is trial 2 with value: 0.958041958041958.
     /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
 
     'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
 
-    Trial 3 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.88840343168635, 'bagging_freq': 5, 'min_child_samples': 46}. Best is trial 3 with value: 0.965034965034965.
+    Trial 3 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.7909043990689157, 'bagging_freq': 7, 'min_child_samples': 31}. Best is trial 3 with value: 0.986013986013986.
     /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
 
     'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
 
-    Trial 4 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.4643091544292698, 'bagging_freq': 7, 'min_child_samples': 84}. Best is trial 3 with value: 0.965034965034965.
+    Trial 4 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.5268407893542492, 'bagging_freq': 6, 'min_child_samples': 18}. Best is trial 3 with value: 0.986013986013986.
     /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
 
     'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
 
     Trial 5 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 6 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 7 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 8 pruned. Trial was pruned at iteration 5.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
+    Trial 8 pruned. Trial was pruned at iteration 3.
     Trial 9 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 10 pruned. Trial was pruned at iteration 2.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
+    Trial 10 pruned. Trial was pruned at iteration 0.
     Trial 11 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 12 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 13 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 14 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 15 pruned. Trial was pruned at iteration 1.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
+    Trial 15 pruned. Trial was pruned at iteration 0.
     Trial 16 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 17 finished with value: 0.993006993006993 and parameters: {'bagging_fraction': 0.9872860523308228, 'bagging_freq': 6, 'min_child_samples': 35}. Best is trial 17 with value: 0.993006993006993.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 18 pruned. Trial was pruned at iteration 35.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
+    Trial 17 pruned. Trial was pruned at iteration 0.
+    Trial 18 pruned. Trial was pruned at iteration 61.
     Trial 19 pruned. Trial was pruned at iteration 0.
+    Trial 20 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.4053382761951992, 'bagging_freq': 0, 'min_child_samples': 25}. Best is trial 3 with value: 0.986013986013986.
     /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
 
     'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
 
-    Trial 20 pruned. Trial was pruned at iteration 37.
+    Trial 21 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.4135168878870766, 'bagging_freq': 0, 'min_child_samples': 25}. Best is trial 3 with value: 0.986013986013986.
     /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
 
     'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
 
-    Trial 21 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.9471194712972599, 'bagging_freq': 6, 'min_child_samples': 29}. Best is trial 17 with value: 0.993006993006993.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 22 pruned. Trial was pruned at iteration 4.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
+    Trial 22 pruned. Trial was pruned at iteration 1.
     Trial 23 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 24 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 25 pruned. Trial was pruned at iteration 2.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 26 pruned. Trial was pruned at iteration 61.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
+    Trial 25 pruned. Trial was pruned at iteration 0.
+    Trial 26 pruned. Trial was pruned at iteration 0.
     Trial 27 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 28 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 29 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 30 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 31 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 32 pruned. Trial was pruned at iteration 45.
+    Trial 32 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.45190979192677727, 'bagging_freq': 5, 'min_child_samples': 24}. Best is trial 3 with value: 0.986013986013986.
     /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
 
     'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
 
     Trial 33 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 34 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 35 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 36 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 37 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 38 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 39 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 40 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 41 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.5200963758540652, 'bagging_freq': 5, 'min_child_samples': 34}. Best is trial 17 with value: 0.993006993006993.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
+    Trial 41 pruned. Trial was pruned at iteration 0.
     Trial 42 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 43 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 44 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 45 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 46 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
+    Trial 46 pruned. Trial was pruned at iteration 1.
     Trial 47 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 48 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 49 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 50 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 51 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 52 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 53 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.9976472016145744, 'bagging_freq': 4, 'min_child_samples': 18}. Best is trial 17 with value: 0.993006993006993.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
+    Trial 53 pruned. Trial was pruned at iteration 0.
     Trial 54 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 55 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 56 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 57 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 58 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 59 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 60 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 61 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 62 pruned. Trial was pruned at iteration 4.
+    Trial 62 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.7381895689962339, 'bagging_freq': 4, 'min_child_samples': 13}. Best is trial 3 with value: 0.986013986013986.
     /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
 
     'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
 
     Trial 63 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 64 pruned. Trial was pruned at iteration 1.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 65 pruned. Trial was pruned at iteration 3.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 66 pruned. Trial was pruned at iteration 3.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
+    Trial 64 pruned. Trial was pruned at iteration 0.
+    Trial 65 pruned. Trial was pruned at iteration 1.
+    Trial 66 pruned. Trial was pruned at iteration 1.
     Trial 67 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 68 pruned. Trial was pruned at iteration 4.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 69 pruned. Trial was pruned at iteration 1.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
+    Trial 68 pruned. Trial was pruned at iteration 0.
+    Trial 69 pruned. Trial was pruned at iteration 0.
     Trial 70 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 71 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
+    Trial 71 pruned. Trial was pruned at iteration 2.
     Trial 72 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 73 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 74 finished with value: 0.993006993006993 and parameters: {'bagging_fraction': 0.9861484211656928, 'bagging_freq': 3, 'min_child_samples': 86}. Best is trial 17 with value: 0.993006993006993.
+    Trial 74 finished with value: 1.0 and parameters: {'bagging_fraction': 0.719214865467372, 'bagging_freq': 6, 'min_child_samples': 21}. Best is trial 74 with value: 1.0.
     /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
 
     'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
 
     Trial 75 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 76 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 77 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 78 pruned. Trial was pruned at iteration 2.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
+    Trial 78 pruned. Trial was pruned at iteration 0.
     Trial 79 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 80 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 81 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 82 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 83 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 84 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 85 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 86 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 87 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 88 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 89 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 90 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 91 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 92 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 93 pruned. Trial was pruned at iteration 1.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
+    Trial 93 pruned. Trial was pruned at iteration 0.
     Trial 94 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 95 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 96 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 97 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 98 pruned. Trial was pruned at iteration 0.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 99 pruned. Trial was pruned at iteration 3.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 100 pruned. Trial was pruned at iteration 1.
-    /opt/hostedtoolcache/Python/3.7.13/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 101 pruned. Trial was pruned at iteration 2.
+    Trial 99 pruned. Trial was pruned at iteration 0.
+    Trial 100 pruned. Trial was pruned at iteration 0.
+    Trial 101 pruned. Trial was pruned at iteration 0.
 
 
 
@@ -1274,28 +540,23 @@ In this section,  the ``objective`` is the same as the first scenario.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  5.002 seconds)
+   **Total running time of the script:** ( 0 minutes  5.588 seconds)
 
 
 .. _sphx_glr_download_tutorial_20_recipes_008_specify_params.py:
 
+.. only:: html
 
-.. only :: html
-
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: 008_specify_params.py <008_specify_params.py>`
 
-     :download:`Download Python source code: 008_specify_params.py <008_specify_params.py>`
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: 008_specify_params.ipynb <008_specify_params.ipynb>`
+      :download:`Download Jupyter notebook: 008_specify_params.ipynb <008_specify_params.ipynb>`
 
 
 .. only:: html

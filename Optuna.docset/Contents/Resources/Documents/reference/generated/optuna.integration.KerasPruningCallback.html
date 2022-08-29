@@ -2,23 +2,26 @@
 
 <html class="writer-html5" lang="en">
 <head>
-<meta charset="utf-8"/>
+<meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.integration.KerasPruningCallback — Optuna 2.10.1 documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<title>optuna.integration.KerasPruningCallback — Optuna 3.0.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-binder.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-dataframe.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-rendered-html.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/css/custom.css" rel="stylesheet" type="text/css"/><link href="../../_static/favicon.ico" rel="shortcut icon"/>
+<link href="../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/favicon.ico" rel="shortcut icon"/>
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
 <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
 <script src="../../_static/jquery.js"></script>
 <script src="../../_static/underscore.js"></script>
+<script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
 <script src="../../_static/doctools.js"></script>
 <script src="../../_static/clipboard.min.js"></script>
 <script src="../../_static/copybutton.js"></script>
@@ -60,10 +63,11 @@
 <nav class="wy-nav-side" data-toggle="wy-nav-shift">
 <div class="wy-side-scroll">
 <div class="wy-side-nav-search">
-<a href="../../index.html"><img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
+<a href="../../index.html">
+<img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                2.10.1
+                3.0.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -73,7 +77,7 @@
 </form>
 </div>
 </div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
@@ -87,6 +91,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#allennlp">AllenNLP</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#botorch">BoTorch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#catalyst">Catalyst</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#catboost">CatBoost</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#chainer">Chainer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#fast-ai">fast.ai</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../integration.html#keras">Keras</a><ul class="current">
@@ -101,6 +106,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#pytorch">PyTorch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#scikit-learn">scikit-learn</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#scikit-optimize">scikit-optimize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#shap">SHAP</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#skorch">skorch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#tensorflow">TensorFlow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#xgboost">XGBoost</a></li>
@@ -109,9 +115,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../logging.html">optuna.logging</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../multi_objective/index.html">optuna.multi_objective</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pruners.html">optuna.pruners</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../samplers.html">optuna.samplers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samplers/index.html">optuna.samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../storages.html">optuna.storages</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../structs.html">optuna.structs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../study.html">optuna.study</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../trial.html">optuna.trial</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../visualization/index.html">optuna.visualization</a></li>
@@ -135,29 +140,28 @@
 <li><a href="../integration.html">optuna.integration</a> »</li>
 <li>optuna.integration.KerasPruningCallback</li>
 <li class="wy-breadcrumbs-aside">
-<a href="../../_sources/reference/generated/optuna.integration.KerasPruningCallback.rst.txt" rel="nofollow"> View page source</a>
 </li>
 </ul>
 <hr/>
 </div>
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div itemprop="articleBody">
-<div class="section" id="optuna-integration-keraspruningcallback">
-<h1>optuna.integration.KerasPruningCallback<a class="headerlink" href="#optuna-integration-keraspruningcallback" title="Permalink to this headline">¶</a></h1>
+<section id="optuna-integration-keraspruningcallback">
+<h1>optuna.integration.KerasPruningCallback<a class="headerlink" href="#optuna-integration-keraspruningcallback" title="Permalink to this heading"></a></h1>
 <dl class="py class">
-<dt id="optuna.integration.KerasPruningCallback">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">optuna.integration.</span></code><code class="sig-name descname"><span class="pre">KerasPruningCallback</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">monitor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/keras.html#KerasPruningCallback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.integration.KerasPruningCallback"></a><a class="headerlink" href="#optuna.integration.KerasPruningCallback" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.integration.KerasPruningCallback">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.integration.</span></span><span class="sig-name descname"><span class="pre">KerasPruningCallback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">monitor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/keras.html#KerasPruningCallback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.integration.KerasPruningCallback"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.integration.keras.KerasPruningCallback"></a><a class="headerlink" href="#optuna.integration.KerasPruningCallback" title="Permalink to this definition"></a></dt>
 <dd><p>Keras callback to prune unpromising trials.</p>
 <p>See <a class="reference external" href="https://github.com/optuna/optuna-examples/blob/main/keras/keras_integration.py">the example</a>
 if you want to add a pruning callback which observes validation accuracy.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>trial</strong> – A <a class="reference internal" href="optuna.trial.Trial.html#optuna.trial.Trial" title="optuna.trial.Trial"><code class="xref py py-class docutils literal notranslate"><span class="pre">Trial</span></code></a> corresponding to the current evaluation of the
+<li><p><strong>trial</strong> (<a class="reference internal" href="optuna.trial.Trial.html#optuna.trial.Trial" title="optuna.trial._trial.Trial"><em>Trial</em></a>) – A <a class="reference internal" href="optuna.trial.Trial.html#optuna.trial.Trial" title="optuna.trial.Trial"><code class="xref py py-class docutils literal notranslate"><span class="pre">Trial</span></code></a> corresponding to the current evaluation of the
 objective function.</p></li>
-<li><p><strong>monitor</strong> – An evaluation metric for pruning, e.g., <code class="docutils literal notranslate"><span class="pre">val_loss</span></code> and
+<li><p><strong>monitor</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – An evaluation metric for pruning, e.g., <code class="docutils literal notranslate"><span class="pre">val_loss</span></code> and
 <code class="docutils literal notranslate"><span class="pre">val_accuracy</span></code>. Please refer to <a class="reference external" href="https://keras.io/callbacks/#callback">keras.Callback reference</a> for further details.</p></li>
-<li><p><strong>interval</strong> – Check if trial should be pruned every n-th epoch. By default <code class="docutils literal notranslate"><span class="pre">interval=1</span></code> and
+<li><p><strong>interval</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Check if trial should be pruned every n-th epoch. By default <code class="docutils literal notranslate"><span class="pre">interval=1</span></code> and
 pruning is performed after every epoch. Increase <code class="docutils literal notranslate"><span class="pre">interval</span></code> to run several
 epochs faster before applying pruning.</p></li>
 </ul>
@@ -171,7 +175,7 @@ See <a class="reference external" href="https://github.com/optuna/optuna/release
 <p>Recent Keras release (2.4.0) simply redirects all APIs in the standalone keras package to point to tf.keras. There is now only one Keras: tf.keras. There may be some breaking changes for some workflows by upgrading to keras 2.4.0. Test before upgrading. REF: <a class="reference external" href="https://github.com/keras-team/keras/releases/tag/2.4.0">https://github.com/keras-team/keras/releases/tag/2.4.0</a>. There is an alternative callback function that can be used instead: <a class="reference internal" href="optuna.integration.TFKerasPruningCallback.html#optuna.integration.TFKerasPruningCallback" title="optuna.integration.TFKerasPruningCallback"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFKerasPruningCallback</span></code></a></p>
 </div>
 <p class="rubric">Methods</p>
-<table class="longtable docutils align-default">
+<table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
@@ -183,7 +187,7 @@ See <a class="reference external" href="https://github.com/optuna/optuna/release
 </tbody>
 </table>
 </dd></dl>
-</div>
+</section>
 </div>
 </div>
 <footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
@@ -192,7 +196,7 @@ See <a class="reference external" href="https://github.com/optuna/optuna/release
 </div>
 <hr/>
 <div role="contentinfo">
-<p>© Copyright 2018, Optuna Contributors..</p>
+<p>© Copyright 2018, Optuna Contributors.</p>
 </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

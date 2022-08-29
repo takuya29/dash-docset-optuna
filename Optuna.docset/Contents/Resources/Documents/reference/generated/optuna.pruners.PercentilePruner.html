@@ -2,23 +2,26 @@
 
 <html class="writer-html5" lang="en">
 <head>
-<meta charset="utf-8"/>
+<meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.pruners.PercentilePruner — Optuna 2.10.1 documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<title>optuna.pruners.PercentilePruner — Optuna 3.0.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-binder.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-dataframe.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-rendered-html.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/css/custom.css" rel="stylesheet" type="text/css"/><link href="../../_static/favicon.ico" rel="shortcut icon"/>
+<link href="../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/favicon.ico" rel="shortcut icon"/>
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
 <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
 <script src="../../_static/jquery.js"></script>
 <script src="../../_static/underscore.js"></script>
+<script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
 <script src="../../_static/doctools.js"></script>
 <script src="../../_static/clipboard.min.js"></script>
 <script src="../../_static/copybutton.js"></script>
@@ -60,10 +63,11 @@
 <nav class="wy-nav-side" data-toggle="wy-nav-shift">
 <div class="wy-side-scroll">
 <div class="wy-side-nav-search">
-<a href="../../index.html"><img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
+<a href="../../index.html">
+<img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                2.10.1
+                3.0.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -73,7 +77,7 @@
 </form>
 </div>
 </div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
@@ -97,9 +101,8 @@
 <li class="toctree-l3"><a class="reference internal" href="optuna.pruners.ThresholdPruner.html">optuna.pruners.ThresholdPruner</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../samplers.html">optuna.samplers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samplers/index.html">optuna.samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../storages.html">optuna.storages</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../structs.html">optuna.structs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../study.html">optuna.study</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../trial.html">optuna.trial</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../visualization/index.html">optuna.visualization</a></li>
@@ -123,18 +126,17 @@
 <li><a href="../pruners.html">optuna.pruners</a> »</li>
 <li>optuna.pruners.PercentilePruner</li>
 <li class="wy-breadcrumbs-aside">
-<a href="../../_sources/reference/generated/optuna.pruners.PercentilePruner.rst.txt" rel="nofollow"> View page source</a>
 </li>
 </ul>
 <hr/>
 </div>
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div itemprop="articleBody">
-<div class="section" id="optuna-pruners-percentilepruner">
-<h1>optuna.pruners.PercentilePruner<a class="headerlink" href="#optuna-pruners-percentilepruner" title="Permalink to this headline">¶</a></h1>
+<section id="optuna-pruners-percentilepruner">
+<h1>optuna.pruners.PercentilePruner<a class="headerlink" href="#optuna-pruners-percentilepruner" title="Permalink to this heading"></a></h1>
 <dl class="py class">
-<dt id="optuna.pruners.PercentilePruner">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">optuna.pruners.</span></code><code class="sig-name descname"><span class="pre">PercentilePruner</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">percentile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_startup_trials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_warmup_steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interval_steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_min_trials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/pruners/_percentile.html#PercentilePruner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.pruners.PercentilePruner"></a><a class="headerlink" href="#optuna.pruners.PercentilePruner" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.pruners.PercentilePruner">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.pruners.</span></span><span class="sig-name descname"><span class="pre">PercentilePruner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">percentile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_startup_trials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_warmup_steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interval_steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_min_trials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/pruners/_percentile.html#PercentilePruner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.pruners.PercentilePruner"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.pruners._percentile.PercentilePruner"></a><a class="headerlink" href="#optuna.pruners.PercentilePruner" title="Permalink to this definition"></a></dt>
 <dd><p>Pruner to keep the specified percentile of the trials.</p>
 <p>Prune if the best intermediate value is in the bottom percentile among trials at the same step.</p>
 <p class="rubric">Example</p>
@@ -179,15 +181,15 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>percentile</strong> – Percentile which must be between 0 and 100 inclusive
+<li><p><strong>percentile</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Percentile which must be between 0 and 100 inclusive
 (e.g., When given 25.0, top of 25th percentile trials are kept).</p></li>
-<li><p><strong>n_startup_trials</strong> – Pruning is disabled until the given number of trials finish in the same study.</p></li>
-<li><p><strong>n_warmup_steps</strong> – Pruning is disabled until the trial exceeds the given number of step. Note that
+<li><p><strong>n_startup_trials</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Pruning is disabled until the given number of trials finish in the same study.</p></li>
+<li><p><strong>n_warmup_steps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Pruning is disabled until the trial exceeds the given number of step. Note that
 this feature assumes that <code class="docutils literal notranslate"><span class="pre">step</span></code> starts at zero.</p></li>
-<li><p><strong>interval_steps</strong> – Interval in number of steps between the pruning checks, offset by the warmup steps.
+<li><p><strong>interval_steps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Interval in number of steps between the pruning checks, offset by the warmup steps.
 If no value has been reported at the time of a pruning check, that particular check
 will be postponed until a value is reported. Value must be at least 1.</p></li>
-<li><p><strong>n_min_trials</strong> – Minimum number of reported trial results at a step to judge whether to prune.
+<li><p><strong>n_min_trials</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Minimum number of reported trial results at a step to judge whether to prune.
 If the number of reported intermediate values from all trials at the current step
 is less than <code class="docutils literal notranslate"><span class="pre">n_min_trials</span></code>, the trial will not be pruned. This can be used to ensure
 that a minimum number of trials are run to completion without being pruned.</p></li>
@@ -195,7 +197,7 @@ that a minimum number of trials are run to completion without being pruned.</p><
 </dd>
 </dl>
 <p class="rubric">Methods</p>
-<table class="longtable docutils align-default">
+<table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
@@ -207,8 +209,8 @@ that a minimum number of trials are run to completion without being pruned.</p><
 </tbody>
 </table>
 <dl class="py method">
-<dt id="optuna.pruners.PercentilePruner.prune">
-<code class="sig-name descname"><span class="pre">prune</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trial</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/pruners/_percentile.html#PercentilePruner.prune"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.pruners.PercentilePruner.prune"></a><a class="headerlink" href="#optuna.pruners.PercentilePruner.prune" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.pruners.PercentilePruner.prune">
+<span class="sig-name descname"><span class="pre">prune</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trial</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/pruners/_percentile.html#PercentilePruner.prune"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.pruners.PercentilePruner.prune"></a><a class="headerlink" href="#optuna.pruners.PercentilePruner.prune" title="Permalink to this definition"></a></dt>
 <dd><p>Judge whether the trial should be pruned based on the reported values.</p>
 <p>Note that this method is not supposed to be called by library users. Instead,
 <a class="reference internal" href="optuna.trial.Trial.html#optuna.trial.Trial.report" title="optuna.trial.Trial.report"><code class="xref py py-func docutils literal notranslate"><span class="pre">optuna.trial.Trial.report()</span></code></a> and <a class="reference internal" href="optuna.trial.Trial.html#optuna.trial.Trial.should_prune" title="optuna.trial.Trial.should_prune"><code class="xref py py-func docutils literal notranslate"><span class="pre">optuna.trial.Trial.should_prune()</span></code></a> provide
@@ -216,8 +218,8 @@ user interfaces to implement pruning mechanism in an objective function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>study</strong> (<em>optuna.study.study.Study</em>) – Study object of the target study.</p></li>
-<li><p><strong>trial</strong> (<em>optuna.trial._frozen.FrozenTrial</em>) – FrozenTrial object of the target trial.
+<li><p><strong>study</strong> (<a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.study.Study"><em>Study</em></a>) – Study object of the target study.</p></li>
+<li><p><strong>trial</strong> (<a class="reference internal" href="optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial._frozen.FrozenTrial"><em>FrozenTrial</em></a>) – FrozenTrial object of the target trial.
 Take a copy before modifying this object.</p></li>
 </ul>
 </dd>
@@ -230,7 +232,7 @@ Take a copy before modifying this object.</p></li>
 </dl>
 </dd></dl>
 </dd></dl>
-</div>
+</section>
 </div>
 </div>
 <footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
@@ -239,7 +241,7 @@ Take a copy before modifying this object.</p></li>
 </div>
 <hr/>
 <div role="contentinfo">
-<p>© Copyright 2018, Optuna Contributors..</p>
+<p>© Copyright 2018, Optuna Contributors.</p>
 </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

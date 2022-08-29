@@ -2,23 +2,26 @@
 
 <html class="writer-html5" lang="en">
 <head>
-<meta charset="utf-8"/>
+<meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.integration.botorch.qei_candidates_func — Optuna 2.10.1 documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<title>optuna.integration.botorch.qei_candidates_func — Optuna 3.0.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-binder.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-dataframe.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-rendered-html.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/css/custom.css" rel="stylesheet" type="text/css"/><link href="../../_static/favicon.ico" rel="shortcut icon"/>
+<link href="../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/favicon.ico" rel="shortcut icon"/>
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
 <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
 <script src="../../_static/jquery.js"></script>
 <script src="../../_static/underscore.js"></script>
+<script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
 <script src="../../_static/doctools.js"></script>
 <script src="../../_static/clipboard.min.js"></script>
 <script src="../../_static/copybutton.js"></script>
@@ -60,10 +63,11 @@
 <nav class="wy-nav-side" data-toggle="wy-nav-shift">
 <div class="wy-side-scroll">
 <div class="wy-side-nav-search">
-<a href="../../index.html"><img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
+<a href="../../index.html">
+<img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                2.10.1
+                3.0.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -73,7 +77,7 @@
 </form>
 </div>
 </div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
@@ -93,6 +97,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#catalyst">Catalyst</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#catboost">CatBoost</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#chainer">Chainer</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#fast-ai">fast.ai</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#keras">Keras</a></li>
@@ -104,6 +109,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#pytorch">PyTorch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#scikit-learn">scikit-learn</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#scikit-optimize">scikit-optimize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#shap">SHAP</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#skorch">skorch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#tensorflow">TensorFlow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#xgboost">XGBoost</a></li>
@@ -112,9 +118,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../logging.html">optuna.logging</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../multi_objective/index.html">optuna.multi_objective</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pruners.html">optuna.pruners</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../samplers.html">optuna.samplers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samplers/index.html">optuna.samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../storages.html">optuna.storages</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../structs.html">optuna.structs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../study.html">optuna.study</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../trial.html">optuna.trial</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../visualization/index.html">optuna.visualization</a></li>
@@ -138,18 +143,17 @@
 <li><a href="../integration.html">optuna.integration</a> »</li>
 <li>optuna.integration.botorch.qei_candidates_func</li>
 <li class="wy-breadcrumbs-aside">
-<a href="../../_sources/reference/generated/optuna.integration.botorch.qei_candidates_func.rst.txt" rel="nofollow"> View page source</a>
 </li>
 </ul>
 <hr/>
 </div>
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div itemprop="articleBody">
-<div class="section" id="optuna-integration-botorch-qei-candidates-func">
-<h1>optuna.integration.botorch.qei_candidates_func<a class="headerlink" href="#optuna-integration-botorch-qei-candidates-func" title="Permalink to this headline">¶</a></h1>
+<section id="optuna-integration-botorch-qei-candidates-func">
+<h1>optuna.integration.botorch.qei_candidates_func<a class="headerlink" href="#optuna-integration-botorch-qei-candidates-func" title="Permalink to this heading"></a></h1>
 <dl class="py function">
-<dt id="optuna.integration.botorch.qei_candidates_func">
-<code class="sig-prename descclassname"><span class="pre">optuna.integration.botorch.</span></code><code class="sig-name descname"><span class="pre">qei_candidates_func</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">train_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_con</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bounds</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/botorch.html#qei_candidates_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Function/optuna.integration.botorch.qei_candidates_func"></a><a class="headerlink" href="#optuna.integration.botorch.qei_candidates_func" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.integration.botorch.qei_candidates_func">
+<span class="sig-prename descclassname"><span class="pre">optuna.integration.botorch.</span></span><span class="sig-name descname"><span class="pre">qei_candidates_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">train_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_con</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bounds</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/botorch.html#qei_candidates_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Function/optuna.integration.botorch.qei_candidates_func"></a><a class="headerlink" href="#optuna.integration.botorch.qei_candidates_func" title="Permalink to this definition"></a></dt>
 <dd><p>Quasi MC-based batch Expected Improvement (qEI).</p>
 <p>The default value of <code class="docutils literal notranslate"><span class="pre">candidates_func</span></code> in <a class="reference internal" href="optuna.integration.BoTorchSampler.html#optuna.integration.BoTorchSampler" title="optuna.integration.BoTorchSampler"><code class="xref py py-class docutils literal notranslate"><span class="pre">BoTorchSampler</span></code></a>
 with single-objective optimization.</p>
@@ -165,7 +169,7 @@ Values are not normalized.</p></li>
 <li><p><strong>train_obj</strong> (<em>torch.Tensor</em>) – Previously observed objectives. A <code class="docutils literal notranslate"><span class="pre">torch.Tensor</span></code> of shape
 <code class="docutils literal notranslate"><span class="pre">(n_trials,</span> <span class="pre">n_objectives)</span></code>. <code class="docutils literal notranslate"><span class="pre">n_trials</span></code> is identical to that of <code class="docutils literal notranslate"><span class="pre">train_x</span></code>.
 <code class="docutils literal notranslate"><span class="pre">n_objectives</span></code> is the number of objectives. Observations are not normalized.</p></li>
-<li><p><strong>train_con</strong> (<em>Optional</em><em>[</em><em>torch.Tensor</em><em>]</em>) – Objective constraints. A <code class="docutils literal notranslate"><span class="pre">torch.Tensor</span></code> of shape <code class="docutils literal notranslate"><span class="pre">(n_trials,</span> <span class="pre">n_constraints)</span></code>.
+<li><p><strong>train_con</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><em>torch.Tensor</em><em>]</em>) – Objective constraints. A <code class="docutils literal notranslate"><span class="pre">torch.Tensor</span></code> of shape <code class="docutils literal notranslate"><span class="pre">(n_trials,</span> <span class="pre">n_constraints)</span></code>.
 <code class="docutils literal notranslate"><span class="pre">n_trials</span></code> is identical to that of <code class="docutils literal notranslate"><span class="pre">train_x</span></code>. <code class="docutils literal notranslate"><span class="pre">n_constraints</span></code> is the number of
 constraints. A constraint is violated if strictly larger than 0. If no constraints are
 involved in the optimization, this argument will be <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</p></li>
@@ -187,7 +191,7 @@ lower and upper bounds for each parameter respectively.</p></li>
 without prior notice. See <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v2.4.0">https://github.com/optuna/optuna/releases/tag/v2.4.0</a>.</p>
 </div>
 </dd></dl>
-</div>
+</section>
 </div>
 </div>
 <footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
@@ -196,7 +200,7 @@ without prior notice. See <a class="reference external" href="https://github.com
 </div>
 <hr/>
 <div role="contentinfo">
-<p>© Copyright 2018, Optuna Contributors..</p>
+<p>© Copyright 2018, Optuna Contributors.</p>
 </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

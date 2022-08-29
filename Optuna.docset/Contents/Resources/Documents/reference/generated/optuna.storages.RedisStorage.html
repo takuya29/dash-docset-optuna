@@ -2,23 +2,26 @@
 
 <html class="writer-html5" lang="en">
 <head>
-<meta charset="utf-8"/>
+<meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.storages.RedisStorage — Optuna 2.10.1 documentation</title><link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<title>optuna.storages.RedisStorage — Optuna 3.0.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-binder.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-dataframe.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-rendered-html.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/css/custom.css" rel="stylesheet" type="text/css"/><link href="../../_static/favicon.ico" rel="shortcut icon"/>
+<link href="../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/favicon.ico" rel="shortcut icon"/>
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
 <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
 <script src="../../_static/jquery.js"></script>
 <script src="../../_static/underscore.js"></script>
+<script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
 <script src="../../_static/doctools.js"></script>
 <script src="../../_static/clipboard.min.js"></script>
 <script src="../../_static/copybutton.js"></script>
@@ -60,10 +63,11 @@
 <nav class="wy-nav-side" data-toggle="wy-nav-shift">
 <div class="wy-side-scroll">
 <div class="wy-side-nav-search">
-<a href="../../index.html"><img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
+<a href="../../index.html">
+<img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                2.10.1
+                3.0.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -73,7 +77,7 @@
 </form>
 </div>
 </div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
@@ -87,7 +91,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../logging.html">optuna.logging</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../multi_objective/index.html">optuna.multi_objective</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pruners.html">optuna.pruners</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../samplers.html">optuna.samplers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samplers/index.html">optuna.samplers</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../storages.html">optuna.storages</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="optuna.storages.RDBStorage.html">optuna.storages.RDBStorage</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">optuna.storages.RedisStorage</a></li>
@@ -95,7 +99,6 @@
 <li class="toctree-l3"><a class="reference internal" href="optuna.storages.fail_stale_trials.html">optuna.storages.fail_stale_trials</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../structs.html">optuna.structs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../study.html">optuna.study</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../trial.html">optuna.trial</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../visualization/index.html">optuna.visualization</a></li>
@@ -119,18 +122,17 @@
 <li><a href="../storages.html">optuna.storages</a> »</li>
 <li>optuna.storages.RedisStorage</li>
 <li class="wy-breadcrumbs-aside">
-<a href="../../_sources/reference/generated/optuna.storages.RedisStorage.rst.txt" rel="nofollow"> View page source</a>
 </li>
 </ul>
 <hr/>
 </div>
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div itemprop="articleBody">
-<div class="section" id="optuna-storages-redisstorage">
-<h1>optuna.storages.RedisStorage<a class="headerlink" href="#optuna-storages-redisstorage" title="Permalink to this headline">¶</a></h1>
+<section id="optuna-storages-redisstorage">
+<h1>optuna.storages.RedisStorage<a class="headerlink" href="#optuna-storages-redisstorage" title="Permalink to this heading"></a></h1>
 <dl class="py class">
-<dt id="optuna.storages.RedisStorage">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">optuna.storages.</span></code><code class="sig-name descname"><span class="pre">RedisStorage</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">heartbeat_interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grace_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">failed_trial_callback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.storages.RedisStorage"></a><a class="headerlink" href="#optuna.storages.RedisStorage" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.storages.RedisStorage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.storages.</span></span><span class="sig-name descname"><span class="pre">RedisStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">heartbeat_interval</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grace_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">failed_trial_callback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.storages.RedisStorage"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.storages._redis.RedisStorage"></a><a class="headerlink" href="#optuna.storages.RedisStorage" title="Permalink to this definition"></a></dt>
 <dd><p>Storage class for Redis backend.</p>
 <p>Note that library users can instantiate this class, but the attributes
 provided by this class are not supposed to be directly accessed by them.</p>
@@ -155,11 +157,20 @@ the given redis database URL.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>url</strong> – URL of the redis storage, password and db are optional. (ie: redis://localhost:6379)</p></li>
-<li><p><strong>heartbeat_interval</strong> – Interval to record the heartbeat. It is recorded every <code class="docutils literal notranslate"><span class="pre">interval</span></code> seconds.</p></li>
-<li><p><strong>grace_period</strong> – Grace period before a running trial is failed from the last heartbeat.
+<li><p><strong>url</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – URL of the redis storage, password and db are optional. (ie: redis://localhost:6379)</p></li>
+<li><p><strong>heartbeat_interval</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>]</em>) – <p>Interval to record the heartbeat. It is recorded every <code class="docutils literal notranslate"><span class="pre">interval</span></code> seconds.
+<code class="docutils literal notranslate"><span class="pre">heartbeat_interval</span></code> must be <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> or a positive integer.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The heartbeat is supposed to be used with <a class="reference internal" href="optuna.study.Study.html#optuna.study.Study.optimize" title="optuna.study.Study.optimize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">optimize()</span></code></a>.
+If you use <a class="reference internal" href="optuna.study.Study.html#optuna.study.Study.ask" title="optuna.study.Study.ask"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ask()</span></code></a> and
+<a class="reference internal" href="optuna.study.Study.html#optuna.study.Study.tell" title="optuna.study.Study.tell"><code class="xref py py-meth docutils literal notranslate"><span class="pre">tell()</span></code></a> instead, it will not work.</p>
+</div>
+</p></li>
+<li><p><strong>grace_period</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>]</em>) – Grace period before a running trial is failed from the last heartbeat.
+<code class="docutils literal notranslate"><span class="pre">grace_period</span></code> must be <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> or a positive integer.
 If it is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, the grace period will be <cite>2 * heartbeat_interval</cite>.</p></li>
-<li><p><strong>failed_trial_callback</strong> – <p>A callback function that is invoked after failing each stale trial.
+<li><p><strong>failed_trial_callback</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><em>Callable</em></a><em>[</em><em>[</em><em>optuna.Study</em><em>, </em><a class="reference internal" href="optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial._frozen.FrozenTrial"><em>FrozenTrial</em></a><em>]</em><em>, </em><em>None</em><em>]</em><em>]</em>) – <p>A callback function that is invoked after failing each stale trial.
 The function must accept two parameters with the following types in this order:
 <a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> and <a class="reference internal" href="optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrozenTrial</span></code></a>.</p>
 <div class="admonition note">
@@ -177,18 +188,13 @@ study for a new trial.</p>
 make sure Redis in installed and running.
 Please execute <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-U</span> <span class="pre">redis</span></code> to install redis python library.</p>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.10)"><strong>ValueError</strong></a> – If the given <cite>heartbeat_interval</cite> or <cite>grace_period</cite> is not a positive integer.</p>
-</dd>
-</dl>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Added in v1.4.0 as an experimental feature. The interface may change in newer versions
 without prior notice. See <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v1.4.0">https://github.com/optuna/optuna/releases/tag/v1.4.0</a>.</p>
 </div>
 <p class="rubric">Methods</p>
-<table class="longtable docutils align-default">
+<table class="autosummary longtable docutils align-default">
 <colgroup>
 <col style="width: 10%"/>
 <col style="width: 90%"/>
@@ -206,35 +212,29 @@ without prior notice. See <a class="reference external" href="https://github.com
 <tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.delete_study" title="optuna.storages.RedisStorage.delete_study"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete_study</span></code></a>(study_id)</p></td>
 <td><p>Delete a study.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.fail_stale_trials" title="optuna.storages.RedisStorage.fail_stale_trials"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fail_stale_trials</span></code></a>(study_id)</p></td>
-<td><p>Fail stale trials.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.get_all_studies" title="optuna.storages.RedisStorage.get_all_studies"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_all_studies</span></code></a>()</p></td>
+<td><p>Read a list of <code class="xref py py-class docutils literal notranslate"><span class="pre">FrozenStudy</span></code> objects.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.get_all_study_summaries" title="optuna.storages.RedisStorage.get_all_study_summaries"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_all_study_summaries</span></code></a>()</p></td>
-<td><p>Read a list of <a class="reference internal" href="optuna.study.StudySummary.html#optuna.study.StudySummary" title="optuna.study.StudySummary"><code class="xref py py-class docutils literal notranslate"><span class="pre">StudySummary</span></code></a> objects.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.get_all_trials" title="optuna.storages.RedisStorage.get_all_trials"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_all_trials</span></code></a>(study_id[, deepcopy, states])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.get_all_trials" title="optuna.storages.RedisStorage.get_all_trials"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_all_trials</span></code></a>(study_id[, deepcopy, states])</p></td>
 <td><p>Read all trials in a study.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.get_best_trial" title="optuna.storages.RedisStorage.get_best_trial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_best_trial</span></code></a>(study_id)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.get_best_trial" title="optuna.storages.RedisStorage.get_best_trial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_best_trial</span></code></a>(study_id)</p></td>
 <td><p>Return the trial with the best value in a study.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.get_failed_trial_callback" title="optuna.storages.RedisStorage.get_failed_trial_callback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_failed_trial_callback</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.get_failed_trial_callback" title="optuna.storages.RedisStorage.get_failed_trial_callback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_failed_trial_callback</span></code></a>()</p></td>
 <td><p>Get the failed trial callback function.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.get_heartbeat_interval" title="optuna.storages.RedisStorage.get_heartbeat_interval"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_heartbeat_interval</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.get_heartbeat_interval" title="optuna.storages.RedisStorage.get_heartbeat_interval"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_heartbeat_interval</span></code></a>()</p></td>
 <td><p>Get the heartbeat interval if it is set.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.get_n_trials" title="optuna.storages.RedisStorage.get_n_trials"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_n_trials</span></code></a>(study_id[, state])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.get_n_trials" title="optuna.storages.RedisStorage.get_n_trials"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_n_trials</span></code></a>(study_id[, state])</p></td>
 <td><p>Count the number of trials in a study.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.get_study_directions" title="optuna.storages.RedisStorage.get_study_directions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_study_directions</span></code></a>(study_id)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.get_study_directions" title="optuna.storages.RedisStorage.get_study_directions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_study_directions</span></code></a>(study_id)</p></td>
 <td><p>Read whether a study maximizes or minimizes an objective.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.get_study_id_from_name" title="optuna.storages.RedisStorage.get_study_id_from_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_study_id_from_name</span></code></a>(study_name)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.get_study_id_from_name" title="optuna.storages.RedisStorage.get_study_id_from_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_study_id_from_name</span></code></a>(study_name)</p></td>
 <td><p>Read the ID of a study.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.get_study_id_from_trial_id" title="optuna.storages.RedisStorage.get_study_id_from_trial_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_study_id_from_trial_id</span></code></a>(trial_id)</p></td>
-<td><p>Read the ID of a study to which a trial belongs.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.get_study_name_from_id" title="optuna.storages.RedisStorage.get_study_name_from_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_study_name_from_id</span></code></a>(study_id)</p></td>
 <td><p>Read the study name of a study.</p></td>
@@ -248,7 +248,7 @@ without prior notice. See <a class="reference external" href="https://github.com
 <tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.get_trial" title="optuna.storages.RedisStorage.get_trial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial</span></code></a>(trial_id)</p></td>
 <td><p>Read a trial.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.get_trial_id_from_study_id_trial_number" title="optuna.storages.RedisStorage.get_trial_id_from_study_id_trial_number"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial_id_from_study_id_trial_number</span></code></a>(…)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.get_trial_id_from_study_id_trial_number" title="optuna.storages.RedisStorage.get_trial_id_from_study_id_trial_number"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial_id_from_study_id_trial_number</span></code></a>(...)</p></td>
 <td><p>Read the trial ID of a trial.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.get_trial_number_from_id" title="optuna.storages.RedisStorage.get_trial_number_from_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial_number_from_id</span></code></a>(trial_id)</p></td>
@@ -266,12 +266,6 @@ without prior notice. See <a class="reference external" href="https://github.com
 <tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.get_trial_user_attrs" title="optuna.storages.RedisStorage.get_trial_user_attrs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial_user_attrs</span></code></a>(trial_id)</p></td>
 <td><p>Read the user-defined attributes of a trial.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.is_heartbeat_enabled" title="optuna.storages.RedisStorage.is_heartbeat_enabled"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_heartbeat_enabled</span></code></a>()</p></td>
-<td><p>Check whether the storage enables the heartbeat.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.read_trials_from_remote_storage" title="optuna.storages.RedisStorage.read_trials_from_remote_storage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_trials_from_remote_storage</span></code></a>(study_id)</p></td>
-<td><p>Make an internal cache of trials up-to-date.</p></td>
-</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.record_heartbeat" title="optuna.storages.RedisStorage.record_heartbeat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">record_heartbeat</span></code></a>(trial_id)</p></td>
 <td><p>Record the heartbeat of the trial.</p></td>
 </tr>
@@ -287,14 +281,14 @@ without prior notice. See <a class="reference external" href="https://github.com
 <tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.set_study_user_attr" title="optuna.storages.RedisStorage.set_study_user_attr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_study_user_attr</span></code></a>(study_id, key, value)</p></td>
 <td><p>Register a user-defined attribute to a study.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.set_trial_intermediate_value" title="optuna.storages.RedisStorage.set_trial_intermediate_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_trial_intermediate_value</span></code></a>(trial_id, step, …)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.set_trial_intermediate_value" title="optuna.storages.RedisStorage.set_trial_intermediate_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_trial_intermediate_value</span></code></a>(trial_id, step, ...)</p></td>
 <td><p>Report an intermediate value of an objective function.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.set_trial_param" title="optuna.storages.RedisStorage.set_trial_param"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_trial_param</span></code></a>(trial_id, param_name, …)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.set_trial_param" title="optuna.storages.RedisStorage.set_trial_param"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_trial_param</span></code></a>(trial_id, param_name, ...)</p></td>
 <td><p>Set a parameter to a trial.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.set_trial_state" title="optuna.storages.RedisStorage.set_trial_state"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_trial_state</span></code></a>(trial_id, state)</p></td>
-<td><p>Update the state of a trial.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.set_trial_state_values" title="optuna.storages.RedisStorage.set_trial_state_values"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_trial_state_values</span></code></a>(trial_id, state[, values])</p></td>
+<td><p>Update the state and values of a trial.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.set_trial_system_attr" title="optuna.storages.RedisStorage.set_trial_system_attr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_trial_system_attr</span></code></a>(trial_id, key, value)</p></td>
 <td><p>Set an optuna-internal attribute to a trial.</p></td>
@@ -302,40 +296,37 @@ without prior notice. See <a class="reference external" href="https://github.com
 <tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.set_trial_user_attr" title="optuna.storages.RedisStorage.set_trial_user_attr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_trial_user_attr</span></code></a>(trial_id, key, value)</p></td>
 <td><p>Set a user-defined attribute to a trial.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.RedisStorage.set_trial_values" title="optuna.storages.RedisStorage.set_trial_values"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_trial_values</span></code></a>(trial_id, values)</p></td>
-<td><p>Set return values of an objective function.</p></td>
-</tr>
 </tbody>
 </table>
 <dl class="py method">
-<dt id="optuna.storages.RedisStorage.check_trial_is_updatable">
-<code class="sig-name descname"><span class="pre">check_trial_is_updatable</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trial_state</span></span></em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.check_trial_is_updatable"></a><a class="headerlink" href="#optuna.storages.RedisStorage.check_trial_is_updatable" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.storages.RedisStorage.check_trial_is_updatable">
+<span class="sig-name descname"><span class="pre">check_trial_is_updatable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trial_state</span></span></em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.check_trial_is_updatable"></a><a class="headerlink" href="#optuna.storages.RedisStorage.check_trial_is_updatable" title="Permalink to this definition"></a></dt>
 <dd><p>Check whether a trial state is updatable.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the trial.
 Only used for an error message.</p></li>
-<li><p><strong>trial_state</strong> (<em>optuna.trial._state.TrialState</em>) – Trial state to check.</p></li>
+<li><p><strong>trial_state</strong> (<a class="reference internal" href="optuna.trial.TrialState.html#optuna.trial.TrialState" title="optuna.trial._state.TrialState"><em>TrialState</em></a>) – Trial state to check.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.10)"><strong>RuntimeError</strong></a> – If the trial is already finished.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+<dd class="field-odd"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.storages.RedisStorage.create_new_study">
-<code class="sig-name descname"><span class="pre">create_new_study</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.create_new_study"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.create_new_study"></a><a class="headerlink" href="#optuna.storages.RedisStorage.create_new_study" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.storages.RedisStorage.create_new_study">
+<span class="sig-name descname"><span class="pre">create_new_study</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.create_new_study"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.create_new_study"></a><a class="headerlink" href="#optuna.storages.RedisStorage.create_new_study" title="Permalink to this definition"></a></dt>
 <dd><p>Create a new study from a name.</p>
 <p>If no name is specified, the storage class generates a name.
 The returned study ID is unique among all current and deleted studies.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>study_name</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>]</em>) – Name of the new study to create.</p>
+<dd class="field-odd"><p><strong>study_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>]</em>) – Name of the new study to create.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>ID of the created study.</p>
@@ -349,15 +340,15 @@ The returned study ID is unique among all current and deleted studies.</p>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.storages.RedisStorage.create_new_trial">
-<code class="sig-name descname"><span class="pre">create_new_trial</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template_trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.create_new_trial"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.create_new_trial"></a><a class="headerlink" href="#optuna.storages.RedisStorage.create_new_trial" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.storages.RedisStorage.create_new_trial">
+<span class="sig-name descname"><span class="pre">create_new_trial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template_trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.create_new_trial"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.create_new_trial"></a><a class="headerlink" href="#optuna.storages.RedisStorage.create_new_trial" title="Permalink to this definition"></a></dt>
 <dd><p>Create and add a new trial to a study.</p>
 <p>The returned trial ID is unique among all current and deleted trials.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the study.</p></li>
-<li><p><strong>template_trial</strong> (<em>Optional</em><em>[</em><em>optuna.trial._frozen.FrozenTrial</em><em>]</em>) – Template <code class="xref py py-class docutils literal notranslate"><span class="pre">FronzenTrial</span></code> with default user-attributes,
+<li><p><strong>template_trial</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference internal" href="optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial._frozen.FrozenTrial"><em>FrozenTrial</em></a><em>]</em>) – Template <code class="xref py py-class docutils literal notranslate"><span class="pre">FronzenTrial</span></code> with default user-attributes,
 system-attributes, intermediate-values, and a state.</p></li>
 </ul>
 </dd>
@@ -373,8 +364,8 @@ system-attributes, intermediate-values, and a state.</p></li>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.storages.RedisStorage.delete_study">
-<code class="sig-name descname"><span class="pre">delete_study</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.delete_study"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.delete_study"></a><a class="headerlink" href="#optuna.storages.RedisStorage.delete_study" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.storages.RedisStorage.delete_study">
+<span class="sig-name descname"><span class="pre">delete_study</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.delete_study"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.delete_study"></a><a class="headerlink" href="#optuna.storages.RedisStorage.delete_study" title="Permalink to this definition"></a></dt>
 <dd><p>Delete a study.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -384,45 +375,26 @@ system-attributes, intermediate-values, and a state.</p></li>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> exists.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+<dd class="field-odd"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.storages.RedisStorage.fail_stale_trials">
-<code class="sig-name descname"><span class="pre">fail_stale_trials</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.fail_stale_trials"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.fail_stale_trials"></a><a class="headerlink" href="#optuna.storages.RedisStorage.fail_stale_trials" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fail stale trials.</p>
-<p>The running trials whose heartbeat has not been updated for a long time will be failed,
-that is, those states will be changed to <a class="reference internal" href="optuna.trial.TrialState.html#optuna.trial.TrialState.FAIL" title="optuna.trial.TrialState.FAIL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FAIL</span></code></a>.
-The grace period is <code class="docutils literal notranslate"><span class="pre">2</span> <span class="pre">*</span> <span class="pre">heartbeat_interval</span></code>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the related study.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>List of trial IDs of the failed trials.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>List[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a>]</p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py method">
-<dt id="optuna.storages.RedisStorage.get_all_study_summaries">
-<code class="sig-name descname"><span class="pre">get_all_study_summaries</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.get_all_study_summaries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_all_study_summaries"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_all_study_summaries" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read a list of <a class="reference internal" href="optuna.study.StudySummary.html#optuna.study.StudySummary" title="optuna.study.StudySummary"><code class="xref py py-class docutils literal notranslate"><span class="pre">StudySummary</span></code></a> objects.</p>
+<dt class="sig sig-object py" id="optuna.storages.RedisStorage.get_all_studies">
+<span class="sig-name descname"><span class="pre">get_all_studies</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.get_all_studies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_all_studies"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_all_studies" title="Permalink to this definition"></a></dt>
+<dd><p>Read a list of <code class="xref py py-class docutils literal notranslate"><span class="pre">FrozenStudy</span></code> objects.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>A list of <a class="reference internal" href="optuna.study.StudySummary.html#optuna.study.StudySummary" title="optuna.study.StudySummary"><code class="xref py py-class docutils literal notranslate"><span class="pre">StudySummary</span></code></a> objects.</p>
+<dd class="field-odd"><p>A list of <code class="xref py py-class docutils literal notranslate"><span class="pre">FrozenStudy</span></code> objects.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[optuna.study._study_summary.StudySummary]</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><em>List</em></a>[<em>FrozenStudy</em>]</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.storages.RedisStorage.get_all_trials">
-<code class="sig-name descname"><span class="pre">get_all_trials</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deepcopy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">states</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.get_all_trials"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_all_trials"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_all_trials" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.storages.RedisStorage.get_all_trials">
+<span class="sig-name descname"><span class="pre">get_all_trials</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deepcopy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">states</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.get_all_trials"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_all_trials"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_all_trials" title="Permalink to this definition"></a></dt>
 <dd><p>Read all trials in a study.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -430,7 +402,7 @@ The grace period is <code class="docutils literal notranslate"><span class="pre"
 <li><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the study.</p></li>
 <li><p><strong>deepcopy</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Whether to copy the list of trials before returning.
 Set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if you intend to update the list or elements of the list.</p></li>
-<li><p><strong>states</strong> (<em>Optional</em><em>[</em><em>Tuple</em><em>[</em><em>optuna.trial._state.TrialState</em><em>, </em><em>..</em><em>]</em><em>]</em>) – Trial states to filter on. If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, include all states.</p></li>
+<li><p><strong>states</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Container" title="(in Python v3.10)"><em>Container</em></a><em>[</em><a class="reference internal" href="optuna.trial.TrialState.html#optuna.trial.TrialState" title="optuna.trial._state.TrialState"><em>TrialState</em></a><em>]</em><em>]</em>) – Trial states to filter on. If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, include all states.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -440,13 +412,13 @@ Set to <a class="reference external" href="https://docs.python.org/3/library/con
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> exists.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[optuna.trial._frozen.FrozenTrial]</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><em>List</em></a>[<a class="reference internal" href="optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial._frozen.FrozenTrial"><em>FrozenTrial</em></a>]</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.storages.RedisStorage.get_best_trial">
-<code class="sig-name descname"><span class="pre">get_best_trial</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.get_best_trial"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_best_trial"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_best_trial" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.storages.RedisStorage.get_best_trial">
+<span class="sig-name descname"><span class="pre">get_best_trial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.get_best_trial"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_best_trial"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_best_trial" title="Permalink to this definition"></a></dt>
 <dd><p>Return the trial with the best value in a study.</p>
 <p>This method is valid only during single-objective optimization.</p>
 <dl class="field-list simple">
@@ -464,45 +436,45 @@ Set to <a class="reference external" href="https://docs.python.org/3/library/con
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>optuna.trial._frozen.FrozenTrial</p>
+<dd class="field-even"><p><a class="reference internal" href="optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial._frozen.FrozenTrial"><em>FrozenTrial</em></a></p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.storages.RedisStorage.get_failed_trial_callback">
-<code class="sig-name descname"><span class="pre">get_failed_trial_callback</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.get_failed_trial_callback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_failed_trial_callback"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_failed_trial_callback" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.storages.RedisStorage.get_failed_trial_callback">
+<span class="sig-name descname"><span class="pre">get_failed_trial_callback</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.get_failed_trial_callback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_failed_trial_callback"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_failed_trial_callback" title="Permalink to this definition"></a></dt>
 <dd><p>Get the failed trial callback function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>The failed trial callback function if it is set, otherwise <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>Optional[Callable[[optuna.study.study.Study, optuna.trial._frozen.FrozenTrial], <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a>]]</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><em>Callable</em></a>[[<a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.study.Study"><em>Study</em></a>, <a class="reference internal" href="optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial._frozen.FrozenTrial"><em>FrozenTrial</em></a>], None]]</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.storages.RedisStorage.get_heartbeat_interval">
-<code class="sig-name descname"><span class="pre">get_heartbeat_interval</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.get_heartbeat_interval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_heartbeat_interval"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_heartbeat_interval" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.storages.RedisStorage.get_heartbeat_interval">
+<span class="sig-name descname"><span class="pre">get_heartbeat_interval</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.get_heartbeat_interval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_heartbeat_interval"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_heartbeat_interval" title="Permalink to this definition"></a></dt>
 <dd><p>Get the heartbeat interval if it is set.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>The heartbeat interval if it is set, otherwise <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>Optional[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a>]</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a>]</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.storages.RedisStorage.get_n_trials">
-<code class="sig-name descname"><span class="pre">get_n_trials</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_n_trials"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_n_trials" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.storages.RedisStorage.get_n_trials">
+<span class="sig-name descname"><span class="pre">get_n_trials</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_n_trials"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_n_trials" title="Permalink to this definition"></a></dt>
 <dd><p>Count the number of trials in a study.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the study.</p></li>
-<li><p><strong>state</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><em>Tuple</em><em>[</em><em>optuna.trial._state.TrialState</em><em>, </em><em>..</em><em>]</em><em>, </em><em>optuna.trial._state.TrialState</em><em>]</em><em>]</em>) – Trial states to filter on. If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, include all states.</p></li>
+<li><p><strong>state</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><em>Union</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.10)"><em>Tuple</em></a><em>[</em><a class="reference internal" href="optuna.trial.TrialState.html#optuna.trial.TrialState" title="optuna.trial._state.TrialState"><em>TrialState</em></a><em>, </em><em>...</em><em>]</em><em>, </em><a class="reference internal" href="optuna.trial.TrialState.html#optuna.trial.TrialState" title="optuna.trial._state.TrialState"><em>TrialState</em></a><em>]</em><em>]</em>) – Trial states to filter on. If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, include all states.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -517,8 +489,8 @@ Set to <a class="reference external" href="https://docs.python.org/3/library/con
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.storages.RedisStorage.get_study_directions">
-<code class="sig-name descname"><span class="pre">get_study_directions</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.get_study_directions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_study_directions"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_study_directions" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.storages.RedisStorage.get_study_directions">
+<span class="sig-name descname"><span class="pre">get_study_directions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.get_study_directions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_study_directions"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_study_directions" title="Permalink to this definition"></a></dt>
 <dd><p>Read whether a study maximizes or minimizes an objective.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -531,13 +503,13 @@ Set to <a class="reference external" href="https://docs.python.org/3/library/con
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> exists.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>List[optuna.study._study_direction.StudyDirection]</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><em>List</em></a>[<a class="reference internal" href="optuna.study.StudyDirection.html#optuna.study.StudyDirection" title="optuna.study._study_direction.StudyDirection"><em>StudyDirection</em></a>]</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.storages.RedisStorage.get_study_id_from_name">
-<code class="sig-name descname"><span class="pre">get_study_id_from_name</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.get_study_id_from_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_study_id_from_name"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_study_id_from_name" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.storages.RedisStorage.get_study_id_from_name">
+<span class="sig-name descname"><span class="pre">get_study_id_from_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.get_study_id_from_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_study_id_from_name"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_study_id_from_name" title="Permalink to this definition"></a></dt>
 <dd><p>Read the ID of a study.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -555,27 +527,8 @@ Set to <a class="reference external" href="https://docs.python.org/3/library/con
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.storages.RedisStorage.get_study_id_from_trial_id">
-<code class="sig-name descname"><span class="pre">get_study_id_from_trial_id</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.get_study_id_from_trial_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_study_id_from_trial_id"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_study_id_from_trial_id" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read the ID of a study to which a trial belongs.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the trial.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>ID of the study.</p>
-</dd>
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a></p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py method">
-<dt id="optuna.storages.RedisStorage.get_study_name_from_id">
-<code class="sig-name descname"><span class="pre">get_study_name_from_id</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.get_study_name_from_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_study_name_from_id"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_study_name_from_id" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.storages.RedisStorage.get_study_name_from_id">
+<span class="sig-name descname"><span class="pre">get_study_name_from_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.get_study_name_from_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_study_name_from_id"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_study_name_from_id" title="Permalink to this definition"></a></dt>
 <dd><p>Read the study name of a study.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -593,8 +546,8 @@ Set to <a class="reference external" href="https://docs.python.org/3/library/con
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.storages.RedisStorage.get_study_system_attrs">
-<code class="sig-name descname"><span class="pre">get_study_system_attrs</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.get_study_system_attrs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_study_system_attrs"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_study_system_attrs" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.storages.RedisStorage.get_study_system_attrs">
+<span class="sig-name descname"><span class="pre">get_study_system_attrs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.get_study_system_attrs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_study_system_attrs"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_study_system_attrs" title="Permalink to this definition"></a></dt>
 <dd><p>Read the optuna-internal attributes of a study.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -607,13 +560,13 @@ Set to <a class="reference external" href="https://docs.python.org/3/library/con
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> exists.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a>, Any]</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.10)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><em>Any</em></a>]</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.storages.RedisStorage.get_study_user_attrs">
-<code class="sig-name descname"><span class="pre">get_study_user_attrs</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.get_study_user_attrs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_study_user_attrs"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_study_user_attrs" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.storages.RedisStorage.get_study_user_attrs">
+<span class="sig-name descname"><span class="pre">get_study_user_attrs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.get_study_user_attrs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_study_user_attrs"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_study_user_attrs" title="Permalink to this definition"></a></dt>
 <dd><p>Read the user-defined attributes of a study.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -626,13 +579,13 @@ Set to <a class="reference external" href="https://docs.python.org/3/library/con
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> exists.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a>, Any]</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.10)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><em>Any</em></a>]</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.storages.RedisStorage.get_trial">
-<code class="sig-name descname"><span class="pre">get_trial</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.get_trial"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_trial"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_trial" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.storages.RedisStorage.get_trial">
+<span class="sig-name descname"><span class="pre">get_trial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.get_trial"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_trial"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_trial" title="Permalink to this definition"></a></dt>
 <dd><p>Read a trial.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -645,13 +598,13 @@ Set to <a class="reference external" href="https://docs.python.org/3/library/con
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>optuna.trial._frozen.FrozenTrial</p>
+<dd class="field-even"><p><a class="reference internal" href="optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial._frozen.FrozenTrial"><em>FrozenTrial</em></a></p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.storages.RedisStorage.get_trial_id_from_study_id_trial_number">
-<code class="sig-name descname"><span class="pre">get_trial_id_from_study_id_trial_number</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trial_number</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.get_trial_id_from_study_id_trial_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_trial_id_from_study_id_trial_number"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_trial_id_from_study_id_trial_number" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.storages.RedisStorage.get_trial_id_from_study_id_trial_number">
+<span class="sig-name descname"><span class="pre">get_trial_id_from_study_id_trial_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trial_number</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.get_trial_id_from_study_id_trial_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_trial_id_from_study_id_trial_number"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_trial_id_from_study_id_trial_number" title="Permalink to this definition"></a></dt>
 <dd><p>Read the trial ID of a trial.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -672,8 +625,8 @@ Set to <a class="reference external" href="https://docs.python.org/3/library/con
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.storages.RedisStorage.get_trial_number_from_id">
-<code class="sig-name descname"><span class="pre">get_trial_number_from_id</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.get_trial_number_from_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_trial_number_from_id"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_trial_number_from_id" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.storages.RedisStorage.get_trial_number_from_id">
+<span class="sig-name descname"><span class="pre">get_trial_number_from_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_trial_number_from_id"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_trial_number_from_id" title="Permalink to this definition"></a></dt>
 <dd><p>Read the trial number of a trial.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -695,8 +648,8 @@ Set to <a class="reference external" href="https://docs.python.org/3/library/con
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.storages.RedisStorage.get_trial_param">
-<code class="sig-name descname"><span class="pre">get_trial_param</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.get_trial_param"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_trial_param"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_trial_param" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.storages.RedisStorage.get_trial_param">
+<span class="sig-name descname"><span class="pre">get_trial_param</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_name</span></span></em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_trial_param"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_trial_param" title="Permalink to this definition"></a></dt>
 <dd><p>Read the parameter of a trial.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -718,8 +671,8 @@ Set to <a class="reference external" href="https://docs.python.org/3/library/con
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.storages.RedisStorage.get_trial_params">
-<code class="sig-name descname"><span class="pre">get_trial_params</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_trial_params"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_trial_params" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.storages.RedisStorage.get_trial_params">
+<span class="sig-name descname"><span class="pre">get_trial_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_trial_params"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_trial_params" title="Permalink to this definition"></a></dt>
 <dd><p>Read the parameter dictionary of a trial.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -733,13 +686,13 @@ representations of the parameter values.</p>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a>, Any]</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.10)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><em>Any</em></a>]</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.storages.RedisStorage.get_trial_system_attrs">
-<code class="sig-name descname"><span class="pre">get_trial_system_attrs</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_trial_system_attrs"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_trial_system_attrs" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.storages.RedisStorage.get_trial_system_attrs">
+<span class="sig-name descname"><span class="pre">get_trial_system_attrs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_trial_system_attrs"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_trial_system_attrs" title="Permalink to this definition"></a></dt>
 <dd><p>Read the optuna-internal attributes of a trial.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -752,13 +705,13 @@ representations of the parameter values.</p>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a>, Any]</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.10)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><em>Any</em></a>]</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.storages.RedisStorage.get_trial_user_attrs">
-<code class="sig-name descname"><span class="pre">get_trial_user_attrs</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_trial_user_attrs"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_trial_user_attrs" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.storages.RedisStorage.get_trial_user_attrs">
+<span class="sig-name descname"><span class="pre">get_trial_user_attrs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.get_trial_user_attrs"></a><a class="headerlink" href="#optuna.storages.RedisStorage.get_trial_user_attrs" title="Permalink to this definition"></a></dt>
 <dd><p>Read the user-defined attributes of a trial.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -771,73 +724,42 @@ representations of the parameter values.</p>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a>, Any]</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.10)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><em>Any</em></a>]</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.storages.RedisStorage.is_heartbeat_enabled">
-<code class="sig-name descname"><span class="pre">is_heartbeat_enabled</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.is_heartbeat_enabled"></a><a class="headerlink" href="#optuna.storages.RedisStorage.is_heartbeat_enabled" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check whether the storage enables the heartbeat.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the storage supports the heartbeat and the return value of
-<code class="xref py py-meth docutils literal notranslate"><span class="pre">get_heartbeat_interval()</span></code> is an integer,
-otherwise <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)">bool</a></p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py method">
-<dt id="optuna.storages.RedisStorage.read_trials_from_remote_storage">
-<code class="sig-name descname"><span class="pre">read_trials_from_remote_storage</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.read_trials_from_remote_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.read_trials_from_remote_storage"></a><a class="headerlink" href="#optuna.storages.RedisStorage.read_trials_from_remote_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Make an internal cache of trials up-to-date.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the study.</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> exists.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py method">
-<dt id="optuna.storages.RedisStorage.record_heartbeat">
-<code class="sig-name descname"><span class="pre">record_heartbeat</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.record_heartbeat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.record_heartbeat"></a><a class="headerlink" href="#optuna.storages.RedisStorage.record_heartbeat" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.storages.RedisStorage.record_heartbeat">
+<span class="sig-name descname"><span class="pre">record_heartbeat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.record_heartbeat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.record_heartbeat"></a><a class="headerlink" href="#optuna.storages.RedisStorage.record_heartbeat" title="Permalink to this definition"></a></dt>
 <dd><p>Record the heartbeat of the trial.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the trial.</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.storages.RedisStorage.remove_session">
-<code class="sig-name descname"><span class="pre">remove_session</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.remove_session"></a><a class="headerlink" href="#optuna.storages.RedisStorage.remove_session" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.storages.RedisStorage.remove_session">
+<span class="sig-name descname"><span class="pre">remove_session</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.remove_session"></a><a class="headerlink" href="#optuna.storages.RedisStorage.remove_session" title="Permalink to this definition"></a></dt>
 <dd><p>Clean up all connections to a database.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+<dd class="field-odd"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.storages.RedisStorage.set_study_directions">
-<code class="sig-name descname"><span class="pre">set_study_directions</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.set_study_directions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.set_study_directions"></a><a class="headerlink" href="#optuna.storages.RedisStorage.set_study_directions" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.storages.RedisStorage.set_study_directions">
+<span class="sig-name descname"><span class="pre">set_study_directions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">directions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.set_study_directions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.set_study_directions"></a><a class="headerlink" href="#optuna.storages.RedisStorage.set_study_directions" title="Permalink to this definition"></a></dt>
 <dd><p>Register optimization problem directions to a study.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the study.</p></li>
-<li><p><strong>directions</strong> (<em>Sequence</em><em>[</em><em>optuna.study._study_direction.StudyDirection</em><em>]</em>) – A sequence of direction whose element is either
+<li><p><strong>directions</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.10)"><em>Sequence</em></a><em>[</em><a class="reference internal" href="optuna.study.StudyDirection.html#optuna.study.StudyDirection" title="optuna.study._study_direction.StudyDirection"><em>StudyDirection</em></a><em>]</em>) – A sequence of direction whose element is either
 <a class="reference internal" href="optuna.study.StudyDirection.html#optuna.study.StudyDirection.MAXIMIZE" title="optuna.study.StudyDirection.MAXIMIZE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MAXIMIZE</span></code></a> or
 <a class="reference internal" href="optuna.study.StudyDirection.html#optuna.study.StudyDirection.MINIMIZE" title="optuna.study.StudyDirection.MINIMIZE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MINIMIZE</span></code></a>.</p></li>
 </ul>
@@ -850,13 +772,13 @@ otherwise <a class="reference external" href="https://docs.python.org/3/library/
 </ul>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+<dd class="field-odd"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.storages.RedisStorage.set_study_system_attr">
-<code class="sig-name descname"><span class="pre">set_study_system_attr</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.set_study_system_attr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.set_study_system_attr"></a><a class="headerlink" href="#optuna.storages.RedisStorage.set_study_system_attr" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.storages.RedisStorage.set_study_system_attr">
+<span class="sig-name descname"><span class="pre">set_study_system_attr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.set_study_system_attr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.set_study_system_attr"></a><a class="headerlink" href="#optuna.storages.RedisStorage.set_study_system_attr" title="Permalink to this definition"></a></dt>
 <dd><p>Register an optuna-internal attribute to a study.</p>
 <p>This method overwrites any existing attribute.</p>
 <dl class="field-list simple">
@@ -864,20 +786,20 @@ otherwise <a class="reference external" href="https://docs.python.org/3/library/
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the study.</p></li>
 <li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Attribute key.</p></li>
-<li><p><strong>value</strong> (<em>Any</em>) – Attribute value. It should be JSON serializable.</p></li>
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><em>Any</em></a>) – Attribute value. It should be JSON serializable.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> exists.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+<dd class="field-odd"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.storages.RedisStorage.set_study_user_attr">
-<code class="sig-name descname"><span class="pre">set_study_user_attr</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.set_study_user_attr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.set_study_user_attr"></a><a class="headerlink" href="#optuna.storages.RedisStorage.set_study_user_attr" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.storages.RedisStorage.set_study_user_attr">
+<span class="sig-name descname"><span class="pre">set_study_user_attr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.set_study_user_attr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.set_study_user_attr"></a><a class="headerlink" href="#optuna.storages.RedisStorage.set_study_user_attr" title="Permalink to this definition"></a></dt>
 <dd><p>Register a user-defined attribute to a study.</p>
 <p>This method overwrites any existing attribute.</p>
 <dl class="field-list simple">
@@ -885,20 +807,20 @@ otherwise <a class="reference external" href="https://docs.python.org/3/library/
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the study.</p></li>
 <li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Attribute key.</p></li>
-<li><p><strong>value</strong> (<em>Any</em>) – Attribute value. It should be JSON serializable.</p></li>
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><em>Any</em></a>) – Attribute value. It should be JSON serializable.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> exists.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+<dd class="field-odd"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.storages.RedisStorage.set_trial_intermediate_value">
-<code class="sig-name descname"><span class="pre">set_trial_intermediate_value</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intermediate_value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.set_trial_intermediate_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.set_trial_intermediate_value"></a><a class="headerlink" href="#optuna.storages.RedisStorage.set_trial_intermediate_value" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.storages.RedisStorage.set_trial_intermediate_value">
+<span class="sig-name descname"><span class="pre">set_trial_intermediate_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intermediate_value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.set_trial_intermediate_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.set_trial_intermediate_value"></a><a class="headerlink" href="#optuna.storages.RedisStorage.set_trial_intermediate_value" title="Permalink to this definition"></a></dt>
 <dd><p>Report an intermediate value of an objective function.</p>
 <p>This method overwrites any existing intermediate value associated with the given step.</p>
 <dl class="field-list simple">
@@ -916,13 +838,13 @@ otherwise <a class="reference external" href="https://docs.python.org/3/library/
 </ul>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+<dd class="field-odd"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.storages.RedisStorage.set_trial_param">
-<code class="sig-name descname"><span class="pre">set_trial_param</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_value_internal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.set_trial_param"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.set_trial_param"></a><a class="headerlink" href="#optuna.storages.RedisStorage.set_trial_param" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.storages.RedisStorage.set_trial_param">
+<span class="sig-name descname"><span class="pre">set_trial_param</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_value_internal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.set_trial_param"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.set_trial_param"></a><a class="headerlink" href="#optuna.storages.RedisStorage.set_trial_param" title="Permalink to this definition"></a></dt>
 <dd><p>Set a parameter to a trial.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -930,7 +852,7 @@ otherwise <a class="reference external" href="https://docs.python.org/3/library/
 <li><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the trial.</p></li>
 <li><p><strong>param_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Name of the parameter.</p></li>
 <li><p><strong>param_value_internal</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – Internal representation of the parameter value.</p></li>
-<li><p><strong>distribution</strong> (<em>optuna.distributions.BaseDistribution</em>) – Sampled distribution of the parameter.</p></li>
+<li><p><strong>distribution</strong> (<em>BaseDistribution</em>) – Sampled distribution of the parameter.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
@@ -940,19 +862,22 @@ otherwise <a class="reference external" href="https://docs.python.org/3/library/
 </ul>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+<dd class="field-odd"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.storages.RedisStorage.set_trial_state">
-<code class="sig-name descname"><span class="pre">set_trial_state</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.set_trial_state"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.set_trial_state"></a><a class="headerlink" href="#optuna.storages.RedisStorage.set_trial_state" title="Permalink to this definition">¶</a></dt>
-<dd><p>Update the state of a trial.</p>
+<dt class="sig sig-object py" id="optuna.storages.RedisStorage.set_trial_state_values">
+<span class="sig-name descname"><span class="pre">set_trial_state_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.set_trial_state_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.set_trial_state_values"></a><a class="headerlink" href="#optuna.storages.RedisStorage.set_trial_state_values" title="Permalink to this definition"></a></dt>
+<dd><p>Update the state and values of a trial.</p>
+<p>Set return values of an objective function to values argument.
+If values argument is not <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, this method overwrites any existing trial values.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the trial.</p></li>
-<li><p><strong>state</strong> (<em>optuna.trial._state.TrialState</em>) – New state of the trial.</p></li>
+<li><p><strong>state</strong> (<a class="reference internal" href="optuna.trial.TrialState.html#optuna.trial.TrialState" title="optuna.trial._state.TrialState"><em>TrialState</em></a>) – New state of the trial.</p></li>
+<li><p><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.10)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a><em>]</em><em>]</em>) – Values of the objective function.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -974,8 +899,8 @@ The latter happens when this method tries to update the state of
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.storages.RedisStorage.set_trial_system_attr">
-<code class="sig-name descname"><span class="pre">set_trial_system_attr</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.set_trial_system_attr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.set_trial_system_attr"></a><a class="headerlink" href="#optuna.storages.RedisStorage.set_trial_system_attr" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.storages.RedisStorage.set_trial_system_attr">
+<span class="sig-name descname"><span class="pre">set_trial_system_attr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.set_trial_system_attr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.set_trial_system_attr"></a><a class="headerlink" href="#optuna.storages.RedisStorage.set_trial_system_attr" title="Permalink to this definition"></a></dt>
 <dd><p>Set an optuna-internal attribute to a trial.</p>
 <p>This method overwrites any existing attribute.</p>
 <dl class="field-list simple">
@@ -983,7 +908,7 @@ The latter happens when this method tries to update the state of
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the trial.</p></li>
 <li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Attribute key.</p></li>
-<li><p><strong>value</strong> (<em>Any</em>) – Attribute value. It should be JSON serializable.</p></li>
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><em>Any</em></a>) – Attribute value. It should be JSON serializable.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
@@ -993,13 +918,13 @@ The latter happens when this method tries to update the state of
 </ul>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+<dd class="field-odd"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
 <dl class="py method">
-<dt id="optuna.storages.RedisStorage.set_trial_user_attr">
-<code class="sig-name descname"><span class="pre">set_trial_user_attr</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.set_trial_user_attr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.set_trial_user_attr"></a><a class="headerlink" href="#optuna.storages.RedisStorage.set_trial_user_attr" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="optuna.storages.RedisStorage.set_trial_user_attr">
+<span class="sig-name descname"><span class="pre">set_trial_user_attr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.set_trial_user_attr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.set_trial_user_attr"></a><a class="headerlink" href="#optuna.storages.RedisStorage.set_trial_user_attr" title="Permalink to this definition"></a></dt>
 <dd><p>Set a user-defined attribute to a trial.</p>
 <p>This method overwrites any existing attribute.</p>
 <dl class="field-list simple">
@@ -1007,7 +932,7 @@ The latter happens when this method tries to update the state of
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the trial.</p></li>
 <li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Attribute key.</p></li>
-<li><p><strong>value</strong> (<em>Any</em>) – Attribute value. It should be JSON serializable.</p></li>
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><em>Any</em></a>) – Attribute value. It should be JSON serializable.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
@@ -1017,35 +942,12 @@ The latter happens when this method tries to update the state of
 </ul>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
-</dd>
-</dl>
-</dd></dl>
-<dl class="py method">
-<dt id="optuna.storages.RedisStorage.set_trial_values">
-<code class="sig-name descname"><span class="pre">set_trial_values</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_redis.html#RedisStorage.set_trial_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RedisStorage.set_trial_values"></a><a class="headerlink" href="#optuna.storages.RedisStorage.set_trial_values" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set return values of an objective function.</p>
-<p>This method overwrites any existing trial values.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – ID of the trial.</p></li>
-<li><p><strong>values</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a><em>]</em>) – Values of the objective function.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><ul class="simple">
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.10)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.</p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.10)"><strong>RuntimeError</strong></a> – If the trial is already finished.</p></li>
-</ul>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)">None</a></p>
+<dd class="field-odd"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
 </dd></dl>
-</div>
+</section>
 </div>
 </div>
 <footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
@@ -1054,7 +956,7 @@ The latter happens when this method tries to update the state of
 </div>
 <hr/>
 <div role="contentinfo">
-<p>© Copyright 2018, Optuna Contributors..</p>
+<p>© Copyright 2018, Optuna Contributors.</p>
 </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

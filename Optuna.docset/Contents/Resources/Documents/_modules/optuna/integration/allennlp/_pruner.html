@@ -3,21 +3,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.integration.allennlp._pruner &mdash; Optuna 2.10.1 documentation</title><link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <title>optuna.integration.allennlp._pruner &mdash; Optuna 3.0.0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/plot_directive.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/sg_gallery.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/sg_gallery-binder.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/sg_gallery-dataframe.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/sg_gallery-rendered-html.css" type="text/css" />
-      <link rel="stylesheet" href="../../../../_static/css/custom.css" type="text/css" /><link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+      <link rel="stylesheet" href="../../../../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  <script id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
         <script src="../../../../_static/jquery.js"></script>
         <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../_static/doctools.js"></script>
         <script src="../../../../_static/clipboard.min.js"></script>
         <script src="../../../../_static/copybutton.js"></script>
@@ -60,10 +64,11 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../../index.html"><img src="../../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
+            <a href="../../../../index.html">
+            <img src="../../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                2.10.1
+                3.0.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -73,7 +78,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/index.html">Tutorial</a></li>
@@ -111,22 +116,17 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
 
 <span class="kn">from</span> <span class="nn">packaging</span> <span class="kn">import</span> <span class="n">version</span>
 
-<span class="kn">import</span> <span class="nn">optuna</span>
 <span class="kn">from</span> <span class="nn">optuna</span> <span class="kn">import</span> <span class="n">load_study</span>
+<span class="kn">from</span> <span class="nn">optuna</span> <span class="kn">import</span> <span class="n">pruners</span>
 <span class="kn">from</span> <span class="nn">optuna</span> <span class="kn">import</span> <span class="n">Trial</span>
-<span class="kn">from</span> <span class="nn">optuna._experimental</span> <span class="kn">import</span> <span class="n">experimental</span>
+<span class="kn">from</span> <span class="nn">optuna</span> <span class="kn">import</span> <span class="n">TrialPruned</span>
+<span class="kn">from</span> <span class="nn">optuna._experimental</span> <span class="kn">import</span> <span class="n">experimental_class</span>
 <span class="kn">from</span> <span class="nn">optuna._imports</span> <span class="kn">import</span> <span class="n">try_import</span>
-<span class="kn">from</span> <span class="nn">optuna.integration.allennlp._variables</span> <span class="kn">import</span> <span class="n">_MONITOR</span>
-<span class="kn">from</span> <span class="nn">optuna.integration.allennlp._variables</span> <span class="kn">import</span> <span class="n">_PREFIX</span>
-<span class="kn">from</span> <span class="nn">optuna.integration.allennlp._variables</span> <span class="kn">import</span> <span class="n">_PRUNER_CLASS</span>
-<span class="kn">from</span> <span class="nn">optuna.integration.allennlp._variables</span> <span class="kn">import</span> <span class="n">_PRUNER_KEYS</span>
-<span class="kn">from</span> <span class="nn">optuna.integration.allennlp._variables</span> <span class="kn">import</span> <span class="n">_STORAGE_NAME</span>
-<span class="kn">from</span> <span class="nn">optuna.integration.allennlp._variables</span> <span class="kn">import</span> <span class="n">_STUDY_NAME</span>
-<span class="kn">from</span> <span class="nn">optuna.integration.allennlp._variables</span> <span class="kn">import</span> <span class="n">_TRIAL_ID</span>
+<span class="kn">from</span> <span class="nn">optuna.integration.allennlp._variables</span> <span class="kn">import</span> <span class="n">_VariableManager</span>
+<span class="kn">from</span> <span class="nn">optuna.integration.allennlp._variables</span> <span class="kn">import</span> <span class="n">OPTUNA_ALLENNLP_DISTRIBUTED_FLAG</span>
 
 
 <span class="k">with</span> <span class="n">try_import</span><span class="p">()</span> <span class="k">as</span> <span class="n">_imports</span><span class="p">:</span>
@@ -138,6 +138,8 @@
 <span class="k">if</span> <span class="n">_imports</span><span class="o">.</span><span class="n">is_successful</span><span class="p">():</span>
     <span class="kn">from</span> <span class="nn">allennlp.training</span> <span class="kn">import</span> <span class="n">GradientDescentTrainer</span>
     <span class="kn">from</span> <span class="nn">allennlp.training</span> <span class="kn">import</span> <span class="n">TrainerCallback</span>
+    <span class="kn">import</span> <span class="nn">psutil</span>
+
 <span class="k">else</span><span class="p">:</span>
     <span class="c1"># I disable mypy here since `allennlp.training.TrainerCallback` is a subclass of `Registrable`</span>
     <span class="c1"># (https://docs.allennlp.org/main/api/training/trainer/#trainercallback) but `TrainerCallback`</span>
@@ -161,7 +163,11 @@
             <span class="k">return</span> <span class="n">wrapper</span>
 
 
-<span class="k">def</span> <span class="nf">_create_pruner</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">optuna</span><span class="o">.</span><span class="n">pruners</span><span class="o">.</span><span class="n">BasePruner</span><span class="p">]:</span>
+<span class="k">def</span> <span class="nf">_create_pruner</span><span class="p">(</span>
+    <span class="n">pruner_class</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">pruner_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pruners</span><span class="o">.</span><span class="n">BasePruner</span><span class="p">]:</span>
+
     <span class="sd">&quot;&quot;&quot;Restore a pruner which is defined in `create_study`.</span>
 
 <span class="sd">    `AllenNLPPruningCallback` is launched as a sub-process of</span>
@@ -172,47 +178,14 @@
 <span class="sd">    re-create the same pruner in `AllenNLPPruningCallback`.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">pruner_class</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">_PRUNER_CLASS</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">pruner_class</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">None</span>
-
-    <span class="n">pruner_params</span> <span class="o">=</span> <span class="n">_get_environment_variables_for_pruner</span><span class="p">()</span>
-    <span class="n">pruner</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">optuna</span><span class="o">.</span><span class="n">pruners</span><span class="p">,</span> <span class="n">pruner_class</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-
+    <span class="n">pruner</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">pruners</span><span class="p">,</span> <span class="n">pruner_class</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">pruner</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="k">return</span> <span class="n">pruner</span><span class="p">(</span><span class="o">**</span><span class="n">pruner_params</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pruner</span><span class="p">(</span><span class="o">**</span><span class="n">pruner_kwargs</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_get_environment_variables_for_trial</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
-    <span class="k">return</span> <span class="p">{</span>
-        <span class="s2">&quot;study_name&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">_STUDY_NAME</span><span class="p">),</span>
-        <span class="s2">&quot;trial_id&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">_TRIAL_ID</span><span class="p">),</span>
-        <span class="s2">&quot;storage&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">_STORAGE_NAME</span><span class="p">),</span>
-        <span class="s2">&quot;monitor&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">_MONITOR</span><span class="p">),</span>
-    <span class="p">}</span>
-
-
-<span class="k">def</span> <span class="nf">_get_environment_variables_for_pruner</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]]]:</span>
-    <span class="n">keys</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">_PRUNER_KEYS</span><span class="p">)</span>
-
-    <span class="c1"># keys would be empty when `_PRUNER_CLASS` is `NopPruner`</span>
-    <span class="k">if</span> <span class="n">keys</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">keys</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">{}</span>
-
-    <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">):</span>
-        <span class="n">key_without_prefix</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">_PREFIX</span><span class="p">),</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-        <span class="n">value</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> is not found in environment variables.&quot;</span><span class="p">)</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="n">key_without_prefix</span><span class="p">]</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">kwargs</span>
-
-
-<div class="viewcode-block" id="AllenNLPPruningCallback"><a class="viewcode-back" href="../../../../reference/generated/optuna.integration.AllenNLPPruningCallback.html#optuna.integration.AllenNLPPruningCallback">[docs]</a><span class="nd">@experimental</span><span class="p">(</span><span class="s2">&quot;2.0.0&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="AllenNLPPruningCallback"><a class="viewcode-back" href="../../../../reference/generated/optuna.integration.AllenNLPPruningCallback.html#optuna.integration.AllenNLPPruningCallback">[docs]</a><span class="nd">@experimental_class</span><span class="p">(</span><span class="s2">&quot;2.0.0&quot;</span><span class="p">)</span>
 <span class="nd">@TrainerCallback</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s2">&quot;optuna_pruner&quot;</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">AllenNLPPruningCallback</span><span class="p">(</span><span class="n">TrainerCallback</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;AllenNLP callback to prune unpromising trials.</span>
@@ -251,7 +224,7 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">trial</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">optuna</span><span class="o">.</span><span class="n">trial</span><span class="o">.</span><span class="n">Trial</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">trial</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Trial</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">monitor</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="n">_imports</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
@@ -273,11 +246,22 @@
         <span class="c1"># `trial` and `monitor` would be None. `AllenNLPExecutor` sets information</span>
         <span class="c1"># for a study name, trial id, monitor, and storage in environment variables.</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">environment_variables</span> <span class="o">=</span> <span class="n">_get_environment_variables_for_trial</span><span class="p">()</span>
-            <span class="n">study_name</span> <span class="o">=</span> <span class="n">environment_variables</span><span class="p">[</span><span class="s2">&quot;study_name&quot;</span><span class="p">]</span>
-            <span class="n">trial_id</span> <span class="o">=</span> <span class="n">environment_variables</span><span class="p">[</span><span class="s2">&quot;trial_id&quot;</span><span class="p">]</span>
-            <span class="n">monitor</span> <span class="o">=</span> <span class="n">environment_variables</span><span class="p">[</span><span class="s2">&quot;monitor&quot;</span><span class="p">]</span>
-            <span class="n">storage</span> <span class="o">=</span> <span class="n">environment_variables</span><span class="p">[</span><span class="s2">&quot;storage&quot;</span><span class="p">]</span>
+            <span class="n">current_process</span> <span class="o">=</span> <span class="n">psutil</span><span class="o">.</span><span class="n">Process</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">OPTUNA_ALLENNLP_DISTRIBUTED_FLAG</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;1&quot;</span><span class="p">:</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">OPTUNA_ALLENNLP_DISTRIBUTED_FLAG</span><span class="p">)</span>
+                <span class="n">parent_process</span> <span class="o">=</span> <span class="n">current_process</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span>
+                <span class="n">target_pid</span> <span class="o">=</span> <span class="n">parent_process</span><span class="o">.</span><span class="n">ppid</span><span class="p">()</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">target_pid</span> <span class="o">=</span> <span class="n">current_process</span><span class="o">.</span><span class="n">ppid</span><span class="p">()</span>
+
+            <span class="n">variable_manager</span> <span class="o">=</span> <span class="n">_VariableManager</span><span class="p">(</span><span class="n">target_pid</span><span class="p">)</span>
+
+            <span class="n">study_name</span> <span class="o">=</span> <span class="n">variable_manager</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="s2">&quot;study_name&quot;</span><span class="p">)</span>
+            <span class="n">trial_id</span> <span class="o">=</span> <span class="n">variable_manager</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="s2">&quot;trial_id&quot;</span><span class="p">)</span>
+            <span class="n">monitor</span> <span class="o">=</span> <span class="n">variable_manager</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="s2">&quot;monitor&quot;</span><span class="p">)</span>
+            <span class="n">storage</span> <span class="o">=</span> <span class="n">variable_manager</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="s2">&quot;storage_name&quot;</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">study_name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">trial_id</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">monitor</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">storage</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">message</span> <span class="o">=</span> <span class="p">(</span>
@@ -301,8 +285,17 @@
                     <span class="p">)</span>
                     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
 
-                <span class="n">study</span> <span class="o">=</span> <span class="n">load_study</span><span class="p">(</span><span class="n">study_name</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="n">pruner</span><span class="o">=</span><span class="n">_create_pruner</span><span class="p">())</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_trial</span> <span class="o">=</span> <span class="n">Trial</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">trial_id</span><span class="p">))</span>
+                <span class="n">pruner</span> <span class="o">=</span> <span class="n">_create_pruner</span><span class="p">(</span>
+                    <span class="n">variable_manager</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="s2">&quot;pruner_class&quot;</span><span class="p">),</span>
+                    <span class="n">variable_manager</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="s2">&quot;pruner_kwargs&quot;</span><span class="p">),</span>
+                <span class="p">)</span>
+
+                <span class="n">study</span> <span class="o">=</span> <span class="n">load_study</span><span class="p">(</span>
+                    <span class="n">study_name</span><span class="o">=</span><span class="n">study_name</span><span class="p">,</span>
+                    <span class="n">storage</span><span class="o">=</span><span class="n">storage</span><span class="p">,</span>
+                    <span class="n">pruner</span><span class="o">=</span><span class="n">pruner</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_trial</span> <span class="o">=</span> <span class="n">Trial</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="n">trial_id</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_monitor</span> <span class="o">=</span> <span class="n">monitor</span>
 
 <div class="viewcode-block" id="AllenNLPPruningCallback.on_epoch"><a class="viewcode-back" href="../../../../reference/generated/optuna.integration.AllenNLPPruningCallback.html#optuna.integration.AllenNLPPruningCallback.on_epoch">[docs]</a>    <span class="k">def</span> <span class="nf">on_epoch</span><span class="p">(</span>
@@ -311,7 +304,7 @@
         <span class="n">metrics</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
         <span class="n">epoch</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">is_primary</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">_</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Check if a training reaches saturation.</span>
 
@@ -335,7 +328,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_trial</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">),</span> <span class="n">epoch</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_trial</span><span class="o">.</span><span class="n">should_prune</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="n">optuna</span><span class="o">.</span><span class="n">TrialPruned</span><span class="p">()</span></div></div>
+            <span class="k">raise</span> <span class="n">TrialPruned</span><span class="p">()</span></div></div>
 </pre></div>
 
            </div>
@@ -345,7 +338,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2018, Optuna Contributors..</p>
+    <p>&#169; Copyright 2018, Optuna Contributors.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

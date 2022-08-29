@@ -3,21 +3,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.samplers._tpe.multi_objective_sampler &mdash; Optuna 2.10.1 documentation</title><link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <title>optuna.samplers._tpe.multi_objective_sampler &mdash; Optuna 3.0.0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/plot_directive.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/sg_gallery.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/sg_gallery-binder.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/sg_gallery-dataframe.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/sg_gallery-rendered-html.css" type="text/css" />
-      <link rel="stylesheet" href="../../../../_static/css/custom.css" type="text/css" /><link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+      <link rel="stylesheet" href="../../../../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  <script id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
         <script src="../../../../_static/jquery.js"></script>
         <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../../_static/doctools.js"></script>
         <script src="../../../../_static/clipboard.min.js"></script>
         <script src="../../../../_static/copybutton.js"></script>
@@ -60,10 +64,11 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../../index.html"><img src="../../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
+            <a href="../../../../index.html">
+            <img src="../../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                2.10.1
+                3.0.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -73,7 +78,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/index.html">Tutorial</a></li>
@@ -111,7 +116,7 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">optuna._deprecated</span> <span class="kn">import</span> <span class="n">deprecated</span>
+<span class="kn">from</span> <span class="nn">optuna._deprecated</span> <span class="kn">import</span> <span class="n">deprecated_class</span>
 <span class="kn">from</span> <span class="nn">optuna.samplers._tpe.sampler</span> <span class="kn">import</span> <span class="n">TPESampler</span>
 
 
@@ -126,7 +131,7 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="MOTPESampler"><a class="viewcode-back" href="../../../../reference/generated/optuna.samplers.MOTPESampler.html#optuna.samplers.MOTPESampler">[docs]</a><span class="nd">@deprecated</span><span class="p">(</span><span class="s2">&quot;2.9.0&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="MOTPESampler"><a class="viewcode-back" href="../../../../reference/samplers/generated/optuna.samplers.MOTPESampler.html#optuna.samplers.MOTPESampler">[docs]</a><span class="nd">@deprecated_class</span><span class="p">(</span><span class="s2">&quot;2.9.0&quot;</span><span class="p">,</span> <span class="s2">&quot;4.0.0&quot;</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">MOTPESampler</span><span class="p">(</span><span class="n">TPESampler</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Multi-objective sampler using the MOTPE algorithm.</span>
 
@@ -136,23 +141,18 @@
 
 <span class="sd">    - `Multiobjective tree-structured parzen estimator for computationally expensive optimization</span>
 <span class="sd">      problems &lt;https://dl.acm.org/doi/abs/10.1145/3377930.3389817&gt;`_</span>
+<span class="sd">    - `Multiobjective Tree-Structured Parzen Estimator &lt;https://doi.org/10.1613/jair.1.13188&gt;`_</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        consider_prior:</span>
 <span class="sd">            Enhance the stability of Parzen estimator by imposing a Gaussian prior when</span>
 <span class="sd">            :obj:`True`. The prior is only effective if the sampling distribution is</span>
-<span class="sd">            either :class:`~optuna.distributions.UniformDistribution`,</span>
-<span class="sd">            :class:`~optuna.distributions.DiscreteUniformDistribution`,</span>
-<span class="sd">            :class:`~optuna.distributions.LogUniformDistribution`,</span>
-<span class="sd">            :class:`~optuna.distributions.IntUniformDistribution`,</span>
-<span class="sd">            or :class:`~optuna.distributions.IntLogUniformDistribution`.</span>
+<span class="sd">            either :class:`~optuna.distributions.FloatDistribution`,</span>
+<span class="sd">            or :class:`~optuna.distributions.IntDistribution`.</span>
 <span class="sd">        prior_weight:</span>
 <span class="sd">            The weight of the prior. This argument is used in</span>
-<span class="sd">            :class:`~optuna.distributions.UniformDistribution`,</span>
-<span class="sd">            :class:`~optuna.distributions.DiscreteUniformDistribution`,</span>
-<span class="sd">            :class:`~optuna.distributions.LogUniformDistribution`,</span>
-<span class="sd">            :class:`~optuna.distributions.IntUniformDistribution`,</span>
-<span class="sd">            :class:`~optuna.distributions.IntLogUniformDistribution`, and</span>
+<span class="sd">            :class:`~optuna.distributions.FloatDistribution`,</span>
+<span class="sd">            :class:`~optuna.distributions.IntDistribution`, and</span>
 <span class="sd">            :class:`~optuna.distributions.CategoricalDistribution`.</span>
 <span class="sd">        consider_magic_clip:</span>
 <span class="sd">            Enable a heuristic to limit the smallest variances of Gaussians used in</span>
@@ -240,7 +240,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2018, Optuna Contributors..</p>
+    <p>&#169; Copyright 2018, Optuna Contributors.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

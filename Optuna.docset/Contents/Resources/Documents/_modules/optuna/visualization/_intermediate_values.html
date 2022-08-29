@@ -3,21 +3,25 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.visualization._intermediate_values &mdash; Optuna 2.10.1 documentation</title><link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <title>optuna.visualization._intermediate_values &mdash; Optuna 3.0.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/plot_directive.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery-binder.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery-dataframe.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/sg_gallery-rendered-html.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" /><link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+      <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-  <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../../_static/doctools.js"></script>
         <script src="../../../_static/clipboard.min.js"></script>
         <script src="../../../_static/copybutton.js"></script>
@@ -60,10 +64,11 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../index.html"><img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
+            <a href="../../../index.html">
+            <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                2.10.1
+                3.0.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -73,7 +78,7 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption"><span class="caption-text">Contents:</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
@@ -106,7 +111,11 @@
            <div itemprop="articleBody">
              
   <h1>Source code for optuna.visualization._intermediate_values</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">optuna.logging</span> <span class="kn">import</span> <span class="n">get_logger</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NamedTuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+
+<span class="kn">from</span> <span class="nn">optuna.logging</span> <span class="kn">import</span> <span class="n">get_logger</span>
 <span class="kn">from</span> <span class="nn">optuna.study</span> <span class="kn">import</span> <span class="n">Study</span>
 <span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">TrialState</span>
 <span class="kn">from</span> <span class="nn">optuna.visualization._plotly_imports</span> <span class="kn">import</span> <span class="n">_imports</span>
@@ -116,6 +125,35 @@
     <span class="kn">from</span> <span class="nn">optuna.visualization._plotly_imports</span> <span class="kn">import</span> <span class="n">go</span>
 
 <span class="n">_logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_TrialInfo</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+    <span class="n">trial_number</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">sorted_intermediate_values</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span>
+
+
+<span class="k">class</span> <span class="nc">_IntermediatePlotInfo</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+    <span class="n">trial_infos</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">_TrialInfo</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">_get_intermediate_plot_info</span><span class="p">(</span><span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_IntermediatePlotInfo</span><span class="p">:</span>
+    <span class="n">trials</span> <span class="o">=</span> <span class="n">study</span><span class="o">.</span><span class="n">get_trials</span><span class="p">(</span>
+        <span class="n">deepcopy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">states</span><span class="o">=</span><span class="p">(</span><span class="n">TrialState</span><span class="o">.</span><span class="n">PRUNED</span><span class="p">,</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">COMPLETE</span><span class="p">,</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">RUNNING</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">trial_infos</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">_TrialInfo</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">number</span><span class="p">,</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">intermediate_values</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+        <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">trials</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">intermediate_values</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="p">]</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">trials</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Study instance does not contain trials.&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">trial_infos</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+            <span class="s2">&quot;You need to set up the pruning feature to utilize `plot_intermediate_values()`&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">_IntermediatePlotInfo</span><span class="p">(</span><span class="n">trial_infos</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="plot_intermediate_values"><a class="viewcode-back" href="../../../reference/visualization/generated/optuna.visualization.plot_intermediate_values.html#optuna.visualization.plot_intermediate_values">[docs]</a><span class="k">def</span> <span class="nf">plot_intermediate_values</span><span class="p">(</span><span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;go.Figure&quot;</span><span class="p">:</span>
@@ -172,10 +210,10 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">_imports</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">_get_intermediate_plot</span><span class="p">(</span><span class="n">study</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">_get_intermediate_plot</span><span class="p">(</span><span class="n">_get_intermediate_plot_info</span><span class="p">(</span><span class="n">study</span><span class="p">))</span></div>
 
 
-<span class="k">def</span> <span class="nf">_get_intermediate_plot</span><span class="p">(</span><span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;go.Figure&quot;</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">_get_intermediate_plot</span><span class="p">(</span><span class="n">info</span><span class="p">:</span> <span class="n">_IntermediatePlotInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;go.Figure&quot;</span><span class="p">:</span>
 
     <span class="n">layout</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Layout</span><span class="p">(</span>
         <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Intermediate Values Plot&quot;</span><span class="p">,</span>
@@ -184,35 +222,23 @@
         <span class="n">showlegend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="n">target_state</span> <span class="o">=</span> <span class="p">[</span><span class="n">TrialState</span><span class="o">.</span><span class="n">PRUNED</span><span class="p">,</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">COMPLETE</span><span class="p">,</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">RUNNING</span><span class="p">]</span>
-    <span class="n">trials</span> <span class="o">=</span> <span class="p">[</span><span class="n">trial</span> <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">study</span><span class="o">.</span><span class="n">trials</span> <span class="k">if</span> <span class="n">trial</span><span class="o">.</span><span class="n">state</span> <span class="ow">in</span> <span class="n">target_state</span><span class="p">]</span>
+    <span class="n">trial_infos</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">trial_infos</span>
 
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">trials</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Study instance does not contain trials.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">trial_infos</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[],</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>
 
-    <span class="n">traces</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">trials</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">trial</span><span class="o">.</span><span class="n">intermediate_values</span><span class="p">:</span>
-            <span class="n">sorted_intermediate_values</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">intermediate_values</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
-            <span class="n">trace</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
-                <span class="n">x</span><span class="o">=</span><span class="nb">tuple</span><span class="p">((</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">sorted_intermediate_values</span><span class="p">)),</span>
-                <span class="n">y</span><span class="o">=</span><span class="nb">tuple</span><span class="p">((</span><span class="n">y</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">sorted_intermediate_values</span><span class="p">)),</span>
-                <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;lines+markers&quot;</span><span class="p">,</span>
-                <span class="n">marker</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;maxdisplayed&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">},</span>
-                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Trial</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">number</span><span class="p">),</span>
-            <span class="p">)</span>
-            <span class="n">traces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">traces</span><span class="p">:</span>
-        <span class="n">_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-            <span class="s2">&quot;You need to set up the pruning feature to utilize `plot_intermediate_values()`&quot;</span>
+    <span class="n">traces</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">=</span><span class="nb">tuple</span><span class="p">((</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">tinfo</span><span class="o">.</span><span class="n">sorted_intermediate_values</span><span class="p">)),</span>
+            <span class="n">y</span><span class="o">=</span><span class="nb">tuple</span><span class="p">((</span><span class="n">y</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">tinfo</span><span class="o">.</span><span class="n">sorted_intermediate_values</span><span class="p">)),</span>
+            <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;lines+markers&quot;</span><span class="p">,</span>
+            <span class="n">marker</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;maxdisplayed&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">},</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Trial</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tinfo</span><span class="o">.</span><span class="n">trial_number</span><span class="p">),</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[],</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">tinfo</span> <span class="ow">in</span> <span class="n">trial_infos</span>
+    <span class="p">]</span>
 
-    <span class="n">figure</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">traces</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">figure</span>
+    <span class="k">return</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">traces</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>
 </pre></div>
 
            </div>
@@ -222,7 +248,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2018, Optuna Contributors..</p>
+    <p>&#169; Copyright 2018, Optuna Contributors.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
