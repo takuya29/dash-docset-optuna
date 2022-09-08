@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.samplers._grid &mdash; Optuna 3.0.0 documentation</title>
+  <title>optuna.samplers._grid &mdash; Optuna 3.0.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
@@ -68,7 +68,7 @@
             <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.0.0
+                3.0.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -270,7 +270,7 @@
 
         <span class="c1"># In distributed optimization, multiple workers may simultaneously pick up the same grid.</span>
         <span class="c1"># To make the conflict less frequent, the grid is chosen randomly.</span>
-        <span class="n">grid_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">target_grids</span><span class="p">)</span>
+        <span class="n">grid_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">target_grids</span><span class="p">))</span>
 
         <span class="n">study</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">set_trial_system_attr</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">_trial_id</span><span class="p">,</span> <span class="s2">&quot;search_space&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_search_space</span><span class="p">)</span>
         <span class="n">study</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">set_trial_system_attr</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">_trial_id</span><span class="p">,</span> <span class="s2">&quot;grid_id&quot;</span><span class="p">,</span> <span class="n">grid_id</span><span class="p">)</span>
