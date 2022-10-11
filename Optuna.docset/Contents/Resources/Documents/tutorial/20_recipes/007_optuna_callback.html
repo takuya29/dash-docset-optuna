@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Callback for Study.optimize — Optuna 3.0.2 documentation</title>
+<title>Callback for Study.optimize — Optuna 3.0.3 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -23,6 +23,7 @@
 <script src="../../_static/underscore.js"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
 <script src="../../_static/doctools.js"></script>
+<script src="../../_static/sphinx_highlight.js"></script>
 <script src="../../_static/clipboard.min.js"></script>
 <script src="../../_static/copybutton.js"></script>
 <script src="../../_static/js/theme.js"></script>
@@ -67,7 +68,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.0.2
+                3.0.3
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -181,18 +182,18 @@ So, we expect this study to stop after 7 trials.</p>
 <span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">study_stop_cb</span><span class="p">])</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>A new study created in memory with name: no-name-7330caa2-5af6-4bdf-831a-e994f5188919
-Trial 0 finished with value: 0.7685416754320323 and parameters: {'x': 0.7685416754320323}. Best is trial 0 with value: 0.7685416754320323.
-Trial 1 finished with value: 0.024076895716270585 and parameters: {'x': 0.024076895716270585}. Best is trial 1 with value: 0.024076895716270585.
-Trial 2 finished with value: 0.3031080671194313 and parameters: {'x': 0.3031080671194313}. Best is trial 1 with value: 0.024076895716270585.
-Trial 3 finished with value: 0.8631705773519215 and parameters: {'x': 0.8631705773519215}. Best is trial 1 with value: 0.024076895716270585.
-Trial 4 finished with value: 0.017694770228658063 and parameters: {'x': 0.017694770228658063}. Best is trial 4 with value: 0.017694770228658063.
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>A new study created in memory with name: no-name-460636ff-b009-4726-81ca-abdfd31e90a2
+Trial 0 finished with value: 0.9731873025542883 and parameters: {'x': 0.9731873025542883}. Best is trial 0 with value: 0.9731873025542883.
+Trial 1 finished with value: 0.9428641024186709 and parameters: {'x': 0.9428641024186709}. Best is trial 1 with value: 0.9428641024186709.
+Trial 2 finished with value: 0.1701834950523632 and parameters: {'x': 0.1701834950523632}. Best is trial 2 with value: 0.1701834950523632.
+Trial 3 finished with value: 0.5597578626787607 and parameters: {'x': 0.5597578626787607}. Best is trial 2 with value: 0.1701834950523632.
+Trial 4 finished with value: 0.8303127043033276 and parameters: {'x': 0.8303127043033276}. Best is trial 2 with value: 0.1701834950523632.
 Trial 5 pruned.
 Trial 6 pruned.
 </pre></div>
 </div>
 <p>As you can see in the log above, the study stopped after 7 trials as expected.</p>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.006 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.008 seconds)</p>
 <a class="dashAnchor" name="//apple_ref/cpp/Section/sphx_glr_download_tutorial_20_recipes_007_optuna_callback.py"></a><div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorial-20-recipes-007-optuna-callback-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/69c9a8896808997c60d5d1879065fad2/007_optuna_callback.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">007_optuna_callback.py</span></code></a></p>

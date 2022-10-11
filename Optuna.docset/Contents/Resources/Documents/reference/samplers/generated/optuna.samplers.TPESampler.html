@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.samplers.TPESampler — Optuna 3.0.2 documentation</title>
+<title>optuna.samplers.TPESampler — Optuna 3.0.3 documentation</title>
 <link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -23,6 +23,7 @@
 <script src="../../../_static/underscore.js"></script>
 <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
 <script src="../../../_static/doctools.js"></script>
+<script src="../../../_static/sphinx_highlight.js"></script>
 <script src="../../../_static/clipboard.min.js"></script>
 <script src="../../../_static/copybutton.js"></script>
 <script src="../../../_static/js/theme.js"></script>
@@ -67,7 +68,7 @@
 <img alt="Logo" class="logo" src="../../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.0.2
+                3.0.3
               </div>
 <div role="search">
 <form action="../../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -95,7 +96,10 @@
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.BaseSampler.html">optuna.samplers.BaseSampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.GridSampler.html">optuna.samplers.GridSampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.RandomSampler.html">optuna.samplers.RandomSampler</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">optuna.samplers.TPESampler</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">optuna.samplers.TPESampler</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#optuna.samplers.TPESampler"><code class="docutils literal notranslate"><span class="pre">TPESampler</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.CmaEsSampler.html">optuna.samplers.CmaEsSampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.PartialFixedSampler.html">optuna.samplers.PartialFixedSampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.NSGAIISampler.html">optuna.samplers.NSGAIISampler</a></li>
@@ -158,7 +162,7 @@ problems</a></p></li>
 <li><p><a class="reference external" href="https://doi.org/10.1613/jair.1.13188">Multiobjective Tree-Structured Parzen Estimator</a></p></li>
 </ul>
 <p class="rubric">Example</p>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optuna</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optuna</span>
 <span class="kn">from</span> <span class="nn">optuna.samplers</span> <span class="kn">import</span> <span class="n">TPESampler</span>
 
 
@@ -233,7 +237,7 @@ versions without prior notice. See
 <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v2.8.0">https://github.com/optuna/optuna/releases/tag/v2.8.0</a>.</p>
 </div>
 <p>Example:</p>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optuna</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optuna</span>
 
 
 <span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
@@ -366,7 +370,7 @@ by this method.</p>
 <p class="rubric">Example</p>
 <p>Create a <a class="reference internal" href="#optuna.samplers.TPESampler" title="optuna.samplers.TPESampler"><code class="xref py py-class docutils literal notranslate"><span class="pre">TPESampler</span></code></a> instance with the default
 parameters of <a class="reference external" href="https://github.com/hyperopt/hyperopt/tree/0.1.2">hyperopt</a>.</p>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optuna</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optuna</span>
 <span class="kn">from</span> <span class="nn">optuna.samplers</span> <span class="kn">import</span> <span class="n">TPESampler</span>
 
 

@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.storages.RDBStorage — Optuna 3.0.2 documentation</title>
+<title>optuna.storages.RDBStorage — Optuna 3.0.3 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -23,6 +23,7 @@
 <script src="../../_static/underscore.js"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
 <script src="../../_static/doctools.js"></script>
+<script src="../../_static/sphinx_highlight.js"></script>
 <script src="../../_static/clipboard.min.js"></script>
 <script src="../../_static/copybutton.js"></script>
 <script src="../../_static/js/theme.js"></script>
@@ -67,7 +68,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.0.2
+                3.0.3
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -93,7 +94,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../pruners.html">optuna.pruners</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../samplers/index.html">optuna.samplers</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../storages.html">optuna.storages</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">optuna.storages.RDBStorage</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">optuna.storages.RDBStorage</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#optuna.storages.RDBStorage"><code class="docutils literal notranslate"><span class="pre">RDBStorage</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.storages.RedisStorage.html">optuna.storages.RedisStorage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.storages.RetryFailedTrialCallback.html">optuna.storages.RetryFailedTrialCallback</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.storages.fail_stale_trials.html">optuna.storages.fail_stale_trials</a></li>
@@ -139,7 +143,7 @@ provided by this class are not supposed to be directly accessed by them.</p>
 <p class="rubric">Example</p>
 <p>Create an <a class="reference internal" href="#optuna.storages.RDBStorage" title="optuna.storages.RDBStorage"><code class="xref py py-class docutils literal notranslate"><span class="pre">RDBStorage</span></code></a> instance with customized
 <code class="docutils literal notranslate"><span class="pre">pool_size</span></code> and <code class="docutils literal notranslate"><span class="pre">timeout</span></code> settings.</p>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optuna</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optuna</span>
 
 
 <span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>

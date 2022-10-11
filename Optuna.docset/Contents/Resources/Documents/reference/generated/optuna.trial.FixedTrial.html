@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.trial.FixedTrial — Optuna 3.0.2 documentation</title>
+<title>optuna.trial.FixedTrial — Optuna 3.0.3 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -23,6 +23,7 @@
 <script src="../../_static/underscore.js"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
 <script src="../../_static/doctools.js"></script>
+<script src="../../_static/sphinx_highlight.js"></script>
 <script src="../../_static/clipboard.min.js"></script>
 <script src="../../_static/copybutton.js"></script>
 <script src="../../_static/js/theme.js"></script>
@@ -67,7 +68,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.0.2
+                3.0.3
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -96,7 +97,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../study.html">optuna.study</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../trial.html">optuna.trial</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="optuna.trial.Trial.html">optuna.trial.Trial</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">optuna.trial.FixedTrial</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">optuna.trial.FixedTrial</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#optuna.trial.FixedTrial"><code class="docutils literal notranslate"><span class="pre">FixedTrial</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.trial.FrozenTrial.html">optuna.trial.FrozenTrial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.trial.TrialState.html">optuna.trial.TrialState</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.trial.create_trial.html">optuna.trial.create_trial</a></li>
@@ -142,7 +146,7 @@ parameter values. The parameter values can be determined at the construction of 
 useful for deploying optimization results.</p>
 <p class="rubric">Example</p>
 <p>Evaluate an objective function with parameter values given by a user.</p>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optuna</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optuna</span>
 
 
 <span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
