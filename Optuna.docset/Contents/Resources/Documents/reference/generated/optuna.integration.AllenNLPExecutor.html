@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.integration.AllenNLPExecutor — Optuna 3.0.3 documentation</title>
+<title>optuna.integration.AllenNLPExecutor — Optuna 3.0.4 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -68,7 +68,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.0.3
+                3.0.4
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -138,10 +138,10 @@
 <div class="rst-content">
 <div aria-label="Page navigation" role="navigation">
 <ul class="wy-breadcrumbs">
-<li><a class="icon icon-home" href="../../index.html"></a> »</li>
-<li><a href="../index.html">API Reference</a> »</li>
-<li><a href="../integration.html">optuna.integration</a> »</li>
-<li>optuna.integration.AllenNLPExecutor</li>
+<li><a class="icon icon-home" href="../../index.html"></a></li>
+<li class="breadcrumb-item"><a href="../index.html">API Reference</a></li>
+<li class="breadcrumb-item"><a href="../integration.html">optuna.integration</a></li>
+<li class="breadcrumb-item active">optuna.integration.AllenNLPExecutor</li>
 <li class="wy-breadcrumbs-aside">
 </li>
 </ul>
@@ -177,17 +177,17 @@ the executor will use the value specified in the search space in Optuna.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>trial</strong> (<a class="reference internal" href="optuna.trial.Trial.html#optuna.trial.Trial" title="optuna.trial._trial.Trial"><em>Trial</em></a>) – A <a class="reference internal" href="optuna.trial.Trial.html#optuna.trial.Trial" title="optuna.trial.Trial"><code class="xref py py-class docutils literal notranslate"><span class="pre">Trial</span></code></a> corresponding to the current evaluation
 of the objective function.</p></li>
-<li><p><strong>config_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Config file for AllenNLP.
+<li><p><strong>config_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Config file for AllenNLP.
 Hyperparameters should be masked with <code class="docutils literal notranslate"><span class="pre">std.extVar</span></code>.
 Please refer to <a class="reference external" href="https://github.com/allenai/allentune/blob/master/examples/classifier.jsonnet">the config example</a>.</p></li>
-<li><p><strong>serialization_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – A path which model weights and logs are saved.</p></li>
-<li><p><strong>metrics</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – An evaluation metric. <a class="reference external" href="https://docs.allennlp.org/main/api/training/gradient_descent_trainer/#train">GradientDescrentTrainer.train()</a> of AllenNLP
+<li><p><strong>serialization_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – A path which model weights and logs are saved.</p></li>
+<li><p><strong>metrics</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – An evaluation metric. <a class="reference external" href="https://docs.allennlp.org/main/api/training/gradient_descent_trainer/#train">GradientDescrentTrainer.train()</a> of AllenNLP
 returns a dictionary containing metrics after training.
 <a class="reference internal" href="#optuna.integration.AllenNLPExecutor" title="optuna.integration.AllenNLPExecutor"><code class="xref py py-class docutils literal notranslate"><span class="pre">AllenNLPExecutor</span></code></a> accesses the dictionary
 by the key <code class="docutils literal notranslate"><span class="pre">metrics</span></code> you specify and use it as a objective value.</p></li>
-<li><p><strong>force</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, an executor overwrites the output directory if it exists.</p></li>
-<li><p><strong>file_friendly_logging</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, tqdm status is printed on separate lines and slows tqdm refresh rate.</p></li>
-<li><p><strong>include_package</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><em>Union</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>]</em><em>]</em><em>]</em>) – Additional packages to include.
+<li><p><strong>force</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, an executor overwrites the output directory if it exists.</p></li>
+<li><p><strong>file_friendly_logging</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, tqdm status is printed on separate lines and slows tqdm refresh rate.</p></li>
+<li><p><strong>include_package</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><em>Union</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em><em>]</em><em>]</em>) – Additional packages to include.
 For more information, please see
 <a class="reference external" href="https://docs.allennlp.org/master/api/commands/train/">AllenNLP documentation</a>.</p></li>
 </ul>
@@ -216,7 +216,7 @@ without prior notice. See <a class="reference external" href="https://github.com
 <dd><p>Train a model using AllenNLP.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)">float</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
 </dd>
 </dl>
 </dd></dl>

@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.multi_objective.samplers.MOTPEMultiObjectiveSampler — Optuna 3.0.3 documentation</title>
+<title>optuna.multi_objective.samplers.MOTPEMultiObjectiveSampler — Optuna 3.0.4 documentation</title>
 <link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -68,7 +68,7 @@
 <img alt="Logo" class="logo" src="../../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.0.3
+                3.0.4
               </div>
 <div role="search">
 <form action="../../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -124,11 +124,11 @@
 <div class="rst-content">
 <div aria-label="Page navigation" role="navigation">
 <ul class="wy-breadcrumbs">
-<li><a class="icon icon-home" href="../../../index.html"></a> »</li>
-<li><a href="../../index.html">API Reference</a> »</li>
-<li><a href="../index.html">optuna.multi_objective</a> »</li>
-<li><a href="../samplers.html">optuna.multi_objective.samplers</a> »</li>
-<li>optuna.multi_objective.samplers.MOTPEMultiObjectiveSampler</li>
+<li><a class="icon icon-home" href="../../../index.html"></a></li>
+<li class="breadcrumb-item"><a href="../../index.html">API Reference</a></li>
+<li class="breadcrumb-item"><a href="../index.html">optuna.multi_objective</a></li>
+<li class="breadcrumb-item"><a href="../samplers.html">optuna.multi_objective.samplers</a></li>
+<li class="breadcrumb-item active">optuna.multi_objective.samplers.MOTPEMultiObjectiveSampler</li>
 <li class="wy-breadcrumbs-aside">
 </li>
 </ul>
@@ -152,29 +152,29 @@ problems</a></p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>consider_prior</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Enhance the stability of Parzen estimator by imposing a Gaussian prior when
-<a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>. The prior is only effective if the sampling distribution is
+<li><p><strong>consider_prior</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Enhance the stability of Parzen estimator by imposing a Gaussian prior when
+<a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>. The prior is only effective if the sampling distribution is
 either <a class="reference internal" href="../../generated/optuna.distributions.FloatDistribution.html#optuna.distributions.FloatDistribution" title="optuna.distributions.FloatDistribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">FloatDistribution</span></code></a>,
 or <a class="reference internal" href="../../generated/optuna.distributions.IntDistribution.html#optuna.distributions.IntDistribution" title="optuna.distributions.IntDistribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntDistribution</span></code></a>.</p></li>
-<li><p><strong>prior_weight</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – The weight of the prior. This argument is used in
+<li><p><strong>prior_weight</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – The weight of the prior. This argument is used in
 <a class="reference internal" href="../../generated/optuna.distributions.FloatDistribution.html#optuna.distributions.FloatDistribution" title="optuna.distributions.FloatDistribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">FloatDistribution</span></code></a>,
 <a class="reference internal" href="../../generated/optuna.distributions.IntDistribution.html#optuna.distributions.IntDistribution" title="optuna.distributions.IntDistribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntDistribution</span></code></a>, and
 <a class="reference internal" href="../../generated/optuna.distributions.CategoricalDistribution.html#optuna.distributions.CategoricalDistribution" title="optuna.distributions.CategoricalDistribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">CategoricalDistribution</span></code></a>.</p></li>
-<li><p><strong>consider_magic_clip</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Enable a heuristic to limit the smallest variances of Gaussians used in
+<li><p><strong>consider_magic_clip</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Enable a heuristic to limit the smallest variances of Gaussians used in
 the Parzen estimator.</p></li>
-<li><p><strong>consider_endpoints</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Take endpoints of domains into account when calculating variances of Gaussians
+<li><p><strong>consider_endpoints</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Take endpoints of domains into account when calculating variances of Gaussians
 in Parzen estimator. See the original paper for details on the heuristics
 to calculate the variances.</p></li>
-<li><p><strong>n_startup_trials</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The random sampling is used instead of the MOTPE algorithm until the given number
+<li><p><strong>n_startup_trials</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The random sampling is used instead of the MOTPE algorithm until the given number
 of trials finish in the same study. 11 * number of variables - 1 is recommended in the
 original paper.</p></li>
-<li><p><strong>n_ehvi_candidates</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Number of candidate samples used to calculate the expected hypervolume improvement.</p></li>
-<li><p><strong>gamma</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><em>Callable</em></a><em>[</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>]</em>) – A function that takes the number of finished trials and returns the number of trials to
+<li><p><strong>n_ehvi_candidates</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of candidate samples used to calculate the expected hypervolume improvement.</p></li>
+<li><p><strong>gamma</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.11)"><em>Callable</em></a><em>[</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em>) – A function that takes the number of finished trials and returns the number of trials to
 form a density function for samples with low grains. See the original paper for more
 details.</p></li>
-<li><p><strong>weights_above</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><em>Callable</em></a><em>[</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>]</em><em>, </em><em>ndarray</em><em>]</em>) – A function that takes the number of finished trials and returns a weight for them. As
+<li><p><strong>weights_above</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.11)"><em>Callable</em></a><em>[</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em><em>, </em><em>ndarray</em><em>]</em>) – A function that takes the number of finished trials and returns a weight for them. As
 default, weights are automatically calculated by the MOTPE’s default strategy.</p></li>
-<li><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a><em>]</em>) – Seed for random number generator.</p></li>
+<li><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em>) – Seed for random number generator.</p></li>
 </ul>
 </dd>
 </dl>
@@ -255,7 +255,7 @@ method.</p>
 <dd class="field-even"><p>A dictionary containing the parameter names and parameter’s distributions.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.10)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a>, <em>BaseDistribution</em>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>, <em>BaseDistribution</em>]</p>
 </dd>
 </dl>
 <div class="admonition seealso">
@@ -293,7 +293,7 @@ between parameters such as random sampling.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>study</strong> (<a class="reference internal" href="optuna.multi_objective.study.MultiObjectiveStudy.html#optuna.multi_objective.study.MultiObjectiveStudy" title="optuna.multi_objective.study.MultiObjectiveStudy"><em>MultiObjectiveStudy</em></a>) – Target study object.</p></li>
 <li><p><strong>trial</strong> (<a class="reference internal" href="optuna.multi_objective.trial.FrozenMultiObjectiveTrial.html#optuna.multi_objective.trial.FrozenMultiObjectiveTrial" title="optuna.multi_objective.trial.FrozenMultiObjectiveTrial"><em>FrozenMultiObjectiveTrial</em></a>) – Target trial object.</p></li>
-<li><p><strong>param_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Name of the sampled parameter.</p></li>
+<li><p><strong>param_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Name of the sampled parameter.</p></li>
 <li><p><strong>param_distribution</strong> (<em>BaseDistribution</em>) – Distribution object that specifies a prior and/or scale of the sampling algorithm.</p></li>
 </ul>
 </dd>
@@ -301,7 +301,7 @@ between parameters such as random sampling.</p>
 <dd class="field-even"><p>A parameter value.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><em>Any</em></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -317,7 +317,7 @@ that use the relationship between parameters.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>study</strong> (<a class="reference internal" href="optuna.multi_objective.study.MultiObjectiveStudy.html#optuna.multi_objective.study.MultiObjectiveStudy" title="optuna.multi_objective.study.MultiObjectiveStudy"><em>MultiObjectiveStudy</em></a>) – Target study object.</p></li>
 <li><p><strong>trial</strong> (<a class="reference internal" href="optuna.multi_objective.trial.FrozenMultiObjectiveTrial.html#optuna.multi_objective.trial.FrozenMultiObjectiveTrial" title="optuna.multi_objective.trial.FrozenMultiObjectiveTrial"><em>FrozenMultiObjectiveTrial</em></a>) – Target trial object.</p></li>
-<li><p><strong>search_space</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.10)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><em>BaseDistribution</em><em>]</em>) – The search space returned by
+<li><p><strong>search_space</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>BaseDistribution</em><em>]</em>) – The search space returned by
 <a class="reference internal" href="optuna.multi_objective.samplers.BaseMultiObjectiveSampler.html#optuna.multi_objective.samplers.BaseMultiObjectiveSampler.infer_relative_search_space" title="optuna.multi_objective.samplers.BaseMultiObjectiveSampler.infer_relative_search_space"><code class="xref py py-func docutils literal notranslate"><span class="pre">infer_relative_search_space()</span></code></a>.</p></li>
 </ul>
 </dd>
@@ -325,7 +325,7 @@ that use the relationship between parameters.</p>
 <dd class="field-even"><p>A dictionary containing the parameter names and the values.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.10)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><em>Any</em></a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a>]</p>
 </dd>
 </dl>
 </dd></dl>

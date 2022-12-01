@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.multi_objective.samplers.BaseMultiObjectiveSampler — Optuna 3.0.3 documentation</title>
+<title>optuna.multi_objective.samplers.BaseMultiObjectiveSampler — Optuna 3.0.4 documentation</title>
 <link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -68,7 +68,7 @@
 <img alt="Logo" class="logo" src="../../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.0.3
+                3.0.4
               </div>
 <div role="search">
 <form action="../../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -124,11 +124,11 @@
 <div class="rst-content">
 <div aria-label="Page navigation" role="navigation">
 <ul class="wy-breadcrumbs">
-<li><a class="icon icon-home" href="../../../index.html"></a> »</li>
-<li><a href="../../index.html">API Reference</a> »</li>
-<li><a href="../index.html">optuna.multi_objective</a> »</li>
-<li><a href="../samplers.html">optuna.multi_objective.samplers</a> »</li>
-<li>optuna.multi_objective.samplers.BaseMultiObjectiveSampler</li>
+<li><a class="icon icon-home" href="../../../index.html"></a></li>
+<li class="breadcrumb-item"><a href="../../index.html">API Reference</a></li>
+<li class="breadcrumb-item"><a href="../index.html">optuna.multi_objective</a></li>
+<li class="breadcrumb-item"><a href="../samplers.html">optuna.multi_objective.samplers</a></li>
+<li class="breadcrumb-item active">optuna.multi_objective.samplers.BaseMultiObjectiveSampler</li>
 <li class="wy-breadcrumbs-aside">
 </li>
 </ul>
@@ -193,7 +193,7 @@ method.</p>
 <dd class="field-even"><p>A dictionary containing the parameter names and parameter’s distributions.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.10)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a>, <em>BaseDistribution</em>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>, <em>BaseDistribution</em>]</p>
 </dd>
 </dl>
 <div class="admonition seealso">
@@ -231,7 +231,7 @@ between parameters such as random sampling.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>study</strong> (<a class="reference internal" href="optuna.multi_objective.study.MultiObjectiveStudy.html#optuna.multi_objective.study.MultiObjectiveStudy" title="optuna.multi_objective.study.MultiObjectiveStudy"><em>MultiObjectiveStudy</em></a>) – Target study object.</p></li>
 <li><p><strong>trial</strong> (<a class="reference internal" href="optuna.multi_objective.trial.FrozenMultiObjectiveTrial.html#optuna.multi_objective.trial.FrozenMultiObjectiveTrial" title="optuna.multi_objective.trial.FrozenMultiObjectiveTrial"><em>FrozenMultiObjectiveTrial</em></a>) – Target trial object.</p></li>
-<li><p><strong>param_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – Name of the sampled parameter.</p></li>
+<li><p><strong>param_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Name of the sampled parameter.</p></li>
 <li><p><strong>param_distribution</strong> (<em>BaseDistribution</em>) – Distribution object that specifies a prior and/or scale of the sampling algorithm.</p></li>
 </ul>
 </dd>
@@ -239,7 +239,7 @@ between parameters such as random sampling.</p>
 <dd class="field-even"><p>A parameter value.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><em>Any</em></a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -255,7 +255,7 @@ that use the relationship between parameters.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>study</strong> (<a class="reference internal" href="optuna.multi_objective.study.MultiObjectiveStudy.html#optuna.multi_objective.study.MultiObjectiveStudy" title="optuna.multi_objective.study.MultiObjectiveStudy"><em>MultiObjectiveStudy</em></a>) – Target study object.</p></li>
 <li><p><strong>trial</strong> (<a class="reference internal" href="optuna.multi_objective.trial.FrozenMultiObjectiveTrial.html#optuna.multi_objective.trial.FrozenMultiObjectiveTrial" title="optuna.multi_objective.trial.FrozenMultiObjectiveTrial"><em>FrozenMultiObjectiveTrial</em></a>) – Target trial object.</p></li>
-<li><p><strong>search_space</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.10)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><em>BaseDistribution</em><em>]</em>) – The search space returned by
+<li><p><strong>search_space</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>BaseDistribution</em><em>]</em>) – The search space returned by
 <a class="reference internal" href="#optuna.multi_objective.samplers.BaseMultiObjectiveSampler.infer_relative_search_space" title="optuna.multi_objective.samplers.BaseMultiObjectiveSampler.infer_relative_search_space"><code class="xref py py-func docutils literal notranslate"><span class="pre">infer_relative_search_space()</span></code></a>.</p></li>
 </ul>
 </dd>
@@ -263,7 +263,7 @@ that use the relationship between parameters.</p>
 <dd class="field-even"><p>A dictionary containing the parameter names and the values.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.10)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><em>Any</em></a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a>]</p>
 </dd>
 </dl>
 </dd></dl>

@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.multi_objective.study.create_study — Optuna 3.0.3 documentation</title>
+<title>optuna.multi_objective.study.create_study — Optuna 3.0.4 documentation</title>
 <link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -68,7 +68,7 @@
 <img alt="Logo" class="logo" src="../../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.0.3
+                3.0.4
               </div>
 <div role="search">
 <form action="../../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -123,11 +123,11 @@
 <div class="rst-content">
 <div aria-label="Page navigation" role="navigation">
 <ul class="wy-breadcrumbs">
-<li><a class="icon icon-home" href="../../../index.html"></a> »</li>
-<li><a href="../../index.html">API Reference</a> »</li>
-<li><a href="../index.html">optuna.multi_objective</a> »</li>
-<li><a href="../study.html">optuna.multi_objective.study</a> »</li>
-<li>optuna.multi_objective.study.create_study</li>
+<li><a class="icon icon-home" href="../../../index.html"></a></li>
+<li class="breadcrumb-item"><a href="../../index.html">API Reference</a></li>
+<li class="breadcrumb-item"><a href="../index.html">optuna.multi_objective</a></li>
+<li class="breadcrumb-item"><a href="../study.html">optuna.multi_objective.study</a></li>
+<li class="breadcrumb-item active">optuna.multi_objective.study.create_study</li>
 <li class="wy-breadcrumbs-aside">
 </li>
 </ul>
@@ -162,11 +162,11 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>directions</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.10)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>]</em>) – Optimization direction for each objective value.
+<li><p><strong>directions</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – Optimization direction for each objective value.
 Set <code class="docutils literal notranslate"><span class="pre">minimize</span></code> for minimization and <code class="docutils literal notranslate"><span class="pre">maximize</span></code> for maximization.</p></li>
-<li><p><strong>study_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>]</em>) – Study’s name. If this argument is set to None, a unique name is generated
+<li><p><strong>study_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – Study’s name. If this argument is set to None, a unique name is generated
 automatically.</p></li>
-<li><p><strong>storage</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><em>Union</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><em>BaseStorage</em><em>]</em><em>]</em>) – <p>Database URL. If this argument is set to None, in-memory storage is used, and the
+<li><p><strong>storage</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><em>Union</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>BaseStorage</em><em>]</em><em>]</em>) – <p>Database URL. If this argument is set to None, in-memory storage is used, and the
 <a class="reference internal" href="../../generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> will not be persistent.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -179,14 +179,14 @@ pass it to the <code class="docutils literal notranslate"><span class="pre">stor
 </div></blockquote>
 </div>
 </p></li>
-<li><p><strong>sampler</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference internal" href="optuna.multi_objective.samplers.BaseMultiObjectiveSampler.html#optuna.multi_objective.samplers.BaseMultiObjectiveSampler" title="optuna.multi_objective.samplers._base.BaseMultiObjectiveSampler"><em>BaseMultiObjectiveSampler</em></a><em>]</em>) – A sampler object that implements background algorithm for value suggestion.
-If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is specified,
+<li><p><strong>sampler</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference internal" href="optuna.multi_objective.samplers.BaseMultiObjectiveSampler.html#optuna.multi_objective.samplers.BaseMultiObjectiveSampler" title="optuna.multi_objective.samplers._base.BaseMultiObjectiveSampler"><em>BaseMultiObjectiveSampler</em></a><em>]</em>) – A sampler object that implements background algorithm for value suggestion.
+If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is specified,
 <a class="reference internal" href="optuna.multi_objective.samplers.NSGAIIMultiObjectiveSampler.html#optuna.multi_objective.samplers.NSGAIIMultiObjectiveSampler" title="optuna.multi_objective.samplers.NSGAIIMultiObjectiveSampler"><code class="xref py py-class docutils literal notranslate"><span class="pre">NSGAIIMultiObjectiveSampler</span></code></a> is used
 as the default. See also <a class="reference internal" href="../samplers.html#module-optuna.multi_objective.samplers" title="optuna.multi_objective.samplers"><code class="xref py py-class docutils literal notranslate"><span class="pre">samplers</span></code></a>.</p></li>
-<li><p><strong>load_if_exists</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – Flag to control the behavior to handle a conflict of study names.
+<li><p><strong>load_if_exists</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Flag to control the behavior to handle a conflict of study names.
 In the case where a study named <code class="docutils literal notranslate"><span class="pre">study_name</span></code> already exists in the <code class="docutils literal notranslate"><span class="pre">storage</span></code>,
 a <a class="reference internal" href="../../generated/optuna.exceptions.DuplicatedStudyError.html#optuna.exceptions.DuplicatedStudyError" title="optuna.exceptions.DuplicatedStudyError"><code class="xref py py-class docutils literal notranslate"><span class="pre">DuplicatedStudyError</span></code></a> is raised if <code class="docutils literal notranslate"><span class="pre">load_if_exists</span></code> is
-set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.
+set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.
 Otherwise, the creation of the study is skipped, and the existing one is returned.</p></li>
 </ul>
 </dd>

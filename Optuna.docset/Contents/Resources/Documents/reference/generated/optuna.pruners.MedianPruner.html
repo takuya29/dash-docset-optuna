@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.pruners.MedianPruner — Optuna 3.0.3 documentation</title>
+<title>optuna.pruners.MedianPruner — Optuna 3.0.4 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -68,7 +68,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.0.3
+                3.0.4
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -125,10 +125,10 @@
 <div class="rst-content">
 <div aria-label="Page navigation" role="navigation">
 <ul class="wy-breadcrumbs">
-<li><a class="icon icon-home" href="../../index.html"></a> »</li>
-<li><a href="../index.html">API Reference</a> »</li>
-<li><a href="../pruners.html">optuna.pruners</a> »</li>
-<li>optuna.pruners.MedianPruner</li>
+<li><a class="icon icon-home" href="../../index.html"></a></li>
+<li class="breadcrumb-item"><a href="../index.html">API Reference</a></li>
+<li class="breadcrumb-item"><a href="../pruners.html">optuna.pruners</a></li>
+<li class="breadcrumb-item active">optuna.pruners.MedianPruner</li>
 <li class="wy-breadcrumbs-aside">
 </li>
 </ul>
@@ -187,13 +187,13 @@ previous trials at the same step.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>n_startup_trials</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Pruning is disabled until the given number of trials finish in the same study.</p></li>
-<li><p><strong>n_warmup_steps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Pruning is disabled until the trial exceeds the given number of step. Note that
+<li><p><strong>n_startup_trials</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Pruning is disabled until the given number of trials finish in the same study.</p></li>
+<li><p><strong>n_warmup_steps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Pruning is disabled until the trial exceeds the given number of step. Note that
 this feature assumes that <code class="docutils literal notranslate"><span class="pre">step</span></code> starts at zero.</p></li>
-<li><p><strong>interval_steps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Interval in number of steps between the pruning checks, offset by the warmup steps.
+<li><p><strong>interval_steps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Interval in number of steps between the pruning checks, offset by the warmup steps.
 If no value has been reported at the time of a pruning check, that particular check
 will be postponed until a value is reported.</p></li>
-<li><p><strong>n_min_trials</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Minimum number of reported trial results at a step to judge whether to prune.
+<li><p><strong>n_min_trials</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Minimum number of reported trial results at a step to judge whether to prune.
 If the number of reported intermediate values from all trials at the current step
 is less than <code class="docutils literal notranslate"><span class="pre">n_min_trials</span></code>, the trial will not be pruned. This can be used to ensure
 that a minimum number of trials are run to completion without being pruned.</p></li>
@@ -231,7 +231,7 @@ Take a copy before modifying this object.</p></li>
 <dd class="field-even"><p>A boolean value representing whether the trial should be pruned.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)">bool</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
 </dd>
 </dl>
 </dd></dl>

@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.pruners.ThresholdPruner — Optuna 3.0.3 documentation</title>
+<title>optuna.pruners.ThresholdPruner — Optuna 3.0.4 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -68,7 +68,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.0.3
+                3.0.4
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -125,10 +125,10 @@
 <div class="rst-content">
 <div aria-label="Page navigation" role="navigation">
 <ul class="wy-breadcrumbs">
-<li><a class="icon icon-home" href="../../index.html"></a> »</li>
-<li><a href="../index.html">API Reference</a> »</li>
-<li><a href="../pruners.html">optuna.pruners</a> »</li>
-<li>optuna.pruners.ThresholdPruner</li>
+<li><a class="icon icon-home" href="../../index.html"></a></li>
+<li class="breadcrumb-item"><a href="../index.html">API Reference</a></li>
+<li class="breadcrumb-item"><a href="../pruners.html">optuna.pruners</a></li>
+<li class="breadcrumb-item active">optuna.pruners.ThresholdPruner</li>
 <li class="wy-breadcrumbs-aside">
 </li>
 </ul>
@@ -181,12 +181,12 @@ falls behind lower threshold or reaches <code class="docutils literal notranslat
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>lower</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a><em>]</em>) – A minimum value which determines whether pruner prunes or not.
+<li><p><strong>lower</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>]</em>) – A minimum value which determines whether pruner prunes or not.
 If an intermediate value is smaller than lower, it prunes.</p></li>
-<li><p><strong>upper</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a><em>]</em>) – A maximum value which determines whether pruner prunes or not.
+<li><p><strong>upper</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>]</em>) – A maximum value which determines whether pruner prunes or not.
 If an intermediate value is larger than upper, it prunes.</p></li>
-<li><p><strong>n_warmup_steps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Pruning is disabled if the step is less than the given number of warmup steps.</p></li>
-<li><p><strong>interval_steps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Interval in number of steps between the pruning checks, offset by the warmup steps.
+<li><p><strong>n_warmup_steps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Pruning is disabled if the step is less than the given number of warmup steps.</p></li>
+<li><p><strong>interval_steps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Interval in number of steps between the pruning checks, offset by the warmup steps.
 If no value has been reported at the time of a pruning check, that particular check
 will be postponed until a value is reported. Value must be at least 1.</p></li>
 </ul>
@@ -223,7 +223,7 @@ Take a copy before modifying this object.</p></li>
 <dd class="field-even"><p>A boolean value representing whether the trial should be pruned.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)">bool</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
 </dd>
 </dl>
 </dd></dl>

@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.integration.LightGBMPruningCallback — Optuna 3.0.3 documentation</title>
+<title>optuna.integration.LightGBMPruningCallback — Optuna 3.0.4 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -68,7 +68,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.0.3
+                3.0.4
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -139,10 +139,10 @@
 <div class="rst-content">
 <div aria-label="Page navigation" role="navigation">
 <ul class="wy-breadcrumbs">
-<li><a class="icon icon-home" href="../../index.html"></a> »</li>
-<li><a href="../index.html">API Reference</a> »</li>
-<li><a href="../integration.html">optuna.integration</a> »</li>
-<li>optuna.integration.LightGBMPruningCallback</li>
+<li><a class="icon icon-home" href="../../index.html"></a></li>
+<li class="breadcrumb-item"><a href="../index.html">API Reference</a></li>
+<li class="breadcrumb-item"><a href="../integration.html">optuna.integration</a></li>
+<li class="breadcrumb-item active">optuna.integration.LightGBMPruningCallback</li>
 <li class="wy-breadcrumbs-aside">
 </li>
 </ul>
@@ -164,18 +164,18 @@ of a LightGBM model.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>trial</strong> (<a class="reference internal" href="optuna.trial.Trial.html#optuna.trial.Trial" title="optuna.trial._trial.Trial"><em>Trial</em></a>) – A <a class="reference internal" href="optuna.trial.Trial.html#optuna.trial.Trial" title="optuna.trial.Trial"><code class="xref py py-class docutils literal notranslate"><span class="pre">Trial</span></code></a> corresponding to the current evaluation of
 the objective function.</p></li>
-<li><p><strong>metric</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – An evaluation metric for pruning, e.g., <code class="docutils literal notranslate"><span class="pre">binary_error</span></code> and <code class="docutils literal notranslate"><span class="pre">multi_error</span></code>.
+<li><p><strong>metric</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – An evaluation metric for pruning, e.g., <code class="docutils literal notranslate"><span class="pre">binary_error</span></code> and <code class="docutils literal notranslate"><span class="pre">multi_error</span></code>.
 Please refer to
 <a class="reference external" href="https://lightgbm.readthedocs.io/en/latest/Parameters.html#metric">LightGBM reference</a>
 for further details.</p></li>
-<li><p><strong>valid_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a>) – The name of the target validation.
+<li><p><strong>valid_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The name of the target validation.
 Validation names are specified by <code class="docutils literal notranslate"><span class="pre">valid_names</span></code> option of
 <a class="reference external" href="https://lightgbm.readthedocs.io/en/latest/Python-API.html#lightgbm.train">train method</a>.
 If omitted, <code class="docutils literal notranslate"><span class="pre">valid_0</span></code> is used which is the default name of the first validation.
 Note that this argument will be ignored if you are calling
 <a class="reference external" href="https://lightgbm.readthedocs.io/en/latest/Python-API.html#lightgbm.cv">cv method</a>
 instead of train method.</p></li>
-<li><p><strong>report_interval</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Check if the trial should report intermediate values for pruning every n-th boosting
+<li><p><strong>report_interval</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Check if the trial should report intermediate values for pruning every n-th boosting
 iteration. By default <code class="docutils literal notranslate"><span class="pre">report_interval=1</span></code> and reporting is performed after every
 iteration. Note that the pruning itself is performed according to the interval
 definition of the pruner.</p></li>

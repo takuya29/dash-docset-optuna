@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.integration.AllenNLPPruningCallback — Optuna 3.0.3 documentation</title>
+<title>optuna.integration.AllenNLPPruningCallback — Optuna 3.0.4 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -68,7 +68,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.0.3
+                3.0.4
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -138,10 +138,10 @@
 <div class="rst-content">
 <div aria-label="Page navigation" role="navigation">
 <ul class="wy-breadcrumbs">
-<li><a class="icon icon-home" href="../../index.html"></a> »</li>
-<li><a href="../index.html">API Reference</a> »</li>
-<li><a href="../integration.html">optuna.integration</a> »</li>
-<li>optuna.integration.AllenNLPPruningCallback</li>
+<li><a class="icon icon-home" href="../../index.html"></a></li>
+<li class="breadcrumb-item"><a href="../index.html">API Reference</a></li>
+<li class="breadcrumb-item"><a href="../integration.html">optuna.integration</a></li>
+<li class="breadcrumb-item active">optuna.integration.AllenNLPPruningCallback</li>
 <li class="wy-breadcrumbs-aside">
 </li>
 </ul>
@@ -165,7 +165,7 @@ if you want to add a pruning callback which observes a metric.</p>
 trial and monitor are mandatory.</p>
 <p>On the other hand, when <a class="reference internal" href="#optuna.integration.AllenNLPPruningCallback" title="optuna.integration.AllenNLPPruningCallback"><code class="xref py py-class docutils literal notranslate"><span class="pre">AllenNLPPruningCallback</span></code></a> is used with
 <a class="reference internal" href="optuna.integration.AllenNLPExecutor.html#optuna.integration.AllenNLPExecutor" title="optuna.integration.AllenNLPExecutor"><code class="xref py py-class docutils literal notranslate"><span class="pre">AllenNLPExecutor</span></code></a>, <code class="docutils literal notranslate"><span class="pre">trial</span></code> and <code class="docutils literal notranslate"><span class="pre">monitor</span></code>
-would be <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>. <a class="reference internal" href="optuna.integration.AllenNLPExecutor.html#optuna.integration.AllenNLPExecutor" title="optuna.integration.AllenNLPExecutor"><code class="xref py py-class docutils literal notranslate"><span class="pre">AllenNLPExecutor</span></code></a> sets
+would be <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>. <a class="reference internal" href="optuna.integration.AllenNLPExecutor.html#optuna.integration.AllenNLPExecutor" title="optuna.integration.AllenNLPExecutor"><code class="xref py py-class docutils literal notranslate"><span class="pre">AllenNLPExecutor</span></code></a> sets
 environment variables for a study name, trial id, monitor, and storage.
 Then <a class="reference internal" href="#optuna.integration.AllenNLPPruningCallback" title="optuna.integration.AllenNLPPruningCallback"><code class="xref py py-class docutils literal notranslate"><span class="pre">AllenNLPPruningCallback</span></code></a>
 loads them to restore <code class="docutils literal notranslate"><span class="pre">trial</span></code> and <code class="docutils literal notranslate"><span class="pre">monitor</span></code>.</p>
@@ -178,9 +178,9 @@ loads them to restore <code class="docutils literal notranslate"><span class="pr
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>trial</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference internal" href="optuna.trial.Trial.html#optuna.trial.Trial" title="optuna.trial._trial.Trial"><em>Trial</em></a><em>]</em>) – A <a class="reference internal" href="optuna.trial.Trial.html#optuna.trial.Trial" title="optuna.trial.Trial"><code class="xref py py-class docutils literal notranslate"><span class="pre">Trial</span></code></a> corresponding to the current evaluation of the
+<li><p><strong>trial</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference internal" href="optuna.trial.Trial.html#optuna.trial.Trial" title="optuna.trial._trial.Trial"><em>Trial</em></a><em>]</em>) – A <a class="reference internal" href="optuna.trial.Trial.html#optuna.trial.Trial" title="optuna.trial.Trial"><code class="xref py py-class docutils literal notranslate"><span class="pre">Trial</span></code></a> corresponding to the current evaluation of the
 objective function.</p></li>
-<li><p><strong>monitor</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>]</em>) – An evaluation metric for pruning, e.g. <code class="docutils literal notranslate"><span class="pre">validation_loss</span></code> or
+<li><p><strong>monitor</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – An evaluation metric for pruning, e.g. <code class="docutils literal notranslate"><span class="pre">validation_loss</span></code> or
 <code class="docutils literal notranslate"><span class="pre">validation_accuracy</span></code>.</p></li>
 </ul>
 </dd>
@@ -213,10 +213,10 @@ without prior notice. See <a class="reference external" href="https://github.com
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>trainer</strong> (<em>GradientDescentTrainer</em>) – AllenNLP’s trainer</p></li>
-<li><p><strong>metrics</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.10)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><em>Any</em></a><em>]</em>) – Dictionary of metrics.</p></li>
-<li><p><strong>epoch</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Number of current epoch.</p></li>
-<li><p><strong>is_primary</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – A flag for AllenNLP internal.</p></li>
-<li><p><strong>_</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><em>Any</em></a>) – </p></li>
+<li><p><strong>metrics</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a><em>]</em>) – Dictionary of metrics.</p></li>
+<li><p><strong>epoch</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of current epoch.</p></li>
+<li><p><strong>is_primary</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – A flag for AllenNLP internal.</p></li>
+<li><p><strong>_</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
@@ -233,12 +233,12 @@ without prior notice. See <a class="reference external" href="https://github.com
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><em>Any</em></a>) – </p></li>
-<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><em>Any</em></a>) – </p></li>
+<li><p><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a>) – </p></li>
+<li><p><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a>) – </p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><em>Callable</em></a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.11)"><em>Callable</em></a></p>
 </dd>
 </dl>
 </dd></dl>
