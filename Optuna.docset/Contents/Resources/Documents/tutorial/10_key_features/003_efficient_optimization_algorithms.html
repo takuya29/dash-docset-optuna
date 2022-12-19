@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>3. Efficient Optimization Algorithms — Optuna 3.0.4 documentation</title>
+<title>3. Efficient Optimization Algorithms — Optuna 3.0.5 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -68,7 +68,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.0.4
+                3.0.5
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -239,26 +239,26 @@ Exclusive list is <a class="reference internal" href="../../reference/integratio
 <span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>A new study created in memory with name: no-name-f962cc85-a325-4ae8-833a-d6707ea591b8
-Trial 0 finished with value: 0.21052631578947367 and parameters: {'alpha': 0.020791619561715075}. Best is trial 0 with value: 0.21052631578947367.
-Trial 1 finished with value: 0.39473684210526316 and parameters: {'alpha': 1.1408291818919181e-05}. Best is trial 0 with value: 0.21052631578947367.
-Trial 2 finished with value: 0.10526315789473684 and parameters: {'alpha': 3.0031382811471674e-05}. Best is trial 2 with value: 0.10526315789473684.
-Trial 3 finished with value: 0.3157894736842105 and parameters: {'alpha': 0.000222391680410088}. Best is trial 2 with value: 0.10526315789473684.
-Trial 4 finished with value: 0.3421052631578947 and parameters: {'alpha': 1.2256419683516314e-05}. Best is trial 2 with value: 0.10526315789473684.
-Trial 5 pruned.
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>A new study created in memory with name: no-name-62bc21df-8877-435b-8f6b-020080b56301
+Trial 0 finished with value: 0.3157894736842105 and parameters: {'alpha': 0.06975558013439676}. Best is trial 0 with value: 0.3157894736842105.
+Trial 1 finished with value: 0.39473684210526316 and parameters: {'alpha': 7.83602012105791e-05}. Best is trial 0 with value: 0.3157894736842105.
+Trial 2 finished with value: 0.10526315789473684 and parameters: {'alpha': 0.0004072114590295721}. Best is trial 2 with value: 0.10526315789473684.
+Trial 3 finished with value: 0.052631578947368474 and parameters: {'alpha': 0.015569111839595272}. Best is trial 3 with value: 0.052631578947368474.
+Trial 4 finished with value: 0.07894736842105265 and parameters: {'alpha': 0.00538297100767905}. Best is trial 3 with value: 0.052631578947368474.
+Trial 5 finished with value: 0.3157894736842105 and parameters: {'alpha': 4.56873732628699e-05}. Best is trial 3 with value: 0.052631578947368474.
 Trial 6 pruned.
-Trial 7 finished with value: 0.052631578947368474 and parameters: {'alpha': 0.010139734735489642}. Best is trial 7 with value: 0.052631578947368474.
+Trial 7 finished with value: 0.02631578947368418 and parameters: {'alpha': 0.010337679817836433}. Best is trial 7 with value: 0.02631578947368418.
 Trial 8 pruned.
 Trial 9 pruned.
-Trial 10 pruned.
-Trial 11 finished with value: 0.23684210526315785 and parameters: {'alpha': 0.00012037725654798642}. Best is trial 7 with value: 0.052631578947368474.
-Trial 12 pruned.
+Trial 10 finished with value: 0.39473684210526316 and parameters: {'alpha': 0.08395464059116368}. Best is trial 7 with value: 0.02631578947368418.
+Trial 11 finished with value: 0.02631578947368418 and parameters: {'alpha': 0.001963832956333231}. Best is trial 7 with value: 0.02631578947368418.
+Trial 12 finished with value: 0.07894736842105265 and parameters: {'alpha': 0.0020370085988785517}. Best is trial 7 with value: 0.02631578947368418.
 Trial 13 pruned.
-Trial 14 finished with value: 0.3157894736842105 and parameters: {'alpha': 6.189083646025381e-05}. Best is trial 7 with value: 0.052631578947368474.
+Trial 14 pruned.
 Trial 15 pruned.
-Trial 16 pruned.
+Trial 16 finished with value: 0.052631578947368474 and parameters: {'alpha': 0.0023375613638244894}. Best is trial 7 with value: 0.02631578947368418.
 Trial 17 pruned.
-Trial 18 pruned.
+Trial 18 finished with value: 0.052631578947368474 and parameters: {'alpha': 0.004984476260693783}. Best is trial 7 with value: 0.02631578947368418.
 Trial 19 pruned.
 </pre></div>
 </div>
@@ -317,7 +317,7 @@ which is written in Japanese.</p>
 <span class="n">bst</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">dtrain</span><span class="p">,</span> <span class="n">evals</span><span class="o">=</span><span class="p">[(</span><span class="n">dvalid</span><span class="p">,</span> <span class="s1">'validation'</span><span class="p">)],</span> <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">pruning_callback</span><span class="p">])</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.385 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  3.255 seconds)</p>
 <a class="dashAnchor" name="//apple_ref/cpp/Section/sphx_glr_download_tutorial_10_key_features_003_efficient_optimization_algorithms.py"></a><div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorial-10-key-features-003-efficient-optimization-algorithms-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/d644481a46b46a106b111c67d4186242/003_efficient_optimization_algorithms.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">003_efficient_optimization_algorithms.py</span></code></a></p>

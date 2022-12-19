@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.samplers._tpe.sampler &mdash; Optuna 3.0.4 documentation</title>
+  <title>optuna.samplers._tpe.sampler &mdash; Optuna 3.0.5 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
@@ -69,7 +69,7 @@
             <img src="../../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.0.4
+                3.0.5
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -506,7 +506,7 @@
         <span class="p">)</span>
 
         <span class="c1"># If the number of samples is insufficient, we run random trial.</span>
-        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">s</span> <span class="o">&lt;</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">scores</span><span class="p">)</span>  <span class="c1"># Ignore running trials.</span>
         <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_startup_trials</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">{}</span>
 
@@ -555,7 +555,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_constraints_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">s</span> <span class="o">&lt;</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">scores</span><span class="p">)</span>  <span class="c1"># Ignore running trials.</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_log_independent_sampling</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">trial</span><span class="p">,</span> <span class="n">param_name</span><span class="p">)</span>
 
@@ -766,13 +766,13 @@
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">score</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">step</span><span class="p">,</span> <span class="p">[</span><span class="n">signs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">intermediate_value</span><span class="p">])</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">score</span> <span class="o">=</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">),</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">])</span>
+                <span class="n">score</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">])</span>
         <span class="k">elif</span> <span class="n">trial</span><span class="o">.</span><span class="n">state</span> <span class="ow">is</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">RUNNING</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">study</span><span class="o">.</span><span class="n">_is_multi_objective</span><span class="p">():</span>
                 <span class="k">continue</span>
 
             <span class="k">assert</span> <span class="n">constant_liar</span>
-            <span class="n">score</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">),</span> <span class="p">[</span><span class="n">signs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)])</span>
+            <span class="n">score</span> <span class="o">=</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">),</span> <span class="p">[</span><span class="n">signs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)])</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">assert</span> <span class="kc">False</span>
         <span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
