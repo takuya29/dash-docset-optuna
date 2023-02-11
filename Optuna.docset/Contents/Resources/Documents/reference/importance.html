@@ -2,9 +2,9 @@
 
 <html class="writer-html5" lang="en">
 <head>
-<meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
+<meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.importance — Optuna 3.0.5 documentation</title>
+<title>optuna.importance — Optuna 3.1.0 documentation</title>
 <link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -68,11 +68,11 @@
 <img alt="Logo" class="logo" src="../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.0.5
+                3.1.0
               </div>
 <div role="search">
 <form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
-<input name="q" placeholder="Search docs" type="text"/>
+<input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
 <input name="check_keywords" type="hidden" value="yes"/>
 <input name="area" type="hidden" value="default"/>
 </form>
@@ -95,7 +95,6 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="integration.html">optuna.integration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="logging.html">optuna.logging</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multi_objective/index.html">optuna.multi_objective</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pruners.html">optuna.pruners</a></li>
 <li class="toctree-l2"><a class="reference internal" href="samplers/index.html">optuna.samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="storages.html">optuna.storages</a></li>
@@ -115,13 +114,11 @@
 </nav>
 <div class="wy-nav-content">
 <div class="rst-content">
-<div aria-label="Page navigation" role="navigation">
+<!-- This file is necessary to remove "Edit on Github" button from readthedocs by following https://docs.readthedocs.io/en/stable/guides/remove-edit-buttons.html#remove-links-from-top-right-corner --><div aria-label="Page navigation" role="navigation">
 <ul class="wy-breadcrumbs">
-<li><a class="icon icon-home" href="../index.html"></a></li>
+<li><a aria-label="Home" class="icon icon-home" href="../index.html"></a></li>
 <li class="breadcrumb-item"><a href="index.html">API Reference</a></li>
 <li class="breadcrumb-item active">optuna.importance</li>
-<li class="wy-breadcrumbs-aside">
-</li>
 </ul>
 <hr/>
 </div>
@@ -129,12 +126,8 @@
 <div itemprop="articleBody">
 <span class="target" id="module-optuna.importance"></span><section id="optuna-importance">
 <a class="dashAnchor" name="//apple_ref/cpp/Module/optuna.importance"></a><h1>optuna.importance<a class="headerlink" href="#optuna-importance" title="Permalink to this heading"></a></h1>
-<p>The <a class="reference internal" href="#module-optuna.importance" title="optuna.importance"><code class="xref py py-mod docutils literal notranslate"><span class="pre">importance</span></code></a> module provides functionality for evaluating hyperparameter importances based on completed trials in a given study. The utility function <a class="reference internal" href="generated/optuna.importance.get_param_importances.html#optuna.importance.get_param_importances" title="optuna.importance.get_param_importances"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_param_importances()</span></code></a> takes a <code class="docutils literal notranslate"><span class="pre">Study</span></code> and optional evaluator as two of its inputs. The evaluator must derive from <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseImportanceEvaluator</span></code>, and is initialized as a <a class="reference internal" href="generated/optuna.importance.FanovaImportanceEvaluator.html#optuna.importance.FanovaImportanceEvaluator" title="optuna.importance.FanovaImportanceEvaluator"><code class="xref py py-class docutils literal notranslate"><span class="pre">FanovaImportanceEvaluator</span></code></a> by default when not passed in. Users implementing custom evaluators should refer to either <a class="reference internal" href="generated/optuna.importance.FanovaImportanceEvaluator.html#optuna.importance.FanovaImportanceEvaluator" title="optuna.importance.FanovaImportanceEvaluator"><code class="xref py py-class docutils literal notranslate"><span class="pre">FanovaImportanceEvaluator</span></code></a> or <a class="reference internal" href="generated/optuna.importance.MeanDecreaseImpurityImportanceEvaluator.html#optuna.importance.MeanDecreaseImpurityImportanceEvaluator" title="optuna.importance.MeanDecreaseImpurityImportanceEvaluator"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeanDecreaseImpurityImportanceEvaluator</span></code></a> as a guide, paying close attention to the format of the return value from the Evaluator’s <code class="xref py py-meth docutils literal notranslate"><span class="pre">evaluate()</span></code> function.</p>
+<p>The <a class="reference internal" href="#module-optuna.importance" title="optuna.importance"><code class="xref py py-mod docutils literal notranslate"><span class="pre">importance</span></code></a> module provides functionality for evaluating hyperparameter importances based on completed trials in a given study. The utility function <a class="reference internal" href="generated/optuna.importance.get_param_importances.html#optuna.importance.get_param_importances" title="optuna.importance.get_param_importances"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_param_importances()</span></code></a> takes a <a class="reference internal" href="generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> and optional evaluator as two of its inputs. The evaluator must derive from <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseImportanceEvaluator</span></code>, and is initialized as a <a class="reference internal" href="generated/optuna.importance.FanovaImportanceEvaluator.html#optuna.importance.FanovaImportanceEvaluator" title="optuna.importance.FanovaImportanceEvaluator"><code class="xref py py-class docutils literal notranslate"><span class="pre">FanovaImportanceEvaluator</span></code></a> by default when not passed in. Users implementing custom evaluators should refer to either <a class="reference internal" href="generated/optuna.importance.FanovaImportanceEvaluator.html#optuna.importance.FanovaImportanceEvaluator" title="optuna.importance.FanovaImportanceEvaluator"><code class="xref py py-class docutils literal notranslate"><span class="pre">FanovaImportanceEvaluator</span></code></a> or <a class="reference internal" href="generated/optuna.importance.MeanDecreaseImpurityImportanceEvaluator.html#optuna.importance.MeanDecreaseImpurityImportanceEvaluator" title="optuna.importance.MeanDecreaseImpurityImportanceEvaluator"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeanDecreaseImpurityImportanceEvaluator</span></code></a> as a guide, paying close attention to the format of the return value from the Evaluator’s <code class="docutils literal notranslate"><span class="pre">evaluate</span></code> function.</p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.importance.get_param_importances.html#optuna.importance.get_param_importances" title="optuna.importance.get_param_importances"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.importance.get_param_importances</span></code></a></p></td>
 <td><p>Evaluate parameter importances based on completed trials in the given study.</p></td>

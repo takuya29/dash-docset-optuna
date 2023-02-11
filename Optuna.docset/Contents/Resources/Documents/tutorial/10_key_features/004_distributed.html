@@ -2,9 +2,9 @@
 
 <html class="writer-html5" lang="en">
 <head>
-<meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
+<meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>4. Easy Parallelization — Optuna 3.0.5 documentation</title>
+<title>4. Easy Parallelization — Optuna 3.1.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -68,11 +68,11 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.0.5
+                3.1.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
-<input name="q" placeholder="Search docs" type="text"/>
+<input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
 <input name="check_keywords" type="hidden" value="yes"/>
 <input name="area" type="hidden" value="default"/>
 </form>
@@ -109,14 +109,12 @@
 </nav>
 <div class="wy-nav-content">
 <div class="rst-content">
-<div aria-label="Page navigation" role="navigation">
+<!-- This file is necessary to remove "Edit on Github" button from readthedocs by following https://docs.readthedocs.io/en/stable/guides/remove-edit-buttons.html#remove-links-from-top-right-corner --><div aria-label="Page navigation" role="navigation">
 <ul class="wy-breadcrumbs">
-<li><a class="icon icon-home" href="../../index.html"></a></li>
+<li><a aria-label="Home" class="icon icon-home" href="../../index.html"></a></li>
 <li class="breadcrumb-item"><a href="../index.html">Tutorial</a></li>
 <li class="breadcrumb-item"><a href="index.html">Key Features</a></li>
 <li class="breadcrumb-item active">4. Easy Parallelization</li>
-<li class="wy-breadcrumbs-aside">
-</li>
 </ul>
 <hr/>
 </div>
@@ -134,7 +132,7 @@ to download the full example code</p>
 <blockquote>
 <div><ol class="arabic simple">
 <li><p>start an RDB server (this example uses MySQL)</p></li>
-<li><p>create a study with <cite>–storage</cite> argument</p></li>
+<li><p>create a study with <code class="docutils literal notranslate"><span class="pre">--storage</span></code> argument</p></li>
 <li><p>share the study among multiple nodes and processes</p></li>
 </ol>
 </div></blockquote>
@@ -144,9 +142,9 @@ to download the full example code</p>
 <h2>Create a Study<a class="headerlink" href="#create-a-study" title="Permalink to this heading"></a></h2>
 <p>You can create a study using <code class="docutils literal notranslate"><span class="pre">optuna</span> <span class="pre">create-study</span></code> command.
 Alternatively, in Python script you can use <a class="reference internal" href="../../reference/generated/optuna.create_study.html#optuna.create_study" title="optuna.create_study"><code class="xref py py-func docutils literal notranslate"><span class="pre">optuna.create_study()</span></code></a>.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ mysql -u root -e <span class="s2">"CREATE DATABASE IF NOT EXISTS example"</span>
-$ optuna create-study --study-name <span class="s2">"distributed-example"</span> --storage <span class="s2">"mysql://root@localhost/example"</span>
-<span class="o">[</span>I <span class="m">2020</span>-07-21 <span class="m">13</span>:43:39,642<span class="o">]</span> A new study created with name: distributed-example
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mysql<span class="w"> </span>-u<span class="w"> </span>root<span class="w"> </span>-e<span class="w"> </span><span class="s2">"CREATE DATABASE IF NOT EXISTS example"</span>
+$<span class="w"> </span>optuna<span class="w"> </span>create-study<span class="w"> </span>--study-name<span class="w"> </span><span class="s2">"distributed-example"</span><span class="w"> </span>--storage<span class="w"> </span><span class="s2">"mysql://root@localhost/example"</span>
+<span class="o">[</span>I<span class="w"> </span><span class="m">2020</span>-07-21<span class="w"> </span><span class="m">13</span>:43:39,642<span class="o">]</span><span class="w"> </span>A<span class="w"> </span>new<span class="w"> </span>study<span class="w"> </span>created<span class="w"> </span>with<span class="w"> </span>name:<span class="w"> </span>distributed-example
 </pre></div>
 </div>
 <p>Then, write an optimization script. Let’s assume that <code class="docutils literal notranslate"><span class="pre">foo.py</span></code> contains the following code.</p>
@@ -172,16 +170,16 @@ $ optuna create-study --study-name <span class="s2">"distributed-example"</span>
 For example, run <code class="docutils literal notranslate"><span class="pre">Process</span> <span class="pre">1</span></code> in a terminal, and do <code class="docutils literal notranslate"><span class="pre">Process</span> <span class="pre">2</span></code> in another one.
 They get parameter suggestions based on shared trials’ history.</p>
 <p>Process 1:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python foo.py
-<span class="o">[</span>I <span class="m">2020</span>-07-21 <span class="m">13</span>:45:02,973<span class="o">]</span> Trial <span class="m">0</span> finished with value: <span class="m">45</span>.35553104173011 and parameters: <span class="o">{</span><span class="s1">'x'</span>: <span class="m">8</span>.73465151598285<span class="o">}</span>. Best is trial <span class="m">0</span> with value: <span class="m">45</span>.35553104173011.
-<span class="o">[</span>I <span class="m">2020</span>-07-21 <span class="m">13</span>:45:04,013<span class="o">]</span> Trial <span class="m">2</span> finished with value: <span class="m">4</span>.6002397305938905 and parameters: <span class="o">{</span><span class="s1">'x'</span>: <span class="m">4</span>.144816945707463<span class="o">}</span>. Best is trial <span class="m">1</span> with value: <span class="m">0</span>.028194513284051464.
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python<span class="w"> </span>foo.py
+<span class="o">[</span>I<span class="w"> </span><span class="m">2020</span>-07-21<span class="w"> </span><span class="m">13</span>:45:02,973<span class="o">]</span><span class="w"> </span>Trial<span class="w"> </span><span class="m">0</span><span class="w"> </span>finished<span class="w"> </span>with<span class="w"> </span>value:<span class="w"> </span><span class="m">45</span>.35553104173011<span class="w"> </span>and<span class="w"> </span>parameters:<span class="w"> </span><span class="o">{</span><span class="s1">'x'</span>:<span class="w"> </span><span class="m">8</span>.73465151598285<span class="o">}</span>.<span class="w"> </span>Best<span class="w"> </span>is<span class="w"> </span>trial<span class="w"> </span><span class="m">0</span><span class="w"> </span>with<span class="w"> </span>value:<span class="w"> </span><span class="m">45</span>.35553104173011.
+<span class="o">[</span>I<span class="w"> </span><span class="m">2020</span>-07-21<span class="w"> </span><span class="m">13</span>:45:04,013<span class="o">]</span><span class="w"> </span>Trial<span class="w"> </span><span class="m">2</span><span class="w"> </span>finished<span class="w"> </span>with<span class="w"> </span>value:<span class="w"> </span><span class="m">4</span>.6002397305938905<span class="w"> </span>and<span class="w"> </span>parameters:<span class="w"> </span><span class="o">{</span><span class="s1">'x'</span>:<span class="w"> </span><span class="m">4</span>.144816945707463<span class="o">}</span>.<span class="w"> </span>Best<span class="w"> </span>is<span class="w"> </span>trial<span class="w"> </span><span class="m">1</span><span class="w"> </span>with<span class="w"> </span>value:<span class="w"> </span><span class="m">0</span>.028194513284051464.
 ...
 </pre></div>
 </div>
 <p>Process 2 (the same command as process 1):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python foo.py
-<span class="o">[</span>I <span class="m">2020</span>-07-21 <span class="m">13</span>:45:03,748<span class="o">]</span> Trial <span class="m">1</span> finished with value: <span class="m">0</span>.028194513284051464 and parameters: <span class="o">{</span><span class="s1">'x'</span>: <span class="m">1</span>.8320877810162361<span class="o">}</span>. Best is trial <span class="m">1</span> with value: <span class="m">0</span>.028194513284051464.
-<span class="o">[</span>I <span class="m">2020</span>-07-21 <span class="m">13</span>:45:05,783<span class="o">]</span> Trial <span class="m">3</span> finished with value: <span class="m">24</span>.45966755098074 and parameters: <span class="o">{</span><span class="s1">'x'</span>: <span class="m">6</span>.945671597566982<span class="o">}</span>. Best is trial <span class="m">1</span> with value: <span class="m">0</span>.028194513284051464.
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python<span class="w"> </span>foo.py
+<span class="o">[</span>I<span class="w"> </span><span class="m">2020</span>-07-21<span class="w"> </span><span class="m">13</span>:45:03,748<span class="o">]</span><span class="w"> </span>Trial<span class="w"> </span><span class="m">1</span><span class="w"> </span>finished<span class="w"> </span>with<span class="w"> </span>value:<span class="w"> </span><span class="m">0</span>.028194513284051464<span class="w"> </span>and<span class="w"> </span>parameters:<span class="w"> </span><span class="o">{</span><span class="s1">'x'</span>:<span class="w"> </span><span class="m">1</span>.8320877810162361<span class="o">}</span>.<span class="w"> </span>Best<span class="w"> </span>is<span class="w"> </span>trial<span class="w"> </span><span class="m">1</span><span class="w"> </span>with<span class="w"> </span>value:<span class="w"> </span><span class="m">0</span>.028194513284051464.
+<span class="o">[</span>I<span class="w"> </span><span class="m">2020</span>-07-21<span class="w"> </span><span class="m">13</span>:45:05,783<span class="o">]</span><span class="w"> </span>Trial<span class="w"> </span><span class="m">3</span><span class="w"> </span>finished<span class="w"> </span>with<span class="w"> </span>value:<span class="w"> </span><span class="m">24</span>.45966755098074<span class="w"> </span>and<span class="w"> </span>parameters:<span class="w"> </span><span class="o">{</span><span class="s1">'x'</span>:<span class="w"> </span><span class="m">6</span>.945671597566982<span class="o">}</span>.<span class="w"> </span>Best<span class="w"> </span>is<span class="w"> </span>trial<span class="w"> </span><span class="m">1</span><span class="w"> </span>with<span class="w"> </span>value:<span class="w"> </span><span class="m">0</span>.028194513284051464.
 ...
 </pre></div>
 </div>

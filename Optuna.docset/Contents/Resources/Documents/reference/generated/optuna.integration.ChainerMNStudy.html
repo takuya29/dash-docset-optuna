@@ -2,9 +2,9 @@
 
 <html class="writer-html5" lang="en">
 <head>
-<meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
+<meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.integration.ChainerMNStudy — Optuna 3.0.5 documentation</title>
+<title>optuna.integration.ChainerMNStudy — Optuna 3.1.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -29,7 +29,7 @@
 <script src="../../_static/js/theme.js"></script>
 <link href="../../genindex.html" rel="index" title="Index"/>
 <link href="../../search.html" rel="search" title="Search"/>
-<link href="optuna.integration.FastAIV1PruningCallback.html" rel="next" title="optuna.integration.FastAIV1PruningCallback"/>
+<link href="optuna.integration.DaskStorage.html" rel="next" title="optuna.integration.DaskStorage"/>
 <link href="optuna.integration.ChainerPruningExtension.html" rel="prev" title="optuna.integration.ChainerPruningExtension"/>
 </head>
 <body class="wy-body-for-nav">
@@ -68,11 +68,11 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.0.5
+                3.1.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
-<input name="q" placeholder="Search docs" type="text"/>
+<input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
 <input name="check_keywords" type="hidden" value="yes"/>
 <input name="area" type="hidden" value="default"/>
 </form>
@@ -98,6 +98,7 @@
 <li class="toctree-l4 current"><a class="current reference internal" href="#">optuna.integration.ChainerMNStudy</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#dask">Dask</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#fast-ai">fast.ai</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#keras">Keras</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#lightgbm">LightGBM</a></li>
@@ -115,7 +116,6 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../logging.html">optuna.logging</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../multi_objective/index.html">optuna.multi_objective</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pruners.html">optuna.pruners</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../samplers/index.html">optuna.samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../storages.html">optuna.storages</a></li>
@@ -135,14 +135,12 @@
 </nav>
 <div class="wy-nav-content">
 <div class="rst-content">
-<div aria-label="Page navigation" role="navigation">
+<!-- This file is necessary to remove "Edit on Github" button from readthedocs by following https://docs.readthedocs.io/en/stable/guides/remove-edit-buttons.html#remove-links-from-top-right-corner --><div aria-label="Page navigation" role="navigation">
 <ul class="wy-breadcrumbs">
-<li><a class="icon icon-home" href="../../index.html"></a></li>
+<li><a aria-label="Home" class="icon icon-home" href="../../index.html"></a></li>
 <li class="breadcrumb-item"><a href="../index.html">API Reference</a></li>
 <li class="breadcrumb-item"><a href="../integration.html">optuna.integration</a></li>
 <li class="breadcrumb-item active">optuna.integration.ChainerMNStudy</li>
-<li class="wy-breadcrumbs-aside">
-</li>
 </ul>
 <hr/>
 </div>
@@ -164,7 +162,7 @@ details.</p>
 if you want to optimize an objective function that trains neural network
 written with ChainerMN.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>study</strong> (<a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.study.Study"><em>Study</em></a>) – A <a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> object.</p></li>
 <li><p><strong>comm</strong> (<em>CommunicatorBase</em>) – A <a class="reference external" href="https://docs.chainer.org/en/stable/chainermn/reference/index.html#communicators">ChainerMN communicator</a>.</p></li>
@@ -173,10 +171,6 @@ written with ChainerMN.</p>
 </dl>
 <p class="rubric">Methods</p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#optuna.integration.ChainerMNStudy.optimize" title="optuna.integration.ChainerMNStudy.optimize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optimize</span></code></a>(func[, n_trials, timeout, catch])</p></td>
 <td><p>Optimize an objective function.</p></td>
@@ -190,7 +184,7 @@ written with ChainerMN.</p>
 <p>This method provides the same interface as <a class="reference internal" href="optuna.study.Study.html#optuna.study.Study.optimize" title="optuna.study.Study.optimize"><code class="xref py py-func docutils literal notranslate"><span class="pre">optuna.study.Study.optimize()</span></code></a> except
 the absence of <code class="docutils literal notranslate"><span class="pre">n_jobs</span></code> argument.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>func</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.11)"><em>Callable</em></a><em>[</em><em>[</em><em>ChainerMNTrial</em><em>, </em><em>CommunicatorBase</em><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>]</em>) – </p></li>
 <li><p><strong>n_trials</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em>) – </p></li>
@@ -198,7 +192,7 @@ the absence of <code class="docutils literal notranslate"><span class="pre">n_jo
 <li><p><strong>catch</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><em>Tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.11)"><em>Type</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.11)"><em>Exception</em></a><em>]</em><em>, </em><em>...</em><em>]</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
 </dd>
 </dl>
@@ -209,7 +203,7 @@ the absence of <code class="docutils literal notranslate"><span class="pre">n_jo
 </div>
 <footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
 <a accesskey="p" class="btn btn-neutral float-left" href="optuna.integration.ChainerPruningExtension.html" rel="prev" title="optuna.integration.ChainerPruningExtension"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
-<a accesskey="n" class="btn btn-neutral float-right" href="optuna.integration.FastAIV1PruningCallback.html" rel="next" title="optuna.integration.FastAIV1PruningCallback">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+<a accesskey="n" class="btn btn-neutral float-right" href="optuna.integration.DaskStorage.html" rel="next" title="optuna.integration.DaskStorage">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
 </div>
 <hr/>
 <div role="contentinfo">

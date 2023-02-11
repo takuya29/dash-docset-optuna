@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.storages._rdb.storage &mdash; Optuna 3.0.5 documentation</title>
+  <title>optuna.storages._rdb.storage &mdash; Optuna 3.1.0 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
@@ -65,15 +65,19 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../../index.html">
-            <img src="../../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../../../../index.html">
+            
+              <img src="../../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.0.5
+                3.1.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -98,13 +102,12 @@
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
+          <!-- This file is necessary to remove "Edit on Github" button from readthedocs by following https://docs.readthedocs.io/en/stable/guides/remove-edit-buttons.html#remove-links-from-top-right-corner --><div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../../index.html" class="icon icon-home"></a></li>
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
       <li class="breadcrumb-item active">optuna.storages._rdb.storage</li>
-      <li class="wy-breadcrumbs-aside">
-      </li>
+
   </ul>
   <hr/>
 </div>
@@ -207,7 +210,7 @@
 
 
 <div class="viewcode-block" id="RDBStorage"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage">[docs]</a><span class="k">class</span> <span class="nc">RDBStorage</span><span class="p">(</span><span class="n">BaseStorage</span><span class="p">,</span> <span class="n">BaseHeartbeat</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Storage class for RDB backend.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Storage class for RDB backend.</span>
 
 <span class="sd">    Note that library users can instantiate this class, but the attributes</span>
 <span class="sd">    provided by this class are not supposed to be directly accessed by them.</span>
@@ -282,6 +285,10 @@
 <span class="sd">        pool_pre_ping</span>
 
 <span class="sd">    .. note::</span>
+<span class="sd">        We would never recommend SQLite3 for parallel optimization.</span>
+<span class="sd">        Please see the FAQ :ref:`sqlite_concurrency` for details.</span>
+
+<span class="sd">    .. note::</span>
 <span class="sd">        Mainly in a cluster environment, running trials are often killed unexpectedly.</span>
 <span class="sd">        If you want to detect a failure of trials, please use the heartbeat</span>
 <span class="sd">        mechanism. Set ``heartbeat_interval``, ``grace_period``, and ``failed_trial_callback``</span>
@@ -303,7 +310,9 @@
         <span class="o">*</span><span class="p">,</span>
         <span class="n">heartbeat_interval</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">grace_period</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">failed_trial_callback</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="s2">&quot;optuna.Study&quot;</span><span class="p">,</span> <span class="n">FrozenTrial</span><span class="p">],</span> <span class="kc">None</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">failed_trial_callback</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span>
+            <span class="n">Callable</span><span class="p">[[</span><span class="s2">&quot;optuna.study.Study&quot;</span><span class="p">,</span> <span class="n">FrozenTrial</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">skip_table_creation</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 
@@ -365,18 +374,22 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">skip_compatibility_check</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_version_manager</span><span class="o">.</span><span class="n">check_table_schema_compatibility</span><span class="p">()</span>
 
-<div class="viewcode-block" id="RDBStorage.create_new_study"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.create_new_study">[docs]</a>    <span class="k">def</span> <span class="nf">create_new_study</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<div class="viewcode-block" id="RDBStorage.create_new_study"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.create_new_study">[docs]</a>    <span class="k">def</span> <span class="nf">create_new_study</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">directions</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">StudyDirection</span><span class="p">],</span> <span class="n">study_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">study_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">study_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_unique_study_name</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
 
-                <span class="n">direction</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">StudyDirectionModel</span><span class="p">(</span>
-                    <span class="n">direction</span><span class="o">=</span><span class="n">StudyDirection</span><span class="o">.</span><span class="n">NOT_SET</span><span class="p">,</span> <span class="n">objective</span><span class="o">=</span><span class="mi">0</span>
-                <span class="p">)</span>
-                <span class="n">study</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">StudyModel</span><span class="p">(</span><span class="n">study_name</span><span class="o">=</span><span class="n">study_name</span><span class="p">,</span> <span class="n">directions</span><span class="o">=</span><span class="p">[</span><span class="n">direction</span><span class="p">])</span>
-                <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">study</span><span class="p">)</span>
+                <span class="n">direction_models</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">models</span><span class="o">.</span><span class="n">StudyDirectionModel</span><span class="p">(</span><span class="n">objective</span><span class="o">=</span><span class="n">objective</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="n">d</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">objective</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">directions</span><span class="p">))</span>
+                <span class="p">]</span>
+
+                <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">StudyModel</span><span class="p">(</span><span class="n">study_name</span><span class="o">=</span><span class="n">study_name</span><span class="p">,</span> <span class="n">directions</span><span class="o">=</span><span class="n">direction_models</span><span class="p">))</span>
+
         <span class="k">except</span> <span class="n">sqlalchemy_exc</span><span class="o">.</span><span class="n">IntegrityError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">optuna</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">DuplicatedStudyError</span><span class="p">(</span>
                 <span class="s2">&quot;Another study with name &#39;</span><span class="si">{}</span><span class="s2">&#39; already exists. &quot;</span>
@@ -406,38 +419,6 @@
                 <span class="k">break</span>
 
         <span class="k">return</span> <span class="n">study_name</span>
-
-    <span class="c1"># TODO(sano): Prevent simultaneously setting different direction in distributed environments.</span>
-<div class="viewcode-block" id="RDBStorage.set_study_directions"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.set_study_directions">[docs]</a>    <span class="k">def</span> <span class="nf">set_study_directions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">directions</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">StudyDirection</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
-        <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
-            <span class="n">study</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">StudyModel</span><span class="o">.</span><span class="n">find_or_raise_by_id</span><span class="p">(</span><span class="n">study_id</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
-            <span class="n">directions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">directions</span><span class="p">)</span>
-            <span class="n">current_directions</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">d</span><span class="o">.</span><span class="n">direction</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">models</span><span class="o">.</span><span class="n">StudyDirectionModel</span><span class="o">.</span><span class="n">where_study_id</span><span class="p">(</span><span class="n">study_id</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
-            <span class="p">]</span>
-            <span class="k">if</span> <span class="p">(</span>
-                <span class="nb">len</span><span class="p">(</span><span class="n">current_directions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
-                <span class="ow">and</span> <span class="n">current_directions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">StudyDirection</span><span class="o">.</span><span class="n">NOT_SET</span>
-                <span class="ow">and</span> <span class="n">current_directions</span> <span class="o">!=</span> <span class="n">directions</span>
-            <span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="s2">&quot;Cannot overwrite study direction from </span><span class="si">{}</span><span class="s2"> to </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                        <span class="n">current_directions</span><span class="p">,</span> <span class="n">directions</span>
-                    <span class="p">)</span>
-                <span class="p">)</span>
-
-            <span class="k">for</span> <span class="n">objective</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">directions</span><span class="p">):</span>
-                <span class="n">direction_model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">StudyDirectionModel</span><span class="o">.</span><span class="n">find_by_study_and_objective</span><span class="p">(</span>
-                    <span class="n">study</span><span class="p">,</span> <span class="n">objective</span><span class="p">,</span> <span class="n">session</span>
-                <span class="p">)</span>
-                <span class="k">if</span> <span class="n">direction_model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">direction_model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">StudyDirectionModel</span><span class="p">(</span>
-                        <span class="n">study_id</span><span class="o">=</span><span class="n">study_id</span><span class="p">,</span> <span class="n">objective</span><span class="o">=</span><span class="n">objective</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="n">d</span>
-                    <span class="p">)</span>
-                    <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">direction_model</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">direction_model</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">d</span></div>
 
 <div class="viewcode-block" id="RDBStorage.set_study_user_attr"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.set_study_user_attr">[docs]</a>    <span class="k">def</span> <span class="nf">set_study_user_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 
@@ -576,7 +557,7 @@
     <span class="k">def</span> <span class="nf">_create_new_trial</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">study_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">template_trial</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FrozenTrial</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Create a new trial and returns a :class:`~optuna.trial.FrozenTrial`.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new trial and returns a :class:`~optuna.trial.FrozenTrial`.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            study_id:</span>
@@ -1100,7 +1081,7 @@
         <span class="k">return</span> <span class="n">template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">SCHEMA_VERSION</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SCHEMA_VERSION</span><span class="p">)</span>
 
 <div class="viewcode-block" id="RDBStorage.remove_session"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.remove_session">[docs]</a>    <span class="k">def</span> <span class="nf">remove_session</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Removes the current session.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Removes the current session.</span>
 
 <span class="sd">        A session is stored in SQLAlchemy&#39;s ThreadLocalRegistry for each thread. This method</span>
 <span class="sd">        closes and removes the session which is associated to the current thread. Particularly,</span>
@@ -1115,22 +1096,22 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="RDBStorage.upgrade"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.upgrade">[docs]</a>    <span class="k">def</span> <span class="nf">upgrade</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Upgrade the storage schema.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Upgrade the storage schema.&quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_version_manager</span><span class="o">.</span><span class="n">upgrade</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="RDBStorage.get_current_version"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.get_current_version">[docs]</a>    <span class="k">def</span> <span class="nf">get_current_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Return the schema version currently used by this storage.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the schema version currently used by this storage.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version_manager</span><span class="o">.</span><span class="n">get_current_version</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="RDBStorage.get_head_version"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.get_head_version">[docs]</a>    <span class="k">def</span> <span class="nf">get_head_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Return the latest schema version.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the latest schema version.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version_manager</span><span class="o">.</span><span class="n">get_head_version</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="RDBStorage.get_all_versions"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.get_all_versions">[docs]</a>    <span class="k">def</span> <span class="nf">get_all_versions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Return the schema version list.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the schema version list.&quot;&quot;&quot;</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_version_manager</span><span class="o">.</span><span class="n">get_all_versions</span><span class="p">()</span></div>
 
@@ -1179,7 +1160,9 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">heartbeat_interval</span></div>
 
-<div class="viewcode-block" id="RDBStorage.get_failed_trial_callback"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.get_failed_trial_callback">[docs]</a>    <span class="k">def</span> <span class="nf">get_failed_trial_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="s2">&quot;optuna.Study&quot;</span><span class="p">,</span> <span class="n">FrozenTrial</span><span class="p">],</span> <span class="kc">None</span><span class="p">]]:</span>
+<div class="viewcode-block" id="RDBStorage.get_failed_trial_callback"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.get_failed_trial_callback">[docs]</a>    <span class="k">def</span> <span class="nf">get_failed_trial_callback</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="s2">&quot;optuna.study.Study&quot;</span><span class="p">,</span> <span class="n">FrozenTrial</span><span class="p">],</span> <span class="kc">None</span><span class="p">]]:</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">failed_trial_callback</span></div></div>
 
@@ -1232,9 +1215,11 @@
 
     <span class="k">def</span> <span class="nf">_set_alembic_revision</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">revision</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 
-        <span class="n">context</span> <span class="o">=</span> <span class="n">alembic_migration</span><span class="o">.</span><span class="n">MigrationContext</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">connect</span><span class="p">())</span>
-        <span class="n">script</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_alembic_script</span><span class="p">()</span>
-        <span class="n">context</span><span class="o">.</span><span class="n">stamp</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">revision</span><span class="p">)</span>
+        <span class="n">connection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="n">alembic_migration</span><span class="o">.</span><span class="n">MigrationContext</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">connection</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">connection</span><span class="o">.</span><span class="n">begin</span><span class="p">():</span>
+            <span class="n">script</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_alembic_script</span><span class="p">()</span>
+            <span class="n">context</span><span class="o">.</span><span class="n">stamp</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">revision</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">check_table_schema_compatibility</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 

@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>optuna.integration.DaskStorage — Optuna 3.1.0 documentation</title>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-binder.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-dataframe.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-rendered-html.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/favicon.ico" rel="shortcut icon"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/sphinx_highlight.js"></script>
+<script src="../../_static/clipboard.min.js"></script>
+<script src="../../_static/copybutton.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="optuna.integration.FastAIV1PruningCallback.html" rel="next" title="optuna.integration.FastAIV1PruningCallback"/>
+<link href="optuna.integration.ChainerMNStudy.html" rel="prev" title="optuna.integration.ChainerMNStudy"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="navbar">
+<div class="navbar ml-auto">
+<ul class="navbar-nav">
+<li>
+<a class="header_link" href="https://optuna.org/#key_features">Key Features</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#code_examples">Code Examples</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#installation">Installation</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#blog">Blog</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#video">Videos</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#paper">Paper</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#community">Community</a>
+</li>
+</ul>
+</div>
+</div>
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a href="../../index.html">
+<img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
+</a>
+<div class="version">
+                3.1.0
+              </div>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../optuna.html">optuna</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cli.html">optuna.cli</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../distributions.html">optuna.distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exceptions.html">optuna.exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../importance.html">optuna.importance</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../integration.html">optuna.integration</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#allennlp">AllenNLP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#botorch">BoTorch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#catalyst">Catalyst</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#catboost">CatBoost</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#chainer">Chainer</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../integration.html#dask">Dask</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">optuna.integration.DaskStorage</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#fast-ai">fast.ai</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#keras">Keras</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#lightgbm">LightGBM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#mlflow">MLflow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#weights-biases">Weights &amp; Biases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#mxnet">MXNet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#pycma">pycma</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#pytorch">PyTorch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#scikit-learn">scikit-learn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#scikit-optimize">scikit-optimize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#shap">SHAP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#skorch">skorch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#tensorflow">TensorFlow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#xgboost">XGBoost</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../logging.html">optuna.logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pruners.html">optuna.pruners</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samplers/index.html">optuna.samplers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storages.html">optuna.storages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../study.html">optuna.study</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trial.html">optuna.trial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../visualization/index.html">optuna.visualization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Optuna</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<!-- This file is necessary to remove "Edit on Github" button from readthedocs by following https://docs.readthedocs.io/en/stable/guides/remove-edit-buttons.html#remove-links-from-top-right-corner --><div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a aria-label="Home" class="icon icon-home" href="../../index.html"></a></li>
+<li class="breadcrumb-item"><a href="../index.html">API Reference</a></li>
+<li class="breadcrumb-item"><a href="../integration.html">optuna.integration</a></li>
+<li class="breadcrumb-item active">optuna.integration.DaskStorage</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<section id="optuna-integration-daskstorage">
+<h1>optuna.integration.DaskStorage<a class="headerlink" href="#optuna-integration-daskstorage" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="optuna.integration.DaskStorage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.integration.</span></span><span class="sig-name descname"><span class="pre">DaskStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/dask.html#DaskStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.integration.DaskStorage"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.integration.dask.DaskStorage"></a><a class="headerlink" href="#optuna.integration.DaskStorage" title="Permalink to this definition"></a></dt>
+<dd><p>Dask-compatible storage class.</p>
+<p>This storage class wraps a Optuna storage class (e.g. Optuna’s in-memory or sqlite storage)
+and is used to run optimization trials in parallel on a Dask cluster.
+The underlying Optuna storage object lives on the cluster’s scheduler and any method calls on
+the <a class="reference internal" href="#optuna.integration.DaskStorage" title="optuna.integration.DaskStorage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DaskStorage</span></code></a> instance results in the same method being called on the underlying
+Optuna storage object.</p>
+<p>See <a class="reference external" href="https://github.com/optuna/optuna-examples/blob/master/dask/dask_simple.py">this example</a>
+for how to use <a class="reference internal" href="#optuna.integration.DaskStorage" title="optuna.integration.DaskStorage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DaskStorage</span></code></a> to extend Optuna’s in-memory storage class to run across
+multiple processes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>storage</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><em>Union</em></a><em>[</em><em>None</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>BaseStorage</em><em>]</em>) – Optuna storage url to use for underlying Optuna storage class to wrap
+(e.g. <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> for in-memory storage, <code class="docutils literal notranslate"><span class="pre">sqlite:///example.db</span></code>
+for SQLite storage). Defaults to <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – Unique identifier for the Dask storage class. Specifying a custom name can sometimes
+be useful for logging or debugging. If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is provided,
+a random name will be automatically generated.</p></li>
+<li><p><strong>client</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><em>distributed.Client</em><em>]</em>) – Dask <code class="docutils literal notranslate"><span class="pre">Client</span></code> to connect to. If not provided, will attempt to find an
+existing <code class="docutils literal notranslate"><span class="pre">Client</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Added in v3.1.0 as an experimental feature. The interface may change in newer versions
+without prior notice. See <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v3.1.0">https://github.com/optuna/optuna/releases/tag/v3.1.0</a>.</p>
+</div>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.integration.DaskStorage.check_trial_is_updatable" title="optuna.integration.DaskStorage.check_trial_is_updatable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_trial_is_updatable</span></code></a>(trial_id, trial_state)</p></td>
+<td><p>Check whether a trial state is updatable.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.integration.DaskStorage.create_new_study" title="optuna.integration.DaskStorage.create_new_study"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_new_study</span></code></a>(directions[, study_name])</p></td>
+<td><p>Create a new study from a name.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.integration.DaskStorage.create_new_trial" title="optuna.integration.DaskStorage.create_new_trial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_new_trial</span></code></a>(study_id[, template_trial])</p></td>
+<td><p>Create and add a new trial to a study.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.integration.DaskStorage.delete_study" title="optuna.integration.DaskStorage.delete_study"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete_study</span></code></a>(study_id)</p></td>
+<td><p>Delete a study.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.integration.DaskStorage.get_all_studies" title="optuna.integration.DaskStorage.get_all_studies"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_all_studies</span></code></a>()</p></td>
+<td><p>Read a list of <code class="xref py py-class docutils literal notranslate"><span class="pre">FrozenStudy</span></code> objects.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.integration.DaskStorage.get_all_trials" title="optuna.integration.DaskStorage.get_all_trials"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_all_trials</span></code></a>(study_id[, deepcopy, states])</p></td>
+<td><p>Read all trials in a study.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.integration.DaskStorage.get_base_storage" title="optuna.integration.DaskStorage.get_base_storage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_base_storage</span></code></a>()</p></td>
+<td><p>Retrieve underlying Optuna storage instance from the scheduler.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.integration.DaskStorage.get_best_trial" title="optuna.integration.DaskStorage.get_best_trial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_best_trial</span></code></a>(study_id)</p></td>
+<td><p>Return the trial with the best value in a study.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.integration.DaskStorage.get_n_trials" title="optuna.integration.DaskStorage.get_n_trials"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_n_trials</span></code></a>(study_id[, state])</p></td>
+<td><p>Count the number of trials in a study.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.integration.DaskStorage.get_study_directions" title="optuna.integration.DaskStorage.get_study_directions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_study_directions</span></code></a>(study_id)</p></td>
+<td><p>Read whether a study maximizes or minimizes an objective.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.integration.DaskStorage.get_study_id_from_name" title="optuna.integration.DaskStorage.get_study_id_from_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_study_id_from_name</span></code></a>(study_name)</p></td>
+<td><p>Read the ID of a study.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.integration.DaskStorage.get_study_name_from_id" title="optuna.integration.DaskStorage.get_study_name_from_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_study_name_from_id</span></code></a>(study_id)</p></td>
+<td><p>Read the study name of a study.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.integration.DaskStorage.get_study_system_attrs" title="optuna.integration.DaskStorage.get_study_system_attrs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_study_system_attrs</span></code></a>(study_id)</p></td>
+<td><p>Read the optuna-internal attributes of a study.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.integration.DaskStorage.get_study_user_attrs" title="optuna.integration.DaskStorage.get_study_user_attrs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_study_user_attrs</span></code></a>(study_id)</p></td>
+<td><p>Read the user-defined attributes of a study.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.integration.DaskStorage.get_trial" title="optuna.integration.DaskStorage.get_trial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial</span></code></a>(trial_id)</p></td>
+<td><p>Read a trial.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.integration.DaskStorage.get_trial_id_from_study_id_trial_number" title="optuna.integration.DaskStorage.get_trial_id_from_study_id_trial_number"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial_id_from_study_id_trial_number</span></code></a>(...)</p></td>
+<td><p>Read the trial ID of a trial.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.integration.DaskStorage.get_trial_number_from_id" title="optuna.integration.DaskStorage.get_trial_number_from_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial_number_from_id</span></code></a>(trial_id)</p></td>
+<td><p>Read the trial number of a trial.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.integration.DaskStorage.get_trial_param" title="optuna.integration.DaskStorage.get_trial_param"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial_param</span></code></a>(trial_id, param_name)</p></td>
+<td><p>Read the parameter of a trial.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.integration.DaskStorage.get_trial_params" title="optuna.integration.DaskStorage.get_trial_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial_params</span></code></a>(trial_id)</p></td>
+<td><p>Read the parameter dictionary of a trial.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.integration.DaskStorage.get_trial_system_attrs" title="optuna.integration.DaskStorage.get_trial_system_attrs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial_system_attrs</span></code></a>(trial_id)</p></td>
+<td><p>Read the optuna-internal attributes of a trial.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.integration.DaskStorage.get_trial_user_attrs" title="optuna.integration.DaskStorage.get_trial_user_attrs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial_user_attrs</span></code></a>(trial_id)</p></td>
+<td><p>Read the user-defined attributes of a trial.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.integration.DaskStorage.remove_session" title="optuna.integration.DaskStorage.remove_session"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_session</span></code></a>()</p></td>
+<td><p>Clean up all connections to a database.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.integration.DaskStorage.set_study_system_attr" title="optuna.integration.DaskStorage.set_study_system_attr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_study_system_attr</span></code></a>(study_id, key, value)</p></td>
+<td><p>Register an optuna-internal attribute to a study.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.integration.DaskStorage.set_study_user_attr" title="optuna.integration.DaskStorage.set_study_user_attr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_study_user_attr</span></code></a>(study_id, key, value)</p></td>
+<td><p>Register a user-defined attribute to a study.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.integration.DaskStorage.set_trial_intermediate_value" title="optuna.integration.DaskStorage.set_trial_intermediate_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_trial_intermediate_value</span></code></a>(trial_id, step, ...)</p></td>
+<td><p>Report an intermediate value of an objective function.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.integration.DaskStorage.set_trial_param" title="optuna.integration.DaskStorage.set_trial_param"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_trial_param</span></code></a>(trial_id, param_name, ...)</p></td>
+<td><p>Set a parameter to a trial.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.integration.DaskStorage.set_trial_state_values" title="optuna.integration.DaskStorage.set_trial_state_values"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_trial_state_values</span></code></a>(trial_id, state[, values])</p></td>
+<td><p>Update the state and values of a trial.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.integration.DaskStorage.set_trial_system_attr" title="optuna.integration.DaskStorage.set_trial_system_attr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_trial_system_attr</span></code></a>(trial_id, key, value)</p></td>
+<td><p>Set an optuna-internal attribute to a trial.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.integration.DaskStorage.set_trial_user_attr" title="optuna.integration.DaskStorage.set_trial_user_attr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_trial_user_attr</span></code></a>(trial_id, key, value)</p></td>
+<td><p>Set a user-defined attribute to a trial.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.integration.DaskStorage.check_trial_is_updatable">
+<span class="sig-name descname"><span class="pre">check_trial_is_updatable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trial_state</span></span></em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.DaskStorage.check_trial_is_updatable"></a><a class="headerlink" href="#optuna.integration.DaskStorage.check_trial_is_updatable" title="Permalink to this definition"></a></dt>
+<dd><p>Check whether a trial state is updatable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – ID of the trial.
+Only used for an error message.</p></li>
+<li><p><strong>trial_state</strong> (<a class="reference internal" href="optuna.trial.TrialState.html#optuna.trial.TrialState" title="optuna.trial._state.TrialState"><em>TrialState</em></a>) – Trial state to check.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.11)"><strong>RuntimeError</strong></a> – If the trial is already finished.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.integration.DaskStorage.create_new_study">
+<span class="sig-name descname"><span class="pre">create_new_study</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">study_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/dask.html#DaskStorage.create_new_study"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.DaskStorage.create_new_study"></a><a class="headerlink" href="#optuna.integration.DaskStorage.create_new_study" title="Permalink to this definition"></a></dt>
+<dd><p>Create a new study from a name.</p>
+<p>If no name is specified, the storage class generates a name.
+The returned study ID is unique among all current and deleted studies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>directions</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><em>Sequence</em></a><em>[</em><a class="reference internal" href="optuna.study.StudyDirection.html#optuna.study.StudyDirection" title="optuna.study._study_direction.StudyDirection"><em>StudyDirection</em></a><em>]</em>) – A sequence of direction whose element is either
+<a class="reference internal" href="optuna.study.StudyDirection.html#optuna.study.StudyDirection.MAXIMIZE" title="optuna.study.StudyDirection.MAXIMIZE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MAXIMIZE</span></code></a> or
+<a class="reference internal" href="optuna.study.StudyDirection.html#optuna.study.StudyDirection.MINIMIZE" title="optuna.study.StudyDirection.MINIMIZE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MINIMIZE</span></code></a>.</p></li>
+<li><p><strong>study_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – Name of the new study to create.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ID of the created study.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="optuna.exceptions.DuplicatedStudyError.html#optuna.exceptions.DuplicatedStudyError" title="optuna.exceptions.DuplicatedStudyError"><strong>optuna.exceptions.DuplicatedStudyError</strong></a> – If a study with the same <code class="docutils literal notranslate"><span class="pre">study_name</span></code> already exists.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.integration.DaskStorage.create_new_trial">
+<span class="sig-name descname"><span class="pre">create_new_trial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template_trial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/dask.html#DaskStorage.create_new_trial"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.DaskStorage.create_new_trial"></a><a class="headerlink" href="#optuna.integration.DaskStorage.create_new_trial" title="Permalink to this definition"></a></dt>
+<dd><p>Create and add a new trial to a study.</p>
+<p>The returned trial ID is unique among all current and deleted trials.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – ID of the study.</p></li>
+<li><p><strong>template_trial</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference internal" href="optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial._frozen.FrozenTrial"><em>FrozenTrial</em></a><em>]</em>) – Template <a class="reference internal" href="optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrozenTrial</span></code></a> with default user-attributes,
+system-attributes, intermediate-values, and a state.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ID of the created trial.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.11)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> exists.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.integration.DaskStorage.delete_study">
+<span class="sig-name descname"><span class="pre">delete_study</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/dask.html#DaskStorage.delete_study"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.DaskStorage.delete_study"></a><a class="headerlink" href="#optuna.integration.DaskStorage.delete_study" title="Permalink to this definition"></a></dt>
+<dd><p>Delete a study.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – ID of the study.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.11)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> exists.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.integration.DaskStorage.get_all_studies">
+<span class="sig-name descname"><span class="pre">get_all_studies</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/dask.html#DaskStorage.get_all_studies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.DaskStorage.get_all_studies"></a><a class="headerlink" href="#optuna.integration.DaskStorage.get_all_studies" title="Permalink to this definition"></a></dt>
+<dd><p>Read a list of <code class="xref py py-class docutils literal notranslate"><span class="pre">FrozenStudy</span></code> objects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of <code class="xref py py-class docutils literal notranslate"><span class="pre">FrozenStudy</span></code> objects.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a>[<em>FrozenStudy</em>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.integration.DaskStorage.get_all_trials">
+<span class="sig-name descname"><span class="pre">get_all_trials</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deepcopy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">states</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/dask.html#DaskStorage.get_all_trials"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.DaskStorage.get_all_trials"></a><a class="headerlink" href="#optuna.integration.DaskStorage.get_all_trials" title="Permalink to this definition"></a></dt>
+<dd><p>Read all trials in a study.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – ID of the study.</p></li>
+<li><p><strong>deepcopy</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Whether to copy the list of trials before returning.
+Set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if you intend to update the list or elements of the list.</p></li>
+<li><p><strong>states</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Container" title="(in Python v3.11)"><em>Container</em></a><em>[</em><a class="reference internal" href="optuna.trial.TrialState.html#optuna.trial.TrialState" title="optuna.trial._state.TrialState"><em>TrialState</em></a><em>]</em><em>]</em>) – Trial states to filter on. If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, include all states.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of trials in the study.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.11)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> exists.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a>[<a class="reference internal" href="optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial._frozen.FrozenTrial"><em>FrozenTrial</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.integration.DaskStorage.get_base_storage">
+<span class="sig-name descname"><span class="pre">get_base_storage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/dask.html#DaskStorage.get_base_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.DaskStorage.get_base_storage"></a><a class="headerlink" href="#optuna.integration.DaskStorage.get_base_storage" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieve underlying Optuna storage instance from the scheduler.</p>
+<p>This is a convenience method to extract the Optuna storage instance stored on
+the Dask scheduler process to the local Python process.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>BaseStorage</em></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.integration.DaskStorage.get_best_trial">
+<span class="sig-name descname"><span class="pre">get_best_trial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.DaskStorage.get_best_trial"></a><a class="headerlink" href="#optuna.integration.DaskStorage.get_best_trial" title="Permalink to this definition"></a></dt>
+<dd><p>Return the trial with the best value in a study.</p>
+<p>This method is valid only during single-objective optimization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – ID of the study.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The trial with the best objective value among all finished trials in the study.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.11)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> exists.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.11)"><strong>RuntimeError</strong></a> – If the study has more than one direction.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.11)"><strong>ValueError</strong></a> – If no trials have been completed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial._frozen.FrozenTrial"><em>FrozenTrial</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.integration.DaskStorage.get_n_trials">
+<span class="sig-name descname"><span class="pre">get_n_trials</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/dask.html#DaskStorage.get_n_trials"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.DaskStorage.get_n_trials"></a><a class="headerlink" href="#optuna.integration.DaskStorage.get_n_trials" title="Permalink to this definition"></a></dt>
+<dd><p>Count the number of trials in a study.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – ID of the study.</p></li>
+<li><p><strong>state</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><em>Union</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><em>Tuple</em></a><em>[</em><a class="reference internal" href="optuna.trial.TrialState.html#optuna.trial.TrialState" title="optuna.trial._state.TrialState"><em>TrialState</em></a><em>, </em><em>...</em><em>]</em><em>, </em><a class="reference internal" href="optuna.trial.TrialState.html#optuna.trial.TrialState" title="optuna.trial._state.TrialState"><em>TrialState</em></a><em>]</em><em>]</em>) – Trial states to filter on. If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, include all states.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Number of trials in the study.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.11)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> exists.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.integration.DaskStorage.get_study_directions">
+<span class="sig-name descname"><span class="pre">get_study_directions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/dask.html#DaskStorage.get_study_directions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.DaskStorage.get_study_directions"></a><a class="headerlink" href="#optuna.integration.DaskStorage.get_study_directions" title="Permalink to this definition"></a></dt>
+<dd><p>Read whether a study maximizes or minimizes an objective.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – ID of a study.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Optimization directions list of the study.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.11)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> exists.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a>[<a class="reference internal" href="optuna.study.StudyDirection.html#optuna.study.StudyDirection" title="optuna.study._study_direction.StudyDirection"><em>StudyDirection</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.integration.DaskStorage.get_study_id_from_name">
+<span class="sig-name descname"><span class="pre">get_study_id_from_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/dask.html#DaskStorage.get_study_id_from_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.DaskStorage.get_study_id_from_name"></a><a class="headerlink" href="#optuna.integration.DaskStorage.get_study_id_from_name" title="Permalink to this definition"></a></dt>
+<dd><p>Read the ID of a study.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>study_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Name of the study.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ID of the study.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.11)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_name</span></code> exists.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.integration.DaskStorage.get_study_name_from_id">
+<span class="sig-name descname"><span class="pre">get_study_name_from_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/dask.html#DaskStorage.get_study_name_from_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.DaskStorage.get_study_name_from_id"></a><a class="headerlink" href="#optuna.integration.DaskStorage.get_study_name_from_id" title="Permalink to this definition"></a></dt>
+<dd><p>Read the study name of a study.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – ID of the study.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Name of the study.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.11)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> exists.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.integration.DaskStorage.get_study_system_attrs">
+<span class="sig-name descname"><span class="pre">get_study_system_attrs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/dask.html#DaskStorage.get_study_system_attrs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.DaskStorage.get_study_system_attrs"></a><a class="headerlink" href="#optuna.integration.DaskStorage.get_study_system_attrs" title="Permalink to this definition"></a></dt>
+<dd><p>Read the optuna-internal attributes of a study.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – ID of the study.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary with the optuna-internal attributes of the study.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.11)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> exists.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.integration.DaskStorage.get_study_user_attrs">
+<span class="sig-name descname"><span class="pre">get_study_user_attrs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/dask.html#DaskStorage.get_study_user_attrs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.DaskStorage.get_study_user_attrs"></a><a class="headerlink" href="#optuna.integration.DaskStorage.get_study_user_attrs" title="Permalink to this definition"></a></dt>
+<dd><p>Read the user-defined attributes of a study.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – ID of the study.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary with the user attributes of the study.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.11)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> exists.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.integration.DaskStorage.get_trial">
+<span class="sig-name descname"><span class="pre">get_trial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/dask.html#DaskStorage.get_trial"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.DaskStorage.get_trial"></a><a class="headerlink" href="#optuna.integration.DaskStorage.get_trial" title="Permalink to this definition"></a></dt>
+<dd><p>Read a trial.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – ID of the trial.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Trial with a matching trial ID.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.11)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial._frozen.FrozenTrial"><em>FrozenTrial</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.integration.DaskStorage.get_trial_id_from_study_id_trial_number">
+<span class="sig-name descname"><span class="pre">get_trial_id_from_study_id_trial_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trial_number</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/dask.html#DaskStorage.get_trial_id_from_study_id_trial_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.DaskStorage.get_trial_id_from_study_id_trial_number"></a><a class="headerlink" href="#optuna.integration.DaskStorage.get_trial_id_from_study_id_trial_number" title="Permalink to this definition"></a></dt>
+<dd><p>Read the trial ID of a trial.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – ID of the study.</p></li>
+<li><p><strong>trial_number</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of the trial.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ID of the trial.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.11)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> and <code class="docutils literal notranslate"><span class="pre">trial_number</span></code> exists.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.integration.DaskStorage.get_trial_number_from_id">
+<span class="sig-name descname"><span class="pre">get_trial_number_from_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/dask.html#DaskStorage.get_trial_number_from_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.DaskStorage.get_trial_number_from_id"></a><a class="headerlink" href="#optuna.integration.DaskStorage.get_trial_number_from_id" title="Permalink to this definition"></a></dt>
+<dd><p>Read the trial number of a trial.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The trial number is only unique within a study, and is sequential.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – ID of the trial.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Number of the trial.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.11)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.integration.DaskStorage.get_trial_param">
+<span class="sig-name descname"><span class="pre">get_trial_param</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/dask.html#DaskStorage.get_trial_param"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.DaskStorage.get_trial_param"></a><a class="headerlink" href="#optuna.integration.DaskStorage.get_trial_param" title="Permalink to this definition"></a></dt>
+<dd><p>Read the parameter of a trial.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – ID of the trial.</p></li>
+<li><p><strong>param_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Name of the parameter.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Internal representation of the parameter.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.11)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.
+    If no such parameter exists.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.integration.DaskStorage.get_trial_params">
+<span class="sig-name descname"><span class="pre">get_trial_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.DaskStorage.get_trial_params"></a><a class="headerlink" href="#optuna.integration.DaskStorage.get_trial_params" title="Permalink to this definition"></a></dt>
+<dd><p>Read the parameter dictionary of a trial.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – ID of the trial.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary of a parameters. Keys are parameter names and values are internal
+representations of the parameter values.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.11)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.integration.DaskStorage.get_trial_system_attrs">
+<span class="sig-name descname"><span class="pre">get_trial_system_attrs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.DaskStorage.get_trial_system_attrs"></a><a class="headerlink" href="#optuna.integration.DaskStorage.get_trial_system_attrs" title="Permalink to this definition"></a></dt>
+<dd><p>Read the optuna-internal attributes of a trial.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – ID of the trial.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary with the optuna-internal attributes of the trial.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.11)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.integration.DaskStorage.get_trial_user_attrs">
+<span class="sig-name descname"><span class="pre">get_trial_user_attrs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.DaskStorage.get_trial_user_attrs"></a><a class="headerlink" href="#optuna.integration.DaskStorage.get_trial_user_attrs" title="Permalink to this definition"></a></dt>
+<dd><p>Read the user-defined attributes of a trial.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – ID of the trial.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary with the user-defined attributes of the trial.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.11)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.integration.DaskStorage.remove_session">
+<span class="sig-name descname"><span class="pre">remove_session</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.DaskStorage.remove_session"></a><a class="headerlink" href="#optuna.integration.DaskStorage.remove_session" title="Permalink to this definition"></a></dt>
+<dd><p>Clean up all connections to a database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.integration.DaskStorage.set_study_system_attr">
+<span class="sig-name descname"><span class="pre">set_study_system_attr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/dask.html#DaskStorage.set_study_system_attr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.DaskStorage.set_study_system_attr"></a><a class="headerlink" href="#optuna.integration.DaskStorage.set_study_system_attr" title="Permalink to this definition"></a></dt>
+<dd><p>Register an optuna-internal attribute to a study.</p>
+<p>This method overwrites any existing attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – ID of the study.</p></li>
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Attribute key.</p></li>
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a>) – Attribute value. It should be JSON serializable.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.11)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> exists.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.integration.DaskStorage.set_study_user_attr">
+<span class="sig-name descname"><span class="pre">set_study_user_attr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/dask.html#DaskStorage.set_study_user_attr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.DaskStorage.set_study_user_attr"></a><a class="headerlink" href="#optuna.integration.DaskStorage.set_study_user_attr" title="Permalink to this definition"></a></dt>
+<dd><p>Register a user-defined attribute to a study.</p>
+<p>This method overwrites any existing attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>study_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – ID of the study.</p></li>
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Attribute key.</p></li>
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a>) – Attribute value. It should be JSON serializable.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.11)"><strong>KeyError</strong></a> – If no study with the matching <code class="docutils literal notranslate"><span class="pre">study_id</span></code> exists.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.integration.DaskStorage.set_trial_intermediate_value">
+<span class="sig-name descname"><span class="pre">set_trial_intermediate_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intermediate_value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/dask.html#DaskStorage.set_trial_intermediate_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.DaskStorage.set_trial_intermediate_value"></a><a class="headerlink" href="#optuna.integration.DaskStorage.set_trial_intermediate_value" title="Permalink to this definition"></a></dt>
+<dd><p>Report an intermediate value of an objective function.</p>
+<p>This method overwrites any existing intermediate value associated with the given step.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – ID of the trial.</p></li>
+<li><p><strong>step</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Step of the trial (e.g., the epoch when training a neural network).</p></li>
+<li><p><strong>intermediate_value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Intermediate value corresponding to the step.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.11)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.11)"><strong>RuntimeError</strong></a> – If the trial is already finished.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.integration.DaskStorage.set_trial_param">
+<span class="sig-name descname"><span class="pre">set_trial_param</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_value_internal</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/dask.html#DaskStorage.set_trial_param"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.DaskStorage.set_trial_param"></a><a class="headerlink" href="#optuna.integration.DaskStorage.set_trial_param" title="Permalink to this definition"></a></dt>
+<dd><p>Set a parameter to a trial.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – ID of the trial.</p></li>
+<li><p><strong>param_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Name of the parameter.</p></li>
+<li><p><strong>param_value_internal</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Internal representation of the parameter value.</p></li>
+<li><p><strong>distribution</strong> (<em>BaseDistribution</em>) – Sampled distribution of the parameter.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.11)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.11)"><strong>RuntimeError</strong></a> – If the trial is already finished.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.integration.DaskStorage.set_trial_state_values">
+<span class="sig-name descname"><span class="pre">set_trial_state_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/dask.html#DaskStorage.set_trial_state_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.DaskStorage.set_trial_state_values"></a><a class="headerlink" href="#optuna.integration.DaskStorage.set_trial_state_values" title="Permalink to this definition"></a></dt>
+<dd><p>Update the state and values of a trial.</p>
+<p>Set return values of an objective function to values argument.
+If values argument is not <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, this method overwrites any existing trial values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – ID of the trial.</p></li>
+<li><p><strong>state</strong> (<a class="reference internal" href="optuna.trial.TrialState.html#optuna.trial.TrialState" title="optuna.trial._state.TrialState"><em>TrialState</em></a>) – New state of the trial.</p></li>
+<li><p><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>]</em><em>]</em>) – Values of the objective function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the state is successfully updated.
+<a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> if the state is kept the same.
+The latter happens when this method tries to update the state of
+<a class="reference internal" href="optuna.trial.TrialState.html#optuna.trial.TrialState.RUNNING" title="optuna.trial.TrialState.RUNNING"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RUNNING</span></code></a> trial to
+<a class="reference internal" href="optuna.trial.TrialState.html#optuna.trial.TrialState.RUNNING" title="optuna.trial.TrialState.RUNNING"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RUNNING</span></code></a>.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.11)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.11)"><strong>RuntimeError</strong></a> – If the trial is already finished.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.integration.DaskStorage.set_trial_system_attr">
+<span class="sig-name descname"><span class="pre">set_trial_system_attr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/dask.html#DaskStorage.set_trial_system_attr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.DaskStorage.set_trial_system_attr"></a><a class="headerlink" href="#optuna.integration.DaskStorage.set_trial_system_attr" title="Permalink to this definition"></a></dt>
+<dd><p>Set an optuna-internal attribute to a trial.</p>
+<p>This method overwrites any existing attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – ID of the trial.</p></li>
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Attribute key.</p></li>
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a>) – Attribute value. It should be JSON serializable.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.11)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.11)"><strong>RuntimeError</strong></a> – If the trial is already finished.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.integration.DaskStorage.set_trial_user_attr">
+<span class="sig-name descname"><span class="pre">set_trial_user_attr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/dask.html#DaskStorage.set_trial_user_attr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.DaskStorage.set_trial_user_attr"></a><a class="headerlink" href="#optuna.integration.DaskStorage.set_trial_user_attr" title="Permalink to this definition"></a></dt>
+<dd><p>Set a user-defined attribute to a trial.</p>
+<p>This method overwrites any existing attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – ID of the trial.</p></li>
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Attribute key.</p></li>
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a>) – Attribute value. It should be JSON serializable.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.11)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.11)"><strong>RuntimeError</strong></a> – If the trial is already finished.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+</section>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="optuna.integration.ChainerMNStudy.html" rel="prev" title="optuna.integration.ChainerMNStudy"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="optuna.integration.FastAIV1PruningCallback.html" rel="next" title="optuna.integration.FastAIV1PruningCallback">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright 2018, Optuna Contributors.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+    <a href="../../privacy.html">Privacy Policy</a>.
+     
+
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

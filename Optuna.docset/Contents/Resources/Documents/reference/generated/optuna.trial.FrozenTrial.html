@@ -2,9 +2,9 @@
 
 <html class="writer-html5" lang="en">
 <head>
-<meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
+<meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.trial.FrozenTrial — Optuna 3.0.5 documentation</title>
+<title>optuna.trial.FrozenTrial — Optuna 3.1.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -68,11 +68,11 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.0.5
+                3.1.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
-<input name="q" placeholder="Search docs" type="text"/>
+<input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
 <input name="check_keywords" type="hidden" value="yes"/>
 <input name="area" type="hidden" value="default"/>
 </form>
@@ -90,7 +90,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../importance.html">optuna.importance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../integration.html">optuna.integration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../logging.html">optuna.logging</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../multi_objective/index.html">optuna.multi_objective</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pruners.html">optuna.pruners</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../samplers/index.html">optuna.samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../storages.html">optuna.storages</a></li>
@@ -120,14 +119,12 @@
 </nav>
 <div class="wy-nav-content">
 <div class="rst-content">
-<div aria-label="Page navigation" role="navigation">
+<!-- This file is necessary to remove "Edit on Github" button from readthedocs by following https://docs.readthedocs.io/en/stable/guides/remove-edit-buttons.html#remove-links-from-top-right-corner --><div aria-label="Page navigation" role="navigation">
 <ul class="wy-breadcrumbs">
-<li><a class="icon icon-home" href="../../index.html"></a></li>
+<li><a aria-label="Home" class="icon icon-home" href="../../index.html"></a></li>
 <li class="breadcrumb-item"><a href="../index.html">API Reference</a></li>
 <li class="breadcrumb-item"><a href="../trial.html">optuna.trial</a></li>
 <li class="breadcrumb-item active">optuna.trial.FrozenTrial</li>
-<li class="wy-breadcrumbs-aside">
-</li>
 </ul>
 <hr/>
 </div>
@@ -139,10 +136,13 @@
 <dt class="sig sig-object py" id="optuna.trial.FrozenTrial">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.trial.</span></span><span class="sig-name descname"><span class="pre">FrozenTrial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datetime_start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datetime_complete</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distributions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_attrs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">system_attrs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intermediate_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trial_id</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/trial/_frozen.html#FrozenTrial"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.trial.FrozenTrial"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.trial._frozen.FrozenTrial"></a><a class="headerlink" href="#optuna.trial.FrozenTrial" title="Permalink to this definition"></a></dt>
 <dd><p>Status and results of a <a class="reference internal" href="optuna.trial.Trial.html#optuna.trial.Trial" title="optuna.trial.Trial"><code class="xref py py-class docutils literal notranslate"><span class="pre">Trial</span></code></a>.</p>
-<p>This object has the same methods as <a class="reference internal" href="optuna.trial.Trial.html#optuna.trial.Trial" title="optuna.trial.Trial"><code class="xref py py-class docutils literal notranslate"><span class="pre">Trial</span></code></a>, and it suggests the same
-parameter values as in <a class="reference internal" href="#optuna.trial.FrozenTrial.params" title="optuna.trial.FrozenTrial.params"><code class="xref py py-attr docutils literal notranslate"><span class="pre">params</span></code></a>; it does not sample any value from a distribution.
-In contrast to <a class="reference internal" href="optuna.trial.Trial.html#optuna.trial.Trial" title="optuna.trial.Trial"><code class="xref py py-class docutils literal notranslate"><span class="pre">Trial</span></code></a>,
-<a class="reference internal" href="#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrozenTrial</span></code></a> does not depend on <a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a>, and it is
+<p>An object of this class has the same methods as <a class="reference internal" href="optuna.trial.Trial.html#optuna.trial.Trial" title="optuna.trial.Trial"><code class="xref py py-class docutils literal notranslate"><span class="pre">Trial</span></code></a>, but is not
+associated with, nor has any references to a <a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a>.</p>
+<p>It is therefore not possible to make persistent changes to a storage from this object by
+itself, for instance by using <code class="xref py py-func docutils literal notranslate"><span class="pre">set_user_attr()</span></code>.</p>
+<p>It will suggest the parameter values stored in <a class="reference internal" href="#optuna.trial.FrozenTrial.params" title="optuna.trial.FrozenTrial.params"><code class="xref py py-attr docutils literal notranslate"><span class="pre">params</span></code></a> and will not sample values from
+any distributions.</p>
+<p>It can be passed to objective functions (see <a class="reference internal" href="optuna.study.Study.html#optuna.study.Study.optimize" title="optuna.study.Study.optimize"><code class="xref py py-func docutils literal notranslate"><span class="pre">optimize()</span></code></a>) and is
 useful for deploying optimization results.</p>
 <p class="rubric">Example</p>
 <p>Re-evaluate an objective function with parameter values optimized study.</p>
@@ -203,7 +203,7 @@ of objects in-place.</p>
 <p>Please refer to <a class="reference internal" href="optuna.trial.Trial.html#optuna.trial.Trial" title="optuna.trial.Trial"><code class="xref py py-class docutils literal notranslate"><span class="pre">Trial</span></code></a> for details of methods and properties.</p>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>number</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – </p></li>
 <li><p><strong>state</strong> (<a class="reference internal" href="optuna.trial.TrialState.html#optuna.trial.TrialState" title="optuna.trial._state.TrialState"><em>TrialState</em></a>) – </p></li>
@@ -283,15 +283,11 @@ The length is greater than 1 if the problem is multi-objective optimization.
 </dd></dl>
 <p class="rubric">Methods</p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#optuna.trial.FrozenTrial.report" title="optuna.trial.FrozenTrial.report"><code class="xref py py-obj docutils literal notranslate"><span class="pre">report</span></code></a>(value, step)</p></td>
 <td><p>Interface of report function.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_system_attr</span></code>(key, value)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.trial.FrozenTrial.set_system_attr" title="optuna.trial.FrozenTrial.set_system_attr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_system_attr</span></code></a>(key, value)</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_user_attr</span></code>(key, value)</p></td>
@@ -300,7 +296,7 @@ The length is greater than 1 if the problem is multi-objective optimization.
 <tr class="row-even"><td><p><a class="reference internal" href="#optuna.trial.FrozenTrial.should_prune" title="optuna.trial.FrozenTrial.should_prune"><code class="xref py py-obj docutils literal notranslate"><span class="pre">should_prune</span></code></a>()</p></td>
 <td><p>Suggest whether the trial should be pruned or not.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">suggest_categorical</span></code>(name, choices)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">suggest_categorical</span></code>()</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#optuna.trial.FrozenTrial.suggest_discrete_uniform" title="optuna.trial.FrozenTrial.suggest_discrete_uniform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">suggest_discrete_uniform</span></code></a>(name, low, high, q)</p></td>
@@ -322,10 +318,6 @@ The length is greater than 1 if the problem is multi-objective optimization.
 </table>
 <p class="rubric">Attributes</p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#optuna.trial.FrozenTrial.datetime_start" title="optuna.trial.FrozenTrial.datetime_start"><code class="xref py py-obj docutils literal notranslate"><span class="pre">datetime_start</span></code></a></p></td>
 <td><p></p></td>
@@ -364,7 +356,7 @@ The length is greater than 1 if the problem is multi-objective optimization.
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">duration</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.timedelta" title="(in Python v3.11)"><span class="pre">timedelta</span></a><span class="p"><span class="pre">]</span></span></em><a class="dashAnchor" name="//apple_ref/cpp/Property/optuna.trial.FrozenTrial.duration"></a><a class="headerlink" href="#optuna.trial.FrozenTrial.duration" title="Permalink to this definition"></a></dt>
 <dd><p>Return the elapsed time taken to complete the trial.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The duration.</p>
 </dd>
 </dl>
@@ -374,7 +366,7 @@ The length is greater than 1 if the problem is multi-objective optimization.
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">last_step</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></em><a class="dashAnchor" name="//apple_ref/cpp/Property/optuna.trial.FrozenTrial.last_step"></a><a class="headerlink" href="#optuna.trial.FrozenTrial.last_step" title="Permalink to this definition"></a></dt>
 <dd><p>Return the maximum step of <a class="reference internal" href="#optuna.trial.FrozenTrial.intermediate_values" title="optuna.trial.FrozenTrial.intermediate_values"><code class="xref py py-attr docutils literal notranslate"><span class="pre">intermediate_values</span></code></a> in the trial.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The maximum step of intermediates.</p>
 </dd>
 </dl>
@@ -390,7 +382,7 @@ this report function does nothing.</p>
 <p>Please refer to <a class="reference internal" href="#optuna.trial.FrozenTrial.should_prune" title="optuna.trial.FrozenTrial.should_prune"><code class="xref py py-func docutils literal notranslate"><span class="pre">should_prune()</span></code></a>.</p>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – A value returned from the objective function.</p></li>
 <li><p><strong>step</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Step of the trial (e.g., Epoch of neural network training). Note that pruners
@@ -399,7 +391,28 @@ assume that <code class="docutils literal notranslate"><span class="pre">step</s
 <code class="docutils literal notranslate"><span class="pre">n_warmup_steps</span></code> as the warmup mechanism.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.trial.FrozenTrial.set_system_attr">
+<span class="sig-name descname"><span class="pre">set_system_attr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/trial/_frozen.html#FrozenTrial.set_system_attr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.trial.FrozenTrial.set_system_attr"></a><a class="headerlink" href="#optuna.trial.FrozenTrial.set_system_attr" title="Permalink to this definition"></a></dt>
+<dd><div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Deprecated in v3.1.0. This feature will be removed in the future. The removal of this
+feature is currently scheduled for v6.0.0, but this schedule is subject to change.
+See <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v3.1.0">https://github.com/optuna/optuna/releases/tag/v3.1.0</a>.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
 </dd>
 </dl>
@@ -414,10 +427,10 @@ assume that <code class="docutils literal notranslate"><span class="pre">step</s
 <p><a class="reference internal" href="#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrozenTrial</span></code></a> only samples one combination of parameters.</p>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)">bool</a></p>
 </dd>
 </dl>
@@ -433,7 +446,7 @@ See <a class="reference external" href="https://github.com/optuna/optuna/release
 <p>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">suggest_float()</span></code> instead.</p>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
 <li><p><strong>low</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – </p></li>
@@ -441,7 +454,7 @@ See <a class="reference external" href="https://github.com/optuna/optuna/release
 <li><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
 </dd>
 </dl>
@@ -457,14 +470,14 @@ See <a class="reference external" href="https://github.com/optuna/optuna/release
 <p>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">suggest_float()</span></code> instead.</p>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
 <li><p><strong>low</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – </p></li>
 <li><p><strong>high</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
 </dd>
 </dl>
@@ -480,14 +493,14 @@ See <a class="reference external" href="https://github.com/optuna/optuna/release
 <p>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">suggest_float()</span></code> instead.</p>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
 <li><p><strong>low</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – </p></li>
 <li><p><strong>high</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
 </dd>
 </dl>

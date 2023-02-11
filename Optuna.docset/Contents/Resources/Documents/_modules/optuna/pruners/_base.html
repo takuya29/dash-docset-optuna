@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.pruners._base &mdash; Optuna 3.0.5 documentation</title>
+  <title>optuna.pruners._base &mdash; Optuna 3.1.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
@@ -65,15 +65,19 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../index.html">
-            <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.0.5
+                3.1.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -98,13 +102,12 @@
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
+          <!-- This file is necessary to remove "Edit on Github" button from readthedocs by following https://docs.readthedocs.io/en/stable/guides/remove-edit-buttons.html#remove-links-from-top-right-corner --><div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
       <li class="breadcrumb-item active">optuna.pruners._base</li>
-      <li class="wy-breadcrumbs-aside">
-      </li>
+
   </ul>
   <hr/>
 </div>
@@ -117,12 +120,12 @@
 <span class="kn">import</span> <span class="nn">optuna</span>
 
 
-<div class="viewcode-block" id="BasePruner"><a class="viewcode-back" href="../../../reference/generated/optuna.pruners.BasePruner.html#optuna.pruners.BasePruner">[docs]</a><span class="k">class</span> <span class="nc">BasePruner</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Base class for pruners.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="BasePruner"><a class="viewcode-back" href="../../../reference/generated/optuna.pruners.BasePruner.html#optuna.pruners.BasePruner">[docs]</a><span class="k">class</span> <span class="nc">BasePruner</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for pruners.&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="BasePruner.prune"><a class="viewcode-back" href="../../../reference/generated/optuna.pruners.BasePruner.html#optuna.pruners.BasePruner.prune">[docs]</a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span> <span class="nf">prune</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="s2">&quot;optuna.study.Study&quot;</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="s2">&quot;optuna.trial.FrozenTrial&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Judge whether the trial should be pruned based on the reported values.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Judge whether the trial should be pruned based on the reported values.</span>
 
 <span class="sd">        Note that this method is not supposed to be called by library users. Instead,</span>
 <span class="sd">        :func:`optuna.trial.Trial.report` and :func:`optuna.trial.Trial.should_prune` provide</span>

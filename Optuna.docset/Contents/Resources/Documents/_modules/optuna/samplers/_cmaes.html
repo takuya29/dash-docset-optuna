@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.samplers._cmaes &mdash; Optuna 3.0.5 documentation</title>
+  <title>optuna.samplers._cmaes &mdash; Optuna 3.1.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
@@ -65,15 +65,19 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../index.html">
-            <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.0.5
+                3.1.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -98,13 +102,12 @@
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
+          <!-- This file is necessary to remove "Edit on Github" button from readthedocs by following https://docs.readthedocs.io/en/stable/guides/remove-edit-buttons.html#remove-links-from-top-right-corner --><div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
       <li class="breadcrumb-item active">optuna.samplers._cmaes</li>
-      <li class="wy-breadcrumbs-aside">
-      </li>
+
   </ul>
   <hr/>
 </div>
@@ -116,9 +119,11 @@
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">pickle</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">cast</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NamedTuple</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
@@ -126,6 +131,7 @@
 <span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">from</span> <span class="nn">cmaes</span> <span class="kn">import</span> <span class="n">CMA</span>
+<span class="kn">from</span> <span class="nn">cmaes</span> <span class="kn">import</span> <span class="n">CMAwM</span>
 <span class="kn">from</span> <span class="nn">cmaes</span> <span class="kn">import</span> <span class="n">get_warm_start_mgd</span>
 <span class="kn">from</span> <span class="nn">cmaes</span> <span class="kn">import</span> <span class="n">SepCMA</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -134,6 +140,8 @@
 <span class="kn">from</span> <span class="nn">optuna</span> <span class="kn">import</span> <span class="n">logging</span>
 <span class="kn">from</span> <span class="nn">optuna._transform</span> <span class="kn">import</span> <span class="n">_SearchSpaceTransform</span>
 <span class="kn">from</span> <span class="nn">optuna.distributions</span> <span class="kn">import</span> <span class="n">BaseDistribution</span>
+<span class="kn">from</span> <span class="nn">optuna.distributions</span> <span class="kn">import</span> <span class="n">FloatDistribution</span>
+<span class="kn">from</span> <span class="nn">optuna.distributions</span> <span class="kn">import</span> <span class="n">IntDistribution</span>
 <span class="kn">from</span> <span class="nn">optuna.exceptions</span> <span class="kn">import</span> <span class="n">ExperimentalWarning</span>
 <span class="kn">from</span> <span class="nn">optuna.samplers</span> <span class="kn">import</span> <span class="n">BaseSampler</span>
 <span class="kn">from</span> <span class="nn">optuna.study._study_direction</span> <span class="kn">import</span> <span class="n">StudyDirection</span>
@@ -148,11 +156,17 @@
 <span class="n">_SYSTEM_ATTR_MAX_LENGTH</span> <span class="o">=</span> <span class="mi">2045</span>
 
 
-<span class="n">CmaClass</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">CMA</span><span class="p">,</span> <span class="n">SepCMA</span><span class="p">]</span>
+<span class="n">CmaClass</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">CMA</span><span class="p">,</span> <span class="n">SepCMA</span><span class="p">,</span> <span class="n">CMAwM</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">_CmaEsAttrKeys</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+    <span class="n">optimizer</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">n_restarts</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">generation</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">],</span> <span class="nb">str</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="CmaEsSampler"><a class="viewcode-back" href="../../../reference/samplers/generated/optuna.samplers.CmaEsSampler.html#optuna.samplers.CmaEsSampler">[docs]</a><span class="k">class</span> <span class="nc">CmaEsSampler</span><span class="p">(</span><span class="n">BaseSampler</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;A sampler using `cmaes &lt;https://github.com/CyberAgentAILab/cmaes&gt;`_ as the backend.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A sampler using `cmaes &lt;https://github.com/CyberAgentAILab/cmaes&gt;`_ as the backend.</span>
 
 <span class="sd">    Example:</span>
 
@@ -200,6 +214,9 @@
 <span class="sd">    - `Masahiro Nomura, Shuhei Watanabe, Youhei Akimoto, Yoshihiko Ozaki, Masaki Onishi.</span>
 <span class="sd">      Warm Starting CMA-ES for Hyperparameter Optimization, AAAI. 2021.</span>
 <span class="sd">      &lt;https://arxiv.org/abs/2012.06932&gt;`_</span>
+<span class="sd">    - `R. Hamano, S. Saito, M. Nomura, S. Shirakawa. CMA-ES with Margin: Lower-Bounding Marginal</span>
+<span class="sd">      Probability for Mixed-Integer Black-Box Optimization, GECCO. 2022.</span>
+<span class="sd">      &lt;https://arxiv.org/abs/2205.13482&gt;`_</span>
 
 <span class="sd">    .. seealso::</span>
 <span class="sd">        You can also use :class:`optuna.integration.PyCmaSampler` which is a sampler using cma</span>
@@ -291,6 +308,18 @@
 <span class="sd">                versions without prior notice. See</span>
 <span class="sd">                https://github.com/optuna/optuna/releases/tag/v2.6.0.</span>
 
+<span class="sd">        with_margin:</span>
+<span class="sd">            If this is :obj:`True`, CMA-ES with margin is used. This algorithm prevents samples in</span>
+<span class="sd">            each discrete distribution (:class:`~optuna.distributions.FloatDistribution` with</span>
+<span class="sd">            `step` and :class:`~optuna.distributions.IntDistribution`) from being fixed to a single</span>
+<span class="sd">            point.</span>
+<span class="sd">            Currently, this option cannot be used with ``use_separable_cma=True``.</span>
+
+<span class="sd">            .. note::</span>
+<span class="sd">                Added in v3.1.0 as an experimental feature. The interface may change in newer</span>
+<span class="sd">                versions without prior notice. See</span>
+<span class="sd">                https://github.com/optuna/optuna/releases/tag/v3.1.0.</span>
+
 <span class="sd">        source_trials:</span>
 <span class="sd">            This option is for Warm Starting CMA-ES, a method to transfer prior knowledge on</span>
 <span class="sd">            similar HPO tasks through the initialization of CMA-ES. This method estimates a</span>
@@ -319,6 +348,7 @@
         <span class="n">popsize</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">inc_popsize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
         <span class="n">use_separable_cma</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">with_margin</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">source_trials</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_x0</span> <span class="o">=</span> <span class="n">x0</span>
@@ -333,6 +363,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_popsize</span> <span class="o">=</span> <span class="n">popsize</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_inc_popsize</span> <span class="o">=</span> <span class="n">inc_popsize</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_use_separable_cma</span> <span class="o">=</span> <span class="n">use_separable_cma</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_with_margin</span> <span class="o">=</span> <span class="n">with_margin</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_source_trials</span> <span class="o">=</span> <span class="n">source_trials</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_restart_strategy</span><span class="p">:</span>
@@ -363,6 +394,13 @@
                 <span class="n">ExperimentalWarning</span><span class="p">,</span>
             <span class="p">)</span>
 
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_with_margin</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;`with_margin` option is an experimental feature.&quot;</span>
+                <span class="s2">&quot; The interface can change in the future.&quot;</span><span class="p">,</span>
+                <span class="n">ExperimentalWarning</span><span class="p">,</span>
+            <span class="p">)</span>
+
         <span class="k">if</span> <span class="n">source_trials</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span><span class="n">x0</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">sigma0</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">&quot;It is prohibited to pass `source_trials` argument when &quot;</span>
@@ -386,6 +424,12 @@
                 <span class="p">)</span>
             <span class="p">)</span>
 
+        <span class="c1"># TODO(knshnb): Support sep-CMA-ES with margin.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_use_separable_cma</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_with_margin</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Currently, we do not support `use_separable_cma=True` and `with_margin=True`.&quot;</span>
+            <span class="p">)</span>
+
 <div class="viewcode-block" id="CmaEsSampler.reseed_rng"><a class="viewcode-back" href="../../../reference/samplers/generated/optuna.samplers.CmaEsSampler.html#optuna.samplers.CmaEsSampler.reseed_rng">[docs]</a>    <span class="k">def</span> <span class="nf">reseed_rng</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># _cma_rng doesn&#39;t require reseeding because the relative sampling reseeds in each trial.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_independent_sampler</span><span class="o">.</span><span class="n">reseed_rng</span><span class="p">()</span></div>
@@ -401,13 +445,7 @@
                 <span class="c1"># `Trial`.</span>
                 <span class="k">continue</span>
 
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
-                <span class="n">distribution</span><span class="p">,</span>
-                <span class="p">(</span>
-                    <span class="n">optuna</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">FloatDistribution</span><span class="p">,</span>
-                    <span class="n">optuna</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">IntDistribution</span><span class="p">,</span>
-                <span class="p">),</span>
-            <span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="p">(</span><span class="n">FloatDistribution</span><span class="p">,</span> <span class="n">IntDistribution</span><span class="p">)):</span>
                 <span class="c1"># Categorical distribution is unsupported.</span>
                 <span class="k">continue</span>
             <span class="n">search_space</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">distribution</span>
@@ -440,17 +478,13 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_warn_independent_sampling</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">return</span> <span class="p">{}</span>
 
-        <span class="n">trans</span> <span class="o">=</span> <span class="n">_SearchSpaceTransform</span><span class="p">(</span><span class="n">search_space</span><span class="p">)</span>
+        <span class="c1"># When `with_margin=True`, bounds in discrete dimensions are handled inside `CMAwM`.</span>
+        <span class="n">trans</span> <span class="o">=</span> <span class="n">_SearchSpaceTransform</span><span class="p">(</span><span class="n">search_space</span><span class="p">,</span> <span class="n">transform_step</span><span class="o">=</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_with_margin</span><span class="p">)</span>
 
         <span class="n">optimizer</span><span class="p">,</span> <span class="n">n_restarts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_restore_optimizer</span><span class="p">(</span><span class="n">completed_trials</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">optimizer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">n_restarts</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="n">optimizer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_optimizer</span><span class="p">(</span><span class="n">trans</span><span class="p">,</span> <span class="n">study</span><span class="o">.</span><span class="n">direction</span><span class="p">,</span> <span class="n">population_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_popsize</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_restart_strategy</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">generation_attr_key</span> <span class="o">=</span> <span class="s2">&quot;cma:generation&quot;</span>  <span class="c1"># For backward compatibility.</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">generation_attr_key</span> <span class="o">=</span> <span class="s2">&quot;cma:restart_</span><span class="si">{}</span><span class="s2">:generation&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_restarts</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">dim</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">trans</span><span class="o">.</span><span class="n">bounds</span><span class="p">):</span>
             <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
@@ -464,16 +498,18 @@
 
         <span class="c1"># TODO(c-bata): Reduce the number of wasted trials during parallel optimization.</span>
         <span class="c1"># See https://github.com/optuna/optuna/pull/920#discussion_r385114002 for details.</span>
-        <span class="n">solution_trials</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">t</span>
-            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">completed_trials</span>
-            <span class="k">if</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">generation</span> <span class="o">==</span> <span class="n">t</span><span class="o">.</span><span class="n">system_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">generation_attr_key</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-        <span class="p">]</span>
+        <span class="n">solution_trials</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_solution_trials</span><span class="p">(</span>
+            <span class="n">completed_trials</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">generation</span><span class="p">,</span> <span class="n">n_restarts</span>
+        <span class="p">)</span>
+
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">solution_trials</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">population_size</span><span class="p">:</span>
             <span class="n">solutions</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">solution_trials</span><span class="p">[:</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">population_size</span><span class="p">]:</span>
                 <span class="k">assert</span> <span class="n">t</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;completed trials must have a value&quot;</span>
-                <span class="n">x</span> <span class="o">=</span> <span class="n">trans</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">CMAwM</span><span class="p">):</span>
+                    <span class="n">x</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">system_attrs</span><span class="p">[</span><span class="s2">&quot;x_for_tell&quot;</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">x</span> <span class="o">=</span> <span class="n">trans</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
                 <span class="n">y</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">value</span> <span class="k">if</span> <span class="n">study</span><span class="o">.</span><span class="n">direction</span> <span class="o">==</span> <span class="n">StudyDirection</span><span class="o">.</span><span class="n">MINIMIZE</span> <span class="k">else</span> <span class="o">-</span><span class="n">t</span><span class="o">.</span><span class="n">value</span>
                 <span class="n">solutions</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
 
@@ -481,7 +517,6 @@
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_restart_strategy</span> <span class="o">==</span> <span class="s2">&quot;ipop&quot;</span> <span class="ow">and</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">should_stop</span><span class="p">():</span>
                 <span class="n">n_restarts</span> <span class="o">+=</span> <span class="mi">1</span>
-                <span class="n">generation_attr_key</span> <span class="o">=</span> <span class="s2">&quot;cma:restart_</span><span class="si">{}</span><span class="s2">:generation&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_restarts</span><span class="p">)</span>
                 <span class="n">popsize</span> <span class="o">=</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">population_size</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inc_popsize</span>
                 <span class="n">optimizer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_optimizer</span><span class="p">(</span>
                     <span class="n">trans</span><span class="p">,</span> <span class="n">study</span><span class="o">.</span><span class="n">direction</span><span class="p">,</span> <span class="n">population_size</span><span class="o">=</span><span class="n">popsize</span><span class="p">,</span> <span class="n">randomize_start_point</span><span class="o">=</span><span class="kc">True</span>
@@ -489,52 +524,85 @@
 
             <span class="c1"># Store optimizer.</span>
             <span class="n">optimizer_str</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">optimizer</span><span class="p">)</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span>
-            <span class="n">optimizer_attrs</span> <span class="o">=</span> <span class="n">_split_optimizer_str</span><span class="p">(</span><span class="n">optimizer_str</span><span class="p">)</span>
+            <span class="n">optimizer_attrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_split_optimizer_str</span><span class="p">(</span><span class="n">optimizer_str</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">optimizer_attrs</span><span class="p">:</span>
                 <span class="n">study</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">set_trial_system_attr</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">_trial_id</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">optimizer_attrs</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
 
         <span class="c1"># Caution: optimizer should update its seed value.</span>
         <span class="n">seed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cma_rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">16</span><span class="p">)</span> <span class="o">+</span> <span class="n">trial</span><span class="o">.</span><span class="n">number</span>
         <span class="n">optimizer</span><span class="o">.</span><span class="n">_rng</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
-        <span class="n">params</span> <span class="o">=</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">ask</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">CMAwM</span><span class="p">):</span>
+            <span class="n">params</span><span class="p">,</span> <span class="n">x_for_tell</span> <span class="o">=</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">ask</span><span class="p">()</span>
+            <span class="n">study</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">set_trial_system_attr</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">_trial_id</span><span class="p">,</span> <span class="s2">&quot;x_for_tell&quot;</span><span class="p">,</span> <span class="n">x_for_tell</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">ask</span><span class="p">()</span>
 
+        <span class="n">generation_attr_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attr_keys</span><span class="o">.</span><span class="n">generation</span><span class="p">(</span><span class="n">n_restarts</span><span class="p">)</span>
         <span class="n">study</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">set_trial_system_attr</span><span class="p">(</span>
             <span class="n">trial</span><span class="o">.</span><span class="n">_trial_id</span><span class="p">,</span> <span class="n">generation_attr_key</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">generation</span>
         <span class="p">)</span>
-        <span class="n">study</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">set_trial_system_attr</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">_trial_id</span><span class="p">,</span> <span class="s2">&quot;cma:n_restarts&quot;</span><span class="p">,</span> <span class="n">n_restarts</span><span class="p">)</span>
+        <span class="n">study</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">set_trial_system_attr</span><span class="p">(</span>
+            <span class="n">trial</span><span class="o">.</span><span class="n">_trial_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attr_keys</span><span class="o">.</span><span class="n">n_restarts</span><span class="p">,</span> <span class="n">n_restarts</span>
+        <span class="p">)</span>
 
         <span class="n">external_values</span> <span class="o">=</span> <span class="n">trans</span><span class="o">.</span><span class="n">untransform</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">external_values</span></div>
 
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">_attr_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_CmaEsAttrKeys</span><span class="p">:</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_use_separable_cma</span><span class="p">:</span>
+            <span class="n">attr_prefix</span> <span class="o">=</span> <span class="s2">&quot;sepcma:&quot;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_with_margin</span><span class="p">:</span>
+            <span class="n">attr_prefix</span> <span class="o">=</span> <span class="s2">&quot;cmawm:&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">attr_prefix</span> <span class="o">=</span> <span class="s2">&quot;cma:&quot;</span>
+
+        <span class="k">def</span> <span class="nf">generation_attr_key_template</span><span class="p">(</span><span class="n">restart</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_restart_strategy</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">attr_prefix</span> <span class="o">+</span> <span class="s2">&quot;generation&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">attr_prefix</span> <span class="o">+</span> <span class="s2">&quot;restart_</span><span class="si">{}</span><span class="s2">:generation&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">restart</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">_CmaEsAttrKeys</span><span class="p">(</span>
+            <span class="n">attr_prefix</span> <span class="o">+</span> <span class="s2">&quot;optimizer&quot;</span><span class="p">,</span>
+            <span class="n">attr_prefix</span> <span class="o">+</span> <span class="s2">&quot;n_restarts&quot;</span><span class="p">,</span>
+            <span class="n">generation_attr_key_template</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_concat_optimizer_attrs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimizer_attrs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="n">optimizer_attrs</span><span class="p">[</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_attr_keys</span><span class="o">.</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">i</span><span class="p">)]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">optimizer_attrs</span><span class="p">))</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_split_optimizer_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimizer_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+        <span class="n">optimizer_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">optimizer_str</span><span class="p">)</span>
+        <span class="n">attrs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">optimizer_len</span> <span class="o">/</span> <span class="n">_SYSTEM_ATTR_MAX_LENGTH</span><span class="p">)):</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">_SYSTEM_ATTR_MAX_LENGTH</span>
+            <span class="n">end</span> <span class="o">=</span> <span class="nb">min</span><span class="p">((</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">_SYSTEM_ATTR_MAX_LENGTH</span><span class="p">,</span> <span class="n">optimizer_len</span><span class="p">)</span>
+            <span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_attr_keys</span><span class="o">.</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="n">optimizer_str</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">attrs</span>
+
     <span class="k">def</span> <span class="nf">_restore_optimizer</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">completed_trials</span><span class="p">:</span> <span class="s2">&quot;List[optuna.trial.FrozenTrial]&quot;</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">CmaClass</span><span class="p">],</span> <span class="nb">int</span><span class="p">]:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_use_separable_cma</span><span class="p">:</span>
-            <span class="n">attr_key_optimizer</span> <span class="o">=</span> <span class="s2">&quot;cma:optimizer&quot;</span>
-            <span class="n">attr_key_n_restarts</span> <span class="o">=</span> <span class="s2">&quot;cma:n_restarts&quot;</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">attr_key_optimizer</span> <span class="o">=</span> <span class="s2">&quot;sepcma:optimizer&quot;</span>
-            <span class="n">attr_key_n_restarts</span> <span class="o">=</span> <span class="s2">&quot;sepcma:n_restarts&quot;</span>
 
         <span class="c1"># Restore a previous CMA object.</span>
         <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">completed_trials</span><span class="p">):</span>
             <span class="n">optimizer_attrs</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="n">key</span><span class="p">:</span> <span class="n">value</span>
                 <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">trial</span><span class="o">.</span><span class="n">system_attrs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-                <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">attr_key_optimizer</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_attr_keys</span><span class="o">.</span><span class="n">optimizer</span><span class="p">)</span>
             <span class="p">}</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">optimizer_attrs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">continue</span>
 
-            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_use_separable_cma</span> <span class="ow">and</span> <span class="s2">&quot;cma:optimizer&quot;</span> <span class="ow">in</span> <span class="n">optimizer_attrs</span><span class="p">:</span>
-                <span class="c1"># Check &quot;cma:optimizer&quot; key for backward compatibility.</span>
-                <span class="n">optimizer_str</span> <span class="o">=</span> <span class="n">optimizer_attrs</span><span class="p">[</span><span class="s2">&quot;cma:optimizer&quot;</span><span class="p">]</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">optimizer_str</span> <span class="o">=</span> <span class="n">_concat_optimizer_attrs</span><span class="p">(</span><span class="n">optimizer_attrs</span><span class="p">)</span>
-
-            <span class="n">n_restarts</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">system_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">attr_key_n_restarts</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">optimizer_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_concat_optimizer_attrs</span><span class="p">(</span><span class="n">optimizer_attrs</span><span class="p">)</span>
+            <span class="n">n_restarts</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">system_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_attr_keys</span><span class="o">.</span><span class="n">n_restarts</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">optimizer_str</span><span class="p">)),</span> <span class="n">n_restarts</span>
         <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">0</span>
 
@@ -593,6 +661,24 @@
                 <span class="n">mean</span><span class="o">=</span><span class="n">mean</span><span class="p">,</span>
                 <span class="n">sigma</span><span class="o">=</span><span class="n">sigma0</span><span class="p">,</span>
                 <span class="n">bounds</span><span class="o">=</span><span class="n">trans</span><span class="o">.</span><span class="n">bounds</span><span class="p">,</span>
+                <span class="n">seed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_cma_rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">31</span> <span class="o">-</span> <span class="mi">2</span><span class="p">),</span>
+                <span class="n">n_max_resampling</span><span class="o">=</span><span class="mi">10</span> <span class="o">*</span> <span class="n">n_dimension</span><span class="p">,</span>
+                <span class="n">population_size</span><span class="o">=</span><span class="n">population_size</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_with_margin</span><span class="p">:</span>
+            <span class="n">steps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">trans</span><span class="o">.</span><span class="n">_search_space</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">dist</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">trans</span><span class="o">.</span><span class="n">_search_space</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+                <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="p">(</span><span class="n">IntDistribution</span><span class="p">,</span> <span class="n">FloatDistribution</span><span class="p">))</span>
+                <span class="c1"># Set step 0.0 for continuous search space.</span>
+                <span class="n">steps</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">step</span> <span class="ow">or</span> <span class="mf">0.0</span>
+
+            <span class="k">return</span> <span class="n">CMAwM</span><span class="p">(</span>
+                <span class="n">mean</span><span class="o">=</span><span class="n">mean</span><span class="p">,</span>
+                <span class="n">sigma</span><span class="o">=</span><span class="n">sigma0</span><span class="p">,</span>
+                <span class="n">bounds</span><span class="o">=</span><span class="n">trans</span><span class="o">.</span><span class="n">bounds</span><span class="p">,</span>
+                <span class="n">steps</span><span class="o">=</span><span class="n">steps</span><span class="p">,</span>
+                <span class="n">cov</span><span class="o">=</span><span class="n">cov</span><span class="p">,</span>
                 <span class="n">seed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_cma_rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">31</span> <span class="o">-</span> <span class="mi">2</span><span class="p">),</span>
                 <span class="n">n_max_resampling</span><span class="o">=</span><span class="mi">10</span> <span class="o">*</span> <span class="n">n_dimension</span><span class="p">,</span>
                 <span class="n">population_size</span><span class="o">=</span><span class="n">population_size</span><span class="p">,</span>
@@ -659,6 +745,12 @@
                 <span class="n">complete_trials</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">copied_t</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">complete_trials</span>
 
+    <span class="k">def</span> <span class="nf">_get_solution_trials</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">trials</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">],</span> <span class="n">generation</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n_restarts</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]:</span>
+        <span class="n">generation_attr_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attr_keys</span><span class="o">.</span><span class="n">generation</span><span class="p">(</span><span class="n">n_restarts</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">trials</span> <span class="k">if</span> <span class="n">generation</span> <span class="o">==</span> <span class="n">t</span><span class="o">.</span><span class="n">system_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">generation_attr_key</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)]</span>
+
 <div class="viewcode-block" id="CmaEsSampler.after_trial"><a class="viewcode-back" href="../../../reference/samplers/generated/optuna.samplers.CmaEsSampler.html#optuna.samplers.CmaEsSampler.after_trial">[docs]</a>    <span class="k">def</span> <span class="nf">after_trial</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">study</span><span class="p">:</span> <span class="s2">&quot;optuna.Study&quot;</span><span class="p">,</span>
@@ -670,27 +762,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_independent_sampler</span><span class="o">.</span><span class="n">after_trial</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="n">trial</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span></div></div>
 
 
-<span class="k">def</span> <span class="nf">_split_optimizer_str</span><span class="p">(</span><span class="n">optimizer_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
-    <span class="n">optimizer_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">optimizer_str</span><span class="p">)</span>
-    <span class="n">attrs</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">optimizer_len</span> <span class="o">/</span> <span class="n">_SYSTEM_ATTR_MAX_LENGTH</span><span class="p">)):</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">_SYSTEM_ATTR_MAX_LENGTH</span>
-        <span class="n">end</span> <span class="o">=</span> <span class="nb">min</span><span class="p">((</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">_SYSTEM_ATTR_MAX_LENGTH</span><span class="p">,</span> <span class="n">optimizer_len</span><span class="p">)</span>
-        <span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;cma:optimizer:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="n">optimizer_str</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">attrs</span>
-
-
 <span class="k">def</span> <span class="nf">_is_compatible_search_space</span><span class="p">(</span>
     <span class="n">trans</span><span class="p">:</span> <span class="n">_SearchSpaceTransform</span><span class="p">,</span> <span class="n">search_space</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="n">intersection_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">trans</span><span class="o">.</span><span class="n">_search_space</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">search_space</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
     <span class="k">return</span> <span class="n">intersection_size</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">trans</span><span class="o">.</span><span class="n">_search_space</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">search_space</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">_concat_optimizer_attrs</span><span class="p">(</span><span class="n">optimizer_attrs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-        <span class="n">optimizer_attrs</span><span class="p">[</span><span class="s2">&quot;cma:optimizer:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">optimizer_attrs</span><span class="p">))</span>
-    <span class="p">)</span>
 </pre></div>
 
            </div>

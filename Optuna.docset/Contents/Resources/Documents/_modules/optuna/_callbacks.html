@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna._callbacks &mdash; Optuna 3.0.5 documentation</title>
+  <title>optuna._callbacks &mdash; Optuna 3.1.0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
@@ -65,15 +65,19 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html">
-            <img src="../../_static/optuna-logo.png" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.0.5
+                3.1.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -98,13 +102,12 @@
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
+          <!-- This file is necessary to remove "Edit on Github" button from readthedocs by following https://docs.readthedocs.io/en/stable/guides/remove-edit-buttons.html#remove-links-from-top-right-corner --><div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a></li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
       <li class="breadcrumb-item active">optuna._callbacks</li>
-      <li class="wy-breadcrumbs-aside">
-      </li>
+
   </ul>
   <hr/>
 </div>
@@ -124,12 +127,12 @@
 
 
 <div class="viewcode-block" id="MaxTrialsCallback"><a class="viewcode-back" href="../../reference/generated/optuna.study.MaxTrialsCallback.html#optuna.storages.MaxTrialsCallback">[docs]</a><span class="k">class</span> <span class="nc">MaxTrialsCallback</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Set a maximum number of trials before ending the study.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set a maximum number of trials before ending the study.</span>
 
-<span class="sd">    While the :obj:`n_trials` argument of :obj:`optuna.optimize` sets the number of trials that</span>
-<span class="sd">    will be run, you may want to continue running until you have a certain number of successfullly</span>
-<span class="sd">    completed trials or stop the study when you have a certain number of trials that fail.</span>
-<span class="sd">    This :obj:`MaxTrialsCallback` class allows you to set a maximum number of trials for a</span>
+<span class="sd">    While the ``n_trials`` argument of :meth:`optuna.study.Study.optimize` sets the number of</span>
+<span class="sd">    trials that will be run, you may want to continue running until you have a certain number of</span>
+<span class="sd">    successfully completed trials or stop the study when you have a certain number of trials that</span>
+<span class="sd">    fail. This ``MaxTrialsCallback`` class allows you to set a maximum number of trials for a</span>
 <span class="sd">    particular :class:`~optuna.trial.TrialState` before stopping the study.</span>
 
 <span class="sd">    Example:</span>
@@ -157,7 +160,7 @@
 <span class="sd">            The max number of trials. Must be set to an integer.</span>
 <span class="sd">        states:</span>
 <span class="sd">            Tuple of the :class:`~optuna.trial.TrialState` to be counted</span>
-<span class="sd">            towards the max trials limit. Default value is :obj:`(TrialState.COMPLETE,)`.</span>
+<span class="sd">            towards the max trials limit. Default value is ``(TrialState.COMPLETE,)``.</span>
 <span class="sd">            If :obj:`None`, count all states.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -176,10 +179,10 @@
 
 <div class="viewcode-block" id="RetryFailedTrialCallback"><a class="viewcode-back" href="../../reference/generated/optuna.storages.RetryFailedTrialCallback.html#optuna.storages.RetryFailedTrialCallback">[docs]</a><span class="nd">@experimental_class</span><span class="p">(</span><span class="s2">&quot;2.8.0&quot;</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">RetryFailedTrialCallback</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Retry a failed trial up to a maximum number of times.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retry a failed trial up to a maximum number of times.</span>
 
-<span class="sd">    When a trial fails, this callback can be used with the :class:`optuna.storage` class to</span>
-<span class="sd">    recreate the trial in :obj:`TrialState.WAITING` to queue up the trial to be run again.</span>
+<span class="sd">    When a trial fails, this callback can be used with a class in :mod:`optuna.storages` to</span>
+<span class="sd">    recreate the trial in ``TrialState.WAITING`` to queue up the trial to be run again.</span>
 
 <span class="sd">    The failed trial can be identified by the</span>
 <span class="sd">    :func:`~optuna.storages.RetryFailedTrialCallback.retried_trial_number` function.</span>
@@ -251,7 +254,7 @@
 <div class="viewcode-block" id="RetryFailedTrialCallback.retried_trial_number"><a class="viewcode-back" href="../../reference/generated/optuna.storages.RetryFailedTrialCallback.html#optuna.storages.RetryFailedTrialCallback.retried_trial_number">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="nd">@experimental_func</span><span class="p">(</span><span class="s2">&quot;2.8.0&quot;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">retried_trial_number</span><span class="p">(</span><span class="n">trial</span><span class="p">:</span> <span class="n">FrozenTrial</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Return the number of the original trial being retried.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the number of the original trial being retried.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            trial:</span>
@@ -267,7 +270,7 @@
 <div class="viewcode-block" id="RetryFailedTrialCallback.retry_history"><a class="viewcode-back" href="../../reference/generated/optuna.storages.RetryFailedTrialCallback.html#optuna.storages.RetryFailedTrialCallback.retry_history">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="nd">@experimental_func</span><span class="p">(</span><span class="s2">&quot;3.0.0&quot;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">retry_history</span><span class="p">(</span><span class="n">trial</span><span class="p">:</span> <span class="n">FrozenTrial</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Return the list of retried trial numbers with respect to the specified trial.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the list of retried trial numbers with respect to the specified trial.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            trial:</span>

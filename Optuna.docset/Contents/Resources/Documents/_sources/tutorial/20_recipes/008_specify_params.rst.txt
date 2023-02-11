@@ -72,7 +72,7 @@ This section walks you through how to use this lit API with `LightGBM <https://l
 
 Define the objective function.
 
-.. GENERATED FROM PYTHON SOURCE LINES 43-71
+.. GENERATED FROM PYTHON SOURCE LINES 43-69
 
 .. code-block:: default
 
@@ -94,9 +94,7 @@ Define the objective function.
 
         # Add a callback for pruning.
         pruning_callback = optuna.integration.LightGBMPruningCallback(trial, "auc")
-        gbm = lgb.train(
-            param, dtrain, valid_sets=[dvalid], verbose_eval=False, callbacks=[pruning_callback]
-        )
+        gbm = lgb.train(param, dtrain, valid_sets=[dvalid], callbacks=[pruning_callback])
 
         preds = gbm.predict(valid_x)
         pred_labels = np.rint(preds)
@@ -111,11 +109,11 @@ Define the objective function.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 72-73
+.. GENERATED FROM PYTHON SOURCE LINES 70-71
 
 Then, construct ``Study`` for hyperparameter optimization.
 
-.. GENERATED FROM PYTHON SOURCE LINES 73-76
+.. GENERATED FROM PYTHON SOURCE LINES 71-74
 
 .. code-block:: default
 
@@ -129,12 +127,12 @@ Then, construct ``Study`` for hyperparameter optimization.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 77-79
+.. GENERATED FROM PYTHON SOURCE LINES 75-77
 
 Here, we get Optuna evaluate some sets with larger ``"bagging_fraq"`` value and
 the default values.
 
-.. GENERATED FROM PYTHON SOURCE LINES 79-103
+.. GENERATED FROM PYTHON SOURCE LINES 77-101
 
 .. code-block:: default
 
@@ -170,81 +168,37 @@ the default values.
 
  .. code-block:: none
 
-    /opt/hostedtoolcache/Python/3.7.15/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 0 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 1.0, 'bagging_freq': 0, 'min_child_samples': 20}. Best is trial 0 with value: 0.972027972027972.
-    /opt/hostedtoolcache/Python/3.7.15/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
     Trial 1 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.75, 'bagging_freq': 5, 'min_child_samples': 20}. Best is trial 1 with value: 0.986013986013986.
-    /opt/hostedtoolcache/Python/3.7.15/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 2 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.5643342741858893, 'bagging_freq': 5, 'min_child_samples': 47}. Best is trial 1 with value: 0.986013986013986.
-    /opt/hostedtoolcache/Python/3.7.15/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 3 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.8868077410712353, 'bagging_freq': 7, 'min_child_samples': 5}. Best is trial 1 with value: 0.986013986013986.
-    /opt/hostedtoolcache/Python/3.7.15/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 4 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.9467147836462685, 'bagging_freq': 3, 'min_child_samples': 58}. Best is trial 1 with value: 0.986013986013986.
-    /opt/hostedtoolcache/Python/3.7.15/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 5 pruned. Trial was pruned at iteration 0.
+    Trial 2 finished with value: 0.9440559440559441 and parameters: {'bagging_fraction': 0.5506766301477889, 'bagging_freq': 7, 'min_child_samples': 78}. Best is trial 1 with value: 0.986013986013986.
+    Trial 3 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.49214746028116485, 'bagging_freq': 5, 'min_child_samples': 70}. Best is trial 1 with value: 0.986013986013986.
+    Trial 4 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.7494305299365314, 'bagging_freq': 1, 'min_child_samples': 100}. Best is trial 1 with value: 0.986013986013986.
+    Trial 5 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.6463976390903002, 'bagging_freq': 3, 'min_child_samples': 71}. Best is trial 1 with value: 0.986013986013986.
     Trial 6 pruned. Trial was pruned at iteration 0.
     Trial 7 pruned. Trial was pruned at iteration 0.
-    Trial 8 pruned. Trial was pruned at iteration 74.
-    Trial 9 pruned. Trial was pruned at iteration 0.
-    Trial 10 pruned. Trial was pruned at iteration 0.
-    Trial 11 pruned. Trial was pruned at iteration 0.
-    Trial 12 pruned. Trial was pruned at iteration 0.
-    Trial 13 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.8190233824607227, 'bagging_freq': 6, 'min_child_samples': 22}. Best is trial 1 with value: 0.986013986013986.
-    /opt/hostedtoolcache/Python/3.7.15/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 14 pruned. Trial was pruned at iteration 0.
-    Trial 15 pruned. Trial was pruned at iteration 0.
-    Trial 16 pruned. Trial was pruned at iteration 0.
-    Trial 17 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.6010732677521886, 'bagging_freq': 4, 'min_child_samples': 16}. Best is trial 1 with value: 0.986013986013986.
-    /opt/hostedtoolcache/Python/3.7.15/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 18 pruned. Trial was pruned at iteration 0.
-    Trial 19 pruned. Trial was pruned at iteration 0.
+    Trial 8 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.8378692289828823, 'bagging_freq': 2, 'min_child_samples': 42}. Best is trial 1 with value: 0.986013986013986.
+    Trial 9 pruned. Trial was pruned at iteration 1.
+    Trial 10 pruned. Trial was pruned at iteration 1.
+    Trial 11 pruned. Trial was pruned at iteration 1.
+    Trial 12 pruned. Trial was pruned at iteration 2.
+    Trial 13 pruned. Trial was pruned at iteration 1.
+    Trial 14 pruned. Trial was pruned at iteration 47.
+    Trial 15 pruned. Trial was pruned at iteration 1.
+    Trial 16 pruned. Trial was pruned at iteration 1.
+    Trial 17 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.8231361934235497, 'bagging_freq': 2, 'min_child_samples': 39}. Best is trial 1 with value: 0.986013986013986.
+    Trial 18 pruned. Trial was pruned at iteration 1.
+    Trial 19 pruned. Trial was pruned at iteration 1.
     Trial 20 pruned. Trial was pruned at iteration 0.
     Trial 21 pruned. Trial was pruned at iteration 0.
-    Trial 22 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.8748591779781864, 'bagging_freq': 6, 'min_child_samples': 13}. Best is trial 1 with value: 0.986013986013986.
-    /opt/hostedtoolcache/Python/3.7.15/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
+    Trial 22 pruned. Trial was pruned at iteration 0.
     Trial 23 pruned. Trial was pruned at iteration 0.
-    Trial 24 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.886447743179937, 'bagging_freq': 5, 'min_child_samples': 26}. Best is trial 1 with value: 0.986013986013986.
-    /opt/hostedtoolcache/Python/3.7.15/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 25 pruned. Trial was pruned at iteration 15.
+    Trial 24 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.715564280537435, 'bagging_freq': 1, 'min_child_samples': 84}. Best is trial 1 with value: 0.986013986013986.
+    Trial 25 pruned. Trial was pruned at iteration 58.
     Trial 26 pruned. Trial was pruned at iteration 0.
     Trial 27 pruned. Trial was pruned at iteration 0.
-    Trial 28 pruned. Trial was pruned at iteration 1.
+    Trial 28 pruned. Trial was pruned at iteration 0.
     Trial 29 pruned. Trial was pruned at iteration 0.
-    Trial 30 finished with value: 0.993006993006993 and parameters: {'bagging_fraction': 0.7488726485437728, 'bagging_freq': 6, 'min_child_samples': 54}. Best is trial 30 with value: 0.993006993006993.
-    /opt/hostedtoolcache/Python/3.7.15/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
+    Trial 30 pruned. Trial was pruned at iteration 0.
     Trial 31 pruned. Trial was pruned at iteration 0.
     Trial 32 pruned. Trial was pruned at iteration 0.
     Trial 33 pruned. Trial was pruned at iteration 0.
@@ -253,65 +207,53 @@ the default values.
     Trial 36 pruned. Trial was pruned at iteration 0.
     Trial 37 pruned. Trial was pruned at iteration 0.
     Trial 38 pruned. Trial was pruned at iteration 0.
-    Trial 39 pruned. Trial was pruned at iteration 0.
-    Trial 40 pruned. Trial was pruned at iteration 0.
+    Trial 39 pruned. Trial was pruned at iteration 1.
+    Trial 40 pruned. Trial was pruned at iteration 1.
     Trial 41 pruned. Trial was pruned at iteration 0.
-    Trial 42 pruned. Trial was pruned at iteration 0.
+    Trial 42 pruned. Trial was pruned at iteration 1.
     Trial 43 pruned. Trial was pruned at iteration 0.
     Trial 44 pruned. Trial was pruned at iteration 0.
-    Trial 45 pruned. Trial was pruned at iteration 0.
-    Trial 46 pruned. Trial was pruned at iteration 0.
-    Trial 47 pruned. Trial was pruned at iteration 0.
-    Trial 48 pruned. Trial was pruned at iteration 0.
-    Trial 49 pruned. Trial was pruned at iteration 37.
+    Trial 45 pruned. Trial was pruned at iteration 1.
+    Trial 46 pruned. Trial was pruned at iteration 34.
+    Trial 47 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.6363217393107216, 'bagging_freq': 0, 'min_child_samples': 84}. Best is trial 1 with value: 0.986013986013986.
+    Trial 48 pruned. Trial was pruned at iteration 1.
+    Trial 49 pruned. Trial was pruned at iteration 0.
     Trial 50 pruned. Trial was pruned at iteration 0.
-    Trial 51 pruned. Trial was pruned at iteration 0.
-    Trial 52 pruned. Trial was pruned at iteration 4.
+    Trial 51 pruned. Trial was pruned at iteration 1.
+    Trial 52 pruned. Trial was pruned at iteration 0.
     Trial 53 pruned. Trial was pruned at iteration 0.
     Trial 54 pruned. Trial was pruned at iteration 0.
-    Trial 55 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.7670407386571906, 'bagging_freq': 5, 'min_child_samples': 50}. Best is trial 30 with value: 0.993006993006993.
-    /opt/hostedtoolcache/Python/3.7.15/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 56 pruned. Trial was pruned at iteration 0.
+    Trial 55 pruned. Trial was pruned at iteration 0.
+    Trial 56 pruned. Trial was pruned at iteration 1.
     Trial 57 pruned. Trial was pruned at iteration 0.
-    Trial 58 pruned. Trial was pruned at iteration 0.
+    Trial 58 pruned. Trial was pruned at iteration 1.
     Trial 59 pruned. Trial was pruned at iteration 0.
     Trial 60 pruned. Trial was pruned at iteration 0.
     Trial 61 pruned. Trial was pruned at iteration 0.
-    Trial 62 pruned. Trial was pruned at iteration 0.
-    Trial 63 pruned. Trial was pruned at iteration 0.
-    Trial 64 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.42329470186627544, 'bagging_freq': 6, 'min_child_samples': 31}. Best is trial 30 with value: 0.993006993006993.
-    /opt/hostedtoolcache/Python/3.7.15/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
+    Trial 62 pruned. Trial was pruned at iteration 1.
+    Trial 63 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.9093174177600946, 'bagging_freq': 2, 'min_child_samples': 17}. Best is trial 1 with value: 0.986013986013986.
+    Trial 64 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.9031919693250833, 'bagging_freq': 1, 'min_child_samples': 14}. Best is trial 1 with value: 0.986013986013986.
     Trial 65 pruned. Trial was pruned at iteration 0.
     Trial 66 pruned. Trial was pruned at iteration 0.
-    Trial 67 pruned. Trial was pruned at iteration 0.
+    Trial 67 pruned. Trial was pruned at iteration 1.
     Trial 68 pruned. Trial was pruned at iteration 0.
-    Trial 69 pruned. Trial was pruned at iteration 0.
+    Trial 69 pruned. Trial was pruned at iteration 1.
     Trial 70 pruned. Trial was pruned at iteration 0.
-    Trial 71 pruned. Trial was pruned at iteration 0.
+    Trial 71 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.8008993867787653, 'bagging_freq': 2, 'min_child_samples': 18}. Best is trial 1 with value: 0.986013986013986.
     Trial 72 pruned. Trial was pruned at iteration 0.
-    Trial 73 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.560693100739016, 'bagging_freq': 5, 'min_child_samples': 27}. Best is trial 30 with value: 0.993006993006993.
-    /opt/hostedtoolcache/Python/3.7.15/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
+    Trial 73 finished with value: 0.993006993006993 and parameters: {'bagging_fraction': 0.9135692816381003, 'bagging_freq': 1, 'min_child_samples': 27}. Best is trial 73 with value: 0.993006993006993.
     Trial 74 pruned. Trial was pruned at iteration 0.
     Trial 75 pruned. Trial was pruned at iteration 0.
-    Trial 76 pruned. Trial was pruned at iteration 0.
-    Trial 77 pruned. Trial was pruned at iteration 0.
+    Trial 76 pruned. Trial was pruned at iteration 1.
+    Trial 77 pruned. Trial was pruned at iteration 1.
     Trial 78 pruned. Trial was pruned at iteration 1.
     Trial 79 pruned. Trial was pruned at iteration 0.
     Trial 80 pruned. Trial was pruned at iteration 0.
     Trial 81 pruned. Trial was pruned at iteration 0.
-    Trial 82 pruned. Trial was pruned at iteration 0.
+    Trial 82 pruned. Trial was pruned at iteration 1.
     Trial 83 pruned. Trial was pruned at iteration 0.
-    Trial 84 pruned. Trial was pruned at iteration 0.
-    Trial 85 pruned. Trial was pruned at iteration 0.
+    Trial 84 pruned. Trial was pruned at iteration 1.
+    Trial 85 pruned. Trial was pruned at iteration 1.
     Trial 86 pruned. Trial was pruned at iteration 0.
     Trial 87 pruned. Trial was pruned at iteration 0.
     Trial 88 pruned. Trial was pruned at iteration 0.
@@ -323,14 +265,14 @@ the default values.
     Trial 94 pruned. Trial was pruned at iteration 0.
     Trial 95 pruned. Trial was pruned at iteration 0.
     Trial 96 pruned. Trial was pruned at iteration 0.
-    Trial 97 pruned. Trial was pruned at iteration 8.
-    Trial 98 pruned. Trial was pruned at iteration 1.
+    Trial 97 pruned. Trial was pruned at iteration 0.
+    Trial 98 pruned. Trial was pruned at iteration 0.
     Trial 99 pruned. Trial was pruned at iteration 0.
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 104-118
+.. GENERATED FROM PYTHON SOURCE LINES 102-116
 
 .. _add_trial_tutorial:
 
@@ -347,7 +289,7 @@ to Optuna and then Optuna will sample hyperparameters taking them into account.
 
 In this section,  the ``objective`` is the same as the first scenario.
 
-.. GENERATED FROM PYTHON SOURCE LINES 118-151
+.. GENERATED FROM PYTHON SOURCE LINES 116-149
 
 .. code-block:: default
 
@@ -392,133 +334,89 @@ In this section,  the ``objective`` is the same as the first scenario.
 
  .. code-block:: none
 
-    A new study created in memory with name: no-name-254e6525-be53-40b1-9bda-5a505448b883
-    /opt/hostedtoolcache/Python/3.7.15/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 2 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.986305676016518, 'bagging_freq': 2, 'min_child_samples': 41}. Best is trial 2 with value: 0.9790209790209791.
-    /opt/hostedtoolcache/Python/3.7.15/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 3 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.48227606025204206, 'bagging_freq': 3, 'min_child_samples': 57}. Best is trial 3 with value: 0.986013986013986.
-    /opt/hostedtoolcache/Python/3.7.15/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 4 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.41167006621210733, 'bagging_freq': 2, 'min_child_samples': 51}. Best is trial 3 with value: 0.986013986013986.
-    /opt/hostedtoolcache/Python/3.7.15/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 5 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.9329228281186237, 'bagging_freq': 7, 'min_child_samples': 83}. Best is trial 3 with value: 0.986013986013986.
-    /opt/hostedtoolcache/Python/3.7.15/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 6 pruned. Trial was pruned at iteration 2.
-    Trial 7 pruned. Trial was pruned at iteration 8.
-    Trial 8 pruned. Trial was pruned at iteration 4.
+    A new study created in memory with name: no-name-9f345df8-d56d-4efa-9823-b12398cd1638
+    Trial 2 finished with value: 0.9440559440559441 and parameters: {'bagging_fraction': 0.668081063865479, 'bagging_freq': 5, 'min_child_samples': 70}. Best is trial 1 with value: 0.95.
+    Trial 3 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.4263705737357748, 'bagging_freq': 3, 'min_child_samples': 87}. Best is trial 3 with value: 0.9790209790209791.
+    Trial 4 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.6882372048844847, 'bagging_freq': 1, 'min_child_samples': 25}. Best is trial 3 with value: 0.9790209790209791.
+    Trial 5 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.9874412856808806, 'bagging_freq': 6, 'min_child_samples': 88}. Best is trial 3 with value: 0.9790209790209791.
+    Trial 6 pruned. Trial was pruned at iteration 10.
+    Trial 7 pruned. Trial was pruned at iteration 0.
+    Trial 8 pruned. Trial was pruned at iteration 19.
     Trial 9 pruned. Trial was pruned at iteration 0.
-    Trial 10 pruned. Trial was pruned at iteration 7.
-    Trial 11 pruned. Trial was pruned at iteration 2.
+    Trial 10 pruned. Trial was pruned at iteration 0.
+    Trial 11 pruned. Trial was pruned at iteration 0.
     Trial 12 pruned. Trial was pruned at iteration 0.
-    Trial 13 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.817785956871629, 'bagging_freq': 4, 'min_child_samples': 8}. Best is trial 3 with value: 0.986013986013986.
-    /opt/hostedtoolcache/Python/3.7.15/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
+    Trial 13 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.8265352982849206, 'bagging_freq': 3, 'min_child_samples': 58}. Best is trial 3 with value: 0.9790209790209791.
     Trial 14 pruned. Trial was pruned at iteration 0.
     Trial 15 pruned. Trial was pruned at iteration 0.
     Trial 16 pruned. Trial was pruned at iteration 0.
     Trial 17 pruned. Trial was pruned at iteration 0.
-    Trial 18 pruned. Trial was pruned at iteration 0.
+    Trial 18 pruned. Trial was pruned at iteration 6.
     Trial 19 pruned. Trial was pruned at iteration 0.
-    Trial 20 pruned. Trial was pruned at iteration 16.
-    Trial 21 pruned. Trial was pruned at iteration 0.
-    Trial 22 pruned. Trial was pruned at iteration 3.
-    Trial 23 pruned. Trial was pruned at iteration 0.
+    Trial 20 pruned. Trial was pruned at iteration 19.
+    Trial 21 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.7013992586052249, 'bagging_freq': 1, 'min_child_samples': 36}. Best is trial 3 with value: 0.9790209790209791.
+    Trial 22 pruned. Trial was pruned at iteration 0.
+    Trial 23 pruned. Trial was pruned at iteration 5.
     Trial 24 pruned. Trial was pruned at iteration 0.
     Trial 25 pruned. Trial was pruned at iteration 1.
-    Trial 26 pruned. Trial was pruned at iteration 29.
-    Trial 27 pruned. Trial was pruned at iteration 16.
+    Trial 26 pruned. Trial was pruned at iteration 86.
+    Trial 27 pruned. Trial was pruned at iteration 0.
     Trial 28 pruned. Trial was pruned at iteration 0.
-    Trial 29 pruned. Trial was pruned at iteration 0.
+    Trial 29 pruned. Trial was pruned at iteration 1.
     Trial 30 pruned. Trial was pruned at iteration 0.
-    Trial 31 pruned. Trial was pruned at iteration 3.
-    Trial 32 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.9025323479891967, 'bagging_freq': 5, 'min_child_samples': 7}. Best is trial 3 with value: 0.986013986013986.
-    /opt/hostedtoolcache/Python/3.7.15/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 33 pruned. Trial was pruned at iteration 5.
-    Trial 34 pruned. Trial was pruned at iteration 0.
-    Trial 35 pruned. Trial was pruned at iteration 3.
+    Trial 31 pruned. Trial was pruned at iteration 0.
+    Trial 32 pruned. Trial was pruned at iteration 95.
+    Trial 33 pruned. Trial was pruned at iteration 1.
+    Trial 34 pruned. Trial was pruned at iteration 4.
+    Trial 35 pruned. Trial was pruned at iteration 1.
     Trial 36 pruned. Trial was pruned at iteration 0.
     Trial 37 pruned. Trial was pruned at iteration 0.
     Trial 38 pruned. Trial was pruned at iteration 0.
     Trial 39 pruned. Trial was pruned at iteration 0.
     Trial 40 pruned. Trial was pruned at iteration 0.
     Trial 41 pruned. Trial was pruned at iteration 1.
-    Trial 42 pruned. Trial was pruned at iteration 16.
+    Trial 42 pruned. Trial was pruned at iteration 0.
     Trial 43 pruned. Trial was pruned at iteration 0.
-    Trial 44 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.9676943365014498, 'bagging_freq': 5, 'min_child_samples': 12}. Best is trial 3 with value: 0.986013986013986.
-    /opt/hostedtoolcache/Python/3.7.15/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 45 pruned. Trial was pruned at iteration 7.
+    Trial 44 pruned. Trial was pruned at iteration 0.
+    Trial 45 pruned. Trial was pruned at iteration 0.
     Trial 46 pruned. Trial was pruned at iteration 0.
     Trial 47 pruned. Trial was pruned at iteration 0.
-    Trial 48 pruned. Trial was pruned at iteration 1.
+    Trial 48 pruned. Trial was pruned at iteration 10.
     Trial 49 pruned. Trial was pruned at iteration 1.
     Trial 50 pruned. Trial was pruned at iteration 0.
-    Trial 51 pruned. Trial was pruned at iteration 0.
-    Trial 52 pruned. Trial was pruned at iteration 5.
-    Trial 53 pruned. Trial was pruned at iteration 5.
-    Trial 54 pruned. Trial was pruned at iteration 2.
-    Trial 55 pruned. Trial was pruned at iteration 7.
+    Trial 51 pruned. Trial was pruned at iteration 1.
+    Trial 52 pruned. Trial was pruned at iteration 1.
+    Trial 53 pruned. Trial was pruned at iteration 0.
+    Trial 54 pruned. Trial was pruned at iteration 1.
+    Trial 55 pruned. Trial was pruned at iteration 29.
     Trial 56 pruned. Trial was pruned at iteration 0.
-    Trial 57 pruned. Trial was pruned at iteration 0.
-    Trial 58 pruned. Trial was pruned at iteration 0.
+    Trial 57 pruned. Trial was pruned at iteration 2.
+    Trial 58 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.9952754170707239, 'bagging_freq': 7, 'min_child_samples': 17}. Best is trial 3 with value: 0.9790209790209791.
     Trial 59 pruned. Trial was pruned at iteration 0.
     Trial 60 pruned. Trial was pruned at iteration 0.
-    Trial 61 pruned. Trial was pruned at iteration 0.
-    Trial 62 pruned. Trial was pruned at iteration 3.
+    Trial 61 pruned. Trial was pruned at iteration 1.
+    Trial 62 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.9566138467313274, 'bagging_freq': 6, 'min_child_samples': 9}. Best is trial 3 with value: 0.9790209790209791.
     Trial 63 pruned. Trial was pruned at iteration 0.
-    Trial 64 pruned. Trial was pruned at iteration 0.
-    Trial 65 pruned. Trial was pruned at iteration 0.
-    Trial 66 pruned. Trial was pruned at iteration 0.
+    Trial 64 pruned. Trial was pruned at iteration 1.
+    Trial 65 pruned. Trial was pruned at iteration 3.
+    Trial 66 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.9720604022341277, 'bagging_freq': 6, 'min_child_samples': 17}. Best is trial 3 with value: 0.9790209790209791.
     Trial 67 pruned. Trial was pruned at iteration 0.
-    Trial 68 pruned. Trial was pruned at iteration 0.
-    Trial 69 pruned. Trial was pruned at iteration 0.
-    Trial 70 pruned. Trial was pruned at iteration 0.
-    Trial 71 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.8113712614955395, 'bagging_freq': 5, 'min_child_samples': 10}. Best is trial 3 with value: 0.986013986013986.
-    /opt/hostedtoolcache/Python/3.7.15/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
+    Trial 68 finished with value: 0.993006993006993 and parameters: {'bagging_fraction': 0.9855448014687682, 'bagging_freq': 2, 'min_child_samples': 21}. Best is trial 68 with value: 0.993006993006993.
+    Trial 69 pruned. Trial was pruned at iteration 1.
+    Trial 70 pruned. Trial was pruned at iteration 1.
+    Trial 71 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.9751600540332035, 'bagging_freq': 3, 'min_child_samples': 9}. Best is trial 68 with value: 0.993006993006993.
     Trial 72 pruned. Trial was pruned at iteration 0.
     Trial 73 pruned. Trial was pruned at iteration 0.
-    Trial 74 finished with value: 0.993006993006993 and parameters: {'bagging_fraction': 0.804832715923943, 'bagging_freq': 4, 'min_child_samples': 11}. Best is trial 74 with value: 0.993006993006993.
-    /opt/hostedtoolcache/Python/3.7.15/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
+    Trial 74 finished with value: 0.993006993006993 and parameters: {'bagging_fraction': 0.9162555704403906, 'bagging_freq': 1, 'min_child_samples': 22}. Best is trial 68 with value: 0.993006993006993.
     Trial 75 pruned. Trial was pruned at iteration 0.
-    Trial 76 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.9481484110808724, 'bagging_freq': 3, 'min_child_samples': 22}. Best is trial 74 with value: 0.993006993006993.
-    /opt/hostedtoolcache/Python/3.7.15/x64/lib/python3.7/site-packages/lightgbm/engine.py:239: UserWarning:
-
-    'verbose_eval' argument is deprecated and will be removed in a future release of LightGBM. Pass 'log_evaluation()' callback via 'callbacks' argument instead.
-
-    Trial 77 pruned. Trial was pruned at iteration 4.
-    Trial 78 pruned. Trial was pruned at iteration 1.
+    Trial 76 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.979578586704233, 'bagging_freq': 1, 'min_child_samples': 22}. Best is trial 68 with value: 0.993006993006993.
+    Trial 77 pruned. Trial was pruned at iteration 0.
+    Trial 78 pruned. Trial was pruned at iteration 0.
     Trial 79 pruned. Trial was pruned at iteration 0.
-    Trial 80 pruned. Trial was pruned at iteration 0.
+    Trial 80 pruned. Trial was pruned at iteration 3.
     Trial 81 pruned. Trial was pruned at iteration 1.
     Trial 82 pruned. Trial was pruned at iteration 0.
-    Trial 83 pruned. Trial was pruned at iteration 1.
+    Trial 83 pruned. Trial was pruned at iteration 0.
     Trial 84 pruned. Trial was pruned at iteration 0.
     Trial 85 pruned. Trial was pruned at iteration 0.
     Trial 86 pruned. Trial was pruned at iteration 0.
@@ -528,14 +426,14 @@ In this section,  the ``objective`` is the same as the first scenario.
     Trial 90 pruned. Trial was pruned at iteration 0.
     Trial 91 pruned. Trial was pruned at iteration 0.
     Trial 92 pruned. Trial was pruned at iteration 0.
-    Trial 93 pruned. Trial was pruned at iteration 4.
-    Trial 94 pruned. Trial was pruned at iteration 1.
+    Trial 93 pruned. Trial was pruned at iteration 0.
+    Trial 94 pruned. Trial was pruned at iteration 8.
     Trial 95 pruned. Trial was pruned at iteration 0.
     Trial 96 pruned. Trial was pruned at iteration 0.
     Trial 97 pruned. Trial was pruned at iteration 0.
-    Trial 98 pruned. Trial was pruned at iteration 0.
+    Trial 98 pruned. Trial was pruned at iteration 3.
     Trial 99 pruned. Trial was pruned at iteration 0.
-    Trial 100 pruned. Trial was pruned at iteration 0.
+    Trial 100 pruned. Trial was pruned at iteration 1.
     Trial 101 pruned. Trial was pruned at iteration 3.
 
 
@@ -544,7 +442,7 @@ In this section,  the ``objective`` is the same as the first scenario.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  7.904 seconds)
+   **Total running time of the script:** ( 0 minutes  7.663 seconds)
 
 
 .. _sphx_glr_download_tutorial_20_recipes_008_specify_params.py:

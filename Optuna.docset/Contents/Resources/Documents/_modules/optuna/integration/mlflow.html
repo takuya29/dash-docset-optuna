@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.integration.mlflow &mdash; Optuna 3.0.5 documentation</title>
+  <title>optuna.integration.mlflow &mdash; Optuna 3.1.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
@@ -65,15 +65,19 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../index.html">
-            <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.0.5
+                3.1.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -98,13 +102,12 @@
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
+          <!-- This file is necessary to remove "Edit on Github" button from readthedocs by following https://docs.readthedocs.io/en/stable/guides/remove-edit-buttons.html#remove-links-from-top-right-corner --><div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
       <li class="breadcrumb-item active">optuna.integration.mlflow</li>
-      <li class="wy-breadcrumbs-aside">
-      </li>
+
   </ul>
   <hr/>
 </div>
@@ -113,6 +116,7 @@
              
   <h1>Source code for optuna.integration.mlflow</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">import</span> <span class="nn">threading</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
@@ -136,7 +140,7 @@
 
 <div class="viewcode-block" id="MLflowCallback"><a class="viewcode-back" href="../../../reference/generated/optuna.integration.MLflowCallback.html#optuna.integration.MLflowCallback">[docs]</a><span class="nd">@experimental_class</span><span class="p">(</span><span class="s2">&quot;1.4.0&quot;</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">MLflowCallback</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Callback to track Optuna trials with MLflow.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Callback to track Optuna trials with MLflow.</span>
 
 <span class="sd">    This callback adds relevant information that is</span>
 <span class="sd">    tracked by Optuna to MLflow.</span>
@@ -253,31 +257,33 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_mlflow_kwargs</span> <span class="o">=</span> <span class="n">mlflow_kwargs</span> <span class="ow">or</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_tag_study_user_attrs</span> <span class="o">=</span> <span class="n">tag_study_user_attrs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_tag_trial_user_attrs</span> <span class="o">=</span> <span class="n">tag_trial_user_attrs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="n">optuna</span><span class="o">.</span><span class="n">study</span><span class="o">.</span><span class="n">Study</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="n">optuna</span><span class="o">.</span><span class="n">trial</span><span class="o">.</span><span class="n">FrozenTrial</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_experiment</span><span class="p">(</span><span class="n">study</span><span class="p">)</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_experiment</span><span class="p">(</span><span class="n">study</span><span class="p">)</span>
 
-        <span class="k">with</span> <span class="n">mlflow</span><span class="o">.</span><span class="n">start_run</span><span class="p">(</span>
-            <span class="n">run_id</span><span class="o">=</span><span class="n">trial</span><span class="o">.</span><span class="n">system_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">RUN_ID_ATTRIBUTE_KEY</span><span class="p">),</span>
-            <span class="n">experiment_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_mlflow_kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;experiment_id&quot;</span><span class="p">),</span>
-            <span class="n">run_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_mlflow_kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;run_name&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">str</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">number</span><span class="p">),</span>
-            <span class="n">nested</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_mlflow_kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;nested&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">False</span><span class="p">,</span>
-            <span class="n">tags</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_mlflow_kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tags&quot;</span><span class="p">),</span>
-        <span class="p">):</span>
+            <span class="k">with</span> <span class="n">mlflow</span><span class="o">.</span><span class="n">start_run</span><span class="p">(</span>
+                <span class="n">run_id</span><span class="o">=</span><span class="n">trial</span><span class="o">.</span><span class="n">system_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">RUN_ID_ATTRIBUTE_KEY</span><span class="p">),</span>
+                <span class="n">experiment_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_mlflow_kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;experiment_id&quot;</span><span class="p">),</span>
+                <span class="n">run_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_mlflow_kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;run_name&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">str</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">number</span><span class="p">),</span>
+                <span class="n">nested</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_mlflow_kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;nested&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="n">tags</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_mlflow_kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tags&quot;</span><span class="p">),</span>
+            <span class="p">):</span>
 
-            <span class="c1"># This sets the metrics for MLflow.</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_log_metrics</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+                <span class="c1"># This sets the metrics for MLflow.</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_log_metrics</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
 
-            <span class="c1"># This sets the params for MLflow.</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_log_params</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+                <span class="c1"># This sets the params for MLflow.</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_log_params</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
 
-            <span class="c1"># This sets the tags for MLflow.</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_set_tags</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">study</span><span class="p">)</span>
+                <span class="c1"># This sets the tags for MLflow.</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_set_tags</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">study</span><span class="p">)</span>
 
 <div class="viewcode-block" id="MLflowCallback.track_in_mlflow"><a class="viewcode-back" href="../../../reference/generated/optuna.integration.MLflowCallback.html#optuna.integration.MLflowCallback.track_in_mlflow">[docs]</a>    <span class="nd">@experimental_func</span><span class="p">(</span><span class="s2">&quot;2.9.0&quot;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">track_in_mlflow</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Decorator for using MLflow logging in the objective function.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Decorator for using MLflow logging in the objective function.</span>
 
 <span class="sd">        This decorator enables the extension of MLflow logging provided by the callback.</span>
 
@@ -313,27 +319,30 @@
 <span class="sd">                study.optimize(objective, n_trials=10, callbacks=[mlflc])</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            ObjectiveFuncType: Objective function with tracking to MLflow enabled.</span>
+<span class="sd">            Objective function with tracking to MLflow enabled.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">ObjectiveFuncType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ObjectiveFuncType</span><span class="p">:</span>
             <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
             <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="n">trial</span><span class="p">:</span> <span class="n">optuna</span><span class="o">.</span><span class="n">trial</span><span class="o">.</span><span class="n">Trial</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
-                <span class="n">study</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">study</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_experiment</span><span class="p">(</span><span class="n">study</span><span class="p">)</span>
-                <span class="n">nested</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mlflow_kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;nested&quot;</span><span class="p">)</span>
+                <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+                    <span class="n">study</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">study</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_experiment</span><span class="p">(</span><span class="n">study</span><span class="p">)</span>
+                    <span class="n">nested</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mlflow_kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;nested&quot;</span><span class="p">)</span>
 
-                <span class="k">with</span> <span class="n">mlflow</span><span class="o">.</span><span class="n">start_run</span><span class="p">(</span><span class="n">run_name</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">number</span><span class="p">),</span> <span class="n">nested</span><span class="o">=</span><span class="n">nested</span><span class="p">)</span> <span class="k">as</span> <span class="n">run</span><span class="p">:</span>
-                    <span class="n">trial</span><span class="o">.</span><span class="n">set_system_attr</span><span class="p">(</span><span class="n">RUN_ID_ATTRIBUTE_KEY</span><span class="p">,</span> <span class="n">run</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">run_id</span><span class="p">)</span>
+                    <span class="k">with</span> <span class="n">mlflow</span><span class="o">.</span><span class="n">start_run</span><span class="p">(</span><span class="n">run_name</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">number</span><span class="p">),</span> <span class="n">nested</span><span class="o">=</span><span class="n">nested</span><span class="p">)</span> <span class="k">as</span> <span class="n">run</span><span class="p">:</span>
+                        <span class="n">trial</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">set_trial_system_attr</span><span class="p">(</span>
+                            <span class="n">trial</span><span class="o">.</span><span class="n">_trial_id</span><span class="p">,</span> <span class="n">RUN_ID_ATTRIBUTE_KEY</span><span class="p">,</span> <span class="n">run</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">run_id</span>
+                        <span class="p">)</span>
 
-                    <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">trial</span><span class="p">)</span>
+                        <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="n">trial</span><span class="p">)</span>
 
             <span class="k">return</span> <span class="n">wrapper</span>
 
         <span class="k">return</span> <span class="n">decorator</span></div>
 
     <span class="k">def</span> <span class="nf">_initialize_experiment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="n">optuna</span><span class="o">.</span><span class="n">study</span><span class="o">.</span><span class="n">Study</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Initialize an MLflow experiment with the study name.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize an MLflow experiment with the study name.</span>
 
 <span class="sd">        If a tracking uri has been provided, MLflow will be initialized to use it.</span>
 
@@ -349,7 +358,7 @@
             <span class="n">mlflow</span><span class="o">.</span><span class="n">set_experiment</span><span class="p">(</span><span class="n">study</span><span class="o">.</span><span class="n">study_name</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_set_tags</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="n">optuna</span><span class="o">.</span><span class="n">trial</span><span class="o">.</span><span class="n">FrozenTrial</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="n">optuna</span><span class="o">.</span><span class="n">study</span><span class="o">.</span><span class="n">Study</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Sets the Optuna tags for the current MLflow run.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the Optuna tags for the current MLflow run.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            trial: Trial to be tracked.</span>
@@ -393,7 +402,7 @@
         <span class="n">mlflow</span><span class="o">.</span><span class="n">set_tags</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_log_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Log the trial results as metrics to MLflow.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Log the trial results as metrics to MLflow.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            values: Results of a trial.</span>
@@ -427,7 +436,7 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_log_params</span><span class="p">(</span><span class="n">params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Log the parameters of the trial to MLflow.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Log the parameters of the trial to MLflow.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            params: Trial params.</span>

@@ -2,9 +2,9 @@
 
 <html class="writer-html5" lang="en">
 <head>
-<meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
+<meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.integration — Optuna 3.0.5 documentation</title>
+<title>optuna.integration — Optuna 3.1.0 documentation</title>
 <link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -68,11 +68,11 @@
 <img alt="Logo" class="logo" src="../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.0.5
+                3.1.0
               </div>
 <div role="search">
 <form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
-<input name="q" placeholder="Search docs" type="text"/>
+<input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
 <input name="check_keywords" type="hidden" value="yes"/>
 <input name="area" type="hidden" value="default"/>
 </form>
@@ -99,6 +99,7 @@
 <li class="toctree-l4"><a class="reference internal" href="generated/optuna.integration.BoTorchSampler.html">optuna.integration.BoTorchSampler</a></li>
 <li class="toctree-l4"><a class="reference internal" href="generated/optuna.integration.botorch.qei_candidates_func.html">optuna.integration.botorch.qei_candidates_func</a></li>
 <li class="toctree-l4"><a class="reference internal" href="generated/optuna.integration.botorch.qehvi_candidates_func.html">optuna.integration.botorch.qehvi_candidates_func</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/optuna.integration.botorch.qnehvi_candidates_func.html">optuna.integration.botorch.qnehvi_candidates_func</a></li>
 <li class="toctree-l4"><a class="reference internal" href="generated/optuna.integration.botorch.qparego_candidates_func.html">optuna.integration.botorch.qparego_candidates_func</a></li>
 </ul>
 </li>
@@ -113,6 +114,10 @@
 <li class="toctree-l3"><a class="reference internal" href="#chainer">Chainer</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="generated/optuna.integration.ChainerPruningExtension.html">optuna.integration.ChainerPruningExtension</a></li>
 <li class="toctree-l4"><a class="reference internal" href="generated/optuna.integration.ChainerMNStudy.html">optuna.integration.ChainerMNStudy</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dask">Dask</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated/optuna.integration.DaskStorage.html">optuna.integration.DaskStorage</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#fast-ai">fast.ai</a><ul>
@@ -184,7 +189,6 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="logging.html">optuna.logging</a></li>
-<li class="toctree-l2"><a class="reference internal" href="multi_objective/index.html">optuna.multi_objective</a></li>
 <li class="toctree-l2"><a class="reference internal" href="pruners.html">optuna.pruners</a></li>
 <li class="toctree-l2"><a class="reference internal" href="samplers/index.html">optuna.samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="storages.html">optuna.storages</a></li>
@@ -204,13 +208,11 @@
 </nav>
 <div class="wy-nav-content">
 <div class="rst-content">
-<div aria-label="Page navigation" role="navigation">
+<!-- This file is necessary to remove "Edit on Github" button from readthedocs by following https://docs.readthedocs.io/en/stable/guides/remove-edit-buttons.html#remove-links-from-top-right-corner --><div aria-label="Page navigation" role="navigation">
 <ul class="wy-breadcrumbs">
-<li><a class="icon icon-home" href="../index.html"></a></li>
+<li><a aria-label="Home" class="icon icon-home" href="../index.html"></a></li>
 <li class="breadcrumb-item"><a href="index.html">API Reference</a></li>
 <li class="breadcrumb-item active">optuna.integration</li>
-<li class="wy-breadcrumbs-aside">
-</li>
 </ul>
 <hr/>
 </div>
@@ -221,7 +223,7 @@
 <p>The <a class="reference internal" href="#module-optuna.integration" title="optuna.integration"><code class="xref py py-mod docutils literal notranslate"><span class="pre">integration</span></code></a> module contains classes used to integrate Optuna with external machine learning frameworks.</p>
 <p>For most of the ML frameworks supported by Optuna, the corresponding Optuna integration class serves only to implement a callback object and functions, compliant with the framework’s specific callback API, to be called with each intermediate step in the model training. The functionality implemented in these callbacks across the different ML frameworks includes:</p>
 <ol class="arabic simple">
-<li><p>Reporting intermediate model scores back to the Optuna trial using <code class="xref py py-func docutils literal notranslate"><span class="pre">optuna.trial.report()</span></code>,</p></li>
+<li><p>Reporting intermediate model scores back to the Optuna trial using <a class="reference internal" href="generated/optuna.trial.Trial.html#optuna.trial.Trial.report" title="optuna.trial.Trial.report"><code class="xref py py-func docutils literal notranslate"><span class="pre">optuna.trial.Trial.report()</span></code></a>,</p></li>
 <li><p>According to the results of <a class="reference internal" href="generated/optuna.trial.Trial.html#optuna.trial.Trial.should_prune" title="optuna.trial.Trial.should_prune"><code class="xref py py-func docutils literal notranslate"><span class="pre">optuna.trial.Trial.should_prune()</span></code></a>, pruning the current model by raising <a class="reference internal" href="generated/optuna.TrialPruned.html#optuna.TrialPruned" title="optuna.TrialPruned"><code class="xref py py-func docutils literal notranslate"><span class="pre">optuna.TrialPruned()</span></code></a>, and</p></li>
 <li><p>Reporting intermediate Optuna data such as the current trial number back to the framework, as done in <a class="reference internal" href="generated/optuna.integration.MLflowCallback.html#optuna.integration.MLflowCallback" title="optuna.integration.MLflowCallback"><code class="xref py py-class docutils literal notranslate"><span class="pre">MLflowCallback</span></code></a>.</p></li>
 </ol>
@@ -229,10 +231,6 @@
 <section id="allennlp">
 <h2>AllenNLP<a class="headerlink" href="#allennlp" title="Permalink to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.AllenNLPExecutor.html#optuna.integration.AllenNLPExecutor" title="optuna.integration.AllenNLPExecutor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.AllenNLPExecutor</span></code></a></p></td>
 <td><p>AllenNLP extension to use optuna with Jsonnet config file.</p></td>
@@ -249,10 +247,6 @@
 <section id="botorch">
 <h2>BoTorch<a class="headerlink" href="#botorch" title="Permalink to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.BoTorchSampler.html#optuna.integration.BoTorchSampler" title="optuna.integration.BoTorchSampler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.BoTorchSampler</span></code></a></p></td>
 <td><p>A sampler that uses BoTorch, a Bayesian optimization library built on top of PyTorch.</p></td>
@@ -263,7 +257,10 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.botorch.qehvi_candidates_func.html#optuna.integration.botorch.qehvi_candidates_func" title="optuna.integration.botorch.qehvi_candidates_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.botorch.qehvi_candidates_func</span></code></a></p></td>
 <td><p>Quasi MC-based batch Expected Hypervolume Improvement (qEHVI).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.integration.botorch.qparego_candidates_func.html#optuna.integration.botorch.qparego_candidates_func" title="optuna.integration.botorch.qparego_candidates_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.botorch.qparego_candidates_func</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.integration.botorch.qnehvi_candidates_func.html#optuna.integration.botorch.qnehvi_candidates_func" title="optuna.integration.botorch.qnehvi_candidates_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.botorch.qnehvi_candidates_func</span></code></a></p></td>
+<td><p>Quasi MC-based batch Expected Noisy Hypervolume Improvement (qNEHVI).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.botorch.qparego_candidates_func.html#optuna.integration.botorch.qparego_candidates_func" title="optuna.integration.botorch.qparego_candidates_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.botorch.qparego_candidates_func</span></code></a></p></td>
 <td><p>Quasi MC-based extended ParEGO (qParEGO) for constrained multi-objective optimization.</p></td>
 </tr>
 </tbody>
@@ -272,10 +269,6 @@
 <section id="catalyst">
 <h2>Catalyst<a class="headerlink" href="#catalyst" title="Permalink to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.CatalystPruningCallback.html#optuna.integration.CatalystPruningCallback" title="optuna.integration.CatalystPruningCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.CatalystPruningCallback</span></code></a></p></td>
 <td><p>Catalyst callback to prune unpromising trials.</p></td>
@@ -286,10 +279,6 @@
 <section id="catboost">
 <h2>CatBoost<a class="headerlink" href="#catboost" title="Permalink to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.CatBoostPruningCallback.html#optuna.integration.CatBoostPruningCallback" title="optuna.integration.CatBoostPruningCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.CatBoostPruningCallback</span></code></a></p></td>
 <td><p>Callback for catboost to prune unpromising trials.</p></td>
@@ -300,10 +289,6 @@
 <section id="chainer">
 <h2>Chainer<a class="headerlink" href="#chainer" title="Permalink to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.ChainerPruningExtension.html#optuna.integration.ChainerPruningExtension" title="optuna.integration.ChainerPruningExtension"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.ChainerPruningExtension</span></code></a></p></td>
 <td><p>Chainer extension to prune unpromising trials.</p></td>
@@ -314,13 +299,19 @@
 </tbody>
 </table>
 </section>
+<section id="dask">
+<h2>Dask<a class="headerlink" href="#dask" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.DaskStorage.html#optuna.integration.DaskStorage" title="optuna.integration.DaskStorage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.DaskStorage</span></code></a></p></td>
+<td><p>Dask-compatible storage class.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
 <section id="fast-ai">
 <h2>fast.ai<a class="headerlink" href="#fast-ai" title="Permalink to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.FastAIV1PruningCallback.html#optuna.integration.FastAIV1PruningCallback" title="optuna.integration.FastAIV1PruningCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.FastAIV1PruningCallback</span></code></a></p></td>
 <td><p>FastAI callback to prune unpromising trials for fastai.</p></td>
@@ -337,10 +328,6 @@
 <section id="keras">
 <h2>Keras<a class="headerlink" href="#keras" title="Permalink to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.KerasPruningCallback.html#optuna.integration.KerasPruningCallback" title="optuna.integration.KerasPruningCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.KerasPruningCallback</span></code></a></p></td>
 <td><p>Keras callback to prune unpromising trials.</p></td>
@@ -351,10 +338,6 @@
 <section id="lightgbm">
 <h2>LightGBM<a class="headerlink" href="#lightgbm" title="Permalink to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.LightGBMPruningCallback.html#optuna.integration.LightGBMPruningCallback" title="optuna.integration.LightGBMPruningCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.LightGBMPruningCallback</span></code></a></p></td>
 <td><p>Callback for LightGBM to prune unpromising trials.</p></td>
@@ -374,10 +357,6 @@
 <section id="mlflow">
 <h2>MLflow<a class="headerlink" href="#mlflow" title="Permalink to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.MLflowCallback.html#optuna.integration.MLflowCallback" title="optuna.integration.MLflowCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.MLflowCallback</span></code></a></p></td>
 <td><p>Callback to track Optuna trials with MLflow.</p></td>
@@ -388,10 +367,6 @@
 <section id="weights-biases">
 <h2>Weights &amp; Biases<a class="headerlink" href="#weights-biases" title="Permalink to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.WeightsAndBiasesCallback.html#optuna.integration.WeightsAndBiasesCallback" title="optuna.integration.WeightsAndBiasesCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.WeightsAndBiasesCallback</span></code></a></p></td>
 <td><p>Callback to track Optuna trials with Weights &amp; Biases.</p></td>
@@ -402,10 +377,6 @@
 <section id="mxnet">
 <h2>MXNet<a class="headerlink" href="#mxnet" title="Permalink to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.MXNetPruningCallback.html#optuna.integration.MXNetPruningCallback" title="optuna.integration.MXNetPruningCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.MXNetPruningCallback</span></code></a></p></td>
 <td><p>MXNet callback to prune unpromising trials.</p></td>
@@ -416,10 +387,6 @@
 <section id="pycma">
 <h2>pycma<a class="headerlink" href="#pycma" title="Permalink to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.PyCmaSampler.html#optuna.integration.PyCmaSampler" title="optuna.integration.PyCmaSampler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.PyCmaSampler</span></code></a></p></td>
 <td><p>A Sampler using cma library as the backend.</p></td>
@@ -433,10 +400,6 @@
 <section id="pytorch">
 <h2>PyTorch<a class="headerlink" href="#pytorch" title="Permalink to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.PyTorchIgnitePruningHandler.html#optuna.integration.PyTorchIgnitePruningHandler" title="optuna.integration.PyTorchIgnitePruningHandler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.PyTorchIgnitePruningHandler</span></code></a></p></td>
 <td><p>PyTorch Ignite handler to prune unpromising trials.</p></td>
@@ -453,10 +416,6 @@
 <section id="scikit-learn">
 <h2>scikit-learn<a class="headerlink" href="#scikit-learn" title="Permalink to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.OptunaSearchCV.html#optuna.integration.OptunaSearchCV" title="optuna.integration.OptunaSearchCV"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.OptunaSearchCV</span></code></a></p></td>
 <td><p>Hyperparameter search with cross-validation.</p></td>
@@ -467,10 +426,6 @@
 <section id="scikit-optimize">
 <h2>scikit-optimize<a class="headerlink" href="#scikit-optimize" title="Permalink to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.SkoptSampler.html#optuna.integration.SkoptSampler" title="optuna.integration.SkoptSampler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.SkoptSampler</span></code></a></p></td>
 <td><p>Sampler using Scikit-Optimize as the backend.</p></td>
@@ -481,10 +436,6 @@
 <section id="shap">
 <h2>SHAP<a class="headerlink" href="#shap" title="Permalink to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.ShapleyImportanceEvaluator.html#optuna.integration.ShapleyImportanceEvaluator" title="optuna.integration.ShapleyImportanceEvaluator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.ShapleyImportanceEvaluator</span></code></a></p></td>
 <td><p>Shapley (SHAP) parameter importance evaluator.</p></td>
@@ -495,10 +446,6 @@
 <section id="skorch">
 <h2>skorch<a class="headerlink" href="#skorch" title="Permalink to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.SkorchPruningCallback.html#optuna.integration.SkorchPruningCallback" title="optuna.integration.SkorchPruningCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.SkorchPruningCallback</span></code></a></p></td>
 <td><p>Skorch callback to prune unpromising trials.</p></td>
@@ -509,10 +456,6 @@
 <section id="tensorflow">
 <h2>TensorFlow<a class="headerlink" href="#tensorflow" title="Permalink to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.TensorBoardCallback.html#optuna.integration.TensorBoardCallback" title="optuna.integration.TensorBoardCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.TensorBoardCallback</span></code></a></p></td>
 <td><p>Callback to track Optuna trials with TensorBoard.</p></td>
@@ -529,10 +472,6 @@
 <section id="xgboost">
 <h2>XGBoost<a class="headerlink" href="#xgboost" title="Permalink to this heading"></a></h2>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.XGBoostPruningCallback.html#optuna.integration.XGBoostPruningCallback" title="optuna.integration.XGBoostPruningCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.XGBoostPruningCallback</span></code></a></p></td>
 <td><p>Callback for XGBoost to prune unpromising trials.</p></td>

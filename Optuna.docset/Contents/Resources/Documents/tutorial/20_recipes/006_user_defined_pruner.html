@@ -2,9 +2,9 @@
 
 <html class="writer-html5" lang="en">
 <head>
-<meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
+<meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>User-Defined Pruner — Optuna 3.0.5 documentation</title>
+<title>User-Defined Pruner — Optuna 3.1.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -68,11 +68,11 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.0.5
+                3.1.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
-<input name="q" placeholder="Search docs" type="text"/>
+<input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
 <input name="check_keywords" type="hidden" value="yes"/>
 <input name="area" type="hidden" value="default"/>
 </form>
@@ -114,14 +114,12 @@
 </nav>
 <div class="wy-nav-content">
 <div class="rst-content">
-<div aria-label="Page navigation" role="navigation">
+<!-- This file is necessary to remove "Edit on Github" button from readthedocs by following https://docs.readthedocs.io/en/stable/guides/remove-edit-buttons.html#remove-links-from-top-right-corner --><div aria-label="Page navigation" role="navigation">
 <ul class="wy-breadcrumbs">
-<li><a class="icon icon-home" href="../../index.html"></a></li>
+<li><a aria-label="Home" class="icon icon-home" href="../../index.html"></a></li>
 <li class="breadcrumb-item"><a href="../index.html">Tutorial</a></li>
 <li class="breadcrumb-item"><a href="index.html">Recipes</a></li>
 <li class="breadcrumb-item active">User-Defined Pruner</li>
-<li class="wy-breadcrumbs-aside">
-</li>
 </ul>
 <hr/>
 </div>
@@ -148,7 +146,7 @@ pruner should implement the abstract method
 associated <a class="reference internal" href="../../reference/generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> and <a class="reference internal" href="../../reference/generated/optuna.trial.Trial.html#optuna.trial.Trial" title="optuna.trial.Trial"><code class="xref py py-class docutils literal notranslate"><span class="pre">Trial</span></code></a> and
 returns a boolean value: <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if the trial should be pruned and <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>
 otherwise. Using the Study and Trial objects, you can access all other trials
-through the <code class="xref py py-func docutils literal notranslate"><span class="pre">get_trial()</span></code> method and, and from a trial,
+through the <a class="reference internal" href="../../reference/generated/optuna.study.Study.html#optuna.study.Study.get_trials" title="optuna.study.Study.get_trials"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_trials()</span></code></a> method and, and from a trial,
 its reported intermediate values through the
 <a class="reference internal" href="../../reference/generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial.intermediate_values" title="optuna.trial.FrozenTrial.intermediate_values"><code class="xref py py-func docutils literal notranslate"><span class="pre">intermediate_values()</span></code></a> (a
 dictionary which maps an integer <code class="docutils literal notranslate"><span class="pre">step</span></code> to a float value).</p>
@@ -184,11 +182,11 @@ last reported as the value of the trial.</p>
 <span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">SGDClassifier</span>
 
 <span class="kn">import</span> <span class="nn">optuna</span>
-<span class="kn">from</span> <span class="nn">optuna.pruners</span> <span class="kn">import</span> <span class="n">BasePruner</span>
+<span class="kn">from</span> <span class="nn">optuna.pruners</span> <span class="kn">import</span> <a class="sphx-glr-backref-module-abc sphx-glr-backref-type-py-class" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="abc.ABC"><span class="n">BasePruner</span></a>
 <span class="kn">from</span> <span class="nn">optuna.trial._state</span> <span class="kn">import</span> <span class="n">TrialState</span>
 
 
-<span class="k">class</span> <span class="nc">LastPlacePruner</span><span class="p">(</span><span class="n">BasePruner</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">LastPlacePruner</span><span class="p">(</span><a class="sphx-glr-backref-module-abc sphx-glr-backref-type-py-class" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="abc.ABC"><span class="n">BasePruner</span></a><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">warmup_steps</span><span class="p">,</span> <span class="n">warmup_trials</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_warmup_steps</span> <span class="o">=</span> <span class="n">warmup_steps</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_warmup_trials</span> <span class="o">=</span> <span class="n">warmup_trials</span>
@@ -228,7 +226,7 @@ last reported as the value of the trial.</p>
         <span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">iris</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">train_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span>
     <span class="p">)</span>
 
-    <span class="n">loss</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_categorical</span><span class="p">(</span><span class="s2">"loss"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"hinge"</span><span class="p">,</span> <span class="s2">"log"</span><span class="p">,</span> <span class="s2">"perceptron"</span><span class="p">])</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_categorical</span><span class="p">(</span><span class="s2">"loss"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"hinge"</span><span class="p">,</span> <span class="s2">"log_loss"</span><span class="p">,</span> <span class="s2">"perceptron"</span><span class="p">])</span>
     <span class="n">alpha</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"alpha"</span><span class="p">,</span> <span class="mf">0.00001</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">clf</span> <span class="o">=</span> <span class="n">SGDClassifier</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="n">loss</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">score</span> <span class="o">=</span> <span class="mi">0</span>
@@ -245,22 +243,27 @@ last reported as the value of the trial.</p>
     <span class="k">return</span> <span class="n">score</span>
 
 
-<span class="n">pruner</span> <span class="o">=</span> <span class="n">LastPlacePruner</span><span class="p">(</span><span class="n">warmup_steps</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">warmup_trials</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">pruner</span> <span class="o">=</span> <a class="sphx-glr-backref-module-abc sphx-glr-backref-type-py-class" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="abc.ABC"><span class="n">LastPlacePruner</span></a><span class="p">(</span><span class="n">warmup_steps</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">warmup_trials</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">study</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">create_study</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="s2">"maximize"</span><span class="p">,</span> <span class="n">pruner</span><span class="o">=</span><span class="n">pruner</span><span class="p">)</span>
 <span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>prune() True: Trial 8, Step 4, Score 0.42
-prune() True: Trial 10, Step 1, Score 0.34
-prune() True: Trial 36, Step 2, Score 0.58
-prune() True: Trial 38, Step 1, Score 0.62
-prune() True: Trial 40, Step 1, Score 0.62
-prune() True: Trial 42, Step 1, Score 0.7
-prune() True: Trial 43, Step 1, Score 0.62
-prune() True: Trial 45, Step 1, Score 0.66
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>prune() True: Trial 6, Step 1, Score 0.66
+prune() True: Trial 9, Step 1, Score 0.74
+prune() True: Trial 12, Step 4, Score 0.68
+prune() True: Trial 14, Step 4, Score 0.68
+prune() True: Trial 19, Step 1, Score 0.62
+prune() True: Trial 27, Step 4, Score 0.68
+prune() True: Trial 29, Step 1, Score 0.78
+prune() True: Trial 36, Step 4, Score 0.64
+prune() True: Trial 37, Step 4, Score 0.68
+prune() True: Trial 40, Step 1, Score 0.7
+prune() True: Trial 44, Step 4, Score 0.68
+prune() True: Trial 45, Step 4, Score 0.68
+prune() True: Trial 47, Step 4, Score 0.68
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.927 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.784 seconds)</p>
 <a class="dashAnchor" name="//apple_ref/cpp/Section/sphx_glr_download_tutorial_20_recipes_006_user_defined_pruner.py"></a><div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorial-20-recipes-006-user-defined-pruner-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/367a7656d509bad6b4c2a664ffbc3653/006_user_defined_pruner.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">006_user_defined_pruner.py</span></code></a></p>

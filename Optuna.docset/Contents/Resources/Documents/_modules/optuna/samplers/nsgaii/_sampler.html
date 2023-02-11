@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.samplers.nsgaii._sampler &mdash; Optuna 3.0.5 documentation</title>
+  <title>optuna.samplers.nsgaii._sampler &mdash; Optuna 3.1.0 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
@@ -65,15 +65,19 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../../index.html">
-            <img src="../../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../../../../index.html">
+            
+              <img src="../../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.0.5
+                3.1.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -98,13 +102,12 @@
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
+          <!-- This file is necessary to remove "Edit on Github" button from readthedocs by following https://docs.readthedocs.io/en/stable/guides/remove-edit-buttons.html#remove-links-from-top-right-corner --><div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../../index.html" class="icon icon-home"></a></li>
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
       <li class="breadcrumb-item active">optuna.samplers.nsgaii._sampler</li>
-      <li class="wy-breadcrumbs-aside">
-      </li>
+
   </ul>
   <hr/>
 </div>
@@ -129,8 +132,8 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">import</span> <span class="nn">optuna</span>
-<span class="kn">from</span> <span class="nn">optuna._experimental</span> <span class="kn">import</span> <span class="n">ExperimentalWarning</span>
 <span class="kn">from</span> <span class="nn">optuna.distributions</span> <span class="kn">import</span> <span class="n">BaseDistribution</span>
+<span class="kn">from</span> <span class="nn">optuna.exceptions</span> <span class="kn">import</span> <span class="n">ExperimentalWarning</span>
 <span class="kn">from</span> <span class="nn">optuna.samplers._base</span> <span class="kn">import</span> <span class="n">_CONSTRAINTS_KEY</span>
 <span class="kn">from</span> <span class="nn">optuna.samplers._base</span> <span class="kn">import</span> <span class="n">_process_constraints_after_trial</span>
 <span class="kn">from</span> <span class="nn">optuna.samplers._base</span> <span class="kn">import</span> <span class="n">BaseSampler</span>
@@ -152,7 +155,7 @@
 
 
 <div class="viewcode-block" id="NSGAIISampler"><a class="viewcode-back" href="../../../../reference/samplers/generated/optuna.samplers.NSGAIISampler.html#optuna.samplers.NSGAIISampler">[docs]</a><span class="k">class</span> <span class="nc">NSGAIISampler</span><span class="p">(</span><span class="n">BaseSampler</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Multi-objective sampler using the NSGA-II algorithm.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Multi-objective sampler using the NSGA-II algorithm.</span>
 
 <span class="sd">    NSGA-II stands for &quot;Nondominated Sorting Genetic Algorithm II&quot;,</span>
 <span class="sd">    which is a well known, fast and elitist multi-objective genetic algorithm.</span>
@@ -414,7 +417,8 @@
                 <span class="n">hasher</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">bytes</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">number</span><span class="p">),</span> <span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
 
             <span class="n">cache_key</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">_POPULATION_CACHE_KEY_PREFIX</span><span class="p">,</span> <span class="n">hasher</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">())</span>
-            <span class="n">cached_generation</span><span class="p">,</span> <span class="n">cached_population_numbers</span> <span class="o">=</span> <span class="n">study</span><span class="o">.</span><span class="n">system_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="n">study_system_attrs</span> <span class="o">=</span> <span class="n">study</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">get_study_system_attrs</span><span class="p">(</span><span class="n">study</span><span class="o">.</span><span class="n">_study_id</span><span class="p">)</span>
+            <span class="n">cached_generation</span><span class="p">,</span> <span class="n">cached_population_numbers</span> <span class="o">=</span> <span class="n">study_system_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
                 <span class="n">cache_key</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">[])</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="n">cached_generation</span> <span class="o">&gt;=</span> <span class="n">generation</span><span class="p">:</span>
@@ -431,7 +435,9 @@
                 <span class="c1"># will be used.</span>
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">generation_to_runnings</span><span class="p">[</span><span class="n">generation</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="n">population_numbers</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">number</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">population</span><span class="p">]</span>
-                    <span class="n">study</span><span class="o">.</span><span class="n">set_system_attr</span><span class="p">(</span><span class="n">cache_key</span><span class="p">,</span> <span class="p">(</span><span class="n">generation</span><span class="p">,</span> <span class="n">population_numbers</span><span class="p">))</span>
+                    <span class="n">study</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">set_study_system_attr</span><span class="p">(</span>
+                        <span class="n">study</span><span class="o">.</span><span class="n">_study_id</span><span class="p">,</span> <span class="n">cache_key</span><span class="p">,</span> <span class="p">(</span><span class="n">generation</span><span class="p">,</span> <span class="n">population_numbers</span><span class="p">)</span>
+                    <span class="p">)</span>
 
             <span class="n">parent_generation</span> <span class="o">=</span> <span class="n">generation</span>
             <span class="n">parent_population</span> <span class="o">=</span> <span class="n">population</span>
@@ -459,6 +465,14 @@
         <span class="n">population</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">],</span>
         <span class="n">directions</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">optuna</span><span class="o">.</span><span class="n">study</span><span class="o">.</span><span class="n">StudyDirection</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]]:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constraints_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">_trial</span> <span class="ow">in</span> <span class="n">population</span><span class="p">:</span>
+                <span class="n">_constraints</span> <span class="o">=</span> <span class="n">_trial</span><span class="o">.</span><span class="n">system_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_CONSTRAINTS_KEY</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">_constraints</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">_constraints</span><span class="p">))):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;NaN is not acceptable as constraint value.&quot;</span><span class="p">)</span>
+
         <span class="n">dominated_count</span><span class="p">:</span> <span class="n">DefaultDict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
         <span class="n">dominates_list</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
 
@@ -510,7 +524,7 @@
 
 
 <span class="k">def</span> <span class="nf">_calc_crowding_distance</span><span class="p">(</span><span class="n">population</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">DefaultDict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Calculates the crowding distance of population.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculates the crowding distance of population.</span>
 
 <span class="sd">    We define the crowding distance as the summation of the crowding distance of each dimension</span>
 <span class="sd">    of value calculated as follows:</span>
@@ -569,7 +583,7 @@
 <span class="k">def</span> <span class="nf">_constrained_dominates</span><span class="p">(</span>
     <span class="n">trial0</span><span class="p">:</span> <span class="n">FrozenTrial</span><span class="p">,</span> <span class="n">trial1</span><span class="p">:</span> <span class="n">FrozenTrial</span><span class="p">,</span> <span class="n">directions</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">StudyDirection</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Checks constrained-domination.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Checks constrained-domination.</span>
 
 <span class="sd">    A trial x is said to constrained-dominate a trial y, if any of the following conditions is</span>
 <span class="sd">    true:</span>
@@ -608,9 +622,6 @@
 
     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">constraints0</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span>
     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">constraints1</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span>
-
-    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">constraints0</span><span class="p">))</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">constraints1</span><span class="p">)):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;NaN is not acceptable as constraint value.&quot;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">constraints0</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">constraints1</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Trials with different numbers of constraints cannot be compared.&quot;</span><span class="p">)</span>

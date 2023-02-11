@@ -2,9 +2,9 @@
 
 <html class="writer-html5" lang="en">
 <head>
-<meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
+<meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.samplers.intersection_search_space — Optuna 3.0.5 documentation</title>
+<title>optuna.samplers.intersection_search_space — Optuna 3.1.0 documentation</title>
 <link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -68,11 +68,11 @@
 <img alt="Logo" class="logo" src="../../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.0.5
+                3.1.0
               </div>
 <div role="search">
 <form action="../../../search.html" class="wy-form" id="rtd-search-form" method="get">
-<input name="q" placeholder="Search docs" type="text"/>
+<input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
 <input name="check_keywords" type="hidden" value="yes"/>
 <input name="area" type="hidden" value="default"/>
 </form>
@@ -90,7 +90,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../../importance.html">optuna.importance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../integration.html">optuna.integration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../logging.html">optuna.logging</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../multi_objective/index.html">optuna.multi_objective</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../pruners.html">optuna.pruners</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html">optuna.samplers</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.BaseSampler.html">optuna.samplers.BaseSampler</a></li>
@@ -102,6 +101,7 @@
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.NSGAIISampler.html">optuna.samplers.NSGAIISampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.MOTPESampler.html">optuna.samplers.MOTPESampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.QMCSampler.html">optuna.samplers.QMCSampler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.samplers.BruteForceSampler.html">optuna.samplers.BruteForceSampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.IntersectionSearchSpace.html">optuna.samplers.IntersectionSearchSpace</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">optuna.samplers.intersection_search_space</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#optuna.samplers.intersection_search_space"><code class="docutils literal notranslate"><span class="pre">intersection_search_space()</span></code></a></li>
@@ -127,14 +127,12 @@
 </nav>
 <div class="wy-nav-content">
 <div class="rst-content">
-<div aria-label="Page navigation" role="navigation">
+<!-- This file is necessary to remove "Edit on Github" button from readthedocs by following https://docs.readthedocs.io/en/stable/guides/remove-edit-buttons.html#remove-links-from-top-right-corner --><div aria-label="Page navigation" role="navigation">
 <ul class="wy-breadcrumbs">
-<li><a class="icon icon-home" href="../../../index.html"></a></li>
+<li><a aria-label="Home" class="icon icon-home" href="../../../index.html"></a></li>
 <li class="breadcrumb-item"><a href="../../index.html">API Reference</a></li>
 <li class="breadcrumb-item"><a href="../index.html">optuna.samplers</a></li>
 <li class="breadcrumb-item active">optuna.samplers.intersection_search_space</li>
-<li class="wy-breadcrumbs-aside">
-</li>
 </ul>
 <hr/>
 </div>
@@ -158,7 +156,7 @@ a much faster way. Please consider using it if you want to reduce execution time
 as much as possible.</p>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>study</strong> (<a class="reference internal" href="../../generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.study.Study"><em>Study</em></a>) – A study with completed trials.</p></li>
 <li><p><strong>ordered_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – A boolean flag determining the return type.
@@ -168,10 +166,10 @@ keys, i.e. parameter names.</p></li>
 <li><p><strong>include_pruned</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Whether pruned trials should be included in the search space.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A dictionary containing the parameter names and parameter’s distributions.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>, <em>BaseDistribution</em>]</p>
 </dd>
 </dl>

@@ -2,9 +2,9 @@
 
 <html class="writer-html5" lang="en">
 <head>
-<meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
+<meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.study.MaxTrialsCallback — Optuna 3.0.5 documentation</title>
+<title>optuna.study.MaxTrialsCallback — Optuna 3.1.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -68,11 +68,11 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.0.5
+                3.1.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
-<input name="q" placeholder="Search docs" type="text"/>
+<input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
 <input name="check_keywords" type="hidden" value="yes"/>
 <input name="area" type="hidden" value="default"/>
 </form>
@@ -90,7 +90,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../importance.html">optuna.importance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../integration.html">optuna.integration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../logging.html">optuna.logging</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../multi_objective/index.html">optuna.multi_objective</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pruners.html">optuna.pruners</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../samplers/index.html">optuna.samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../storages.html">optuna.storages</a></li>
@@ -124,14 +123,12 @@
 </nav>
 <div class="wy-nav-content">
 <div class="rst-content">
-<div aria-label="Page navigation" role="navigation">
+<!-- This file is necessary to remove "Edit on Github" button from readthedocs by following https://docs.readthedocs.io/en/stable/guides/remove-edit-buttons.html#remove-links-from-top-right-corner --><div aria-label="Page navigation" role="navigation">
 <ul class="wy-breadcrumbs">
-<li><a class="icon icon-home" href="../../index.html"></a></li>
+<li><a aria-label="Home" class="icon icon-home" href="../../index.html"></a></li>
 <li class="breadcrumb-item"><a href="../index.html">API Reference</a></li>
 <li class="breadcrumb-item"><a href="../study.html">optuna.study</a></li>
 <li class="breadcrumb-item active">optuna.study.MaxTrialsCallback</li>
-<li class="wy-breadcrumbs-aside">
-</li>
 </ul>
 <hr/>
 </div>
@@ -143,10 +140,10 @@
 <dt class="sig sig-object py" id="optuna.study.MaxTrialsCallback">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.study.</span></span><span class="sig-name descname"><span class="pre">MaxTrialsCallback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_trials</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">states</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(TrialState.COMPLETE,)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/_callbacks.html#MaxTrialsCallback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna._callbacks.MaxTrialsCallback"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.study.MaxTrialsCallback"></a><a class="headerlink" href="#optuna.study.MaxTrialsCallback" title="Permalink to this definition"></a></dt>
 <dd><p>Set a maximum number of trials before ending the study.</p>
-<p>While the <code class="xref py py-obj docutils literal notranslate"><span class="pre">n_trials</span></code> argument of <code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.optimize</span></code> sets the number of trials that
-will be run, you may want to continue running until you have a certain number of successfullly
-completed trials or stop the study when you have a certain number of trials that fail.
-This <a class="reference internal" href="#optuna.study.MaxTrialsCallback" title="optuna.study.MaxTrialsCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MaxTrialsCallback</span></code></a> class allows you to set a maximum number of trials for a
+<p>While the <code class="docutils literal notranslate"><span class="pre">n_trials</span></code> argument of <a class="reference internal" href="optuna.study.Study.html#optuna.study.Study.optimize" title="optuna.study.Study.optimize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">optuna.study.Study.optimize()</span></code></a> sets the number of
+trials that will be run, you may want to continue running until you have a certain number of
+successfully completed trials or stop the study when you have a certain number of trials that
+fail. This <code class="docutils literal notranslate"><span class="pre">MaxTrialsCallback</span></code> class allows you to set a maximum number of trials for a
 particular <a class="reference internal" href="optuna.trial.TrialState.html#optuna.trial.TrialState" title="optuna.trial.TrialState"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrialState</span></code></a> before stopping the study.</p>
 <p class="rubric">Example</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optuna</span>
@@ -167,11 +164,11 @@ particular <a class="reference internal" href="optuna.trial.TrialState.html#optu
 </pre></div>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>n_trials</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The max number of trials. Must be set to an integer.</p></li>
 <li><p><strong>states</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Container" title="(in Python v3.11)"><em>Container</em></a><em>[</em><a class="reference internal" href="optuna.trial.TrialState.html#optuna.trial.TrialState" title="optuna.trial._state.TrialState"><em>TrialState</em></a><em>]</em><em>]</em>) – Tuple of the <a class="reference internal" href="optuna.trial.TrialState.html#optuna.trial.TrialState" title="optuna.trial.TrialState"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrialState</span></code></a> to be counted
-towards the max trials limit. Default value is <code class="xref py py-obj docutils literal notranslate"><span class="pre">(TrialState.COMPLETE,)</span></code>.
+towards the max trials limit. Default value is <code class="docutils literal notranslate"><span class="pre">(TrialState.COMPLETE,)</span></code>.
 If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, count all states.</p></li>
 </ul>
 </dd>

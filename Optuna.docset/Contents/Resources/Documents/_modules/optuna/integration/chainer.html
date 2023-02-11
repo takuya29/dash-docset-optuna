@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.integration.chainer &mdash; Optuna 3.0.5 documentation</title>
+  <title>optuna.integration.chainer &mdash; Optuna 3.1.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
@@ -65,15 +65,19 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../index.html">
-            <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.0.5
+                3.1.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -98,13 +102,12 @@
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
+          <!-- This file is necessary to remove "Edit on Github" button from readthedocs by following https://docs.readthedocs.io/en/stable/guides/remove-edit-buttons.html#remove-links-from-top-right-corner --><div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
       <li class="breadcrumb-item active">optuna.integration.chainer</li>
-      <li class="wy-breadcrumbs-aside">
-      </li>
+
   </ul>
   <hr/>
 </div>
@@ -121,15 +124,15 @@
 <span class="k">with</span> <span class="n">optuna</span><span class="o">.</span><span class="n">_imports</span><span class="o">.</span><span class="n">try_import</span><span class="p">()</span> <span class="k">as</span> <span class="n">_imports</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">chainer</span>
     <span class="kn">from</span> <span class="nn">chainer.training.extension</span> <span class="kn">import</span> <span class="n">Extension</span>
-    <span class="kn">from</span> <span class="nn">chainer.training.triggers</span> <span class="kn">import</span> <span class="n">IntervalTrigger</span>
-    <span class="kn">from</span> <span class="nn">chainer.training.triggers</span> <span class="kn">import</span> <span class="n">ManualScheduleTrigger</span>
+    <span class="kn">from</span> <span class="nn">chainer.training.triggers</span> <span class="kn">import</span> <span class="n">IntervalTrigger</span>  <span class="c1"># type: ignore[attr-defined]</span>
+    <span class="kn">from</span> <span class="nn">chainer.training.triggers</span> <span class="kn">import</span> <span class="n">ManualScheduleTrigger</span>  <span class="c1"># type: ignore[attr-defined]</span>
 
 <span class="k">if</span> <span class="ow">not</span> <span class="n">_imports</span><span class="o">.</span><span class="n">is_successful</span><span class="p">():</span>
-    <span class="n">Extension</span> <span class="o">=</span> <span class="nb">object</span>  <span class="c1"># type: ignore  # NOQA</span>
+    <span class="n">Extension</span> <span class="o">=</span> <span class="nb">object</span>  <span class="c1"># type: ignore[assignment, misc]  # NOQA</span>
 
 
 <div class="viewcode-block" id="ChainerPruningExtension"><a class="viewcode-back" href="../../../reference/generated/optuna.integration.ChainerPruningExtension.html#optuna.integration.ChainerPruningExtension">[docs]</a><span class="k">class</span> <span class="nc">ChainerPruningExtension</span><span class="p">(</span><span class="n">Extension</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Chainer extension to prune unpromising trials.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Chainer extension to prune unpromising trials.</span>
 
 <span class="sd">    See `the example &lt;https://github.com/optuna/optuna-examples/blob/main/</span>
 <span class="sd">    chainer/chainer_integration.py&gt;`__</span>
@@ -168,7 +171,9 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_trial</span> <span class="o">=</span> <span class="n">trial</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_observation_key</span> <span class="o">=</span> <span class="n">observation_key</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_pruner_trigger</span> <span class="o">=</span> <span class="n">chainer</span><span class="o">.</span><span class="n">training</span><span class="o">.</span><span class="n">get_trigger</span><span class="p">(</span><span class="n">pruner_trigger</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pruner_trigger</span> <span class="o">=</span> <span class="n">chainer</span><span class="o">.</span><span class="n">training</span><span class="o">.</span><span class="n">get_trigger</span><span class="p">(</span>  <span class="c1"># type: ignore[attr-defined]</span>
+            <span class="n">pruner_trigger</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pruner_trigger</span><span class="p">,</span> <span class="p">(</span><span class="n">IntervalTrigger</span><span class="p">,</span> <span class="n">ManualScheduleTrigger</span><span class="p">)):</span>
             <span class="n">pruner_type</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pruner_trigger</span><span class="p">)</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
@@ -178,13 +183,15 @@
             <span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_get_float_value</span><span class="p">(</span><span class="n">observation_value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">&quot;chainer.Variable&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_get_float_value</span><span class="p">(</span>
+        <span class="n">observation_value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s2">&quot;chainer.Variable&quot;</span><span class="p">]</span>  <span class="c1"># type: ignore[name-defined]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 
         <span class="n">_imports</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">observation_value</span><span class="p">,</span> <span class="n">chainer</span><span class="o">.</span><span class="n">Variable</span><span class="p">):</span>
-                <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">observation_value</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">observation_value</span><span class="p">,</span> <span class="n">chainer</span><span class="o">.</span><span class="n">Variable</span><span class="p">):</span>  <span class="c1"># type: ignore[attr-defined]</span>
+                <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">observation_value</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">observation_value</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
@@ -193,11 +200,13 @@
                 <span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> cannot be cast to float.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">observation_value</span><span class="p">))</span>
             <span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
 
-    <span class="k">def</span> <span class="nf">_observation_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainer</span><span class="p">:</span> <span class="s2">&quot;chainer.training.Trainer&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_observation_exists</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">trainer</span><span class="p">:</span> <span class="s2">&quot;chainer.training.Trainer&quot;</span>  <span class="c1"># type: ignore[name-defined]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pruner_trigger</span><span class="p">(</span><span class="n">trainer</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_observation_key</span> <span class="ow">in</span> <span class="n">trainer</span><span class="o">.</span><span class="n">observation</span>
 
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainer</span><span class="p">:</span> <span class="s2">&quot;chainer.training.Trainer&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainer</span><span class="p">:</span> <span class="s2">&quot;chainer.training.Trainer&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># type: ignore[name-defined]</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_observation_exists</span><span class="p">(</span><span class="n">trainer</span><span class="p">):</span>
             <span class="k">return</span>

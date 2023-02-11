@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.logging &mdash; Optuna 3.0.5 documentation</title>
+  <title>optuna.logging &mdash; Optuna 3.1.0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
@@ -65,15 +65,19 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html">
-            <img src="../../_static/optuna-logo.png" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../../index.html">
+            
+              <img src="../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.0.5
+                3.1.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -98,13 +102,12 @@
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
+          <!-- This file is necessary to remove "Edit on Github" button from readthedocs by following https://docs.readthedocs.io/en/stable/guides/remove-edit-buttons.html#remove-links-from-top-right-corner --><div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a></li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
       <li class="breadcrumb-item active">optuna.logging</li>
-      <li class="wy-breadcrumbs-aside">
-      </li>
+
   </ul>
   <hr/>
 </div>
@@ -113,25 +116,35 @@
              
   <h1>Source code for optuna.logging</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">CRITICAL</span>  <span class="c1"># NOQA</span>
-<span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">DEBUG</span>  <span class="c1"># NOQA</span>
-<span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">ERROR</span>  <span class="c1"># NOQA</span>
-<span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">FATAL</span>  <span class="c1"># NOQA</span>
-<span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">INFO</span>  <span class="c1"># NOQA</span>
-<span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">WARN</span>  <span class="c1"># NOQA</span>
-<span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">WARNING</span>  <span class="c1"># NOQA</span>
+<span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">CRITICAL</span>
+<span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">DEBUG</span>
+<span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">ERROR</span>
+<span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">FATAL</span>
+<span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">INFO</span>
+<span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">WARN</span>
+<span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">WARNING</span>
 <span class="kn">import</span> <span class="nn">threading</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 
 <span class="kn">import</span> <span class="nn">colorlog</span>
 
 
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;CRITICAL&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;DEBUG&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ERROR&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;FATAL&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;INFO&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;WARN&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;WARNING&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
 <span class="n">_lock</span><span class="p">:</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
 <span class="n">_default_handler</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">logging</span><span class="o">.</span><span class="n">Handler</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
 
 <span class="k">def</span> <span class="nf">create_default_formatter</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">colorlog</span><span class="o">.</span><span class="n">ColoredFormatter</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Create a default formatter of log messages.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a default formatter of log messages.</span>
 
 <span class="sd">    This function is not supposed to be directly accessed by library users.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -184,7 +197,7 @@
 
 
 <span class="k">def</span> <span class="nf">get_logger</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Return a logger with the specified name.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a logger with the specified name.</span>
 
 <span class="sd">    This function is not supposed to be directly accessed by library users.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -194,7 +207,7 @@
 
 
 <div class="viewcode-block" id="get_verbosity"><a class="viewcode-back" href="../../reference/generated/optuna.logging.get_verbosity.html#optuna.logging.get_verbosity">[docs]</a><span class="k">def</span> <span class="nf">get_verbosity</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Return the current level for the Optuna&#39;s root logger.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the current level for the Optuna&#39;s root logger.</span>
 
 <span class="sd">    Example:</span>
 
@@ -248,7 +261,7 @@
 
 
 <div class="viewcode-block" id="set_verbosity"><a class="viewcode-back" href="../../reference/generated/optuna.logging.set_verbosity.html#optuna.logging.set_verbosity">[docs]</a><span class="k">def</span> <span class="nf">set_verbosity</span><span class="p">(</span><span class="n">verbosity</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Set the level for the Optuna&#39;s root logger.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the level for the Optuna&#39;s root logger.</span>
 
 <span class="sd">    Example:</span>
 
@@ -299,7 +312,7 @@
 
 
 <div class="viewcode-block" id="disable_default_handler"><a class="viewcode-back" href="../../reference/generated/optuna.logging.disable_default_handler.html#optuna.logging.disable_default_handler">[docs]</a><span class="k">def</span> <span class="nf">disable_default_handler</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Disable the default handler of the Optuna&#39;s root logger.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Disable the default handler of the Optuna&#39;s root logger.</span>
 
 <span class="sd">    Example:</span>
 
@@ -338,7 +351,7 @@
 
 
 <div class="viewcode-block" id="enable_default_handler"><a class="viewcode-back" href="../../reference/generated/optuna.logging.enable_default_handler.html#optuna.logging.enable_default_handler">[docs]</a><span class="k">def</span> <span class="nf">enable_default_handler</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Enable the default handler of the Optuna&#39;s root logger.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Enable the default handler of the Optuna&#39;s root logger.</span>
 
 <span class="sd">    Please refer to the example shown in :func:`~optuna.logging.disable_default_handler()`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -350,10 +363,10 @@
 
 
 <div class="viewcode-block" id="disable_propagation"><a class="viewcode-back" href="../../reference/generated/optuna.logging.disable_propagation.html#optuna.logging.disable_propagation">[docs]</a><span class="k">def</span> <span class="nf">disable_propagation</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Disable propagation of the library log outputs.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Disable propagation of the library log outputs.</span>
 
 <span class="sd">    Note that log propagation is disabled by default. You only need to use this function</span>
-<span class="sd">    to stop log propagation when you use :func:`~optuna.logging.enable_propogation()`.</span>
+<span class="sd">    to stop log propagation when you use :func:`~optuna.logging.enable_propagation()`.</span>
 
 <span class="sd">    Example:</span>
 
@@ -403,7 +416,7 @@
 
 
 <div class="viewcode-block" id="enable_propagation"><a class="viewcode-back" href="../../reference/generated/optuna.logging.enable_propagation.html#optuna.logging.enable_propagation">[docs]</a><span class="k">def</span> <span class="nf">enable_propagation</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Enable propagation of the library log outputs.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Enable propagation of the library log outputs.</span>
 
 <span class="sd">    Please disable the Optuna&#39;s default handler to prevent double logging if the root logger has</span>
 <span class="sd">    been configured.</span>

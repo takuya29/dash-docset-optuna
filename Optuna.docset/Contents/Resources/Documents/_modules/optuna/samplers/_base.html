@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.samplers._base &mdash; Optuna 3.0.5 documentation</title>
+  <title>optuna.samplers._base &mdash; Optuna 3.1.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
@@ -65,15 +65,19 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../index.html">
-            <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.0.5
+                3.1.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -98,13 +102,12 @@
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
+          <!-- This file is necessary to remove "Edit on Github" button from readthedocs by following https://docs.readthedocs.io/en/stable/guides/remove-edit-buttons.html#remove-links-from-top-right-corner --><div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
       <li class="breadcrumb-item active">optuna.samplers._base</li>
-      <li class="wy-breadcrumbs-aside">
-      </li>
+
   </ul>
   <hr/>
 </div>
@@ -128,8 +131,8 @@
 <span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">TrialState</span>
 
 
-<div class="viewcode-block" id="BaseSampler"><a class="viewcode-back" href="../../../reference/samplers/generated/optuna.samplers.BaseSampler.html#optuna.samplers.BaseSampler">[docs]</a><span class="k">class</span> <span class="nc">BaseSampler</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Base class for samplers.</span>
+<div class="viewcode-block" id="BaseSampler"><a class="viewcode-back" href="../../../reference/samplers/generated/optuna.samplers.BaseSampler.html#optuna.samplers.BaseSampler">[docs]</a><span class="k">class</span> <span class="nc">BaseSampler</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for samplers.</span>
 
 <span class="sd">    Optuna combines two types of sampling strategies, which are called *relative sampling* and</span>
 <span class="sd">    *independent sampling*.</span>
@@ -167,7 +170,7 @@
     <span class="k">def</span> <span class="nf">infer_relative_search_space</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="n">FrozenTrial</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Infer the search space that will be used by relative sampling in the target trial.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Infer the search space that will be used by relative sampling in the target trial.</span>
 
 <span class="sd">        This method is called right before :func:`~optuna.samplers.BaseSampler.sample_relative`</span>
 <span class="sd">        method, and the search space returned by this method is passed to it. The parameters not</span>
@@ -195,7 +198,7 @@
     <span class="k">def</span> <span class="nf">sample_relative</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="n">FrozenTrial</span><span class="p">,</span> <span class="n">search_space</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Sample parameters in a given search space.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sample parameters in a given search space.</span>
 
 <span class="sd">        This method is called once at the beginning of each trial, i.e., right before the</span>
 <span class="sd">        evaluation of the objective function. This method is suitable for sampling algorithms</span>
@@ -231,7 +234,7 @@
         <span class="n">param_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">param_distribution</span><span class="p">:</span> <span class="n">BaseDistribution</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Sample a parameter for a given distribution.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sample a parameter for a given distribution.</span>
 
 <span class="sd">        This method is called only for the parameters not contained in the search space returned</span>
 <span class="sd">        by :func:`~optuna.samplers.BaseSampler.sample_relative` method. This method is suitable</span>
@@ -268,9 +271,9 @@
         <span class="n">state</span><span class="p">:</span> <span class="n">TrialState</span><span class="p">,</span>
         <span class="n">values</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Trial post-processing.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Trial post-processing.</span>
 
-<span class="sd">        This method is called after the objective function returns and right before the trials is</span>
+<span class="sd">        This method is called after the objective function returns and right before the trial is</span>
 <span class="sd">        finished and its state is stored.</span>
 
 <span class="sd">        .. note::</span>
@@ -293,7 +296,7 @@
         <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="BaseSampler.reseed_rng"><a class="viewcode-back" href="../../../reference/samplers/generated/optuna.samplers.BaseSampler.html#optuna.samplers.BaseSampler.reseed_rng">[docs]</a>    <span class="k">def</span> <span class="nf">reseed_rng</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Reseed sampler&#39;s random number generator.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reseed sampler&#39;s random number generator.</span>
 
 <span class="sd">        This method is called by the :class:`~optuna.study.Study` instance if trials are executed</span>
 <span class="sd">        in parallel with the option ``n_jobs&gt;1``. In that case, the sampler instance will be</span>

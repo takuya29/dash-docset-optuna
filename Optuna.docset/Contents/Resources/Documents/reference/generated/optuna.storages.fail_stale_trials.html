@@ -2,9 +2,9 @@
 
 <html class="writer-html5" lang="en">
 <head>
-<meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
+<meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.storages.fail_stale_trials — Optuna 3.0.5 documentation</title>
+<title>optuna.storages.fail_stale_trials — Optuna 3.1.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -29,7 +29,7 @@
 <script src="../../_static/js/theme.js"></script>
 <link href="../../genindex.html" rel="index" title="Index"/>
 <link href="../../search.html" rel="search" title="Search"/>
-<link href="../study.html" rel="next" title="optuna.study"/>
+<link href="optuna.storages.JournalStorage.html" rel="next" title="optuna.storages.JournalStorage"/>
 <link href="optuna.storages.RetryFailedTrialCallback.html" rel="prev" title="optuna.storages.RetryFailedTrialCallback"/>
 </head>
 <body class="wy-body-for-nav">
@@ -68,11 +68,11 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.0.5
+                3.1.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
-<input name="q" placeholder="Search docs" type="text"/>
+<input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
 <input name="check_keywords" type="hidden" value="yes"/>
 <input name="area" type="hidden" value="default"/>
 </form>
@@ -90,17 +90,20 @@
 <li class="toctree-l2"><a class="reference internal" href="../importance.html">optuna.importance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../integration.html">optuna.integration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../logging.html">optuna.logging</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../multi_objective/index.html">optuna.multi_objective</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pruners.html">optuna.pruners</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../samplers/index.html">optuna.samplers</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../storages.html">optuna.storages</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="optuna.storages.RDBStorage.html">optuna.storages.RDBStorage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="optuna.storages.RedisStorage.html">optuna.storages.RedisStorage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.storages.RetryFailedTrialCallback.html">optuna.storages.RetryFailedTrialCallback</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">optuna.storages.fail_stale_trials</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#optuna.storages.fail_stale_trials"><code class="docutils literal notranslate"><span class="pre">fail_stale_trials()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.storages.JournalStorage.html">optuna.storages.JournalStorage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.storages.JournalFileStorage.html">optuna.storages.JournalFileStorage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.storages.JournalFileSymlinkLock.html">optuna.storages.JournalFileSymlinkLock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.storages.JournalFileOpenLock.html">optuna.storages.JournalFileOpenLock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.storages.JournalRedisStorage.html">optuna.storages.JournalRedisStorage</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../study.html">optuna.study</a></li>
@@ -119,14 +122,12 @@
 </nav>
 <div class="wy-nav-content">
 <div class="rst-content">
-<div aria-label="Page navigation" role="navigation">
+<!-- This file is necessary to remove "Edit on Github" button from readthedocs by following https://docs.readthedocs.io/en/stable/guides/remove-edit-buttons.html#remove-links-from-top-right-corner --><div aria-label="Page navigation" role="navigation">
 <ul class="wy-breadcrumbs">
-<li><a class="icon icon-home" href="../../index.html"></a></li>
+<li><a aria-label="Home" class="icon icon-home" href="../../index.html"></a></li>
 <li class="breadcrumb-item"><a href="../index.html">API Reference</a></li>
 <li class="breadcrumb-item"><a href="../storages.html">optuna.storages</a></li>
 <li class="breadcrumb-item active">optuna.storages.fail_stale_trials</li>
-<li class="wy-breadcrumbs-aside">
-</li>
 </ul>
 <hr/>
 </div>
@@ -145,10 +146,10 @@ that is, those states will be changed to <a class="reference internal" href="opt
 <p>See <a class="reference internal" href="optuna.storages.RDBStorage.html#optuna.storages.RDBStorage" title="optuna.storages.RDBStorage"><code class="xref py py-class docutils literal notranslate"><span class="pre">RDBStorage</span></code></a>.</p>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>study</strong> (<a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.study.Study"><em>Study</em></a>) – Study holding the trials to check.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
 </dd>
 </dl>
@@ -163,7 +164,7 @@ without prior notice. See <a class="reference external" href="https://github.com
 </div>
 <footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
 <a accesskey="p" class="btn btn-neutral float-left" href="optuna.storages.RetryFailedTrialCallback.html" rel="prev" title="optuna.storages.RetryFailedTrialCallback"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
-<a accesskey="n" class="btn btn-neutral float-right" href="../study.html" rel="next" title="optuna.study">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+<a accesskey="n" class="btn btn-neutral float-right" href="optuna.storages.JournalStorage.html" rel="next" title="optuna.storages.JournalStorage">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
 </div>
 <hr/>
 <div role="contentinfo">

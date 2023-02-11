@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.pruners._hyperband &mdash; Optuna 3.0.5 documentation</title>
+  <title>optuna.pruners._hyperband &mdash; Optuna 3.1.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
@@ -65,15 +65,19 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../index.html">
-            <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.0.5
+                3.1.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -98,13 +102,12 @@
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
+          <!-- This file is necessary to remove "Edit on Github" button from readthedocs by following https://docs.readthedocs.io/en/stable/guides/remove-edit-buttons.html#remove-links-from-top-right-corner --><div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
       <li class="breadcrumb-item active">optuna.pruners._hyperband</li>
-      <li class="wy-breadcrumbs-aside">
-      </li>
+
   </ul>
   <hr/>
 </div>
@@ -112,7 +115,8 @@
            <div itemprop="articleBody">
              
   <h1>Source code for optuna.pruners._hyperband</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">math</span>
+<span></span><span class="kn">import</span> <span class="nn">binascii</span>
+<span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Container</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
@@ -129,7 +133,7 @@
 
 
 <div class="viewcode-block" id="HyperbandPruner"><a class="viewcode-back" href="../../../reference/generated/optuna.pruners.HyperbandPruner.html#optuna.pruners.HyperbandPruner">[docs]</a><span class="k">class</span> <span class="nc">HyperbandPruner</span><span class="p">(</span><span class="n">BasePruner</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Pruner using Hyperband.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Pruner using Hyperband.</span>
 
 <span class="sd">    As SuccessiveHalving (SHA) requires the number of configurations</span>
 <span class="sd">    :math:`n` as its hyperparameter.  For a given finite budget :math:`B`,</span>
@@ -173,13 +177,6 @@
 <span class="sd">        Please set ``reduction_factor`` so that the number of brackets is not too large (about 4 –</span>
 <span class="sd">        6 in most use cases). Please see Section 3.6 of the `original paper</span>
 <span class="sd">        &lt;http://www.jmlr.org/papers/volume18/16-558/16-558.pdf&gt;`_ for the detail.</span>
-
-<span class="sd">    .. note::</span>
-<span class="sd">        ``HyperbandPruner`` in Optuna randomly computes bracket ID for each trial with a hash</span>
-<span class="sd">        function taking ``study_name`` of :class:`~optuna.study.Study` and</span>
-<span class="sd">        :attr:`~optuna.trial.Trial.number`. Please specify ``study_name`` and</span>
-<span class="sd">        `hash seed &lt;https://docs.python.org/3/using/cmdline.html#envvar-PYTHONHASHSEED&gt;`_</span>
-<span class="sd">        to make pruning behavior reproducible.</span>
 
 <span class="sd">    Example:</span>
 
@@ -339,7 +336,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_pruners</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pruner</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_calculate_trial_allocation_budget</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bracket_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Compute the trial allocated budget for a bracket of ``bracket_id``.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the trial allocated budget for a bracket of ``bracket_id``.</span>
 
 <span class="sd">        In the `original paper &lt;http://www.jmlr.org/papers/volume18/16-558/16-558.pdf&gt;`, the</span>
 <span class="sd">        number of trials per one bracket is referred as ``n`` in Algorithm 1. Since we do not know</span>
@@ -354,7 +351,7 @@
     <span class="k">def</span> <span class="nf">_get_bracket_id</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="s2">&quot;optuna.study.Study&quot;</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="s2">&quot;optuna.trial.FrozenTrial&quot;</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Compute the index of bracket for a trial of ``trial_number``.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the index of bracket for a trial of ``trial_number``.</span>
 
 <span class="sd">        The index of a bracket is noted as :math:`s` in</span>
 <span class="sd">        `Hyperband paper &lt;http://www.jmlr.org/papers/volume18/16-558/16-558.pdf&gt;`_.</span>
@@ -365,7 +362,7 @@
 
         <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_brackets</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="n">n</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="nb">hash</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">study</span><span class="o">.</span><span class="n">study_name</span><span class="p">,</span> <span class="n">trial</span><span class="o">.</span><span class="n">number</span><span class="p">))</span>
+            <span class="n">binascii</span><span class="o">.</span><span class="n">crc32</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">study</span><span class="o">.</span><span class="n">study_name</span><span class="p">,</span> <span class="n">trial</span><span class="o">.</span><span class="n">number</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
             <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_total_trial_allocation_budget</span>
         <span class="p">)</span>
         <span class="k">for</span> <span class="n">bracket_id</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_brackets</span><span class="p">):</span>
@@ -388,6 +385,7 @@
                 <span class="s2">&quot;get_trials&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;directions&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;direction&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;_directions&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;_storage&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;_study_id&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;pruner&quot;</span><span class="p">,</span>

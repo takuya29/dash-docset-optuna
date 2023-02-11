@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.integration._lightgbm_tuner.optimize &mdash; Optuna 3.0.5 documentation</title>
+  <title>optuna.integration._lightgbm_tuner.optimize &mdash; Optuna 3.1.0 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
@@ -65,15 +65,19 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../../../index.html">
-            <img src="../../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
+
+          
+          
+          <a href="../../../../index.html">
+            
+              <img src="../../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.0.5
+                3.1.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -98,14 +102,13 @@
 
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
+          <!-- This file is necessary to remove "Edit on Github" button from readthedocs by following https://docs.readthedocs.io/en/stable/guides/remove-edit-buttons.html#remove-links-from-top-right-corner --><div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../../index.html" class="icon icon-home"></a></li>
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
           <li class="breadcrumb-item"><a href="../_lightgbm_tuner.html">optuna.integration._lightgbm_tuner</a></li>
       <li class="breadcrumb-item active">optuna.integration._lightgbm_tuner.optimize</li>
-      <li class="wy-breadcrumbs-aside">
-      </li>
+
   </ul>
   <hr/>
 </div>
@@ -271,7 +274,7 @@
 
 
 <span class="k">class</span> <span class="nc">_OptunaObjective</span><span class="p">(</span><span class="n">_BaseTuner</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Objective for hyperparameter-tuning with Optuna.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Objective for hyperparameter-tuning with Optuna.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -387,10 +390,14 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">pbar</span><span class="o">.</span><span class="n">set_description</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pbar_fmt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">step_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_score</span><span class="p">))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
-        <span class="n">trial</span><span class="o">.</span><span class="n">set_system_attr</span><span class="p">(</span><span class="n">_ELAPSED_SECS_KEY</span><span class="p">,</span> <span class="n">elapsed_secs</span><span class="p">)</span>
-        <span class="n">trial</span><span class="o">.</span><span class="n">set_system_attr</span><span class="p">(</span><span class="n">_AVERAGE_ITERATION_TIME_KEY</span><span class="p">,</span> <span class="n">average_iteration_time</span><span class="p">)</span>
-        <span class="n">trial</span><span class="o">.</span><span class="n">set_system_attr</span><span class="p">(</span><span class="n">_STEP_NAME_KEY</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">step_name</span><span class="p">)</span>
-        <span class="n">trial</span><span class="o">.</span><span class="n">set_system_attr</span><span class="p">(</span><span class="n">_LGBM_PARAMS_KEY</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lgbm_params</span><span class="p">))</span>
+        <span class="n">trial</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">set_trial_system_attr</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">_trial_id</span><span class="p">,</span> <span class="n">_ELAPSED_SECS_KEY</span><span class="p">,</span> <span class="n">elapsed_secs</span><span class="p">)</span>
+        <span class="n">trial</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">set_trial_system_attr</span><span class="p">(</span>
+            <span class="n">trial</span><span class="o">.</span><span class="n">_trial_id</span><span class="p">,</span> <span class="n">_AVERAGE_ITERATION_TIME_KEY</span><span class="p">,</span> <span class="n">average_iteration_time</span>
+        <span class="p">)</span>
+        <span class="n">trial</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">set_trial_system_attr</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">_trial_id</span><span class="p">,</span> <span class="n">_STEP_NAME_KEY</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">step_name</span><span class="p">)</span>
+        <span class="n">trial</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">set_trial_system_attr</span><span class="p">(</span>
+            <span class="n">trial</span><span class="o">.</span><span class="n">_trial_id</span><span class="p">,</span> <span class="n">_LGBM_PARAMS_KEY</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lgbm_params</span><span class="p">)</span>
+        <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">trial_count</span> <span class="o">+=</span> <span class="mi">1</span>
 
@@ -458,7 +465,7 @@
 
 
 <span class="k">class</span> <span class="nc">_LightGBMBaseTuner</span><span class="p">(</span><span class="n">_BaseTuner</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Base class of LightGBM Tuners.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class of LightGBM Tuners.</span>
 
 <span class="sd">    This class has common attributes and methods of</span>
 <span class="sd">    :class:`~optuna.integration.lightgbm.LightGBMTuner` and</span>
@@ -564,7 +571,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">best_score</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Return the score of the best booster.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the score of the best booster.&quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">study</span><span class="o">.</span><span class="n">best_value</span>
         <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
@@ -573,7 +580,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">best_params</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Return parameters of the best booster.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return parameters of the best booster.&quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">study</span><span class="o">.</span><span class="n">best_trial</span><span class="o">.</span><span class="n">system_attrs</span><span class="p">[</span><span class="n">_LGBM_PARAMS_KEY</span><span class="p">])</span>
         <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
@@ -584,7 +591,7 @@
             <span class="k">return</span> <span class="n">params</span>
 
     <span class="k">def</span> <span class="nf">get_best_booster</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;lgb.Booster&quot;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Return the best booster.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the best booster.</span>
 
 <span class="sd">        If the best booster cannot be found, :class:`ValueError` will be raised. To prevent the</span>
 <span class="sd">        errors, please save boosters by specifying the ``model_dir`` argument of</span>
@@ -639,7 +646,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">lgbm_kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
 
     <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Perform the hyperparameter-tuning with given parameters.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform the hyperparameter-tuning with given parameters.&quot;&quot;&quot;</span>
         <span class="n">verbosity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">auto_options</span><span class="p">[</span><span class="s2">&quot;verbosity&quot;</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">verbosity</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">verbosity</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
@@ -665,7 +672,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">tune_min_data_in_leaf</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">sample_train_set</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Make subset of `self.train_set` Dataset object.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Make subset of `self.train_set` Dataset object.&quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">auto_options</span><span class="p">[</span><span class="s2">&quot;sample_size&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span>
@@ -820,7 +827,7 @@
 
             <span class="nd">@property</span>
             <span class="k">def</span> <span class="nf">best_trial</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">optuna</span><span class="o">.</span><span class="n">trial</span><span class="o">.</span><span class="n">FrozenTrial</span><span class="p">:</span>
-                <span class="sd">&quot;&quot;&quot;Return the best trial in the study.</span>
+<span class="w">                </span><span class="sd">&quot;&quot;&quot;Return the best trial in the study.</span>
 
 <span class="sd">                Returns:</span>
 <span class="sd">                    A :class:`~optuna.trial.FrozenTrial` object of the best trial.</span>
@@ -842,7 +849,7 @@
 
 
 <div class="viewcode-block" id="LightGBMTuner"><a class="viewcode-back" href="../../../../reference/generated/optuna.integration.lightgbm.LightGBMTuner.html#optuna.integration.lightgbm.LightGBMTuner">[docs]</a><span class="k">class</span> <span class="nc">LightGBMTuner</span><span class="p">(</span><span class="n">_LightGBMBaseTuner</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Hyperparameter tuner for LightGBM.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Hyperparameter tuner for LightGBM.</span>
 
 <span class="sd">    It optimizes the following hyperparameters in a stepwise manner:</span>
 <span class="sd">    ``lambda_l1``, ``lambda_l2``, ``num_leaves``, ``feature_fraction``, ``bagging_fraction``,</span>
@@ -878,10 +885,10 @@
 <span class="sd">        model_dir:</span>
 <span class="sd">            A directory to save boosters. By default, it is set to :obj:`None` and no boosters are</span>
 <span class="sd">            saved. Please set shared directory (e.g., directories on NFS) if you want to access</span>
-<span class="sd">            :meth:`~optuna.integration.LightGBMTuner.get_best_booster` in distributed environments.</span>
-<span class="sd">            Otherwise, it may raise :obj:`ValueError`. If the directory does not exist, it will be</span>
-<span class="sd">            created. The filenames of the boosters will be ``{model_dir}/{trial_number}.pkl``</span>
-<span class="sd">            (e.g., ``./boosters/0.pkl``).</span>
+<span class="sd">            :meth:`~optuna.integration.lightgbm.LightGBMTuner.get_best_booster` in distributed</span>
+<span class="sd">            environments. Otherwise, it may raise :obj:`ValueError`. If the directory does not</span>
+<span class="sd">            exist, it will be created. The filenames of the boosters will be</span>
+<span class="sd">            ``{model_dir}/{trial_number}.pkl`` (e.g., ``./boosters/0.pkl``).</span>
 
 <span class="sd">        verbosity:</span>
 <span class="sd">            A verbosity level to change Optuna&#39;s logging level. The level is aligned to</span>
@@ -995,7 +1002,7 @@
 
 
 <div class="viewcode-block" id="LightGBMTunerCV"><a class="viewcode-back" href="../../../../reference/generated/optuna.integration.lightgbm.LightGBMTunerCV.html#optuna.integration.lightgbm.LightGBMTunerCV">[docs]</a><span class="k">class</span> <span class="nc">LightGBMTunerCV</span><span class="p">(</span><span class="n">_LightGBMBaseTuner</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Hyperparameter tuner for LightGBM with cross-validation.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Hyperparameter tuner for LightGBM with cross-validation.</span>
 
 <span class="sd">    It employs the same stepwise approach as</span>
 <span class="sd">    :class:`~optuna.integration.lightgbm.LightGBMTuner`.</span>
@@ -1031,7 +1038,7 @@
 <span class="sd">        model_dir:</span>
 <span class="sd">            A directory to save boosters. By default, it is set to :obj:`None` and no boosters are</span>
 <span class="sd">            saved. Please set shared directory (e.g., directories on NFS) if you want to access</span>
-<span class="sd">            :meth:`~optuna.integration.LightGBMTunerCV.get_best_booster`</span>
+<span class="sd">            :meth:`~optuna.integration.lightgbm.LightGBMTunerCV.get_best_booster`</span>
 <span class="sd">            in distributed environments.</span>
 <span class="sd">            Otherwise, it may raise :obj:`ValueError`. If the directory does not exist, it will be</span>
 <span class="sd">            created. The filenames of the boosters will be ``{model_dir}/{trial_number}.pkl``</span>
@@ -1056,7 +1063,7 @@
 <span class="sd">                Please suppress such messages to show the progress bars properly.</span>
 
 <span class="sd">        return_cvbooster:</span>
-<span class="sd">            Flag to enable :meth:`~optuna.integration.LightGBMTunerCV.get_best_booster`.</span>
+<span class="sd">            Flag to enable :meth:`~optuna.integration.lightgbm.LightGBMTunerCV.get_best_booster`.</span>
 
 <span class="sd">        optuna_seed:</span>
 <span class="sd">            ``seed`` of :class:`~optuna.samplers.TPESampler` for random number generator</span>
@@ -1159,7 +1166,7 @@
         <span class="p">)</span>
 
 <div class="viewcode-block" id="LightGBMTunerCV.get_best_booster"><a class="viewcode-back" href="../../../../reference/generated/optuna.integration.lightgbm.LightGBMTunerCV.html#optuna.integration.lightgbm.LightGBMTunerCV.get_best_booster">[docs]</a>    <span class="k">def</span> <span class="nf">get_best_booster</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;lgb.CVBooster&quot;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Return the best cvbooster.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the best cvbooster.</span>
 
 <span class="sd">        If the best booster cannot be found, :class:`ValueError` will be raised.</span>
 <span class="sd">        To prevent the errors, please save boosters by specifying</span>

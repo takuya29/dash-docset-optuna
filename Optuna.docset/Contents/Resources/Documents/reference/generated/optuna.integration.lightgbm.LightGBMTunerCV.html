@@ -2,9 +2,9 @@
 
 <html class="writer-html5" lang="en">
 <head>
-<meta charset="utf-8"/><meta content="Docutils 0.17.1: http://docutils.sourceforge.net/" name="generator"/>
+<meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.integration.lightgbm.LightGBMTunerCV — Optuna 3.0.5 documentation</title>
+<title>optuna.integration.lightgbm.LightGBMTunerCV — Optuna 3.1.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -68,11 +68,11 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.0.5
+                3.1.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
-<input name="q" placeholder="Search docs" type="text"/>
+<input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
 <input name="check_keywords" type="hidden" value="yes"/>
 <input name="area" type="hidden" value="default"/>
 </form>
@@ -94,6 +94,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#catalyst">Catalyst</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#catboost">CatBoost</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#chainer">Chainer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../integration.html#dask">Dask</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#fast-ai">fast.ai</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#keras">Keras</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../integration.html#lightgbm">LightGBM</a><ul class="current">
@@ -117,7 +118,6 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../logging.html">optuna.logging</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../multi_objective/index.html">optuna.multi_objective</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pruners.html">optuna.pruners</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../samplers/index.html">optuna.samplers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../storages.html">optuna.storages</a></li>
@@ -137,14 +137,12 @@
 </nav>
 <div class="wy-nav-content">
 <div class="rst-content">
-<div aria-label="Page navigation" role="navigation">
+<!-- This file is necessary to remove "Edit on Github" button from readthedocs by following https://docs.readthedocs.io/en/stable/guides/remove-edit-buttons.html#remove-links-from-top-right-corner --><div aria-label="Page navigation" role="navigation">
 <ul class="wy-breadcrumbs">
-<li><a class="icon icon-home" href="../../index.html"></a></li>
+<li><a aria-label="Home" class="icon icon-home" href="../../index.html"></a></li>
 <li class="breadcrumb-item"><a href="../index.html">API Reference</a></li>
 <li class="breadcrumb-item"><a href="../integration.html">optuna.integration</a></li>
 <li class="breadcrumb-item active">optuna.integration.lightgbm.LightGBMTunerCV</li>
-<li class="wy-breadcrumbs-aside">
-</li>
 </ul>
 <hr/>
 </div>
@@ -167,7 +165,7 @@ and validate boosters while <a class="reference internal" href="optuna.integrati
 The arguments that only <a class="reference internal" href="#optuna.integration.lightgbm.LightGBMTunerCV" title="optuna.integration.lightgbm.LightGBMTunerCV"><code class="xref py py-class docutils literal notranslate"><span class="pre">LightGBMTunerCV</span></code></a> has are
 listed below:</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>time_budget</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em>) – A time budget for parameter tuning in seconds.</p></li>
 <li><p><strong>study</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.study.Study"><em>Study</em></a><em>]</em>) – A <a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> instance to store optimization results. The
@@ -182,7 +180,7 @@ Each function must accept two parameters with the following types in this order:
 Please note that this is not a <code class="docutils literal notranslate"><span class="pre">callbacks</span></code> argument of <a class="reference external" href="https://lightgbm.readthedocs.io/en/latest/pythonapi/lightgbm.train.html">lightgbm.train()</a> .</p></li>
 <li><p><strong>model_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – A directory to save boosters. By default, it is set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> and no boosters are
 saved. Please set shared directory (e.g., directories on NFS) if you want to access
-<code class="xref py py-meth docutils literal notranslate"><span class="pre">get_best_booster()</span></code>
+<a class="reference internal" href="#optuna.integration.lightgbm.LightGBMTunerCV.get_best_booster" title="optuna.integration.lightgbm.LightGBMTunerCV.get_best_booster"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_best_booster()</span></code></a>
 in distributed environments.
 Otherwise, it may raise <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ValueError</span></code></a>. If the directory does not exist, it will be
 created. The filenames of the boosters will be <code class="docutils literal notranslate"><span class="pre">{model_dir}/{trial_number}.pkl</span></code>
@@ -204,7 +202,7 @@ but this schedule is subject to change.</p>
 Please suppress such messages to show the progress bars properly.</p>
 </div>
 </p></li>
-<li><p><strong>return_cvbooster</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Flag to enable <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_best_booster()</span></code>.</p></li>
+<li><p><strong>return_cvbooster</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Flag to enable <a class="reference internal" href="#optuna.integration.lightgbm.LightGBMTunerCV.get_best_booster" title="optuna.integration.lightgbm.LightGBMTunerCV.get_best_booster"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_best_booster()</span></code></a>.</p></li>
 <li><p><strong>optuna_seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em>) – <p><code class="docutils literal notranslate"><span class="pre">seed</span></code> of <a class="reference internal" href="../samplers/generated/optuna.samplers.TPESampler.html#optuna.samplers.TPESampler" title="optuna.samplers.TPESampler"><code class="xref py py-class docutils literal notranslate"><span class="pre">TPESampler</span></code></a> for random number generator
 that affects sampling for <code class="docutils literal notranslate"><span class="pre">num_leaves</span></code>, <code class="docutils literal notranslate"><span class="pre">bagging_fraction</span></code>, <code class="docutils literal notranslate"><span class="pre">bagging_freq</span></code>,
 <code class="docutils literal notranslate"><span class="pre">lambda_l1</span></code>, and <code class="docutils literal notranslate"><span class="pre">lambda_l2</span></code>.</p>
@@ -237,10 +235,6 @@ Please enable it when you use this argument.</p>
 </dl>
 <p class="rubric">Methods</p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">compare_validation_metrics</span></code>(val_score, best_score)</p></td>
 <td><p></p></td>
@@ -279,10 +273,6 @@ Please enable it when you use this argument.</p>
 </table>
 <p class="rubric">Attributes</p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#optuna.integration.lightgbm.LightGBMTunerCV.best_params" title="optuna.integration.lightgbm.LightGBMTunerCV.best_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">best_params</span></code></a></p></td>
 <td><p>Return parameters of the best booster.</p></td>
@@ -312,7 +302,7 @@ both of the <code class="docutils literal notranslate"><span class="pre">model_d
 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__init__()</span></code>,
 when you resume tuning or you run tuning in parallel.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><em>CVBooster</em></p>
 </dd>
 </dl>
@@ -322,7 +312,7 @@ when you resume tuning or you run tuning in parallel.</p>
 <span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.lightgbm.LightGBMTunerCV.run"></a><a class="headerlink" href="#optuna.integration.lightgbm.LightGBMTunerCV.run" title="Permalink to this definition"></a></dt>
 <dd><p>Perform the hyperparameter-tuning with given parameters.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
 </dd>
 </dl>
@@ -332,7 +322,7 @@ when you resume tuning or you run tuning in parallel.</p>
 <span class="sig-name descname"><span class="pre">sample_train_set</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.lightgbm.LightGBMTunerCV.sample_train_set"></a><a class="headerlink" href="#optuna.integration.lightgbm.LightGBMTunerCV.sample_train_set" title="Permalink to this definition"></a></dt>
 <dd><p>Make subset of <cite>self.train_set</cite> Dataset object.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
 </dd>
 </dl>
