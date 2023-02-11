@@ -25,13 +25,13 @@ jobs:
         id: latest
         run: |
           version=$(curl -s "${GITHUB_API_URL}/repos/optuna/optuna/releases/latest" | jq -r '.["tag_name"]')
-          echo ::set-output "name=version::$version"
+          echo "version=${version}" >> $GITHUB_OUTPUT
           echo latest verion: $version
       - name: get current .version
         id: current
         run: |
           version=$(cat .version)
-          echo ::set-output "name=version::$version"
+          echo "version=${version}" >> $GITHUB_OUTPUT
           echo current verion: $version
 
   build:
