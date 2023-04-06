@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.samplers._cmaes &mdash; Optuna 3.1.0 documentation</title>
+  <title>optuna.samplers._cmaes &mdash; Optuna 3.1.1 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
@@ -73,7 +73,7 @@
               <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.1.0
+                3.1.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -127,17 +127,15 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
-<span class="kn">from</span> <span class="nn">cmaes</span> <span class="kn">import</span> <span class="n">CMA</span>
-<span class="kn">from</span> <span class="nn">cmaes</span> <span class="kn">import</span> <span class="n">CMAwM</span>
-<span class="kn">from</span> <span class="nn">cmaes</span> <span class="kn">import</span> <span class="n">get_warm_start_mgd</span>
-<span class="kn">from</span> <span class="nn">cmaes</span> <span class="kn">import</span> <span class="n">SepCMA</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">import</span> <span class="nn">optuna</span>
 <span class="kn">from</span> <span class="nn">optuna</span> <span class="kn">import</span> <span class="n">logging</span>
+<span class="kn">from</span> <span class="nn">optuna._imports</span> <span class="kn">import</span> <span class="n">_LazyImport</span>
 <span class="kn">from</span> <span class="nn">optuna._transform</span> <span class="kn">import</span> <span class="n">_SearchSpaceTransform</span>
 <span class="kn">from</span> <span class="nn">optuna.distributions</span> <span class="kn">import</span> <span class="n">BaseDistribution</span>
 <span class="kn">from</span> <span class="nn">optuna.distributions</span> <span class="kn">import</span> <span class="n">FloatDistribution</span>
@@ -149,14 +147,18 @@
 <span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">TrialState</span>
 
 
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">cmaes</span>
+
+    <span class="n">CmaClass</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">cmaes</span><span class="o">.</span><span class="n">CMA</span><span class="p">,</span> <span class="n">cmaes</span><span class="o">.</span><span class="n">SepCMA</span><span class="p">,</span> <span class="n">cmaes</span><span class="o">.</span><span class="n">CMAwM</span><span class="p">]</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">cmaes</span> <span class="o">=</span> <span class="n">_LazyImport</span><span class="p">(</span><span class="s2">&quot;cmaes&quot;</span><span class="p">)</span>
+
 <span class="n">_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 <span class="n">_EPS</span> <span class="o">=</span> <span class="mf">1e-10</span>
 <span class="c1"># The value of system_attrs must be less than 2046 characters on RDBStorage.</span>
 <span class="n">_SYSTEM_ATTR_MAX_LENGTH</span> <span class="o">=</span> <span class="mi">2045</span>
-
-
-<span class="n">CmaClass</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">CMA</span><span class="p">,</span> <span class="n">SepCMA</span><span class="p">,</span> <span class="n">CMAwM</span><span class="p">]</span>
 
 
 <span class="k">class</span> <span class="nc">_CmaEsAttrKeys</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
@@ -479,7 +481,9 @@
             <span class="k">return</span> <span class="p">{}</span>
 
         <span class="c1"># When `with_margin=True`, bounds in discrete dimensions are handled inside `CMAwM`.</span>
-        <span class="n">trans</span> <span class="o">=</span> <span class="n">_SearchSpaceTransform</span><span class="p">(</span><span class="n">search_space</span><span class="p">,</span> <span class="n">transform_step</span><span class="o">=</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_with_margin</span><span class="p">)</span>
+        <span class="n">trans</span> <span class="o">=</span> <span class="n">_SearchSpaceTransform</span><span class="p">(</span>
+            <span class="n">search_space</span><span class="p">,</span> <span class="n">transform_step</span><span class="o">=</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_with_margin</span><span class="p">,</span> <span class="n">transform_0_1</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
 
         <span class="n">optimizer</span><span class="p">,</span> <span class="n">n_restarts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_restore_optimizer</span><span class="p">(</span><span class="n">completed_trials</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">optimizer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -506,8 +510,8 @@
             <span class="n">solutions</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">solution_trials</span><span class="p">[:</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">population_size</span><span class="p">]:</span>
                 <span class="k">assert</span> <span class="n">t</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;completed trials must have a value&quot;</span>
-                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">CMAwM</span><span class="p">):</span>
-                    <span class="n">x</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">system_attrs</span><span class="p">[</span><span class="s2">&quot;x_for_tell&quot;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">cmaes</span><span class="o">.</span><span class="n">CMAwM</span><span class="p">):</span>
+                    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">system_attrs</span><span class="p">[</span><span class="s2">&quot;x_for_tell&quot;</span><span class="p">])</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">x</span> <span class="o">=</span> <span class="n">trans</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
                 <span class="n">y</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">value</span> <span class="k">if</span> <span class="n">study</span><span class="o">.</span><span class="n">direction</span> <span class="o">==</span> <span class="n">StudyDirection</span><span class="o">.</span><span class="n">MINIMIZE</span> <span class="k">else</span> <span class="o">-</span><span class="n">t</span><span class="o">.</span><span class="n">value</span>
@@ -531,9 +535,11 @@
         <span class="c1"># Caution: optimizer should update its seed value.</span>
         <span class="n">seed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cma_rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">16</span><span class="p">)</span> <span class="o">+</span> <span class="n">trial</span><span class="o">.</span><span class="n">number</span>
         <span class="n">optimizer</span><span class="o">.</span><span class="n">_rng</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">CMAwM</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">cmaes</span><span class="o">.</span><span class="n">CMAwM</span><span class="p">):</span>
             <span class="n">params</span><span class="p">,</span> <span class="n">x_for_tell</span> <span class="o">=</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">ask</span><span class="p">()</span>
-            <span class="n">study</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">set_trial_system_attr</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">_trial_id</span><span class="p">,</span> <span class="s2">&quot;x_for_tell&quot;</span><span class="p">,</span> <span class="n">x_for_tell</span><span class="p">)</span>
+            <span class="n">study</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">set_trial_system_attr</span><span class="p">(</span>
+                <span class="n">trial</span><span class="o">.</span><span class="n">_trial_id</span><span class="p">,</span> <span class="s2">&quot;x_for_tell&quot;</span><span class="p">,</span> <span class="n">x_for_tell</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">params</span> <span class="o">=</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">ask</span><span class="p">()</span>
 
@@ -589,8 +595,7 @@
     <span class="k">def</span> <span class="nf">_restore_optimizer</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">completed_trials</span><span class="p">:</span> <span class="s2">&quot;List[optuna.trial.FrozenTrial]&quot;</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">CmaClass</span><span class="p">],</span> <span class="nb">int</span><span class="p">]:</span>
-
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;CmaClass&quot;</span><span class="p">],</span> <span class="nb">int</span><span class="p">]:</span>
         <span class="c1"># Restore a previous CMA object.</span>
         <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">completed_trials</span><span class="p">):</span>
             <span class="n">optimizer_attrs</span> <span class="o">=</span> <span class="p">{</span>
@@ -612,7 +617,7 @@
         <span class="n">direction</span><span class="p">:</span> <span class="n">StudyDirection</span><span class="p">,</span>
         <span class="n">population_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">randomize_start_point</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CmaClass</span><span class="p">:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CmaClass&quot;</span><span class="p">:</span>
         <span class="n">lower_bounds</span> <span class="o">=</span> <span class="n">trans</span><span class="o">.</span><span class="n">bounds</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
         <span class="n">upper_bounds</span> <span class="o">=</span> <span class="n">trans</span><span class="o">.</span><span class="n">bounds</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
         <span class="n">n_dimension</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">trans</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
@@ -651,13 +656,13 @@
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No compatible source_trials&quot;</span><span class="p">)</span>
 
             <span class="c1"># TODO(c-bata): Add options to change prior parameters (alpha and gamma).</span>
-            <span class="n">mean</span><span class="p">,</span> <span class="n">sigma0</span><span class="p">,</span> <span class="n">cov</span> <span class="o">=</span> <span class="n">get_warm_start_mgd</span><span class="p">(</span><span class="n">source_solutions</span><span class="p">)</span>
+            <span class="n">mean</span><span class="p">,</span> <span class="n">sigma0</span><span class="p">,</span> <span class="n">cov</span> <span class="o">=</span> <span class="n">cmaes</span><span class="o">.</span><span class="n">get_warm_start_mgd</span><span class="p">(</span><span class="n">source_solutions</span><span class="p">)</span>
 
         <span class="c1"># Avoid ZeroDivisionError in cmaes.</span>
         <span class="n">sigma0</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">sigma0</span><span class="p">,</span> <span class="n">_EPS</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_use_separable_cma</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">SepCMA</span><span class="p">(</span>
+            <span class="k">return</span> <span class="n">cmaes</span><span class="o">.</span><span class="n">SepCMA</span><span class="p">(</span>
                 <span class="n">mean</span><span class="o">=</span><span class="n">mean</span><span class="p">,</span>
                 <span class="n">sigma</span><span class="o">=</span><span class="n">sigma0</span><span class="p">,</span>
                 <span class="n">bounds</span><span class="o">=</span><span class="n">trans</span><span class="o">.</span><span class="n">bounds</span><span class="p">,</span>
@@ -673,7 +678,7 @@
                 <span class="c1"># Set step 0.0 for continuous search space.</span>
                 <span class="n">steps</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">step</span> <span class="ow">or</span> <span class="mf">0.0</span>
 
-            <span class="k">return</span> <span class="n">CMAwM</span><span class="p">(</span>
+            <span class="k">return</span> <span class="n">cmaes</span><span class="o">.</span><span class="n">CMAwM</span><span class="p">(</span>
                 <span class="n">mean</span><span class="o">=</span><span class="n">mean</span><span class="p">,</span>
                 <span class="n">sigma</span><span class="o">=</span><span class="n">sigma0</span><span class="p">,</span>
                 <span class="n">bounds</span><span class="o">=</span><span class="n">trans</span><span class="o">.</span><span class="n">bounds</span><span class="p">,</span>
@@ -684,7 +689,7 @@
                 <span class="n">population_size</span><span class="o">=</span><span class="n">population_size</span><span class="p">,</span>
             <span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">CMA</span><span class="p">(</span>
+        <span class="k">return</span> <span class="n">cmaes</span><span class="o">.</span><span class="n">CMA</span><span class="p">(</span>
             <span class="n">mean</span><span class="o">=</span><span class="n">mean</span><span class="p">,</span>
             <span class="n">sigma</span><span class="o">=</span><span class="n">sigma0</span><span class="p">,</span>
             <span class="n">cov</span><span class="o">=</span><span class="n">cov</span><span class="p">,</span>

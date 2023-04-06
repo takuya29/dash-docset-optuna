@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>3. Efficient Optimization Algorithms — Optuna 3.1.0 documentation</title>
+<title>3. Efficient Optimization Algorithms — Optuna 3.1.1 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -68,7 +68,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.1.0
+                3.1.1
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -122,7 +122,7 @@
 <div itemprop="articleBody">
 <div class="sphx-glr-download-link-note admonition note">
 <p class="admonition-title">Note</p>
-<p>Click <a class="reference internal" href="#sphx-glr-download-tutorial-10-key-features-003-efficient-optimization-algorithms-py"><span class="std std-ref">here</span></a>
+<p><a class="reference internal" href="#sphx-glr-download-tutorial-10-key-features-003-efficient-optimization-algorithms-py"><span class="std std-ref">Go to the end</span></a>
 to download the full example code</p>
 </div>
 <section class="sphx-glr-example-title" id="efficient-optimization-algorithms">
@@ -237,25 +237,25 @@ Exclusive list is <a class="reference internal" href="../../reference/integratio
 <span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>A new study created in memory with name: no-name-e3515ff7-6321-4b42-9e11-d0ed58a38141
-Trial 0 finished with value: 0.10526315789473684 and parameters: {'alpha': 1.3316841467688193e-05}. Best is trial 0 with value: 0.10526315789473684.
-Trial 1 finished with value: 0.13157894736842102 and parameters: {'alpha': 0.041889760011285956}. Best is trial 0 with value: 0.10526315789473684.
-Trial 2 finished with value: 0.07894736842105265 and parameters: {'alpha': 0.002646181202399905}. Best is trial 2 with value: 0.07894736842105265.
-Trial 3 finished with value: 0.052631578947368474 and parameters: {'alpha': 0.032315177947149}. Best is trial 3 with value: 0.052631578947368474.
-Trial 4 finished with value: 0.10526315789473684 and parameters: {'alpha': 0.00768203088266496}. Best is trial 3 with value: 0.052631578947368474.
-Trial 5 finished with value: 0.052631578947368474 and parameters: {'alpha': 0.00013856637372842734}. Best is trial 3 with value: 0.052631578947368474.
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>A new study created in memory with name: no-name-2f3084d4-75dd-49ab-84c1-bb7fd77f246b
+Trial 0 finished with value: 0.02631578947368418 and parameters: {'alpha': 0.0040862539094214025}. Best is trial 0 with value: 0.02631578947368418.
+Trial 1 finished with value: 0.02631578947368418 and parameters: {'alpha': 0.0011632589896120673}. Best is trial 0 with value: 0.02631578947368418.
+Trial 2 finished with value: 0.07894736842105265 and parameters: {'alpha': 0.00026671658188804633}. Best is trial 0 with value: 0.02631578947368418.
+Trial 3 finished with value: 0.02631578947368418 and parameters: {'alpha': 0.022348137442954545}. Best is trial 0 with value: 0.02631578947368418.
+Trial 4 finished with value: 0.13157894736842102 and parameters: {'alpha': 0.00013757998659765837}. Best is trial 0 with value: 0.02631578947368418.
+Trial 5 pruned.
 Trial 6 pruned.
 Trial 7 pruned.
 Trial 8 pruned.
 Trial 9 pruned.
 Trial 10 pruned.
 Trial 11 pruned.
-Trial 12 finished with value: 0.07894736842105265 and parameters: {'alpha': 0.00016402547916040402}. Best is trial 3 with value: 0.052631578947368474.
+Trial 12 finished with value: 0.368421052631579 and parameters: {'alpha': 0.004032973070329911}. Best is trial 0 with value: 0.02631578947368418.
 Trial 13 pruned.
-Trial 14 pruned.
+Trial 14 finished with value: 0.3157894736842105 and parameters: {'alpha': 0.09619696262273303}. Best is trial 0 with value: 0.02631578947368418.
 Trial 15 pruned.
 Trial 16 pruned.
-Trial 17 pruned.
+Trial 17 finished with value: 0.02631578947368418 and parameters: {'alpha': 0.011008102532694018}. Best is trial 0 with value: 0.02631578947368418.
 Trial 18 pruned.
 Trial 19 pruned.
 </pre></div>
@@ -310,7 +310,7 @@ which is written in Japanese.</p>
 <span class="n">bst</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">dtrain</span><span class="p">,</span> <span class="n">evals</span><span class="o">=</span><span class="p">[(</span><span class="n">dvalid</span><span class="p">,</span> <span class="s1">'validation'</span><span class="p">)],</span> <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">pruning_callback</span><span class="p">])</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.521 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  2.950 seconds)</p>
 <a class="dashAnchor" name="//apple_ref/cpp/Section/sphx_glr_download_tutorial_10_key_features_003_efficient_optimization_algorithms.py"></a><div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorial-10-key-features-003-efficient-optimization-algorithms-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/d644481a46b46a106b111c67d4186242/003_efficient_optimization_algorithms.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">003_efficient_optimization_algorithms.py</span></code></a></p>
