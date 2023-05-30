@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.pruners._hyperband &mdash; Optuna 3.1.1 documentation</title>
+  <title>optuna.pruners._hyperband &mdash; Optuna 3.2.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
@@ -18,10 +18,9 @@
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
         <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="../../../_static/clipboard.min.js"></script>
@@ -43,6 +42,9 @@
                 </li>
                 <li>
                     <a href="https://optuna.org/#installation" class="header_link">Installation</a>
+                </li>
+                <li>
+                    <a href="https://optuna.org/#dashboard" class="header_link">Dashboard</a>
                 </li>
                 <li>
                     <a href="https://optuna.org/#blog" class="header_link">Blog</a>
@@ -73,7 +75,7 @@
               <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.1.1
+                3.2.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -172,8 +174,8 @@
 <span class="sd">        stopping behavior of Hyperband and is automatically determined by ``min_resource``,</span>
 <span class="sd">        ``max_resource`` and ``reduction_factor`` as</span>
 <span class="sd">        :math:`\\mathrm{The\\ number\\ of\\ brackets} =</span>
-<span class="sd">        \\mathrm{floor}(\\log_{\\texttt{reduction_factor}}</span>
-<span class="sd">        (\\frac{\\texttt{max_resource}}{\\texttt{min_resource}})) + 1`.</span>
+<span class="sd">        \\mathrm{floor}(\\log_{\\texttt{reduction}\\_\\texttt{factor}}</span>
+<span class="sd">        (\\frac{\\texttt{max}\\_\\texttt{resource}}{\\texttt{min}\\_\\texttt{resource}})) + 1`.</span>
 <span class="sd">        Please set ``reduction_factor`` so that the number of brackets is not too large (about 4 –</span>
 <span class="sd">        6 in most use cases). Please see Section 3.6 of the `original paper</span>
 <span class="sd">        &lt;http://www.jmlr.org/papers/volume18/16-558/16-558.pdf&gt;`_ for the detail.</span>
@@ -260,7 +262,6 @@
         <span class="n">reduction_factor</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
         <span class="n">bootstrap_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">_min_resource</span> <span class="o">=</span> <span class="n">min_resource</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_max_resource</span> <span class="o">=</span> <span class="n">max_resource</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_reduction_factor</span> <span class="o">=</span> <span class="n">reduction_factor</span>
@@ -380,9 +381,9 @@
         <span class="c1"># `direction`, and `storage` are used.</span>
         <span class="c1"># But for safety, prohibit the other attributes explicitly.</span>
         <span class="k">class</span> <span class="nc">_BracketStudy</span><span class="p">(</span><span class="n">optuna</span><span class="o">.</span><span class="n">study</span><span class="o">.</span><span class="n">Study</span><span class="p">):</span>
-
             <span class="n">_VALID_ATTRS</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="s2">&quot;get_trials&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;_get_trials&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;directions&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;direction&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;_directions&quot;</span><span class="p">,</span>
@@ -396,6 +397,7 @@
                 <span class="s2">&quot;_is_multi_objective&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;stop&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;_study&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;_thread_local&quot;</span><span class="p">,</span>
             <span class="p">)</span>
 
             <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
@@ -415,7 +417,7 @@
                 <span class="n">deepcopy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
                 <span class="n">states</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Container</span><span class="p">[</span><span class="n">TrialState</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
             <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s2">&quot;optuna.trial.FrozenTrial&quot;</span><span class="p">]:</span>
-                <span class="n">trials</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_trials</span><span class="p">(</span><span class="n">deepcopy</span><span class="o">=</span><span class="n">deepcopy</span><span class="p">,</span> <span class="n">states</span><span class="o">=</span><span class="n">states</span><span class="p">)</span>
+                <span class="n">trials</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_get_trials</span><span class="p">(</span><span class="n">deepcopy</span><span class="o">=</span><span class="n">deepcopy</span><span class="p">,</span> <span class="n">states</span><span class="o">=</span><span class="n">states</span><span class="p">)</span>
                 <span class="n">pruner</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pruner</span>
                 <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pruner</span><span class="p">,</span> <span class="n">HyperbandPruner</span><span class="p">)</span>
                 <span class="k">return</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">trials</span> <span class="k">if</span> <span class="n">pruner</span><span class="o">.</span><span class="n">_get_bracket_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bracket_id</span><span class="p">]</span>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.samplers._qmc &mdash; Optuna 3.1.1 documentation</title>
+  <title>optuna.samplers._qmc &mdash; Optuna 3.2.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
@@ -18,10 +18,9 @@
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
         <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="../../../_static/clipboard.min.js"></script>
@@ -43,6 +42,9 @@
                 </li>
                 <li>
                     <a href="https://optuna.org/#installation" class="header_link">Installation</a>
+                </li>
+                <li>
+                    <a href="https://optuna.org/#dashboard" class="header_link">Dashboard</a>
                 </li>
                 <li>
                     <a href="https://optuna.org/#blog" class="header_link">Blog</a>
@@ -73,7 +75,7 @@
               <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.1.1
+                3.2.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -146,7 +148,7 @@
 
 <span class="sd">    Quasi Monte Carlo (QMC) sequences are designed to have lower discrepancies than</span>
 <span class="sd">    standard random sequences. They are known to perform better than the standard</span>
-<span class="sd">    randam sequences in hyperparameter optimization.</span>
+<span class="sd">    random sequences in hyperparameter optimization.</span>
 
 <span class="sd">    For further information about the use of QMC sequences for hyperparameter optimization,</span>
 <span class="sd">    please refer to the following paper:</span>
@@ -268,9 +270,8 @@
         <span class="n">warn_asynchronous_seeding</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">warn_independent_sampling</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">_scramble</span> <span class="o">=</span> <span class="n">scramble</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_seed</span> <span class="o">=</span> <span class="n">seed</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">PCG64</span><span class="p">()</span><span class="o">.</span><span class="n">random_raw</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_seed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">PCG64</span><span class="p">()</span><span class="o">.</span><span class="n">random_raw</span><span class="p">()</span> <span class="k">if</span> <span class="n">seed</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">seed</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_independent_sampler</span> <span class="o">=</span> <span class="n">independent_sampler</span> <span class="ow">or</span> <span class="n">optuna</span><span class="o">.</span><span class="n">samplers</span><span class="o">.</span><span class="n">RandomSampler</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initial_search_space</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_warn_independent_sampling</span> <span class="o">=</span> <span class="n">warn_independent_sampling</span>
@@ -289,7 +290,6 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_log_asynchronous_seeding</span><span class="p">()</span>
 
 <div class="viewcode-block" id="QMCSampler.reseed_rng"><a class="viewcode-back" href="../../../reference/samplers/generated/optuna.samplers.QMCSampler.html#optuna.samplers.QMCSampler.reseed_rng">[docs]</a>    <span class="k">def</span> <span class="nf">reseed_rng</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="c1"># We must not reseed the `self._seed` like below. Otherwise, workers will have different</span>
         <span class="c1"># seed under parallel execution because `self.reseed_rng()` is called when starting each</span>
         <span class="c1"># parallel executor.</span>
@@ -300,11 +300,10 @@
 <div class="viewcode-block" id="QMCSampler.infer_relative_search_space"><a class="viewcode-back" href="../../../reference/samplers/generated/optuna.samplers.QMCSampler.html#optuna.samplers.QMCSampler.infer_relative_search_space">[docs]</a>    <span class="k">def</span> <span class="nf">infer_relative_search_space</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="n">FrozenTrial</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">]:</span>
-
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initial_search_space</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initial_search_space</span>
 
-        <span class="n">past_trials</span> <span class="o">=</span> <span class="n">study</span><span class="o">.</span><span class="n">get_trials</span><span class="p">(</span><span class="n">deepcopy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">states</span><span class="o">=</span><span class="n">_SUGGESTED_STATES</span><span class="p">)</span>
+        <span class="n">past_trials</span> <span class="o">=</span> <span class="n">study</span><span class="o">.</span><span class="n">_get_trials</span><span class="p">(</span><span class="n">deepcopy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">states</span><span class="o">=</span><span class="n">_SUGGESTED_STATES</span><span class="p">,</span> <span class="n">use_cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="c1"># The initial trial is sampled by the independent sampler.</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">past_trials</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">{}</span>
@@ -315,7 +314,6 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initial_search_space</span></div>
 
     <span class="k">def</span> <span class="nf">_infer_initial_search_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="n">FrozenTrial</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">]:</span>
-
         <span class="n">search_space</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">distribution</span> <span class="ow">in</span> <span class="n">trial</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="n">CategoricalDistribution</span><span class="p">):</span>
@@ -351,7 +349,6 @@
         <span class="n">param_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">param_distribution</span><span class="p">:</span> <span class="n">BaseDistribution</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initial_search_space</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_warn_independent_sampling</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_log_independent_sampling</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">param_name</span><span class="p">)</span>
@@ -363,7 +360,6 @@
 <div class="viewcode-block" id="QMCSampler.sample_relative"><a class="viewcode-back" href="../../../reference/samplers/generated/optuna.samplers.QMCSampler.html#optuna.samplers.QMCSampler.sample_relative">[docs]</a>    <span class="k">def</span> <span class="nf">sample_relative</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="n">FrozenTrial</span><span class="p">,</span> <span class="n">search_space</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-
         <span class="k">if</span> <span class="n">search_space</span> <span class="o">==</span> <span class="p">{}:</span>
             <span class="k">return</span> <span class="p">{}</span>
 
@@ -382,7 +378,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_independent_sampler</span><span class="o">.</span><span class="n">after_trial</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="n">trial</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_sample_qmc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span> <span class="n">search_space</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-
         <span class="c1"># Lazy import because the `scipy.stats.qmc` is slow to import.</span>
         <span class="n">qmc_module</span> <span class="o">=</span> <span class="n">_LazyImport</span><span class="p">(</span><span class="s2">&quot;scipy.stats.qmc&quot;</span><span class="p">)</span>
 
@@ -406,7 +401,6 @@
         <span class="k">return</span> <span class="n">sample</span>
 
     <span class="k">def</span> <span class="nf">_find_sample_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-
         <span class="n">qmc_id</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="n">qmc_id</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_qmc_type</span>
         <span class="c1"># Sobol/Halton sequences without scrambling do not use seed.</span>

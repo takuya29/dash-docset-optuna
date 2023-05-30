@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.pruners.ThresholdPruner — Optuna 3.1.1 documentation</title>
+<title>optuna.pruners.ThresholdPruner — Optuna 3.2.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -18,10 +18,9 @@
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
 <script src="../../_static/jquery.js"></script>
-<script src="../../_static/underscore.js"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
 <script src="../../_static/doctools.js"></script>
 <script src="../../_static/sphinx_highlight.js"></script>
 <script src="../../_static/clipboard.min.js"></script>
@@ -46,6 +45,9 @@
 <a class="header_link" href="https://optuna.org/#installation">Installation</a>
 </li>
 <li>
+<a class="header_link" href="https://optuna.org/#dashboard">Dashboard</a>
+</li>
+<li>
 <a class="header_link" href="https://optuna.org/#blog">Blog</a>
 </li>
 <li>
@@ -68,7 +70,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.1.1
+                3.2.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -105,8 +107,10 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../samplers/index.html">optuna.samplers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../search_space.html">optuna.search_space</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../storages.html">optuna.storages</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../study.html">optuna.study</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../terminator.html">optuna.terminator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../trial.html">optuna.trial</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../visualization/index.html">optuna.visualization</a></li>
 </ul>
@@ -178,9 +182,9 @@ falls behind lower threshold or reaches <code class="docutils literal notranslat
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>lower</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>]</em>) – A minimum value which determines whether pruner prunes or not.
+<li><p><strong>lower</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em> | </em><em>None</em>) – A minimum value which determines whether pruner prunes or not.
 If an intermediate value is smaller than lower, it prunes.</p></li>
-<li><p><strong>upper</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>]</em>) – A maximum value which determines whether pruner prunes or not.
+<li><p><strong>upper</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em> | </em><em>None</em>) – A maximum value which determines whether pruner prunes or not.
 If an intermediate value is larger than upper, it prunes.</p></li>
 <li><p><strong>n_warmup_steps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Pruning is disabled if the step is less than the given number of warmup steps.</p></li>
 <li><p><strong>interval_steps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Interval in number of steps between the pruning checks, offset by the warmup steps.

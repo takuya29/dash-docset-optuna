@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.storages.JournalFileStorage — Optuna 3.1.1 documentation</title>
+<title>optuna.storages.JournalFileStorage — Optuna 3.2.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -18,10 +18,9 @@
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
 <script src="../../_static/jquery.js"></script>
-<script src="../../_static/underscore.js"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
 <script src="../../_static/doctools.js"></script>
 <script src="../../_static/sphinx_highlight.js"></script>
 <script src="../../_static/clipboard.min.js"></script>
@@ -46,6 +45,9 @@
 <a class="header_link" href="https://optuna.org/#installation">Installation</a>
 </li>
 <li>
+<a class="header_link" href="https://optuna.org/#dashboard">Dashboard</a>
+</li>
+<li>
 <a class="header_link" href="https://optuna.org/#blog">Blog</a>
 </li>
 <li>
@@ -68,7 +70,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.1.1
+                3.2.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -92,6 +94,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../logging.html">optuna.logging</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pruners.html">optuna.pruners</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../samplers/index.html">optuna.samplers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../search_space.html">optuna.search_space</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../storages.html">optuna.storages</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="optuna.storages.RDBStorage.html">optuna.storages.RDBStorage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.storages.RetryFailedTrialCallback.html">optuna.storages.RetryFailedTrialCallback</a></li>
@@ -107,6 +110,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../study.html">optuna.study</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../terminator.html">optuna.terminator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../trial.html">optuna.trial</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../visualization/index.html">optuna.visualization</a></li>
 </ul>
@@ -143,7 +147,7 @@
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>file_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Path of file to persist the log to.</p></li>
-<li><p><strong>lock_obj</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><em>JournalFileBaseLock</em><em>]</em>) – Lock object for process exclusivity.</p></li>
+<li><p><strong>lock_obj</strong> (<em>JournalFileBaseLock</em><em> | </em><em>None</em>) – Lock object for process exclusivity.</p></li>
 </ul>
 </dd>
 </dl>

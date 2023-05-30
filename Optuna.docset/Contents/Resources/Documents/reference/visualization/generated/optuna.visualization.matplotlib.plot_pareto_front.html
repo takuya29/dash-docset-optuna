@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.visualization.matplotlib.plot_pareto_front — Optuna 3.1.1 documentation</title>
+<title>optuna.visualization.matplotlib.plot_pareto_front — Optuna 3.2.0 documentation</title>
 <link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -18,10 +18,9 @@
 <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
 <script src="../../../_static/jquery.js"></script>
-<script src="../../../_static/underscore.js"></script>
 <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
 <script src="../../../_static/doctools.js"></script>
 <script src="../../../_static/sphinx_highlight.js"></script>
 <script src="../../../_static/clipboard.min.js"></script>
@@ -29,7 +28,7 @@
 <script src="../../../_static/js/theme.js"></script>
 <link href="../../../genindex.html" rel="index" title="Index"/>
 <link href="../../../search.html" rel="search" title="Search"/>
-<link href="optuna.visualization.matplotlib.plot_slice.html" rel="next" title="optuna.visualization.matplotlib.plot_slice"/>
+<link href="optuna.visualization.matplotlib.plot_rank.html" rel="next" title="optuna.visualization.matplotlib.plot_rank"/>
 <link href="optuna.visualization.matplotlib.plot_param_importances.html" rel="prev" title="optuna.visualization.matplotlib.plot_param_importances"/>
 </head>
 <body class="wy-body-for-nav">
@@ -44,6 +43,9 @@
 </li>
 <li>
 <a class="header_link" href="https://optuna.org/#installation">Installation</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#dashboard">Dashboard</a>
 </li>
 <li>
 <a class="header_link" href="https://optuna.org/#blog">Blog</a>
@@ -68,7 +70,7 @@
 <img alt="Logo" class="logo" src="../../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.1.1
+                3.2.0
               </div>
 <div role="search">
 <form action="../../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -92,8 +94,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../../logging.html">optuna.logging</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../pruners.html">optuna.pruners</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../samplers/index.html">optuna.samplers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../search_space.html">optuna.search_space</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../storages.html">optuna.storages</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../study.html">optuna.study</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminator.html">optuna.terminator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../trial.html">optuna.trial</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html">optuna.visualization</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="optuna.visualization.plot_contour.html">optuna.visualization.plot_contour</a></li>
@@ -103,7 +107,10 @@
 <li class="toctree-l3"><a class="reference internal" href="optuna.visualization.plot_parallel_coordinate.html">optuna.visualization.plot_parallel_coordinate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.visualization.plot_param_importances.html">optuna.visualization.plot_param_importances</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.visualization.plot_pareto_front.html">optuna.visualization.plot_pareto_front</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.visualization.plot_rank.html">optuna.visualization.plot_rank</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.visualization.plot_slice.html">optuna.visualization.plot_slice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.visualization.plot_terminator_improvement.html">optuna.visualization.plot_terminator_improvement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.visualization.plot_timeline.html">optuna.visualization.plot_timeline</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.visualization.is_available.html">optuna.visualization.is_available</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../matplotlib.html">optuna.visualization.matplotlib</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="optuna.visualization.matplotlib.plot_contour.html">optuna.visualization.matplotlib.plot_contour</a></li>
@@ -113,7 +120,10 @@
 <li class="toctree-l4"><a class="reference internal" href="optuna.visualization.matplotlib.plot_parallel_coordinate.html">optuna.visualization.matplotlib.plot_parallel_coordinate</a></li>
 <li class="toctree-l4"><a class="reference internal" href="optuna.visualization.matplotlib.plot_param_importances.html">optuna.visualization.matplotlib.plot_param_importances</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">optuna.visualization.matplotlib.plot_pareto_front</a></li>
+<li class="toctree-l4"><a class="reference internal" href="optuna.visualization.matplotlib.plot_rank.html">optuna.visualization.matplotlib.plot_rank</a></li>
 <li class="toctree-l4"><a class="reference internal" href="optuna.visualization.matplotlib.plot_slice.html">optuna.visualization.matplotlib.plot_slice</a></li>
+<li class="toctree-l4"><a class="reference internal" href="optuna.visualization.matplotlib.plot_terminator_improvement.html">optuna.visualization.matplotlib.plot_terminator_improvement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="optuna.visualization.matplotlib.plot_timeline.html">optuna.visualization.matplotlib.plot_timeline</a></li>
 <li class="toctree-l4"><a class="reference internal" href="optuna.visualization.matplotlib.is_available.html">optuna.visualization.matplotlib.is_available</a></li>
 </ul>
 </li>
@@ -180,14 +190,14 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>study</strong> (<a class="reference internal" href="../../generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.study.Study"><em>Study</em></a>) – A <a class="reference internal" href="../../generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> object whose trials are plotted for their objective
+<li><p><strong>study</strong> (<a class="reference internal" href="../../generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><em>Study</em></a>) – A <a class="reference internal" href="../../generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> object whose trials are plotted for their objective
 values. <code class="docutils literal notranslate"><span class="pre">study.n_objectives</span></code> must be either 2 or 3 when <code class="docutils literal notranslate"><span class="pre">targets</span></code> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</p></li>
-<li><p><strong>target_names</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em><em>]</em>) – Objective name list used as the axis titles. If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is specified,
+<li><p><strong>target_names</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>] </em><em>| </em><em>None</em>) – Objective name list used as the axis titles. If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is specified,
 “Objective {objective_index}” is used instead. If <code class="docutils literal notranslate"><span class="pre">targets</span></code> is specified
 for a study that does not contain any completed trial,
 <code class="docutils literal notranslate"><span class="pre">target_name</span></code> must be specified.</p></li>
 <li><p><strong>include_dominated_trials</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – A flag to include all dominated trial’s objective values.</p></li>
-<li><p><strong>axis_order</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em><em>]</em>) – <p>A list of indices indicating the axis order. If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is specified,
+<li><p><strong>axis_order</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>] </em><em>| </em><em>None</em>) – <p>A list of indices indicating the axis order. If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is specified,
 default order is used. <code class="docutils literal notranslate"><span class="pre">axis_order</span></code> and <code class="docutils literal notranslate"><span class="pre">targets</span></code> cannot be used at the same time.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -196,7 +206,7 @@ this feature is currently scheduled for v5.0.0, but this schedule is subject to
 change. See <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v3.0.0">https://github.com/optuna/optuna/releases/tag/v3.0.0</a>.</p>
 </div>
 </p></li>
-<li><p><strong>constraints_func</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.11)"><em>Callable</em></a><em>[</em><em>[</em><a class="reference internal" href="../../generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial._frozen.FrozenTrial"><em>FrozenTrial</em></a><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>]</em><em>]</em><em>]</em>) – <p>An optional function that computes the objective constraints. It must take a
+<li><p><strong>constraints_func</strong> (<em>Callable</em><em>[</em><em>[</em><a class="reference internal" href="../../generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><em>FrozenTrial</em></a><em>]</em><em>, </em><em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>]</em><em>] </em><em>| </em><em>None</em>) – <p>An optional function that computes the objective constraints. It must take a
 <a class="reference internal" href="../../generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrozenTrial</span></code></a> and return the constraints. The return value must
 be a sequence of <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a> s. A value strictly larger than 0 means that a
 constraint is violated. A value equal to or smaller than 0 is considered feasible.
@@ -206,7 +216,7 @@ This specification is the same as in, for example,
 non-best, and infeasible. Categories are shown in different colors. Here, whether a
 trial is best (on Pareto front) or not is determined ignoring all infeasible trials.</p>
 </p></li>
-<li><p><strong>targets</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.11)"><em>Callable</em></a><em>[</em><em>[</em><a class="reference internal" href="../../generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial._frozen.FrozenTrial"><em>FrozenTrial</em></a><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>]</em><em>]</em><em>]</em>) – <p>A function that returns a tuple of target values to display.
+<li><p><strong>targets</strong> (<em>Callable</em><em>[</em><em>[</em><a class="reference internal" href="../../generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><em>FrozenTrial</em></a><em>]</em><em>, </em><em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>]</em><em>] </em><em>| </em><em>None</em>) – <p>A function that returns a tuple of target values to display.
 The argument to this function is <a class="reference internal" href="../../generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrozenTrial</span></code></a>.
 <code class="docutils literal notranslate"><span class="pre">targets</span></code> must be <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> or return 2 or 3 values.
 <code class="docutils literal notranslate"><span class="pre">axis_order</span></code> and <code class="docutils literal notranslate"><span class="pre">targets</span></code> cannot be used at the same time.
@@ -221,10 +231,10 @@ See <a class="reference external" href="https://github.com/optuna/optuna/release
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code> object.</p>
+<dd class="field-even"><p>A <a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="(in Matplotlib v3.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code></a> object.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><em>Axes</em></p>
+<dd class="field-odd"><p>Axes</p>
 </dd>
 </dl>
 <div class="admonition note">
@@ -238,7 +248,7 @@ without prior notice. See <a class="reference external" href="https://github.com
 </div>
 <footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
 <a accesskey="p" class="btn btn-neutral float-left" href="optuna.visualization.matplotlib.plot_param_importances.html" rel="prev" title="optuna.visualization.matplotlib.plot_param_importances"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
-<a accesskey="n" class="btn btn-neutral float-right" href="optuna.visualization.matplotlib.plot_slice.html" rel="next" title="optuna.visualization.matplotlib.plot_slice">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+<a accesskey="n" class="btn btn-neutral float-right" href="optuna.visualization.matplotlib.plot_rank.html" rel="next" title="optuna.visualization.matplotlib.plot_rank">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
 </div>
 <hr/>
 <div role="contentinfo">

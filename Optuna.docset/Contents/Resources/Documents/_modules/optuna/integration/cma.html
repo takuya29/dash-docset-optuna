@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.integration.cma &mdash; Optuna 3.1.1 documentation</title>
+  <title>optuna.integration.cma &mdash; Optuna 3.2.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
@@ -18,10 +18,9 @@
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
         <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="../../../_static/clipboard.min.js"></script>
@@ -43,6 +42,9 @@
                 </li>
                 <li>
                     <a href="https://optuna.org/#installation" class="header_link">Installation</a>
+                </li>
+                <li>
+                    <a href="https://optuna.org/#dashboard" class="header_link">Dashboard</a>
                 </li>
                 <li>
                     <a href="https://optuna.org/#blog" class="header_link">Blog</a>
@@ -73,7 +75,7 @@
               <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.1.1
+                3.2.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -136,6 +138,7 @@
 <span class="kn">from</span> <span class="nn">optuna.distributions</span> <span class="kn">import</span> <span class="n">FloatDistribution</span>
 <span class="kn">from</span> <span class="nn">optuna.distributions</span> <span class="kn">import</span> <span class="n">IntDistribution</span>
 <span class="kn">from</span> <span class="nn">optuna.samplers</span> <span class="kn">import</span> <span class="n">BaseSampler</span>
+<span class="kn">from</span> <span class="nn">optuna.search_space</span> <span class="kn">import</span> <span class="n">IntersectionSearchSpace</span>
 <span class="kn">from</span> <span class="nn">optuna.study</span> <span class="kn">import</span> <span class="n">Study</span>
 <span class="kn">from</span> <span class="nn">optuna.study</span> <span class="kn">import</span> <span class="n">StudyDirection</span>
 <span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">FrozenTrial</span>
@@ -221,7 +224,7 @@
 <span class="sd">            sampling. The parameters not contained in the relative search space are sampled</span>
 <span class="sd">            by this sampler.</span>
 <span class="sd">            The search space for :class:`~optuna.integration.PyCmaSampler` is determined by</span>
-<span class="sd">            :func:`~optuna.samplers.intersection_search_space()`.</span>
+<span class="sd">            :func:`~optuna.search_space.intersection_search_space()`.</span>
 
 <span class="sd">            If :obj:`None` is specified, :class:`~optuna.samplers.RandomSampler` is used</span>
 <span class="sd">            as the default.</span>
@@ -255,7 +258,6 @@
         <span class="n">independent_sampler</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BaseSampler</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">warn_independent_sampling</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="n">_imports</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_x0</span> <span class="o">=</span> <span class="n">x0</span>
@@ -269,17 +271,15 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_n_startup_trials</span> <span class="o">=</span> <span class="n">n_startup_trials</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_independent_sampler</span> <span class="o">=</span> <span class="n">independent_sampler</span> <span class="ow">or</span> <span class="n">optuna</span><span class="o">.</span><span class="n">samplers</span><span class="o">.</span><span class="n">RandomSampler</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_warn_independent_sampling</span> <span class="o">=</span> <span class="n">warn_independent_sampling</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_search_space</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">samplers</span><span class="o">.</span><span class="n">IntersectionSearchSpace</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_search_space</span> <span class="o">=</span> <span class="n">IntersectionSearchSpace</span><span class="p">()</span>
 
 <div class="viewcode-block" id="PyCmaSampler.reseed_rng"><a class="viewcode-back" href="../../../reference/generated/optuna.integration.PyCmaSampler.html#optuna.integration.PyCmaSampler.reseed_rng">[docs]</a>    <span class="k">def</span> <span class="nf">reseed_rng</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">_cma_opts</span><span class="p">[</span><span class="s2">&quot;seed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">32</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_independent_sampler</span><span class="o">.</span><span class="n">reseed_rng</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="PyCmaSampler.infer_relative_search_space"><a class="viewcode-back" href="../../../reference/generated/optuna.integration.PyCmaSampler.html#optuna.integration.PyCmaSampler.infer_relative_search_space">[docs]</a>    <span class="k">def</span> <span class="nf">infer_relative_search_space</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="n">FrozenTrial</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">]:</span>
-
         <span class="n">search_space</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">distribution</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_search_space</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">study</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">distribution</span><span class="o">.</span><span class="n">single</span><span class="p">():</span>
@@ -299,11 +299,12 @@
         <span class="n">param_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">param_distribution</span><span class="p">:</span> <span class="n">BaseDistribution</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">_raise_error_if_multi_objective</span><span class="p">(</span><span class="n">study</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_warn_independent_sampling</span><span class="p">:</span>
-            <span class="n">complete_trials</span> <span class="o">=</span> <span class="n">study</span><span class="o">.</span><span class="n">get_trials</span><span class="p">(</span><span class="n">deepcopy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">states</span><span class="o">=</span><span class="p">(</span><span class="n">TrialState</span><span class="o">.</span><span class="n">COMPLETE</span><span class="p">,))</span>
+            <span class="n">complete_trials</span> <span class="o">=</span> <span class="n">study</span><span class="o">.</span><span class="n">_get_trials</span><span class="p">(</span>
+                <span class="n">deepcopy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">states</span><span class="o">=</span><span class="p">(</span><span class="n">TrialState</span><span class="o">.</span><span class="n">COMPLETE</span><span class="p">,),</span> <span class="n">use_cache</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">complete_trials</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_startup_trials</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_log_independent_sampling</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">param_name</span><span class="p">)</span>
 
@@ -314,7 +315,6 @@
 <div class="viewcode-block" id="PyCmaSampler.sample_relative"><a class="viewcode-back" href="../../../reference/generated/optuna.integration.PyCmaSampler.html#optuna.integration.PyCmaSampler.sample_relative">[docs]</a>    <span class="k">def</span> <span class="nf">sample_relative</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="n">FrozenTrial</span><span class="p">,</span> <span class="n">search_space</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">_raise_error_if_multi_objective</span><span class="p">(</span><span class="n">study</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">search_space</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -330,7 +330,9 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_warn_independent_sampling</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">return</span> <span class="p">{}</span>
 
-        <span class="n">complete_trials</span> <span class="o">=</span> <span class="n">study</span><span class="o">.</span><span class="n">get_trials</span><span class="p">(</span><span class="n">deepcopy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">states</span><span class="o">=</span><span class="p">(</span><span class="n">TrialState</span><span class="o">.</span><span class="n">COMPLETE</span><span class="p">,))</span>
+        <span class="n">complete_trials</span> <span class="o">=</span> <span class="n">study</span><span class="o">.</span><span class="n">_get_trials</span><span class="p">(</span>
+            <span class="n">deepcopy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">states</span><span class="o">=</span><span class="p">(</span><span class="n">TrialState</span><span class="o">.</span><span class="n">COMPLETE</span><span class="p">,),</span> <span class="n">use_cache</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">complete_trials</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_startup_trials</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">{}</span>
 
@@ -351,7 +353,6 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_initialize_x0</span><span class="p">(</span><span class="n">search_space</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-
         <span class="n">x0</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">distribution</span> <span class="ow">in</span> <span class="n">search_space</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="n">FloatDistribution</span><span class="p">):</span>
@@ -379,7 +380,6 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_initialize_sigma0</span><span class="p">(</span><span class="n">search_space</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-
         <span class="n">sigma0s</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">distribution</span> <span class="ow">in</span> <span class="n">search_space</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">distribution</span><span class="p">,</span> <span class="p">(</span><span class="n">IntDistribution</span><span class="p">,</span> <span class="n">FloatDistribution</span><span class="p">)):</span>
@@ -398,7 +398,6 @@
         <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">sigma0s</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_log_independent_sampling</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="n">FrozenTrial</span><span class="p">,</span> <span class="n">param_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="n">_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
             <span class="s2">&quot;The parameter &#39;</span><span class="si">{}</span><span class="s2">&#39; in trial#</span><span class="si">{}</span><span class="s2"> is sampled independently &quot;</span>
             <span class="s2">&quot;by using `</span><span class="si">{}</span><span class="s2">` instead of `PyCmaSampler` &quot;</span>
@@ -418,7 +417,6 @@
         <span class="n">state</span><span class="p">:</span> <span class="n">TrialState</span><span class="p">,</span>
         <span class="n">values</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">_independent_sampler</span><span class="o">.</span><span class="n">after_trial</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="n">trial</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span></div></div>
 
 
@@ -431,7 +429,6 @@
         <span class="n">cma_stds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
         <span class="n">cma_opts</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">_search_space</span> <span class="o">=</span> <span class="n">search_space</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_param_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_search_space</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
 
@@ -481,7 +478,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_es</span> <span class="o">=</span> <span class="n">cma</span><span class="o">.</span><span class="n">CMAEvolutionStrategy</span><span class="p">(</span><span class="n">initial_cma_params</span><span class="p">,</span> <span class="n">sigma0</span><span class="p">,</span> <span class="n">cma_opts</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">tell</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trials</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">],</span> <span class="n">study_direction</span><span class="p">:</span> <span class="n">StudyDirection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-
         <span class="n">complete_trials</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_collect_target_trials</span><span class="p">(</span><span class="n">trials</span><span class="p">,</span> <span class="n">target_states</span><span class="o">=</span><span class="p">{</span><span class="n">TrialState</span><span class="o">.</span><span class="n">COMPLETE</span><span class="p">})</span>
 
         <span class="n">popsize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_es</span><span class="o">.</span><span class="n">popsize</span>
@@ -508,7 +504,6 @@
         <span class="k">return</span> <span class="n">last_told_trial_number</span>
 
     <span class="k">def</span> <span class="nf">ask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trials</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">],</span> <span class="n">last_told_trial_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-
         <span class="n">individual_index</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_collect_target_trials</span><span class="p">(</span><span class="n">trials</span><span class="p">,</span> <span class="n">last_told_trial_number</span><span class="p">))</span>
         <span class="n">popsize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_es</span><span class="o">.</span><span class="n">popsize</span>
 
@@ -528,7 +523,6 @@
         <span class="k">return</span> <span class="n">ret_val</span>
 
     <span class="k">def</span> <span class="nf">_is_compatible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="n">FrozenTrial</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-
         <span class="c1"># Thanks to `intersection_search_space()` function, in sequential optimization,</span>
         <span class="c1"># the parameters of complete trials are always compatible with the search space.</span>
         <span class="c1">#</span>
@@ -553,7 +547,6 @@
         <span class="n">last_told</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">target_states</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Container</span><span class="p">[</span><span class="n">TrialState</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]:</span>
-
         <span class="n">target_trials</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">trials</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">number</span> <span class="o">&gt;</span> <span class="n">last_told</span><span class="p">]</span>
         <span class="n">target_trials</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">target_trials</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_compatible</span><span class="p">(</span><span class="n">t</span><span class="p">)]</span>
         <span class="k">if</span> <span class="n">target_states</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -565,7 +558,6 @@
     <span class="k">def</span> <span class="nf">_to_cma_params</span><span class="p">(</span>
         <span class="n">search_space</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">],</span> <span class="n">param_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">optuna_param_value</span><span class="p">:</span> <span class="n">Any</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-
         <span class="n">dist</span> <span class="o">=</span> <span class="n">search_space</span><span class="p">[</span><span class="n">param_name</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">IntDistribution</span><span class="p">):</span>
@@ -584,7 +576,6 @@
     <span class="k">def</span> <span class="nf">_to_optuna_params</span><span class="p">(</span>
         <span class="n">search_space</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">],</span> <span class="n">param_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cma_param_value</span><span class="p">:</span> <span class="nb">float</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-
         <span class="n">dist</span> <span class="o">=</span> <span class="n">search_space</span><span class="p">[</span><span class="n">param_name</span><span class="p">]</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">FloatDistribution</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">dist</span><span class="o">.</span><span class="n">log</span><span class="p">:</span>
@@ -626,7 +617,6 @@
         <span class="n">independent_sampler</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BaseSampler</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">warn_independent_sampling</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">x0</span><span class="o">=</span><span class="n">x0</span><span class="p">,</span>
             <span class="n">sigma0</span><span class="o">=</span><span class="n">sigma0</span><span class="p">,</span>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.integration.dask &mdash; Optuna 3.1.1 documentation</title>
+  <title>optuna.integration.dask &mdash; Optuna 3.2.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
@@ -18,10 +18,9 @@
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
         <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="../../../_static/clipboard.min.js"></script>
@@ -43,6 +42,9 @@
                 </li>
                 <li>
                     <a href="https://optuna.org/#installation" class="header_link">Installation</a>
+                </li>
+                <li>
+                    <a href="https://optuna.org/#dashboard" class="header_link">Dashboard</a>
                 </li>
                 <li>
                     <a href="https://optuna.org/#blog" class="header_link">Blog</a>
@@ -73,7 +75,7 @@
               <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.1.1
+                3.2.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -132,6 +134,7 @@
 <span class="kn">import</span> <span class="nn">optuna</span>
 <span class="kn">from</span> <span class="nn">optuna._experimental</span> <span class="kn">import</span> <span class="n">experimental_class</span>
 <span class="kn">from</span> <span class="nn">optuna._imports</span> <span class="kn">import</span> <span class="n">try_import</span>
+<span class="kn">from</span> <span class="nn">optuna._typing</span> <span class="kn">import</span> <span class="n">JSONSerializable</span>
 <span class="kn">from</span> <span class="nn">optuna.distributions</span> <span class="kn">import</span> <span class="n">BaseDistribution</span>
 <span class="kn">from</span> <span class="nn">optuna.distributions</span> <span class="kn">import</span> <span class="n">distribution_to_json</span>
 <span class="kn">from</span> <span class="nn">optuna.distributions</span> <span class="kn">import</span> <span class="n">json_to_distribution</span>
@@ -463,7 +466,7 @@
         <span class="n">storage_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">trial_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+        <span class="n">value</span><span class="p">:</span> <span class="n">JSONSerializable</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_storage</span><span class="p">(</span><span class="n">storage_name</span><span class="p">)</span><span class="o">.</span><span class="n">set_trial_system_attr</span><span class="p">(</span>
             <span class="n">trial_id</span><span class="o">=</span><span class="n">trial_id</span><span class="p">,</span>
@@ -540,9 +543,17 @@
 <span class="sd">    Optuna storage object.</span>
 
 <span class="sd">    See `this example &lt;https://github.com/optuna/optuna-examples/blob/master/</span>
-<span class="sd">    dask/dask_simple.py&gt;`__</span>
+<span class="sd">    dask/dask_simple.py&gt;`_ or the following YouTube video</span>
 <span class="sd">    for how to use :obj:`DaskStorage` to extend Optuna&#39;s in-memory storage class to run across</span>
 <span class="sd">    multiple processes.</span>
+
+<span class="sd">    .. raw:: html</span>
+
+<span class="sd">       &lt;iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube-nocookie.com/embed/euT6_h7iIBA&quot;</span>
+<span class="sd">        frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media;</span>
+<span class="sd">        gyroscope; picture-in-picture&quot; allowfullscreen&gt;&lt;/iframe&gt;</span>
+<span class="sd">       &lt;br&gt;</span>
+<span class="sd">       &lt;br&gt;</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        storage:</span>
@@ -559,6 +570,11 @@
 <span class="sd">            Dask ``Client`` to connect to. If not provided, will attempt to find an</span>
 <span class="sd">            existing ``Client``.</span>
 
+<span class="sd">        register:</span>
+<span class="sd">            Whether or not to register this storage instance with the cluster scheduler.</span>
+<span class="sd">            Most common usage of this storage class will not need to specify this argument.</span>
+<span class="sd">            Defaults to ``True``.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
@@ -566,24 +582,31 @@
         <span class="n">storage</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">BaseStorage</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">client</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;distributed.Client&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">register</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="n">_imports</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span> <span class="ow">or</span> <span class="sa">f</span><span class="s2">&quot;dask-storage-</span><span class="si">{</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">client</span> <span class="ow">or</span> <span class="n">get_client</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">client</span>
+        <span class="k">if</span> <span class="n">register</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">asynchronous</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">thread_state</span><span class="p">,</span> <span class="s2">&quot;on_event_loop_thread&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">asynchronous</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">thread_state</span><span class="p">,</span> <span class="s2">&quot;on_event_loop_thread&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+                <span class="k">async</span> <span class="k">def</span> <span class="nf">_register</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">DaskStorage</span><span class="p">:</span>
+                    <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">run_on_scheduler</span><span class="p">(</span>  <span class="c1"># type: ignore[no-untyped-call]</span>
+                        <span class="n">_register_with_scheduler</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="n">storage</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+                    <span class="p">)</span>
+                    <span class="k">return</span> <span class="bp">self</span>
 
-            <span class="k">async</span> <span class="k">def</span> <span class="nf">_register</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">DaskStorage</span><span class="p">:</span>
-                <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">run_on_scheduler</span><span class="p">(</span>  <span class="c1"># type: ignore[no-untyped-call]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_started</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">ensure_future</span><span class="p">(</span><span class="n">_register</span><span class="p">())</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">run_on_scheduler</span><span class="p">(</span>  <span class="c1"># type: ignore[no-untyped-call]</span>
                     <span class="n">_register_with_scheduler</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="n">storage</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span>
                 <span class="p">)</span>
-                <span class="k">return</span> <span class="bp">self</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">_started</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">ensure_future</span><span class="p">(</span><span class="n">_register</span><span class="p">())</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">run_on_scheduler</span><span class="p">(</span>  <span class="c1"># type: ignore[no-untyped-call]</span>
-                <span class="n">_register_with_scheduler</span><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="n">storage</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span>
-            <span class="p">)</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;distributed.Client&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">get_client</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span>
 
     <span class="k">def</span> <span class="fm">__await__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;DaskStorage&quot;</span><span class="p">]:</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_started&quot;</span><span class="p">):</span>
@@ -600,7 +623,7 @@
         <span class="c1"># on the scheduler. This is okay since this DaskStorage instance has already been</span>
         <span class="c1"># registered with the scheduler, and ``storage`` is only ever needed during the</span>
         <span class="c1"># scheduler registration process. We use ``storage=None`` below by convention.</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">DaskStorage</span><span class="p">,</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">DaskStorage</span><span class="p">,</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
 
 <div class="viewcode-block" id="DaskStorage.get_base_storage"><a class="viewcode-back" href="../../../reference/generated/optuna.integration.DaskStorage.html#optuna.integration.DaskStorage.get_base_storage">[docs]</a>    <span class="k">def</span> <span class="nf">get_base_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseStorage</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve underlying Optuna storage instance from the scheduler.</span>
@@ -783,7 +806,7 @@
             <span class="n">value</span><span class="o">=</span><span class="n">dumps</span><span class="p">(</span><span class="n">value</span><span class="p">),</span>  <span class="c1"># type: ignore[no-untyped-call]</span>
         <span class="p">)</span></div>
 
-<div class="viewcode-block" id="DaskStorage.set_trial_system_attr"><a class="viewcode-back" href="../../../reference/generated/optuna.integration.DaskStorage.html#optuna.integration.DaskStorage.set_trial_system_attr">[docs]</a>    <span class="k">def</span> <span class="nf">set_trial_system_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="DaskStorage.set_trial_system_attr"><a class="viewcode-back" href="../../../reference/generated/optuna.integration.DaskStorage.html#optuna.integration.DaskStorage.set_trial_system_attr">[docs]</a>    <span class="k">def</span> <span class="nf">set_trial_system_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">JSONSerializable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span>  <span class="c1"># type: ignore[no-untyped-call]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">scheduler</span><span class="o">.</span><span class="n">optuna_set_trial_system_attr</span><span class="p">,</span>  <span class="c1"># type: ignore[union-attr]</span>
             <span class="n">storage_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>

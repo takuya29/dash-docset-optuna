@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.study.copy_study — Optuna 3.1.1 documentation</title>
+<title>optuna.study.copy_study — Optuna 3.2.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -18,10 +18,9 @@
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
 <script src="../../_static/jquery.js"></script>
-<script src="../../_static/underscore.js"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
 <script src="../../_static/doctools.js"></script>
 <script src="../../_static/sphinx_highlight.js"></script>
 <script src="../../_static/clipboard.min.js"></script>
@@ -46,6 +45,9 @@
 <a class="header_link" href="https://optuna.org/#installation">Installation</a>
 </li>
 <li>
+<a class="header_link" href="https://optuna.org/#dashboard">Dashboard</a>
+</li>
+<li>
 <a class="header_link" href="https://optuna.org/#blog">Blog</a>
 </li>
 <li>
@@ -68,7 +70,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.1.1
+                3.2.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -92,6 +94,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../logging.html">optuna.logging</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pruners.html">optuna.pruners</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../samplers/index.html">optuna.samplers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../search_space.html">optuna.search_space</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../storages.html">optuna.storages</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../study.html">optuna.study</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="optuna.study.Study.html">optuna.study.Study</a></li>
@@ -108,6 +111,7 @@
 <li class="toctree-l3"><a class="reference internal" href="optuna.study.StudySummary.html">optuna.study.StudySummary</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../terminator.html">optuna.terminator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../trial.html">optuna.trial</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../visualization/index.html">optuna.visualization</a></li>
 </ul>
@@ -178,10 +182,10 @@ It means users will get a copied study that contains a trial that is not finishe
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>from_study_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Name of study.</p></li>
-<li><p><strong>from_storage</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><em>Union</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>BaseStorage</em><em>]</em>) – Source database URL such as <code class="docutils literal notranslate"><span class="pre">sqlite:///example.db</span></code>. Please see also the
+<li><p><strong>from_storage</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>BaseStorage</em>) – Source database URL such as <code class="docutils literal notranslate"><span class="pre">sqlite:///example.db</span></code>. Please see also the
 documentation of <a class="reference internal" href="optuna.study.create_study.html#optuna.study.create_study" title="optuna.study.create_study"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_study()</span></code></a> for further details.</p></li>
-<li><p><strong>to_storage</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><em>Union</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>BaseStorage</em><em>]</em>) – Destination database URL.</p></li>
-<li><p><strong>to_study_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – Name of the created study. If omitted, <code class="docutils literal notranslate"><span class="pre">from_study_name</span></code> is used.</p></li>
+<li><p><strong>to_storage</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>BaseStorage</em>) – Destination database URL.</p></li>
+<li><p><strong>to_study_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – Name of the created study. If omitted, <code class="docutils literal notranslate"><span class="pre">from_study_name</span></code> is used.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>

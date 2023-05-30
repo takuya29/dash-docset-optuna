@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.trial.Trial — Optuna 3.1.1 documentation</title>
+<title>optuna.trial.Trial — Optuna 3.2.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -18,10 +18,9 @@
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
 <script src="../../_static/jquery.js"></script>
-<script src="../../_static/underscore.js"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
 <script src="../../_static/doctools.js"></script>
 <script src="../../_static/sphinx_highlight.js"></script>
 <script src="../../_static/clipboard.min.js"></script>
@@ -47,6 +46,9 @@
 <a class="header_link" href="https://optuna.org/#installation">Installation</a>
 </li>
 <li>
+<a class="header_link" href="https://optuna.org/#dashboard">Dashboard</a>
+</li>
+<li>
 <a class="header_link" href="https://optuna.org/#blog">Blog</a>
 </li>
 <li>
@@ -69,7 +71,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.1.1
+                3.2.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -93,8 +95,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../logging.html">optuna.logging</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pruners.html">optuna.pruners</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../samplers/index.html">optuna.samplers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../search_space.html">optuna.search_space</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../storages.html">optuna.storages</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../study.html">optuna.study</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../terminator.html">optuna.terminator</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../trial.html">optuna.trial</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">optuna.trial.Trial</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#optuna.trial.Trial"><code class="docutils literal notranslate"><span class="pre">Trial</span></code></a></li>
@@ -201,17 +205,20 @@ instantiation of this object.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#optuna.trial.Trial.params" title="optuna.trial.Trial.params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">params</span></code></a></p></td>
 <td><p>Return parameters to be optimized.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.trial.Trial.system_attrs" title="optuna.trial.Trial.system_attrs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">system_attrs</span></code></a></p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">relative_params</span></code></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.trial.Trial.system_attrs" title="optuna.trial.Trial.system_attrs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">system_attrs</span></code></a></p></td>
 <td><p>Return system attributes.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#optuna.trial.Trial.user_attrs" title="optuna.trial.Trial.user_attrs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">user_attrs</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.trial.Trial.user_attrs" title="optuna.trial.Trial.user_attrs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">user_attrs</span></code></a></p></td>
 <td><p>Return user attributes.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py property">
 <dt class="sig sig-object py" id="optuna.trial.Trial.datetime_start">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">datetime_start</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.11)"><span class="pre">datetime</span></a><span class="p"><span class="pre">]</span></span></em><a class="dashAnchor" name="//apple_ref/cpp/Property/optuna.trial.Trial.datetime_start"></a><a class="headerlink" href="#optuna.trial.Trial.datetime_start" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">datetime_start</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.11)"><span class="pre">datetime</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></em><a class="dashAnchor" name="//apple_ref/cpp/Property/optuna.trial.Trial.datetime_start"></a><a class="headerlink" href="#optuna.trial.Trial.datetime_start" title="Permalink to this definition"></a></dt>
 <dd><p>Return start datetime.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -342,7 +349,7 @@ attributes.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Deprecated in v3.1.0. This feature will be removed in the future. The removal of this
-feature is currently scheduled for v6.0.0, but this schedule is subject to change.
+feature is currently scheduled for v5.0.0, but this schedule is subject to change.
 See <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v3.1.0">https://github.com/optuna/optuna/releases/tag/v3.1.0</a>.</p>
 </div>
 </dd></dl>
@@ -445,7 +452,7 @@ configured pruning algorithm. Otherwise, the trial should continue.</p>
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">suggest_categorical</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">choices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><span class="pre">Sequence</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></span></dt>
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">suggest_categorical</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">choices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><span class="pre">Sequence</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span></dt>
+<span class="sig-name descname"><span class="pre">suggest_categorical</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">choices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><span class="pre">Sequence</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></span></dt>
 <dd><p>Suggest a value for the categorical parameter.</p>
 <p>The value is sampled from <code class="docutils literal notranslate"><span class="pre">choices</span></code>.</p>
 <p class="rubric">Example</p>
@@ -491,7 +498,7 @@ configured pruning algorithm. Otherwise, the trial should continue.</p>
 </dl>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="../../tutorial/10_key_features/002_configurations.html#configurations"><span class="std std-ref">2. Pythonic Search Space</span></a> tutorial describes more details and flexible usages.</p>
+<p><a class="reference internal" href="../../tutorial/10_key_features/002_configurations.html#configurations"><span class="std std-ref">Pythonic Search Space</span></a> tutorial describes more details and flexible usages.</p>
 </div>
 </dd></dl>
 <dl class="py method">
@@ -527,16 +534,13 @@ values.</p>
 <p>Deprecated in v3.0.0. This feature will be removed in the future. The removal of this
 feature is currently scheduled for v6.0.0, but this schedule is subject to change.
 See <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v3.0.0">https://github.com/optuna/optuna/releases/tag/v3.0.0</a>.</p>
-<p>Use <a class="reference internal" href="#optuna.trial.Trial.suggest_float" title="optuna.trial.Trial.suggest_float"><code class="xref py py-func docutils literal notranslate"><span class="pre">suggest_float()</span></code></a> instead.</p>
+<p>Use suggest_float(…, step=…) instead.</p>
 </div>
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="optuna.trial.Trial.suggest_float">
 <span class="sig-name descname"><span class="pre">suggest_float</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">low</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">high</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/trial/_trial.html#Trial.suggest_float"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.trial.Trial.suggest_float"></a><a class="headerlink" href="#optuna.trial.Trial.suggest_float" title="Permalink to this definition"></a></dt>
 <dd><p>Suggest a value for the floating point parameter.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.3.0.</span></p>
-</div>
 <p class="rubric">Example</p>
 <p>Suggest a momentum, learning rate and scaling factor of learning rate
 for neural network training.</p>
@@ -583,7 +587,7 @@ for neural network training.</p>
 <code class="docutils literal notranslate"><span class="pre">low</span></code> must be larger than 0.</p></li>
 <li><p><strong>high</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Upper endpoint of the range of suggested values. <code class="docutils literal notranslate"><span class="pre">high</span></code> is included in the range.
 <code class="docutils literal notranslate"><span class="pre">high</span></code> must be greater than or equal to <code class="docutils literal notranslate"><span class="pre">low</span></code>.</p></li>
-<li><p><strong>step</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.11)"><em>Union</em></a><em>[</em><em>None</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>]</em>) – <p>A step of discretization.</p>
+<li><p><strong>step</strong> (<em>None</em><em> | </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – <p>A step of discretization.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">step</span></code> and <code class="docutils literal notranslate"><span class="pre">log</span></code> arguments cannot be used at the same time. To set
@@ -611,7 +615,7 @@ the <code class="docutils literal notranslate"><span class="pre">log</span></cod
 </dl>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="../../tutorial/10_key_features/002_configurations.html#configurations"><span class="std std-ref">2. Pythonic Search Space</span></a> tutorial describes more details and flexible usages.</p>
+<p><a class="reference internal" href="../../tutorial/10_key_features/002_configurations.html#configurations"><span class="std std-ref">Pythonic Search Space</span></a> tutorial describes more details and flexible usages.</p>
 </div>
 </dd></dl>
 <dl class="py method">
@@ -699,7 +703,7 @@ To set the <code class="docutils literal notranslate"><span class="pre">log</spa
 </dl>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p><a class="reference internal" href="../../tutorial/10_key_features/002_configurations.html#configurations"><span class="std std-ref">2. Pythonic Search Space</span></a> tutorial describes more details and flexible usages.</p>
+<p><a class="reference internal" href="../../tutorial/10_key_features/002_configurations.html#configurations"><span class="std std-ref">Pythonic Search Space</span></a> tutorial describes more details and flexible usages.</p>
 </div>
 </dd></dl>
 <dl class="py method">
@@ -729,7 +733,7 @@ in the log domain. When <span class="math notranslate nohighlight">\(\mathsf{low
 <p>Deprecated in v3.0.0. This feature will be removed in the future. The removal of this
 feature is currently scheduled for v6.0.0, but this schedule is subject to change.
 See <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v3.0.0">https://github.com/optuna/optuna/releases/tag/v3.0.0</a>.</p>
-<p>Use <a class="reference internal" href="#optuna.trial.Trial.suggest_float" title="optuna.trial.Trial.suggest_float"><code class="xref py py-func docutils literal notranslate"><span class="pre">suggest_float()</span></code></a> instead.</p>
+<p>Use suggest_float(…, log=True) instead.</p>
 </div>
 </dd></dl>
 <dl class="py method">
@@ -759,7 +763,7 @@ in the linear domain. When <span class="math notranslate nohighlight">\(\mathsf{
 <p>Deprecated in v3.0.0. This feature will be removed in the future. The removal of this
 feature is currently scheduled for v6.0.0, but this schedule is subject to change.
 See <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v3.0.0">https://github.com/optuna/optuna/releases/tag/v3.0.0</a>.</p>
-<p>Use <a class="reference internal" href="#optuna.trial.Trial.suggest_float" title="optuna.trial.Trial.suggest_float"><code class="xref py py-func docutils literal notranslate"><span class="pre">suggest_float()</span></code></a> instead.</p>
+<p>Use suggest_float instead.</p>
 </div>
 </dd></dl>
 <dl class="py property">
@@ -774,7 +778,7 @@ See <a class="reference external" href="https://github.com/optuna/optuna/release
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Deprecated in v3.1.0. This feature will be removed in the future. The removal of this
-feature is currently scheduled for v6.0.0, but this schedule is subject to change.
+feature is currently scheduled for v5.0.0, but this schedule is subject to change.
 See <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v3.1.0">https://github.com/optuna/optuna/releases/tag/v3.1.0</a>.</p>
 </div>
 </dd></dl>

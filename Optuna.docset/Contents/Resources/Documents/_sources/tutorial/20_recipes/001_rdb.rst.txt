@@ -93,9 +93,9 @@ To run a study, call :func:`~optuna.study.Study.optimize` method passing an obje
 
  .. code-block:: none
 
-    Trial 0 finished with value: 1.299988885383451 and parameters: {'x': 3.140170551006932}. Best is trial 0 with value: 1.299988885383451.
-    Trial 1 finished with value: 69.58638610295097 and parameters: {'x': -6.341845485439716}. Best is trial 0 with value: 1.299988885383451.
-    Trial 2 finished with value: 53.08778580847939 and parameters: {'x': 9.286136548849424}. Best is trial 0 with value: 1.299988885383451.
+    Trial 0 finished with value: 25.608900093202518 and parameters: {'x': -3.0605236975240535}. Best is trial 0 with value: 25.608900093202518.
+    Trial 1 finished with value: 10.663358549088457 and parameters: {'x': 5.265479834432982}. Best is trial 1 with value: 10.663358549088457.
+    Trial 2 finished with value: 10.352768342087726 and parameters: {'x': 5.21757180838093}. Best is trial 2 with value: 10.352768342087726.
 
 
 
@@ -126,9 +126,9 @@ passing the study name ``example-study`` and the DB URL ``sqlite:///example-stud
  .. code-block:: none
 
     Using an existing study with name 'example-study' instead of creating a new one.
-    Trial 3 finished with value: 4.103424515279833 and parameters: {'x': 4.025691120403067}. Best is trial 0 with value: 1.299988885383451.
-    Trial 4 finished with value: 77.13281980557372 and parameters: {'x': -6.782529237387925}. Best is trial 0 with value: 1.299988885383451.
-    Trial 5 finished with value: 15.135882210024082 and parameters: {'x': -1.8904861148735748}. Best is trial 0 with value: 1.299988885383451.
+    Trial 3 finished with value: 15.393818970197557 and parameters: {'x': 5.923495758911631}. Best is trial 2 with value: 10.352768342087726.
+    Trial 4 finished with value: 58.00075644755074 and parameters: {'x': 9.615822768916747}. Best is trial 2 with value: 10.352768342087726.
+    Trial 5 finished with value: 1.7848150067773392 and parameters: {'x': 3.335969687821299}. Best is trial 5 with value: 1.7848150067773392.
 
 
 
@@ -201,12 +201,12 @@ The method :func:`~optuna.study.Study.trials_dataframe` returns a pandas datafra
  .. code-block:: none
 
        number      value  params_x     state
-    0       0   1.299989  3.140171  COMPLETE
-    1       1  69.586386 -6.341845  COMPLETE
-    2       2  53.087786  9.286137  COMPLETE
-    3       3   4.103425  4.025691  COMPLETE
-    4       4  77.132820 -6.782529  COMPLETE
-    5       5  15.135882 -1.890486  COMPLETE
+    0       0  25.608900 -3.060524  COMPLETE
+    1       1  10.663359  5.265480  COMPLETE
+    2       2  10.352768  5.217572  COMPLETE
+    3       3  15.393819  5.923496  COMPLETE
+    4       4  58.000756  9.615823  COMPLETE
+    5       5   1.784815  3.335970  COMPLETE
 
 
 
@@ -235,10 +235,10 @@ such as :attr:`~optuna.study.Study.trials`, :attr:`~optuna.study.Study.best_valu
 
  .. code-block:: none
 
-    Best params:  {'x': 3.140170551006932}
-    Best value:  1.299988885383451
-    Best Trial:  FrozenTrial(number=0, state=TrialState.COMPLETE, values=[1.299988885383451], datetime_start=datetime.datetime(2023, 4, 6, 12, 35, 42, 652304), datetime_complete=datetime.datetime(2023, 4, 6, 12, 35, 42, 681413), params={'x': 3.140170551006932}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=1, value=None)
-    Trials:  [FrozenTrial(number=0, state=TrialState.COMPLETE, values=[1.299988885383451], datetime_start=datetime.datetime(2023, 4, 6, 12, 35, 42, 652304), datetime_complete=datetime.datetime(2023, 4, 6, 12, 35, 42, 681413), params={'x': 3.140170551006932}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=1, value=None), FrozenTrial(number=1, state=TrialState.COMPLETE, values=[69.58638610295097], datetime_start=datetime.datetime(2023, 4, 6, 12, 35, 42, 712810), datetime_complete=datetime.datetime(2023, 4, 6, 12, 35, 42, 730246), params={'x': -6.341845485439716}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=2, value=None), FrozenTrial(number=2, state=TrialState.COMPLETE, values=[53.08778580847939], datetime_start=datetime.datetime(2023, 4, 6, 12, 35, 42, 748899), datetime_complete=datetime.datetime(2023, 4, 6, 12, 35, 42, 764244), params={'x': 9.286136548849424}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=3, value=None), FrozenTrial(number=3, state=TrialState.COMPLETE, values=[4.103424515279833], datetime_start=datetime.datetime(2023, 4, 6, 12, 35, 42, 848102), datetime_complete=datetime.datetime(2023, 4, 6, 12, 35, 42, 869269), params={'x': 4.025691120403067}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=4, value=None), FrozenTrial(number=4, state=TrialState.COMPLETE, values=[77.13281980557372], datetime_start=datetime.datetime(2023, 4, 6, 12, 35, 42, 895266), datetime_complete=datetime.datetime(2023, 4, 6, 12, 35, 42, 911998), params={'x': -6.782529237387925}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=5, value=None), FrozenTrial(number=5, state=TrialState.COMPLETE, values=[15.135882210024082], datetime_start=datetime.datetime(2023, 4, 6, 12, 35, 42, 930786), datetime_complete=datetime.datetime(2023, 4, 6, 12, 35, 42, 948450), params={'x': -1.8904861148735748}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=6, value=None)]
+    Best params:  {'x': 3.335969687821299}
+    Best value:  1.7848150067773392
+    Best Trial:  FrozenTrial(number=5, state=TrialState.COMPLETE, values=[1.7848150067773392], datetime_start=datetime.datetime(2023, 5, 30, 12, 39, 17, 342867), datetime_complete=datetime.datetime(2023, 5, 30, 12, 39, 17, 363400), params={'x': 3.335969687821299}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=6, value=None)
+    Trials:  [FrozenTrial(number=0, state=TrialState.COMPLETE, values=[25.608900093202518], datetime_start=datetime.datetime(2023, 5, 30, 12, 39, 17, 52438), datetime_complete=datetime.datetime(2023, 5, 30, 12, 39, 17, 94211), params={'x': -3.0605236975240535}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=1, value=None), FrozenTrial(number=1, state=TrialState.COMPLETE, values=[10.663358549088457], datetime_start=datetime.datetime(2023, 5, 30, 12, 39, 17, 119031), datetime_complete=datetime.datetime(2023, 5, 30, 12, 39, 17, 140828), params={'x': 5.265479834432982}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=2, value=None), FrozenTrial(number=2, state=TrialState.COMPLETE, values=[10.352768342087726], datetime_start=datetime.datetime(2023, 5, 30, 12, 39, 17, 159485), datetime_complete=datetime.datetime(2023, 5, 30, 12, 39, 17, 181000), params={'x': 5.21757180838093}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=3, value=None), FrozenTrial(number=3, state=TrialState.COMPLETE, values=[15.393818970197557], datetime_start=datetime.datetime(2023, 5, 30, 12, 39, 17, 247528), datetime_complete=datetime.datetime(2023, 5, 30, 12, 39, 17, 278690), params={'x': 5.923495758911631}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=4, value=None), FrozenTrial(number=4, state=TrialState.COMPLETE, values=[58.00075644755074], datetime_start=datetime.datetime(2023, 5, 30, 12, 39, 17, 301096), datetime_complete=datetime.datetime(2023, 5, 30, 12, 39, 17, 322334), params={'x': 9.615822768916747}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=5, value=None), FrozenTrial(number=5, state=TrialState.COMPLETE, values=[1.7848150067773392], datetime_start=datetime.datetime(2023, 5, 30, 12, 39, 17, 342867), datetime_complete=datetime.datetime(2023, 5, 30, 12, 39, 17, 363400), params={'x': 3.335969687821299}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=6, value=None)]
 
 
 
@@ -246,7 +246,7 @@ such as :attr:`~optuna.study.Study.trials`, :attr:`~optuna.study.Study.best_valu
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.795 seconds)
+   **Total running time of the script:** ( 0 minutes  0.692 seconds)
 
 
 .. _sphx_glr_download_tutorial_20_recipes_001_rdb.py:

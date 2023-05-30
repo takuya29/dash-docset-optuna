@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.trial.FrozenTrial — Optuna 3.1.1 documentation</title>
+<title>optuna.trial.FrozenTrial — Optuna 3.2.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -18,10 +18,9 @@
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
 <script src="../../_static/jquery.js"></script>
-<script src="../../_static/underscore.js"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
 <script src="../../_static/doctools.js"></script>
 <script src="../../_static/sphinx_highlight.js"></script>
 <script src="../../_static/clipboard.min.js"></script>
@@ -46,6 +45,9 @@
 <a class="header_link" href="https://optuna.org/#installation">Installation</a>
 </li>
 <li>
+<a class="header_link" href="https://optuna.org/#dashboard">Dashboard</a>
+</li>
+<li>
 <a class="header_link" href="https://optuna.org/#blog">Blog</a>
 </li>
 <li>
@@ -68,7 +70,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.1.1
+                3.2.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -92,8 +94,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../logging.html">optuna.logging</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pruners.html">optuna.pruners</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../samplers/index.html">optuna.samplers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../search_space.html">optuna.search_space</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../storages.html">optuna.storages</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../study.html">optuna.study</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../terminator.html">optuna.terminator</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../trial.html">optuna.trial</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="optuna.trial.Trial.html">optuna.trial.Trial</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.trial.FixedTrial.html">optuna.trial.FixedTrial</a></li>
@@ -207,16 +211,16 @@ of objects in-place.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>number</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – </p></li>
 <li><p><strong>state</strong> (<a class="reference internal" href="optuna.trial.TrialState.html#optuna.trial.TrialState" title="optuna.trial._state.TrialState"><em>TrialState</em></a>) – </p></li>
-<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>]</em>) – </p></li>
-<li><p><strong>datetime_start</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.11)"><em>datetime</em></a><em>]</em>) – </p></li>
-<li><p><strong>datetime_complete</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.11)"><em>datetime</em></a><em>]</em>) – </p></li>
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>datetime_start</strong> (<a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.11)"><em>datetime</em></a><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>datetime_complete</strong> (<a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.11)"><em>datetime</em></a><em> | </em><em>None</em>) – </p></li>
 <li><p><strong>params</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a><em>]</em>) – </p></li>
 <li><p><strong>distributions</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>BaseDistribution</em><em>]</em>) – </p></li>
 <li><p><strong>user_attrs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a><em>]</em>) – </p></li>
 <li><p><strong>system_attrs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a><em>]</em>) – </p></li>
 <li><p><strong>intermediate_values</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>]</em>) – </p></li>
 <li><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – </p></li>
-<li><p><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>]</em><em>]</em>) – </p></li>
+<li><p><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>] </em><em>| </em><em>None</em>) – </p></li>
 </ul>
 </dd>
 </dl>
@@ -353,7 +357,7 @@ The length is greater than 1 if the problem is multi-objective optimization.
 </table>
 <dl class="py property">
 <dt class="sig sig-object py" id="optuna.trial.FrozenTrial.duration">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">duration</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.timedelta" title="(in Python v3.11)"><span class="pre">timedelta</span></a><span class="p"><span class="pre">]</span></span></em><a class="dashAnchor" name="//apple_ref/cpp/Property/optuna.trial.FrozenTrial.duration"></a><a class="headerlink" href="#optuna.trial.FrozenTrial.duration" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">duration</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.timedelta" title="(in Python v3.11)"><span class="pre">timedelta</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></em><a class="dashAnchor" name="//apple_ref/cpp/Property/optuna.trial.FrozenTrial.duration"></a><a class="headerlink" href="#optuna.trial.FrozenTrial.duration" title="Permalink to this definition"></a></dt>
 <dd><p>Return the elapsed time taken to complete the trial.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -363,7 +367,7 @@ The length is greater than 1 if the problem is multi-objective optimization.
 </dd></dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="optuna.trial.FrozenTrial.last_step">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">last_step</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></em><a class="dashAnchor" name="//apple_ref/cpp/Property/optuna.trial.FrozenTrial.last_step"></a><a class="headerlink" href="#optuna.trial.FrozenTrial.last_step" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">last_step</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></em><a class="dashAnchor" name="//apple_ref/cpp/Property/optuna.trial.FrozenTrial.last_step"></a><a class="headerlink" href="#optuna.trial.FrozenTrial.last_step" title="Permalink to this definition"></a></dt>
 <dd><p>Return the maximum step of <a class="reference internal" href="#optuna.trial.FrozenTrial.intermediate_values" title="optuna.trial.FrozenTrial.intermediate_values"><code class="xref py py-attr docutils literal notranslate"><span class="pre">intermediate_values</span></code></a> in the trial.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -402,7 +406,7 @@ assume that <code class="docutils literal notranslate"><span class="pre">step</s
 <dd><div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Deprecated in v3.1.0. This feature will be removed in the future. The removal of this
-feature is currently scheduled for v6.0.0, but this schedule is subject to change.
+feature is currently scheduled for v5.0.0, but this schedule is subject to change.
 See <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v3.1.0">https://github.com/optuna/optuna/releases/tag/v3.1.0</a>.</p>
 </div>
 <dl class="field-list simple">
@@ -443,7 +447,7 @@ See <a class="reference external" href="https://github.com/optuna/optuna/release
 <p>Deprecated in v3.0.0. This feature will be removed in the future. The removal of this
 feature is currently scheduled for v6.0.0, but this schedule is subject to change.
 See <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v3.0.0">https://github.com/optuna/optuna/releases/tag/v3.0.0</a>.</p>
-<p>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">suggest_float()</span></code> instead.</p>
+<p>Use suggest_float(…, step=…) instead.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -467,7 +471,7 @@ See <a class="reference external" href="https://github.com/optuna/optuna/release
 <p>Deprecated in v3.0.0. This feature will be removed in the future. The removal of this
 feature is currently scheduled for v6.0.0, but this schedule is subject to change.
 See <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v3.0.0">https://github.com/optuna/optuna/releases/tag/v3.0.0</a>.</p>
-<p>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">suggest_float()</span></code> instead.</p>
+<p>Use suggest_float(…, log=True) instead.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -490,7 +494,7 @@ See <a class="reference external" href="https://github.com/optuna/optuna/release
 <p>Deprecated in v3.0.0. This feature will be removed in the future. The removal of this
 feature is currently scheduled for v6.0.0, but this schedule is subject to change.
 See <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v3.0.0">https://github.com/optuna/optuna/releases/tag/v3.0.0</a>.</p>
-<p>Use <code class="xref py py-func docutils literal notranslate"><span class="pre">suggest_float()</span></code> instead.</p>
+<p>Use suggest_float instead.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>

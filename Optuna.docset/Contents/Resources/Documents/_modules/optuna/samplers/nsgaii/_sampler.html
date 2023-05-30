@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.samplers.nsgaii._sampler &mdash; Optuna 3.1.1 documentation</title>
+  <title>optuna.samplers.nsgaii._sampler &mdash; Optuna 3.2.0 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
@@ -18,10 +18,9 @@
     <script src="../../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
         <script src="../../../../_static/jquery.js"></script>
-        <script src="../../../../_static/underscore.js"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
         <script src="../../../../_static/doctools.js"></script>
         <script src="../../../../_static/sphinx_highlight.js"></script>
         <script src="../../../../_static/clipboard.min.js"></script>
@@ -43,6 +42,9 @@
                 </li>
                 <li>
                     <a href="https://optuna.org/#installation" class="header_link">Installation</a>
+                </li>
+                <li>
+                    <a href="https://optuna.org/#dashboard" class="header_link">Dashboard</a>
                 </li>
                 <li>
                     <a href="https://optuna.org/#blog" class="header_link">Blog</a>
@@ -73,7 +75,7 @@
               <img src="../../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.1.1
+                3.2.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -138,10 +140,10 @@
 <span class="kn">from</span> <span class="nn">optuna.samplers._base</span> <span class="kn">import</span> <span class="n">_process_constraints_after_trial</span>
 <span class="kn">from</span> <span class="nn">optuna.samplers._base</span> <span class="kn">import</span> <span class="n">BaseSampler</span>
 <span class="kn">from</span> <span class="nn">optuna.samplers._random</span> <span class="kn">import</span> <span class="n">RandomSampler</span>
-<span class="kn">from</span> <span class="nn">optuna.samplers._search_space</span> <span class="kn">import</span> <span class="n">IntersectionSearchSpace</span>
 <span class="kn">from</span> <span class="nn">optuna.samplers.nsgaii._crossover</span> <span class="kn">import</span> <span class="n">perform_crossover</span>
 <span class="kn">from</span> <span class="nn">optuna.samplers.nsgaii._crossovers._base</span> <span class="kn">import</span> <span class="n">BaseCrossover</span>
 <span class="kn">from</span> <span class="nn">optuna.samplers.nsgaii._crossovers._uniform</span> <span class="kn">import</span> <span class="n">UniformCrossover</span>
+<span class="kn">from</span> <span class="nn">optuna.search_space</span> <span class="kn">import</span> <span class="n">IntersectionSearchSpace</span>
 <span class="kn">from</span> <span class="nn">optuna.study</span> <span class="kn">import</span> <span class="n">Study</span>
 <span class="kn">from</span> <span class="nn">optuna.study</span> <span class="kn">import</span> <span class="n">StudyDirection</span>
 <span class="kn">from</span> <span class="nn">optuna.study._multi_objective</span> <span class="kn">import</span> <span class="n">_dominates</span>
@@ -370,7 +372,7 @@
         <span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_collect_parent_population</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]]:</span>
-        <span class="n">trials</span> <span class="o">=</span> <span class="n">study</span><span class="o">.</span><span class="n">get_trials</span><span class="p">(</span><span class="n">deepcopy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">trials</span> <span class="o">=</span> <span class="n">study</span><span class="o">.</span><span class="n">_get_trials</span><span class="p">(</span><span class="n">deepcopy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">use_cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="n">generation_to_runnings</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
         <span class="n">generation_to_population</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
@@ -448,7 +450,9 @@
         <span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span> <span class="n">population</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]:</span>
         <span class="n">elite_population</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">population_per_rank</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fast_non_dominated_sort</span><span class="p">(</span><span class="n">population</span><span class="p">,</span> <span class="n">study</span><span class="o">.</span><span class="n">directions</span><span class="p">)</span>
+        <span class="n">population_per_rank</span> <span class="o">=</span> <span class="n">_fast_non_dominated_sort</span><span class="p">(</span>
+            <span class="n">population</span><span class="p">,</span> <span class="n">study</span><span class="o">.</span><span class="n">directions</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constraints_func</span>
+        <span class="p">)</span>
         <span class="k">for</span> <span class="n">population</span> <span class="ow">in</span> <span class="n">population_per_rank</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">elite_population</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">population</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_population_size</span><span class="p">:</span>
                 <span class="n">elite_population</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">population</span><span class="p">)</span>
@@ -459,56 +463,6 @@
                 <span class="k">break</span>
 
         <span class="k">return</span> <span class="n">elite_population</span>
-
-    <span class="k">def</span> <span class="nf">_fast_non_dominated_sort</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">population</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">],</span>
-        <span class="n">directions</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">optuna</span><span class="o">.</span><span class="n">study</span><span class="o">.</span><span class="n">StudyDirection</span><span class="p">],</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]]:</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constraints_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">_trial</span> <span class="ow">in</span> <span class="n">population</span><span class="p">:</span>
-                <span class="n">_constraints</span> <span class="o">=</span> <span class="n">_trial</span><span class="o">.</span><span class="n">system_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_CONSTRAINTS_KEY</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">_constraints</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="k">continue</span>
-                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">_constraints</span><span class="p">))):</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;NaN is not acceptable as constraint value.&quot;</span><span class="p">)</span>
-
-        <span class="n">dominated_count</span><span class="p">:</span> <span class="n">DefaultDict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-        <span class="n">dominates_list</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
-
-        <span class="n">dominates</span> <span class="o">=</span> <span class="n">_dominates</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constraints_func</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">_constrained_dominates</span>
-
-        <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">population</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">dominates</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">directions</span><span class="p">):</span>
-                <span class="n">dominates_list</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">number</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">number</span><span class="p">)</span>
-                <span class="n">dominated_count</span><span class="p">[</span><span class="n">q</span><span class="o">.</span><span class="n">number</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="k">elif</span> <span class="n">dominates</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">directions</span><span class="p">):</span>
-                <span class="n">dominates_list</span><span class="p">[</span><span class="n">q</span><span class="o">.</span><span class="n">number</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">number</span><span class="p">)</span>
-                <span class="n">dominated_count</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">number</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-
-        <span class="n">population_per_rank</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">while</span> <span class="n">population</span><span class="p">:</span>
-            <span class="n">non_dominated_population</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">population</span><span class="p">):</span>
-                <span class="k">if</span> <span class="n">dominated_count</span><span class="p">[</span><span class="n">population</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">number</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="n">individual</span> <span class="o">=</span> <span class="n">population</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-                    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">population</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
-                        <span class="n">population</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
-                    <span class="k">else</span><span class="p">:</span>
-                        <span class="n">population</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">population</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
-                    <span class="n">non_dominated_population</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">individual</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-
-            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">non_dominated_population</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">dominates_list</span><span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">number</span><span class="p">]:</span>
-                    <span class="n">dominated_count</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
-
-            <span class="k">assert</span> <span class="n">non_dominated_population</span>
-            <span class="n">population_per_rank</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">non_dominated_population</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">population_per_rank</span>
 
 <div class="viewcode-block" id="NSGAIISampler.after_trial"><a class="viewcode-back" href="../../../../reference/samplers/generated/optuna.samplers.NSGAIISampler.html#optuna.samplers.NSGAIISampler.after_trial">[docs]</a>    <span class="k">def</span> <span class="nf">after_trial</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -651,6 +605,57 @@
     <span class="n">violation0</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">constraints0</span> <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
     <span class="n">violation1</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">constraints1</span> <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">violation0</span> <span class="o">&lt;</span> <span class="n">violation1</span>
+
+
+<span class="k">def</span> <span class="nf">_fast_non_dominated_sort</span><span class="p">(</span>
+    <span class="n">population</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">],</span>
+    <span class="n">directions</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">optuna</span><span class="o">.</span><span class="n">study</span><span class="o">.</span><span class="n">StudyDirection</span><span class="p">],</span>
+    <span class="n">constraints_func</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">FrozenTrial</span><span class="p">],</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]]:</span>
+    <span class="k">if</span> <span class="n">constraints_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">_trial</span> <span class="ow">in</span> <span class="n">population</span><span class="p">:</span>
+            <span class="n">_constraints</span> <span class="o">=</span> <span class="n">_trial</span><span class="o">.</span><span class="n">system_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_CONSTRAINTS_KEY</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">_constraints</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">_constraints</span><span class="p">))):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;NaN is not acceptable as constraint value.&quot;</span><span class="p">)</span>
+
+    <span class="n">dominated_count</span><span class="p">:</span> <span class="n">DefaultDict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">dominates_list</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+
+    <span class="n">dominates</span> <span class="o">=</span> <span class="n">_dominates</span> <span class="k">if</span> <span class="n">constraints_func</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">_constrained_dominates</span>
+
+    <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">population</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">dominates</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">directions</span><span class="p">):</span>
+            <span class="n">dominates_list</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">number</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">number</span><span class="p">)</span>
+            <span class="n">dominated_count</span><span class="p">[</span><span class="n">q</span><span class="o">.</span><span class="n">number</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">dominates</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">directions</span><span class="p">):</span>
+            <span class="n">dominates_list</span><span class="p">[</span><span class="n">q</span><span class="o">.</span><span class="n">number</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">number</span><span class="p">)</span>
+            <span class="n">dominated_count</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">number</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="n">population_per_rank</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">while</span> <span class="n">population</span><span class="p">:</span>
+        <span class="n">non_dominated_population</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">population</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">dominated_count</span><span class="p">[</span><span class="n">population</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">number</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">individual</span> <span class="o">=</span> <span class="n">population</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">population</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">population</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">population</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">population</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+                <span class="n">non_dominated_population</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">individual</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">non_dominated_population</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">dominates_list</span><span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">number</span><span class="p">]:</span>
+                <span class="n">dominated_count</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+
+        <span class="k">assert</span> <span class="n">non_dominated_population</span>
+        <span class="n">population_per_rank</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">non_dominated_population</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">population_per_rank</span>
 </pre></div>
 
            </div>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.integration.lightgbm &mdash; Optuna 3.1.1 documentation</title>
+  <title>optuna.integration.lightgbm &mdash; Optuna 3.2.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
@@ -18,10 +18,9 @@
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
         <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="../../../_static/clipboard.min.js"></script>
@@ -43,6 +42,9 @@
                 </li>
                 <li>
                     <a href="https://optuna.org/#installation" class="header_link">Installation</a>
+                </li>
+                <li>
+                    <a href="https://optuna.org/#dashboard" class="header_link">Dashboard</a>
                 </li>
                 <li>
                     <a href="https://optuna.org/#blog" class="header_link">Blog</a>
@@ -73,7 +75,7 @@
               <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.1.1
+                3.2.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -197,7 +199,6 @@
         <span class="n">valid_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;valid_0&quot;</span><span class="p">,</span>
         <span class="n">report_interval</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="n">_imports</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_trial</span> <span class="o">=</span> <span class="n">trial</span>
@@ -208,7 +209,6 @@
     <span class="k">def</span> <span class="nf">_find_evaluation_result</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">target_valid_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="s2">&quot;CallbackEnv&quot;</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">]:</span>
-
         <span class="k">for</span> <span class="n">evaluation_result</span> <span class="ow">in</span> <span class="n">env</span><span class="o">.</span><span class="n">evaluation_result_list</span><span class="p">:</span>
             <span class="n">valid_name</span><span class="p">,</span> <span class="n">metric</span><span class="p">,</span> <span class="n">current_score</span><span class="p">,</span> <span class="n">is_higher_better</span> <span class="o">=</span> <span class="n">evaluation_result</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">valid_name</span> <span class="o">!=</span> <span class="n">target_valid_name</span> <span class="ow">or</span> <span class="n">metric</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metric</span><span class="p">:</span>
@@ -219,7 +219,6 @@
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="s2">&quot;CallbackEnv&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="k">if</span> <span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">iteration</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_report_interval</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="c1"># If this callback has been passed to `lightgbm.cv` function,</span>
             <span class="c1"># the value of `is_cv` becomes `True`. See also:</span>

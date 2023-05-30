@@ -118,7 +118,7 @@ For example, the following code defines a sampler based on
 
         # The rest are unrelated to SA algorithm: boilerplate
         def infer_relative_search_space(self, study, trial):
-            return optuna.samplers.intersection_search_space(study)
+            return optuna.search_space.intersection_search_space(study.get_trials(deepcopy=False))
 
         def sample_independent(self, study, trial, param_name, param_distribution):
             independent_sampler = optuna.samplers.RandomSampler()
@@ -172,8 +172,8 @@ You can use ``SimulatedAnnealingSampler`` in the same way as built-in samplers a
 
  .. code-block:: none
 
-    Best value:  -4.416167678107982
-    Parameters that achieve the best value:  {'x': 0.18634383377916208, 'y': -4.450891702495498}
+    Best value:  -1.095109508437943
+    Parameters that achieve the best value:  {'x': -0.2782542604954994, 'y': -1.1725349419218403}
 
 
 
@@ -186,14 +186,14 @@ In this optimization, the values of ``x`` and ``y`` parameters are sampled by us
 .. note::
     Strictly speaking, in the first trial,
     ``SimulatedAnnealingSampler.sample_independent`` method is used to sample parameter values.
-    Because :func:`~optuna.samplers.intersection_search_space` used in
+    Because :func:`~optuna.search_space.intersection_search_space` used in
     ``SimulatedAnnealingSampler.infer_relative_search_space`` cannot infer the search space
     if there are no complete trials.
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.452 seconds)
+   **Total running time of the script:** ( 0 minutes  0.338 seconds)
 
 
 .. _sphx_glr_download_tutorial_20_recipes_005_user_defined_sampler.py:

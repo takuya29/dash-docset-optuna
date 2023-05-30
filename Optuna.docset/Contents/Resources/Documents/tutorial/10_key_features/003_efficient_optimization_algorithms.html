@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>3. Efficient Optimization Algorithms — Optuna 3.1.1 documentation</title>
+<title>Efficient Optimization Algorithms — Optuna 3.2.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -18,10 +18,9 @@
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
 <script src="../../_static/jquery.js"></script>
-<script src="../../_static/underscore.js"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
 <script src="../../_static/doctools.js"></script>
 <script src="../../_static/sphinx_highlight.js"></script>
 <script src="../../_static/clipboard.min.js"></script>
@@ -29,8 +28,6 @@
 <script src="../../_static/js/theme.js"></script>
 <link href="../../genindex.html" rel="index" title="Index"/>
 <link href="../../search.html" rel="search" title="Search"/>
-<link href="004_distributed.html" rel="next" title="4. Easy Parallelization"/>
-<link href="002_configurations.html" rel="prev" title="2. Pythonic Search Space"/>
 </head>
 <body class="wy-body-for-nav">
 <div class="navbar">
@@ -44,6 +41,9 @@
 </li>
 <li>
 <a class="header_link" href="https://optuna.org/#installation">Installation</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#dashboard">Dashboard</a>
 </li>
 <li>
 <a class="header_link" href="https://optuna.org/#blog">Blog</a>
@@ -68,7 +68,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.1.1
+                3.2.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -79,24 +79,9 @@
 </div>
 </div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Tutorial</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../index.html#key-features">Key Features</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../index.html#recipes">Recipes</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="index.html">Key Features</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="001_first.html">1. Lightweight, versatile, and platform agnostic architecture</a></li>
-<li class="toctree-l4"><a class="reference internal" href="002_configurations.html">2. Pythonic Search Space</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">3. Efficient Optimization Algorithms</a></li>
-<li class="toctree-l4"><a class="reference internal" href="004_distributed.html">4. Easy Parallelization</a></li>
-<li class="toctree-l4"><a class="reference internal" href="005_visualization.html">5. Quick Visualization for Hyperparameter Optimization Analysis</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="../20_recipes/index.html">Recipes</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ</a></li>
 </ul>
@@ -112,9 +97,7 @@
 <!-- This file is necessary to remove "Edit on Github" button from readthedocs by following https://docs.readthedocs.io/en/stable/guides/remove-edit-buttons.html#remove-links-from-top-right-corner --><div aria-label="Page navigation" role="navigation">
 <ul class="wy-breadcrumbs">
 <li><a aria-label="Home" class="icon icon-home" href="../../index.html"></a></li>
-<li class="breadcrumb-item"><a href="../index.html">Tutorial</a></li>
-<li class="breadcrumb-item"><a href="index.html">Key Features</a></li>
-<li class="breadcrumb-item active">3. Efficient Optimization Algorithms</li>
+<li class="breadcrumb-item active">Efficient Optimization Algorithms</li>
 </ul>
 <hr/>
 </div>
@@ -126,7 +109,7 @@
 to download the full example code</p>
 </div>
 <section class="sphx-glr-example-title" id="efficient-optimization-algorithms">
-<a class="dashAnchor" name="//apple_ref/cpp/Section/3. Efficient Optimization Algorithms"></a><span id="pruning"></span><a class="dashAnchor" name="//apple_ref/cpp/Section/3. Efficient Optimization Algorithms"></a><span id="sphx-glr-tutorial-10-key-features-003-efficient-optimization-algorithms-py"></span><h1>3. Efficient Optimization Algorithms<a class="headerlink" href="#efficient-optimization-algorithms" title="Permalink to this heading"></a></h1>
+<a class="dashAnchor" name="//apple_ref/cpp/Section/Efficient Optimization Algorithms"></a><span id="pruning"></span><a class="dashAnchor" name="//apple_ref/cpp/Section/Efficient Optimization Algorithms"></a><span id="sphx-glr-tutorial-10-key-features-003-efficient-optimization-algorithms-py"></span><h1>Efficient Optimization Algorithms<a class="headerlink" href="#efficient-optimization-algorithms" title="Permalink to this heading"></a></h1>
 <p>Optuna enables efficient hyperparameter optimization by
 adopting state-of-the-art algorithms for sampling hyperparameters and
 pruning efficiently unpromising trials.</p>
@@ -207,14 +190,14 @@ Exclusive list is <a class="reference internal" href="../../reference/integratio
 
 
 <span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
-    <span class="n">iris</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">load_iris</span><span class="p">()</span>
+    <span class="n">iris</span> <span class="o">=</span> <a class="sphx-glr-backref-module-sklearn-datasets sphx-glr-backref-type-py-function" href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_iris.html#sklearn.datasets.load_iris" title="sklearn.datasets.load_iris"><span class="n">sklearn</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">load_iris</span></a><span class="p">()</span>
     <span class="n">classes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">target</span><span class="p">))</span>
-    <span class="n">train_x</span><span class="p">,</span> <span class="n">valid_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">valid_y</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">model_selection</span><span class="o">.</span><span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">train_x</span><span class="p">,</span> <span class="n">valid_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">valid_y</span> <span class="o">=</span> <a class="sphx-glr-backref-module-sklearn-model_selection sphx-glr-backref-type-py-function" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html#sklearn.model_selection.train_test_split" title="sklearn.model_selection.train_test_split"><span class="n">sklearn</span><span class="o">.</span><span class="n">model_selection</span><span class="o">.</span><span class="n">train_test_split</span></a><span class="p">(</span>
         <span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">iris</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span>
     <span class="p">)</span>
 
     <span class="n">alpha</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"alpha"</span><span class="p">,</span> <span class="mf">1e-5</span><span class="p">,</span> <span class="mf">1e-1</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">clf</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">linear_model</span><span class="o">.</span><span class="n">SGDClassifier</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+    <span class="n">clf</span> <span class="o">=</span> <a class="sphx-glr-backref-module-sklearn-linear_model sphx-glr-backref-type-py-class" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDClassifier.html#sklearn.linear_model.SGDClassifier" title="sklearn.linear_model.SGDClassifier"><span class="n">sklearn</span><span class="o">.</span><span class="n">linear_model</span><span class="o">.</span><span class="n">SGDClassifier</span></a><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
         <span class="n">clf</span><span class="o">.</span><span class="n">partial_fit</span><span class="p">(</span><span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">classes</span><span class="o">=</span><span class="n">classes</span><span class="p">)</span>
@@ -237,25 +220,25 @@ Exclusive list is <a class="reference internal" href="../../reference/integratio
 <span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>A new study created in memory with name: no-name-2f3084d4-75dd-49ab-84c1-bb7fd77f246b
-Trial 0 finished with value: 0.02631578947368418 and parameters: {'alpha': 0.0040862539094214025}. Best is trial 0 with value: 0.02631578947368418.
-Trial 1 finished with value: 0.02631578947368418 and parameters: {'alpha': 0.0011632589896120673}. Best is trial 0 with value: 0.02631578947368418.
-Trial 2 finished with value: 0.07894736842105265 and parameters: {'alpha': 0.00026671658188804633}. Best is trial 0 with value: 0.02631578947368418.
-Trial 3 finished with value: 0.02631578947368418 and parameters: {'alpha': 0.022348137442954545}. Best is trial 0 with value: 0.02631578947368418.
-Trial 4 finished with value: 0.13157894736842102 and parameters: {'alpha': 0.00013757998659765837}. Best is trial 0 with value: 0.02631578947368418.
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>A new study created in memory with name: no-name-ec518e4d-832d-4422-9162-0714c50c472c
+Trial 0 finished with value: 0.052631578947368474 and parameters: {'alpha': 0.0005984325850997574}. Best is trial 0 with value: 0.052631578947368474.
+Trial 1 finished with value: 0.13157894736842102 and parameters: {'alpha': 0.004275062911061229}. Best is trial 0 with value: 0.052631578947368474.
+Trial 2 finished with value: 0.23684210526315785 and parameters: {'alpha': 2.0129496008854252e-05}. Best is trial 0 with value: 0.052631578947368474.
+Trial 3 finished with value: 0.3421052631578947 and parameters: {'alpha': 5.871942447138207e-05}. Best is trial 0 with value: 0.052631578947368474.
+Trial 4 finished with value: 0.07894736842105265 and parameters: {'alpha': 0.011617948726911144}. Best is trial 0 with value: 0.052631578947368474.
 Trial 5 pruned.
 Trial 6 pruned.
 Trial 7 pruned.
 Trial 8 pruned.
 Trial 9 pruned.
 Trial 10 pruned.
-Trial 11 pruned.
-Trial 12 finished with value: 0.368421052631579 and parameters: {'alpha': 0.004032973070329911}. Best is trial 0 with value: 0.02631578947368418.
+Trial 11 finished with value: 0.3421052631578947 and parameters: {'alpha': 0.09466702584731657}. Best is trial 0 with value: 0.052631578947368474.
+Trial 12 pruned.
 Trial 13 pruned.
-Trial 14 finished with value: 0.3157894736842105 and parameters: {'alpha': 0.09619696262273303}. Best is trial 0 with value: 0.02631578947368418.
+Trial 14 pruned.
 Trial 15 pruned.
-Trial 16 pruned.
-Trial 17 finished with value: 0.02631578947368418 and parameters: {'alpha': 0.011008102532694018}. Best is trial 0 with value: 0.02631578947368418.
+Trial 16 finished with value: 0.26315789473684215 and parameters: {'alpha': 0.00045293558295408915}. Best is trial 0 with value: 0.052631578947368474.
+Trial 17 pruned.
 Trial 18 pruned.
 Trial 19 pruned.
 </pre></div>
@@ -310,7 +293,7 @@ which is written in Japanese.</p>
 <span class="n">bst</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">dtrain</span><span class="p">,</span> <span class="n">evals</span><span class="o">=</span><span class="p">[(</span><span class="n">dvalid</span><span class="p">,</span> <span class="s1">'validation'</span><span class="p">)],</span> <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">pruning_callback</span><span class="p">])</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  2.950 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.734 seconds)</p>
 <a class="dashAnchor" name="//apple_ref/cpp/Section/sphx_glr_download_tutorial_10_key_features_003_efficient_optimization_algorithms.py"></a><div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorial-10-key-features-003-efficient-optimization-algorithms-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/d644481a46b46a106b111c67d4186242/003_efficient_optimization_algorithms.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">003_efficient_optimization_algorithms.py</span></code></a></p>
@@ -324,10 +307,7 @@ which is written in Japanese.</p>
 </section>
 </div>
 </div>
-<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
-<a accesskey="p" class="btn btn-neutral float-left" href="002_configurations.html" rel="prev" title="2. Pythonic Search Space"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
-<a accesskey="n" class="btn btn-neutral float-right" href="004_distributed.html" rel="next" title="4. Easy Parallelization">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
-</div>
+<footer>
 <hr/>
 <div role="contentinfo">
 <p>© Copyright 2018, Optuna Contributors.</p>

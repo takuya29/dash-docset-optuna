@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>optuna.terminator.RegretBoundEvaluator — Optuna 3.2.0 documentation</title>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-binder.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-dataframe.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-rendered-html.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/favicon.ico" rel="shortcut icon"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/sphinx_highlight.js"></script>
+<script src="../../_static/clipboard.min.js"></script>
+<script src="../../_static/copybutton.js"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="optuna.terminator.BaseErrorEvaluator.html" rel="next" title="optuna.terminator.BaseErrorEvaluator"/>
+<link href="optuna.terminator.BaseImprovementEvaluator.html" rel="prev" title="optuna.terminator.BaseImprovementEvaluator"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="navbar">
+<div class="navbar ml-auto">
+<ul class="navbar-nav">
+<li>
+<a class="header_link" href="https://optuna.org/#key_features">Key Features</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#code_examples">Code Examples</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#installation">Installation</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#dashboard">Dashboard</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#blog">Blog</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#video">Videos</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#paper">Paper</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#community">Community</a>
+</li>
+</ul>
+</div>
+</div>
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a href="../../index.html">
+<img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
+</a>
+<div class="version">
+                3.2.0
+              </div>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../optuna.html">optuna</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cli.html">optuna.cli</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../distributions.html">optuna.distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exceptions.html">optuna.exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../importance.html">optuna.importance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../integration.html">optuna.integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../logging.html">optuna.logging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pruners.html">optuna.pruners</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../samplers/index.html">optuna.samplers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../search_space.html">optuna.search_space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storages.html">optuna.storages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../study.html">optuna.study</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../terminator.html">optuna.terminator</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="optuna.terminator.BaseTerminator.html">optuna.terminator.BaseTerminator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.terminator.Terminator.html">optuna.terminator.Terminator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.terminator.BaseImprovementEvaluator.html">optuna.terminator.BaseImprovementEvaluator</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">optuna.terminator.RegretBoundEvaluator</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#optuna.terminator.RegretBoundEvaluator"><code class="docutils literal notranslate"><span class="pre">RegretBoundEvaluator</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.terminator.BaseErrorEvaluator.html">optuna.terminator.BaseErrorEvaluator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.terminator.CrossValidationErrorEvaluator.html">optuna.terminator.CrossValidationErrorEvaluator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.terminator.StaticErrorEvaluator.html">optuna.terminator.StaticErrorEvaluator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.terminator.TerminatorCallback.html">optuna.terminator.TerminatorCallback</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.terminator.report_cross_validation_scores.html">optuna.terminator.report_cross_validation_scores</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../trial.html">optuna.trial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../visualization/index.html">optuna.visualization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Optuna</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<!-- This file is necessary to remove "Edit on Github" button from readthedocs by following https://docs.readthedocs.io/en/stable/guides/remove-edit-buttons.html#remove-links-from-top-right-corner --><div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a aria-label="Home" class="icon icon-home" href="../../index.html"></a></li>
+<li class="breadcrumb-item"><a href="../index.html">API Reference</a></li>
+<li class="breadcrumb-item"><a href="../terminator.html">optuna.terminator</a></li>
+<li class="breadcrumb-item active">optuna.terminator.RegretBoundEvaluator</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<section id="optuna-terminator-regretboundevaluator">
+<h1>optuna.terminator.RegretBoundEvaluator<a class="headerlink" href="#optuna-terminator-regretboundevaluator" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="optuna.terminator.RegretBoundEvaluator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.terminator.</span></span><span class="sig-name descname"><span class="pre">RegretBoundEvaluator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_trials_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_n_trials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_lcb_n_additional_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/terminator/improvement/evaluator.html#RegretBoundEvaluator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.terminator.RegretBoundEvaluator"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.terminator.improvement.evaluator.RegretBoundEvaluator"></a><a class="headerlink" href="#optuna.terminator.RegretBoundEvaluator" title="Permalink to this definition"></a></dt>
+<dd><p>An error evaluator for upper bound on the regret with high-probability confidence.</p>
+<p>This evaluator evaluates the regret of current best solution, which defined as the difference
+between the objective value of the best solution and of the global optimum. To be specific,
+this evaluator calculates the upper bound on the regret based on the fact that empirical
+estimator of the objective function is bounded by lower and upper confidence bounds with
+high probability under the Gaussian process model assumption.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gp</strong> (<em>BaseGaussianProcess</em><em> | </em><em>None</em>) – A Gaussian process model on which evaluation base. If not specified, the default
+Gaussian process model is used.</p></li>
+<li><p><strong>top_trials_ratio</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – A ratio of top trials to be considered when estimating the regret. Default to 0.5.</p></li>
+<li><p><strong>min_n_trials</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – A minimum number of complete trials to estimate the regret. Default to 20.</p></li>
+<li><p><strong>min_lcb_n_additional_samples</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – A minimum number of additional samples to estimate the lower confidence bound.
+Default to 2000.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Added in v3.2.0 as an experimental feature. The interface may change in newer versions
+without prior notice. See <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v3.2.0">https://github.com/optuna/optuna/releases/tag/v3.2.0</a>.</p>
+</div>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">evaluate</span></code>(trials, study_direction)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_preprocessing</span></code>([add_random_inputs])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+</section>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="optuna.terminator.BaseImprovementEvaluator.html" rel="prev" title="optuna.terminator.BaseImprovementEvaluator"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="optuna.terminator.BaseErrorEvaluator.html" rel="next" title="optuna.terminator.BaseErrorEvaluator">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright 2018, Optuna Contributors.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+    <a href="../../privacy.html">Privacy Policy</a>.
+     
+
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.samplers._base &mdash; Optuna 3.1.1 documentation</title>
+  <title>optuna.samplers._base &mdash; Optuna 3.2.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
@@ -18,10 +18,9 @@
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/doctools.js"></script>
         <script src="../../../_static/sphinx_highlight.js"></script>
         <script src="../../../_static/clipboard.min.js"></script>
@@ -43,6 +42,9 @@
                 </li>
                 <li>
                     <a href="https://optuna.org/#installation" class="header_link">Installation</a>
+                </li>
+                <li>
+                    <a href="https://optuna.org/#dashboard" class="header_link">Dashboard</a>
                 </li>
                 <li>
                     <a href="https://optuna.org/#blog" class="header_link">Blog</a>
@@ -73,7 +75,7 @@
               <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.1.1
+                3.2.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -148,9 +150,10 @@
 
 <span class="sd">    More specifically, parameters are sampled by the following procedure.</span>
 <span class="sd">    At the beginning of a trial, :meth:`~optuna.samplers.BaseSampler.infer_relative_search_space`</span>
-<span class="sd">    is called to determine the relative search space for the trial. Then,</span>
-<span class="sd">    :meth:`~optuna.samplers.BaseSampler.sample_relative` is invoked to sample parameters</span>
-<span class="sd">    from the relative search space. During the execution of the objective function,</span>
+<span class="sd">    is called to determine the relative search space for the trial.</span>
+<span class="sd">    During the execution of the objective function,</span>
+<span class="sd">    :meth:`~optuna.samplers.BaseSampler.sample_relative` is called only once</span>
+<span class="sd">    when sampling the parameters belonging to the relative search space for the first time.</span>
 <span class="sd">    :meth:`~optuna.samplers.BaseSampler.sample_independent` is used to sample</span>
 <span class="sd">    parameters that don&#39;t belong to the relative search space.</span>
 
@@ -188,7 +191,7 @@
 <span class="sd">            A dictionary containing the parameter names and parameter&#39;s distributions.</span>
 
 <span class="sd">        .. seealso::</span>
-<span class="sd">            Please refer to :func:`~optuna.samplers.intersection_search_space` as an</span>
+<span class="sd">            Please refer to :func:`~optuna.search_space.intersection_search_space` as an</span>
 <span class="sd">            implementation of :func:`~optuna.samplers.BaseSampler.infer_relative_search_space`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -308,7 +311,6 @@
         <span class="k">pass</span></div>
 
     <span class="k">def</span> <span class="nf">_raise_error_if_multi_objective</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="k">if</span> <span class="n">study</span><span class="o">.</span><span class="n">_is_multi_objective</span><span class="p">():</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">&quot;If the study is being used for multi-objective optimization, &quot;</span>

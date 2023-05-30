@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.samplers.CmaEsSampler — Optuna 3.1.1 documentation</title>
+<title>optuna.samplers.CmaEsSampler — Optuna 3.2.0 documentation</title>
 <link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -18,10 +18,9 @@
 <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
 <script src="../../../_static/jquery.js"></script>
-<script src="../../../_static/underscore.js"></script>
 <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
 <script src="../../../_static/doctools.js"></script>
 <script src="../../../_static/sphinx_highlight.js"></script>
 <script src="../../../_static/clipboard.min.js"></script>
@@ -46,6 +45,9 @@
 <a class="header_link" href="https://optuna.org/#installation">Installation</a>
 </li>
 <li>
+<a class="header_link" href="https://optuna.org/#dashboard">Dashboard</a>
+</li>
+<li>
 <a class="header_link" href="https://optuna.org/#blog">Blog</a>
 </li>
 <li>
@@ -68,7 +70,7 @@
 <img alt="Logo" class="logo" src="../../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.1.1
+                3.2.0
               </div>
 <div role="search">
 <form action="../../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -102,6 +104,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.PartialFixedSampler.html">optuna.samplers.PartialFixedSampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.NSGAIISampler.html">optuna.samplers.NSGAIISampler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.samplers.NSGAIIISampler.html">optuna.samplers.NSGAIIISampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.MOTPESampler.html">optuna.samplers.MOTPESampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.QMCSampler.html">optuna.samplers.QMCSampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.BruteForceSampler.html">optuna.samplers.BruteForceSampler</a></li>
@@ -110,8 +113,10 @@
 <li class="toctree-l3"><a class="reference internal" href="../nsgaii.html">optuna.samplers.nsgaii</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../search_space.html">optuna.search_space</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../storages.html">optuna.storages</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../study.html">optuna.study</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminator.html">optuna.terminator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../trial.html">optuna.trial</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../visualization/index.html">optuna.visualization</a></li>
 </ul>
@@ -176,6 +181,8 @@ the parameters of multivariate normal distribution.</p>
 <li><p><a class="reference external" href="http://www.cmap.polytechnique.fr/~nikolaus.hansen/cec2005ipopcmaes.pdf">A. Auger and N. Hansen. A restart CMA evolution strategy with increasing population
 size. In Proceedings of the IEEE Congress on Evolutionary Computation (CEC 2005),
 pages 1769–1776. IEEE Press, 2005.</a></p></li>
+<li><p><a class="reference external" href="https://dl.acm.org/doi/10.1145/1570256.1570333">N. Hansen. Benchmarking a BI-Population CMA-ES on the BBOB-2009 Function Testbed.
+GECCO Workshop, 2009.</a></p></li>
 <li><p><a class="reference external" href="https://hal.inria.fr/inria-00287367/document">Raymond Ros, Nikolaus Hansen. A Simple Modification in CMA-ES Achieving Linear Time and
 Space Complexity. 10th International Conference on Parallel Problem Solving From Nature,
 Sep 2008, Dortmund, Germany. inria-00287367.</a></p></li>
@@ -192,21 +199,21 @@ library as the backend.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>x0</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a><em>]</em><em>]</em>) – A dictionary of an initial parameter values for CMA-ES. By default, the mean of <code class="docutils literal notranslate"><span class="pre">low</span></code>
+<li><p><strong>x0</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a><em>] </em><em>| </em><em>None</em>) – A dictionary of an initial parameter values for CMA-ES. By default, the mean of <code class="docutils literal notranslate"><span class="pre">low</span></code>
 and <code class="docutils literal notranslate"><span class="pre">high</span></code> for each distribution is used. Note that <code class="docutils literal notranslate"><span class="pre">x0</span></code> is sampled uniformly
 within the search space domain for each restart if you specify <code class="docutils literal notranslate"><span class="pre">restart_strategy</span></code>
 argument.</p></li>
-<li><p><strong>sigma0</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>]</em>) – Initial standard deviation of CMA-ES. By default, <code class="docutils literal notranslate"><span class="pre">sigma0</span></code> is set to
+<li><p><strong>sigma0</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em> | </em><em>None</em>) – Initial standard deviation of CMA-ES. By default, <code class="docutils literal notranslate"><span class="pre">sigma0</span></code> is set to
 <code class="docutils literal notranslate"><span class="pre">min_range</span> <span class="pre">/</span> <span class="pre">6</span></code>, where <code class="docutils literal notranslate"><span class="pre">min_range</span></code> denotes the minimum range of the distributions
 in the search space.</p></li>
-<li><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em>) – A random seed for CMA-ES.</p></li>
+<li><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em> | </em><em>None</em>) – A random seed for CMA-ES.</p></li>
 <li><p><strong>n_startup_trials</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The independent sampling is used instead of the CMA-ES algorithm until the given number
 of trials finish in the same study.</p></li>
-<li><p><strong>independent_sampler</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference internal" href="optuna.samplers.BaseSampler.html#optuna.samplers.BaseSampler" title="optuna.samplers._base.BaseSampler"><em>BaseSampler</em></a><em>]</em>) – <p>A <a class="reference internal" href="optuna.samplers.BaseSampler.html#optuna.samplers.BaseSampler" title="optuna.samplers.BaseSampler"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseSampler</span></code></a> instance that is used for independent
+<li><p><strong>independent_sampler</strong> (<a class="reference internal" href="optuna.samplers.BaseSampler.html#optuna.samplers.BaseSampler" title="optuna.samplers._base.BaseSampler"><em>BaseSampler</em></a><em> | </em><em>None</em>) – <p>A <a class="reference internal" href="optuna.samplers.BaseSampler.html#optuna.samplers.BaseSampler" title="optuna.samplers.BaseSampler"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseSampler</span></code></a> instance that is used for independent
 sampling. The parameters not contained in the relative search space are sampled
 by this sampler.
 The search space for <a class="reference internal" href="#optuna.samplers.CmaEsSampler" title="optuna.samplers.CmaEsSampler"><code class="xref py py-class docutils literal notranslate"><span class="pre">CmaEsSampler</span></code></a> is determined by
-<a class="reference internal" href="optuna.samplers.intersection_search_space.html#optuna.samplers.intersection_search_space" title="optuna.samplers.intersection_search_space"><code class="xref py py-func docutils literal notranslate"><span class="pre">intersection_search_space()</span></code></a>.</p>
+<a class="reference internal" href="../../generated/optuna.search_space.intersection_search_space.html#optuna.search_space.intersection_search_space" title="optuna.search_space.intersection_search_space"><code class="xref py py-func docutils literal notranslate"><span class="pre">intersection_search_space()</span></code></a>.</p>
 <p>If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is specified, <a class="reference internal" href="optuna.samplers.RandomSampler.html#optuna.samplers.RandomSampler" title="optuna.samplers.RandomSampler"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomSampler</span></code></a> is used
 as the default.</p>
 <div class="admonition seealso">
@@ -221,9 +228,11 @@ the value of a parameter is sampled by using an independent sampler.</p>
 <p>Note that the parameters of the first trial in a study are always sampled
 via an independent sampler, so no warning messages are emitted in this case.</p>
 </p></li>
-<li><p><strong>restart_strategy</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>]</em>) – <p>Strategy for restarting CMA-ES optimization when converges to a local minimum.
-If given <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, CMA-ES will not restart (default).
-If given ‘ipop’, CMA-ES will restart with increasing population size.
+<li><p><strong>restart_strategy</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – <p>Strategy for restarting CMA-ES optimization when converges to a local minimum.
+If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is given, CMA-ES will not restart (default).
+If ‘ipop’ is given, CMA-ES will restart with increasing population size.
+if ‘bipop’ is given, CMA-ES will restart with the population size
+increased or decreased.
 Please see also <code class="docutils literal notranslate"><span class="pre">inc_popsize</span></code> parameter.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -232,10 +241,12 @@ versions without prior notice. See
 <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v2.1.0">https://github.com/optuna/optuna/releases/tag/v2.1.0</a>.</p>
 </div>
 </p></li>
-<li><p><strong>popsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em>) – A population size of CMA-ES. When set <code class="docutils literal notranslate"><span class="pre">restart_strategy</span> <span class="pre">=</span> <span class="pre">'ipop'</span></code>, this is used
-as the initial population size.</p></li>
+<li><p><strong>popsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em> | </em><em>None</em>) – A population size of CMA-ES. When <code class="docutils literal notranslate"><span class="pre">restart_strategy</span> <span class="pre">=</span> <span class="pre">'ipop'</span></code>
+or <code class="docutils literal notranslate"><span class="pre">restart_strategy</span> <span class="pre">=</span> <span class="pre">'bipop'</span></code> is specified,
+this is used as the initial population size.</p></li>
 <li><p><strong>inc_popsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Multiplier for increasing population size before each restart.
-This argument will be used when setting <code class="docutils literal notranslate"><span class="pre">restart_strategy</span> <span class="pre">=</span> <span class="pre">'ipop'</span></code>.</p></li>
+This argument will be used when <code class="docutils literal notranslate"><span class="pre">restart_strategy</span> <span class="pre">=</span> <span class="pre">'ipop'</span></code>
+or <code class="docutils literal notranslate"><span class="pre">restart_strategy</span> <span class="pre">=</span> <span class="pre">'bipop'</span></code> is specified.</p></li>
 <li><p><strong>consider_pruned_trials</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – <p>If this is <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, the PRUNED trials are considered for sampling.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -273,7 +284,7 @@ versions without prior notice. See
 <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v3.1.0">https://github.com/optuna/optuna/releases/tag/v3.1.0</a>.</p>
 </div>
 </p></li>
-<li><p><strong>source_trials</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a><em>[</em><a class="reference internal" href="../../generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial._frozen.FrozenTrial"><em>FrozenTrial</em></a><em>]</em><em>]</em>) – <p>This option is for Warm Starting CMA-ES, a method to transfer prior knowledge on
+<li><p><strong>source_trials</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a><em>[</em><a class="reference internal" href="../../generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial._frozen.FrozenTrial"><em>FrozenTrial</em></a><em>] </em><em>| </em><em>None</em>) – <p>This option is for Warm Starting CMA-ES, a method to transfer prior knowledge on
 similar HPO tasks through the initialization of CMA-ES. This method estimates a
 promising distribution from <code class="docutils literal notranslate"><span class="pre">source_trials</span></code> and generates the parameter of
 multivariate gaussian distribution. Please note that it is prohibited to use
@@ -326,7 +337,7 @@ without prior notice. See <a class="reference external" href="https://github.com
 <li><p><strong>trial</strong> (<a class="reference internal" href="../../generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial._frozen.FrozenTrial"><em>FrozenTrial</em></a>) – Target trial object.
 Take a copy before modifying this object.</p></li>
 <li><p><strong>state</strong> (<a class="reference internal" href="../../generated/optuna.trial.TrialState.html#optuna.trial.TrialState" title="optuna.trial._state.TrialState"><em>TrialState</em></a>) – Resulting trial state.</p></li>
-<li><p><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>]</em><em>]</em>) – Resulting trial values. Guaranteed to not be <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if trial succeeded.</p></li>
+<li><p><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>] </em><em>| </em><em>None</em>) – Resulting trial values. Guaranteed to not be <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if trial succeeded.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -359,7 +370,7 @@ Take a copy before modifying this object.</p></li>
 </dl>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p>Please refer to <a class="reference internal" href="optuna.samplers.intersection_search_space.html#optuna.samplers.intersection_search_space" title="optuna.samplers.intersection_search_space"><code class="xref py py-func docutils literal notranslate"><span class="pre">intersection_search_space()</span></code></a> as an
+<p>Please refer to <a class="reference internal" href="../../generated/optuna.search_space.intersection_search_space.html#optuna.search_space.intersection_search_space" title="optuna.search_space.intersection_search_space"><code class="xref py py-func docutils literal notranslate"><span class="pre">intersection_search_space()</span></code></a> as an
 implementation of <a class="reference internal" href="optuna.samplers.BaseSampler.html#optuna.samplers.BaseSampler.infer_relative_search_space" title="optuna.samplers.BaseSampler.infer_relative_search_space"><code class="xref py py-func docutils literal notranslate"><span class="pre">infer_relative_search_space()</span></code></a>.</p>
 </div>
 </dd></dl>

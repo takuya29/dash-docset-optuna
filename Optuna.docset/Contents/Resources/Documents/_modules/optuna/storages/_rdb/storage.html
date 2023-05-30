@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.storages._rdb.storage &mdash; Optuna 3.1.1 documentation</title>
+  <title>optuna.storages._rdb.storage &mdash; Optuna 3.2.0 documentation</title>
       <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
@@ -18,10 +18,9 @@
     <script src="../../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
         <script src="../../../../_static/jquery.js"></script>
-        <script src="../../../../_static/underscore.js"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
         <script src="../../../../_static/doctools.js"></script>
         <script src="../../../../_static/sphinx_highlight.js"></script>
         <script src="../../../../_static/clipboard.min.js"></script>
@@ -43,6 +42,9 @@
                 </li>
                 <li>
                     <a href="https://optuna.org/#installation" class="header_link">Installation</a>
+                </li>
+                <li>
+                    <a href="https://optuna.org/#dashboard" class="header_link">Dashboard</a>
                 </li>
                 <li>
                     <a href="https://optuna.org/#blog" class="header_link">Blog</a>
@@ -73,7 +75,7 @@
               <img src="../../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.1.1
+                3.2.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -138,6 +140,7 @@
 <span class="kn">from</span> <span class="nn">optuna</span> <span class="kn">import</span> <span class="n">distributions</span>
 <span class="kn">from</span> <span class="nn">optuna</span> <span class="kn">import</span> <span class="n">version</span>
 <span class="kn">from</span> <span class="nn">optuna._imports</span> <span class="kn">import</span> <span class="n">_LazyImport</span>
+<span class="kn">from</span> <span class="nn">optuna._typing</span> <span class="kn">import</span> <span class="n">JSONSerializable</span>
 <span class="kn">from</span> <span class="nn">optuna.storages._base</span> <span class="kn">import</span> <span class="n">BaseStorage</span>
 <span class="kn">from</span> <span class="nn">optuna.storages._base</span> <span class="kn">import</span> <span class="n">DEFAULT_STUDY_NAME_PREFIX</span>
 <span class="kn">from</span> <span class="nn">optuna.storages._heartbeat</span> <span class="kn">import</span> <span class="n">BaseHeartbeat</span>
@@ -315,7 +318,6 @@
         <span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">skip_table_creation</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">engine_kwargs</span> <span class="o">=</span> <span class="n">engine_kwargs</span> <span class="ow">or</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fill_storage_url_template</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">skip_compatibility_check</span> <span class="o">=</span> <span class="n">skip_compatibility_check</span>
@@ -348,7 +350,6 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_version_manager</span><span class="o">.</span><span class="n">check_table_schema_compatibility</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-
         <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="k">del</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;scoped_session&quot;</span><span class="p">]</span>
         <span class="k">del</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;engine&quot;</span><span class="p">]</span>
@@ -356,7 +357,6 @@
         <span class="k">return</span> <span class="n">state</span>
 
     <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">create_engine</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">engine_kwargs</span><span class="p">)</span>
@@ -377,7 +377,6 @@
 <div class="viewcode-block" id="RDBStorage.create_new_study"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.create_new_study">[docs]</a>    <span class="k">def</span> <span class="nf">create_new_study</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">directions</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">StudyDirection</span><span class="p">],</span> <span class="n">study_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-
         <span class="k">try</span><span class="p">:</span>
             <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">study_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -403,14 +402,12 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_study_id_from_name</span><span class="p">(</span><span class="n">study_name</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="RDBStorage.delete_study"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.delete_study">[docs]</a>    <span class="k">def</span> <span class="nf">delete_study</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
             <span class="n">study</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">StudyModel</span><span class="o">.</span><span class="n">find_or_raise_by_id</span><span class="p">(</span><span class="n">study_id</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
             <span class="n">session</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">study</span><span class="p">)</span></div>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_create_unique_study_name</span><span class="p">(</span><span class="n">session</span><span class="p">:</span> <span class="s2">&quot;sqlalchemy_orm.Session&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="n">study_uuid</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
             <span class="n">study_name</span> <span class="o">=</span> <span class="n">DEFAULT_STUDY_NAME_PREFIX</span> <span class="o">+</span> <span class="n">study_uuid</span>
@@ -421,7 +418,6 @@
         <span class="k">return</span> <span class="n">study_name</span>
 
 <div class="viewcode-block" id="RDBStorage.set_study_user_attr"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.set_study_user_attr">[docs]</a>    <span class="k">def</span> <span class="nf">set_study_user_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
             <span class="n">study</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">StudyModel</span><span class="o">.</span><span class="n">find_or_raise_by_id</span><span class="p">(</span><span class="n">study_id</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
             <span class="n">attribute</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">StudyUserAttributeModel</span><span class="o">.</span><span class="n">find_by_study_and_key</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
@@ -433,8 +429,7 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">attribute</span><span class="o">.</span><span class="n">value_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RDBStorage.set_study_system_attr"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.set_study_system_attr">[docs]</a>    <span class="k">def</span> <span class="nf">set_study_system_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
+<div class="viewcode-block" id="RDBStorage.set_study_system_attr"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.set_study_system_attr">[docs]</a>    <span class="k">def</span> <span class="nf">set_study_system_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">JSONSerializable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
             <span class="n">study</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">StudyModel</span><span class="o">.</span><span class="n">find_or_raise_by_id</span><span class="p">(</span><span class="n">study_id</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
             <span class="n">attribute</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">StudySystemAttributeModel</span><span class="o">.</span><span class="n">find_by_study_and_key</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
@@ -447,7 +442,6 @@
                 <span class="n">attribute</span><span class="o">.</span><span class="n">value_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="RDBStorage.get_study_id_from_name"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.get_study_id_from_name">[docs]</a>    <span class="k">def</span> <span class="nf">get_study_id_from_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-
         <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
             <span class="n">study</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">StudyModel</span><span class="o">.</span><span class="n">find_or_raise_by_name</span><span class="p">(</span><span class="n">study_name</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
             <span class="n">study_id</span> <span class="o">=</span> <span class="n">study</span><span class="o">.</span><span class="n">study_id</span>
@@ -455,7 +449,6 @@
         <span class="k">return</span> <span class="n">study_id</span></div>
 
 <div class="viewcode-block" id="RDBStorage.get_study_name_from_id"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.get_study_name_from_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_study_name_from_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-
         <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
             <span class="n">study</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">StudyModel</span><span class="o">.</span><span class="n">find_or_raise_by_id</span><span class="p">(</span><span class="n">study_id</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
             <span class="n">study_name</span> <span class="o">=</span> <span class="n">study</span><span class="o">.</span><span class="n">study_name</span>
@@ -463,7 +456,6 @@
         <span class="k">return</span> <span class="n">study_name</span></div>
 
 <div class="viewcode-block" id="RDBStorage.get_study_directions"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.get_study_directions">[docs]</a>    <span class="k">def</span> <span class="nf">get_study_directions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">StudyDirection</span><span class="p">]:</span>
-
         <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
             <span class="n">study</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">StudyModel</span><span class="o">.</span><span class="n">find_or_raise_by_id</span><span class="p">(</span><span class="n">study_id</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
             <span class="n">directions</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">direction</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">study</span><span class="o">.</span><span class="n">directions</span><span class="p">]</span>
@@ -471,7 +463,6 @@
         <span class="k">return</span> <span class="n">directions</span></div>
 
 <div class="viewcode-block" id="RDBStorage.get_study_user_attrs"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.get_study_user_attrs">[docs]</a>    <span class="k">def</span> <span class="nf">get_study_user_attrs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-
         <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
             <span class="c1"># Ensure that that study exists.</span>
             <span class="n">models</span><span class="o">.</span><span class="n">StudyModel</span><span class="o">.</span><span class="n">find_or_raise_by_id</span><span class="p">(</span><span class="n">study_id</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
@@ -481,7 +472,6 @@
         <span class="k">return</span> <span class="n">user_attrs</span></div>
 
 <div class="viewcode-block" id="RDBStorage.get_study_system_attrs"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.get_study_system_attrs">[docs]</a>    <span class="k">def</span> <span class="nf">get_study_system_attrs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-
         <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
             <span class="c1"># Ensure that that study exists.</span>
             <span class="n">models</span><span class="o">.</span><span class="n">StudyModel</span><span class="o">.</span><span class="n">find_or_raise_by_id</span><span class="p">(</span><span class="n">study_id</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
@@ -491,7 +481,6 @@
         <span class="k">return</span> <span class="n">system_attrs</span></div>
 
 <div class="viewcode-block" id="RDBStorage.get_trial_user_attrs"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.get_trial_user_attrs">[docs]</a>    <span class="k">def</span> <span class="nf">get_trial_user_attrs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-
         <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
             <span class="c1"># Ensure trial exists.</span>
             <span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">find_or_raise_by_id</span><span class="p">(</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
@@ -502,7 +491,6 @@
         <span class="k">return</span> <span class="n">user_attrs</span></div>
 
 <div class="viewcode-block" id="RDBStorage.get_trial_system_attrs"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.get_trial_system_attrs">[docs]</a>    <span class="k">def</span> <span class="nf">get_trial_system_attrs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-
         <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
             <span class="c1"># Ensure trial exists.</span>
             <span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">find_or_raise_by_id</span><span class="p">(</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
@@ -514,11 +502,14 @@
 
 <div class="viewcode-block" id="RDBStorage.get_all_studies"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.get_all_studies">[docs]</a>    <span class="k">def</span> <span class="nf">get_all_studies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">FrozenStudy</span><span class="p">]:</span>
         <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
-
-            <span class="n">studies</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
-                <span class="n">models</span><span class="o">.</span><span class="n">StudyModel</span><span class="o">.</span><span class="n">study_id</span><span class="p">,</span>
-                <span class="n">models</span><span class="o">.</span><span class="n">StudyModel</span><span class="o">.</span><span class="n">study_name</span><span class="p">,</span>
-            <span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+            <span class="n">studies</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+                    <span class="n">models</span><span class="o">.</span><span class="n">StudyModel</span><span class="o">.</span><span class="n">study_id</span><span class="p">,</span>
+                    <span class="n">models</span><span class="o">.</span><span class="n">StudyModel</span><span class="o">.</span><span class="n">study_name</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">StudyModel</span><span class="o">.</span><span class="n">study_id</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">all</span><span class="p">()</span>
+            <span class="p">)</span>
 
             <span class="n">_directions</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">direction_model</span> <span class="ow">in</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">StudyDirectionModel</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
@@ -551,7 +542,6 @@
             <span class="k">return</span> <span class="n">frozen_studies</span></div>
 
 <div class="viewcode-block" id="RDBStorage.create_new_trial"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.create_new_trial">[docs]</a>    <span class="k">def</span> <span class="nf">create_new_trial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">template_trial</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_new_trial</span><span class="p">(</span><span class="n">study_id</span><span class="p">,</span> <span class="n">template_trial</span><span class="p">)</span><span class="o">.</span><span class="n">_trial_id</span></div>
 
     <span class="k">def</span> <span class="nf">_create_new_trial</span><span class="p">(</span>
@@ -588,7 +578,7 @@
                     <span class="k">if</span> <span class="n">n_retries</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
                         <span class="k">raise</span>
 
-            <span class="n">n_retries</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">n_retries</span> <span class="o">+=</span> <span class="mi">1</span>
 
             <span class="k">if</span> <span class="n">template_trial</span><span class="p">:</span>
                 <span class="n">frozen</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">template_trial</span><span class="p">)</span>
@@ -691,7 +681,6 @@
         <span class="n">param_value_internal</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">distribution</span><span class="p">:</span> <span class="n">distributions</span><span class="o">.</span><span class="n">BaseDistribution</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_set_trial_param_without_commit</span><span class="p">(</span>
                 <span class="n">session</span><span class="p">,</span> <span class="n">trial_id</span><span class="p">,</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">param_value_internal</span><span class="p">,</span> <span class="n">distribution</span>
@@ -705,7 +694,6 @@
         <span class="n">param_value_internal</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">distribution</span><span class="p">:</span> <span class="n">distributions</span><span class="o">.</span><span class="n">BaseDistribution</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="n">trial</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">find_or_raise_by_id</span><span class="p">(</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_trial_is_updatable</span><span class="p">(</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">trial</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
 
@@ -739,7 +727,6 @@
         <span class="n">param_value_internal</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">distribution</span><span class="p">:</span> <span class="n">distributions</span><span class="o">.</span><span class="n">BaseDistribution</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
             <span class="c1"># Acquire lock.</span>
             <span class="c1">#</span>
@@ -754,7 +741,6 @@
             <span class="p">)</span><span class="o">.</span><span class="n">check_and_add</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
 
 <div class="viewcode-block" id="RDBStorage.get_trial_param"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.get_trial_param">[docs]</a>    <span class="k">def</span> <span class="nf">get_trial_param</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">param_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-
         <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
             <span class="n">trial</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">find_or_raise_by_id</span><span class="p">(</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
             <span class="n">trial_param</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TrialParamModel</span><span class="o">.</span><span class="n">find_or_raise_by_trial_and_param_name</span><span class="p">(</span>
@@ -767,7 +753,6 @@
 <div class="viewcode-block" id="RDBStorage.set_trial_state_values"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.set_trial_state_values">[docs]</a>    <span class="k">def</span> <span class="nf">set_trial_state_values</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">trial_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">TrialState</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-
         <span class="k">try</span><span class="p">:</span>
             <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
                 <span class="n">trial</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">find_or_raise_by_id</span><span class="p">(</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">for_update</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -794,7 +779,6 @@
     <span class="k">def</span> <span class="nf">_set_trial_value_without_commit</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">session</span><span class="p">:</span> <span class="s2">&quot;sqlalchemy_orm.Session&quot;</span><span class="p">,</span> <span class="n">trial_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">objective</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="n">trial</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">find_or_raise_by_id</span><span class="p">(</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_trial_is_updatable</span><span class="p">(</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">trial</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
         <span class="n">stored_value</span><span class="p">,</span> <span class="n">value_type</span> <span class="o">=</span> <span class="n">TrialValueModel</span><span class="o">.</span><span class="n">value_to_stored_repr</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
@@ -812,7 +796,6 @@
 <div class="viewcode-block" id="RDBStorage.set_trial_intermediate_value"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.set_trial_intermediate_value">[docs]</a>    <span class="k">def</span> <span class="nf">set_trial_intermediate_value</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">trial_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">intermediate_value</span><span class="p">:</span> <span class="nb">float</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_set_trial_intermediate_value_without_commit</span><span class="p">(</span>
                 <span class="n">session</span><span class="p">,</span> <span class="n">trial_id</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">intermediate_value</span>
@@ -825,7 +808,6 @@
         <span class="n">step</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">intermediate_value</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="n">trial</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">find_or_raise_by_id</span><span class="p">(</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_trial_is_updatable</span><span class="p">(</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">trial</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
 
@@ -851,14 +833,12 @@
             <span class="n">trial_intermediate_value</span><span class="o">.</span><span class="n">intermediate_value_type</span> <span class="o">=</span> <span class="n">value_type</span>
 
 <div class="viewcode-block" id="RDBStorage.set_trial_user_attr"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.set_trial_user_attr">[docs]</a>    <span class="k">def</span> <span class="nf">set_trial_user_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_set_trial_user_attr_without_commit</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">trial_id</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_set_trial_user_attr_without_commit</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">session</span><span class="p">:</span> <span class="s2">&quot;sqlalchemy_orm.Session&quot;</span><span class="p">,</span> <span class="n">trial_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="n">trial</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">find_or_raise_by_id</span><span class="p">(</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_trial_is_updatable</span><span class="p">(</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">trial</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
 
@@ -871,15 +851,13 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">attribute</span><span class="o">.</span><span class="n">value_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
-<div class="viewcode-block" id="RDBStorage.set_trial_system_attr"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.set_trial_system_attr">[docs]</a>    <span class="k">def</span> <span class="nf">set_trial_system_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
+<div class="viewcode-block" id="RDBStorage.set_trial_system_attr"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.set_trial_system_attr">[docs]</a>    <span class="k">def</span> <span class="nf">set_trial_system_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">JSONSerializable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_set_trial_system_attr_without_commit</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">trial_id</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_set_trial_system_attr_without_commit</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">session</span><span class="p">:</span> <span class="s2">&quot;sqlalchemy_orm.Session&quot;</span><span class="p">,</span> <span class="n">trial_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">session</span><span class="p">:</span> <span class="s2">&quot;sqlalchemy_orm.Session&quot;</span><span class="p">,</span> <span class="n">trial_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">JSONSerializable</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="n">trial</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">find_or_raise_by_id</span><span class="p">(</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_trial_is_updatable</span><span class="p">(</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">trial</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
 
@@ -893,7 +871,6 @@
             <span class="n">attribute</span><span class="o">.</span><span class="n">value_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
 <div class="viewcode-block" id="RDBStorage.get_trial_id_from_study_id_trial_number"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.get_trial_id_from_study_id_trial_number">[docs]</a>    <span class="k">def</span> <span class="nf">get_trial_id_from_study_id_trial_number</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">trial_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-
         <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
             <span class="n">trial_id</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">trial_id</span><span class="p">)</span>
@@ -912,7 +889,6 @@
             <span class="k">return</span> <span class="n">trial_id</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="RDBStorage.get_trial"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.get_trial">[docs]</a>    <span class="k">def</span> <span class="nf">get_trial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FrozenTrial</span><span class="p">:</span>
-
         <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
             <span class="n">trial_model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">find_or_raise_by_id</span><span class="p">(</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
             <span class="n">frozen_trial</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_frozen_trial_from_trial_model</span><span class="p">(</span><span class="n">trial_model</span><span class="p">)</span>
@@ -925,7 +901,6 @@
         <span class="n">deepcopy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">states</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Container</span><span class="p">[</span><span class="n">TrialState</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]:</span>
-
         <span class="n">trials</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_trials</span><span class="p">(</span><span class="n">study_id</span><span class="p">,</span> <span class="n">states</span><span class="p">,</span> <span class="nb">set</span><span class="p">())</span>
 
         <span class="k">return</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">trials</span><span class="p">)</span> <span class="k">if</span> <span class="n">deepcopy</span> <span class="k">else</span> <span class="n">trials</span></div>
@@ -936,7 +911,6 @@
         <span class="n">states</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Container</span><span class="p">[</span><span class="n">TrialState</span><span class="p">]],</span>
         <span class="n">excluded_trial_ids</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]:</span>
-
         <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
             <span class="c1"># Ensure that the study exists.</span>
             <span class="n">models</span><span class="o">.</span><span class="n">StudyModel</span><span class="o">.</span><span class="n">find_or_raise_by_id</span><span class="p">(</span><span class="n">study_id</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
@@ -998,7 +972,6 @@
         <span class="k">return</span> <span class="n">trials</span>
 
     <span class="k">def</span> <span class="nf">_build_frozen_trial_from_trial_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="s2">&quot;models.TrialModel&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FrozenTrial</span><span class="p">:</span>
-
         <span class="n">values</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span>
         <span class="k">if</span> <span class="n">trial</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>
             <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">trial</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
@@ -1040,7 +1013,6 @@
         <span class="p">)</span>
 
 <div class="viewcode-block" id="RDBStorage.get_best_trial"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.get_best_trial">[docs]</a>    <span class="k">def</span> <span class="nf">get_best_trial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FrozenTrial</span><span class="p">:</span>
-
         <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
             <span class="n">_directions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_study_directions</span><span class="p">(</span><span class="n">study_id</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">_directions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
@@ -1059,7 +1031,6 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_set_default_engine_kwargs_for_mysql</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">engine_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="c1"># Skip if RDB is not MySQL.</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">url</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;mysql&quot;</span><span class="p">):</span>
             <span class="k">return</span>
@@ -1077,7 +1048,6 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_fill_storage_url_template</span><span class="p">(</span><span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-
         <span class="k">return</span> <span class="n">template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">SCHEMA_VERSION</span><span class="o">=</span><span class="n">models</span><span class="o">.</span><span class="n">SCHEMA_VERSION</span><span class="p">)</span>
 
 <div class="viewcode-block" id="RDBStorage.remove_session"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.remove_session">[docs]</a>    <span class="k">def</span> <span class="nf">remove_session</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -1157,13 +1127,11 @@
         <span class="k">return</span> <span class="n">stale_trial_ids</span>
 
 <div class="viewcode-block" id="RDBStorage.get_heartbeat_interval"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.get_heartbeat_interval">[docs]</a>    <span class="k">def</span> <span class="nf">get_heartbeat_interval</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
-
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">heartbeat_interval</span></div>
 
 <div class="viewcode-block" id="RDBStorage.get_failed_trial_callback"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.get_failed_trial_callback">[docs]</a>    <span class="k">def</span> <span class="nf">get_failed_trial_callback</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="s2">&quot;optuna.study.Study&quot;</span><span class="p">,</span> <span class="n">FrozenTrial</span><span class="p">],</span> <span class="kc">None</span><span class="p">]]:</span>
-
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">failed_trial_callback</span></div></div>
 
 
@@ -1174,7 +1142,6 @@
         <span class="n">engine</span><span class="p">:</span> <span class="s2">&quot;sqlalchemy.engine.Engine&quot;</span><span class="p">,</span>
         <span class="n">scoped_session</span><span class="p">:</span> <span class="s2">&quot;sqlalchemy_orm.scoped_session&quot;</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">url</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">engine</span> <span class="o">=</span> <span class="n">engine</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span> <span class="o">=</span> <span class="n">scoped_session</span>
@@ -1182,7 +1149,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_init_alembic</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_init_version_info_model</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
             <span class="n">version_info</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">VersionInfoModel</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">version_info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -1195,7 +1161,6 @@
             <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">version_info</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_init_alembic</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;alembic&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">WARN</span><span class="p">)</span>
 
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span> <span class="k">as</span> <span class="n">connection</span><span class="p">:</span>
@@ -1222,7 +1187,6 @@
                 <span class="n">context</span><span class="o">.</span><span class="n">stamp</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">revision</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">check_table_schema_compatibility</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
             <span class="c1"># NOTE: After invocation of `_init_version_info_model` method,</span>
             <span class="c1">#       it is ensured that a `VersionInfoModel` entry exists.</span>
@@ -1262,26 +1226,22 @@
         <span class="k">return</span> <span class="n">version</span>
 
     <span class="k">def</span> <span class="nf">get_head_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-
         <span class="n">script</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_alembic_script</span><span class="p">()</span>
         <span class="n">current_head</span> <span class="o">=</span> <span class="n">script</span><span class="o">.</span><span class="n">get_current_head</span><span class="p">()</span>
         <span class="k">assert</span> <span class="n">current_head</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="n">current_head</span>
 
     <span class="k">def</span> <span class="nf">_get_base_version</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-
         <span class="n">script</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_alembic_script</span><span class="p">()</span>
         <span class="n">base</span> <span class="o">=</span> <span class="n">script</span><span class="o">.</span><span class="n">get_base</span><span class="p">()</span>
         <span class="k">assert</span> <span class="n">base</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;There should be exactly one base, i.e. v0.9.0.a.&quot;</span>
         <span class="k">return</span> <span class="n">base</span>
 
     <span class="k">def</span> <span class="nf">get_all_versions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-
         <span class="n">script</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_alembic_script</span><span class="p">()</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">revision</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">script</span><span class="o">.</span><span class="n">walk_revisions</span><span class="p">()]</span>
 
     <span class="k">def</span> <span class="nf">upgrade</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-
         <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_alembic_config</span><span class="p">()</span>
         <span class="n">alembic_command</span><span class="o">.</span><span class="n">upgrade</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;head&quot;</span><span class="p">)</span>
 
@@ -1292,7 +1252,6 @@
             <span class="n">version_info</span><span class="o">.</span><span class="n">library_version</span> <span class="o">=</span> <span class="n">version</span><span class="o">.</span><span class="n">__version__</span>
 
     <span class="k">def</span> <span class="nf">_is_alembic_supported</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-
         <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
             <span class="n">version_info</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">VersionInfoModel</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
 
@@ -1303,13 +1262,11 @@
             <span class="k">return</span> <span class="n">version_info</span><span class="o">.</span><span class="n">schema_version</span> <span class="o">==</span> <span class="n">models</span><span class="o">.</span><span class="n">SCHEMA_VERSION</span>
 
     <span class="k">def</span> <span class="nf">_create_alembic_script</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;alembic_script.ScriptDirectory&quot;</span><span class="p">:</span>
-
         <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_alembic_config</span><span class="p">()</span>
         <span class="n">script</span> <span class="o">=</span> <span class="n">alembic_script</span><span class="o">.</span><span class="n">ScriptDirectory</span><span class="o">.</span><span class="n">from_config</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">script</span>
 
     <span class="k">def</span> <span class="nf">_create_alembic_config</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;alembic_config.Config&quot;</span><span class="p">:</span>
-
         <span class="n">alembic_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s2">&quot;alembic&quot;</span><span class="p">)</span>
 
         <span class="n">config</span> <span class="o">=</span> <span class="n">alembic_config</span><span class="o">.</span><span class="n">Config</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s2">&quot;alembic.ini&quot;</span><span class="p">))</span>
@@ -1319,7 +1276,6 @@
 
 
 <span class="k">def</span> <span class="nf">escape_alembic_config_value</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-
     <span class="c1"># We must escape &#39;%&#39; in a value string because the character</span>
     <span class="c1"># is regarded as the trigger of variable expansion.</span>
     <span class="c1"># Please see the documentation of `configparser.BasicInterpolation` for more details.</span>

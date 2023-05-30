@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.samplers.NSGAIISampler — Optuna 3.1.1 documentation</title>
+<title>optuna.samplers.NSGAIISampler — Optuna 3.2.0 documentation</title>
 <link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -18,10 +18,9 @@
 <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
 <script src="../../../_static/jquery.js"></script>
-<script src="../../../_static/underscore.js"></script>
 <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
 <script src="../../../_static/doctools.js"></script>
 <script src="../../../_static/sphinx_highlight.js"></script>
 <script src="../../../_static/clipboard.min.js"></script>
@@ -29,7 +28,7 @@
 <script src="../../../_static/js/theme.js"></script>
 <link href="../../../genindex.html" rel="index" title="Index"/>
 <link href="../../../search.html" rel="search" title="Search"/>
-<link href="optuna.samplers.MOTPESampler.html" rel="next" title="optuna.samplers.MOTPESampler"/>
+<link href="optuna.samplers.NSGAIIISampler.html" rel="next" title="optuna.samplers.NSGAIIISampler"/>
 <link href="optuna.samplers.PartialFixedSampler.html" rel="prev" title="optuna.samplers.PartialFixedSampler"/>
 </head>
 <body class="wy-body-for-nav">
@@ -44,6 +43,9 @@
 </li>
 <li>
 <a class="header_link" href="https://optuna.org/#installation">Installation</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#dashboard">Dashboard</a>
 </li>
 <li>
 <a class="header_link" href="https://optuna.org/#blog">Blog</a>
@@ -68,7 +70,7 @@
 <img alt="Logo" class="logo" src="../../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.1.1
+                3.2.0
               </div>
 <div role="search">
 <form action="../../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -102,6 +104,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#optuna.samplers.NSGAIISampler"><code class="docutils literal notranslate"><span class="pre">NSGAIISampler</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.samplers.NSGAIIISampler.html">optuna.samplers.NSGAIIISampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.MOTPESampler.html">optuna.samplers.MOTPESampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.QMCSampler.html">optuna.samplers.QMCSampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.BruteForceSampler.html">optuna.samplers.BruteForceSampler</a></li>
@@ -110,8 +113,10 @@
 <li class="toctree-l3"><a class="reference internal" href="../nsgaii.html">optuna.samplers.nsgaii</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../../search_space.html">optuna.search_space</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../storages.html">optuna.storages</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../study.html">optuna.study</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../terminator.html">optuna.terminator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../trial.html">optuna.trial</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../visualization/index.html">optuna.visualization</a></li>
 </ul>
@@ -158,10 +163,10 @@ which is a well known, fast and elitist multi-objective genetic algorithm.</p>
 For <a class="reference internal" href="optuna.samplers.nsgaii.UNDXCrossover.html#optuna.samplers.nsgaii.UNDXCrossover" title="optuna.samplers.nsgaii.UNDXCrossover"><code class="xref py py-class docutils literal notranslate"><span class="pre">UNDXCrossover</span></code></a> and
 <a class="reference internal" href="optuna.samplers.nsgaii.SPXCrossover.html#optuna.samplers.nsgaii.SPXCrossover" title="optuna.samplers.nsgaii.SPXCrossover"><code class="xref py py-class docutils literal notranslate"><span class="pre">SPXCrossover</span></code></a>, <code class="docutils literal notranslate"><span class="pre">n_parents=3</span></code>, and for the other
 algorithms, <code class="docutils literal notranslate"><span class="pre">n_parents=2</span></code>.</p></li>
-<li><p><strong>mutation_prob</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>]</em>) – Probability of mutating each parameter when creating a new individual.
+<li><p><strong>mutation_prob</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em> | </em><em>None</em>) – Probability of mutating each parameter when creating a new individual.
 If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is specified, the value <code class="docutils literal notranslate"><span class="pre">1.0</span> <span class="pre">/</span> <span class="pre">len(parent_trial.params)</span></code> is used
 where <code class="docutils literal notranslate"><span class="pre">parent_trial</span></code> is the parent trial of the target individual.</p></li>
-<li><p><strong>crossover</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference internal" href="optuna.samplers.nsgaii.BaseCrossover.html#optuna.samplers.nsgaii.BaseCrossover" title="optuna.samplers.nsgaii._crossovers._base.BaseCrossover"><em>BaseCrossover</em></a><em>]</em>) – <p>Crossover to be applied when creating child individuals.
+<li><p><strong>crossover</strong> (<a class="reference internal" href="optuna.samplers.nsgaii.BaseCrossover.html#optuna.samplers.nsgaii.BaseCrossover" title="optuna.samplers.nsgaii._crossovers._base.BaseCrossover"><em>BaseCrossover</em></a><em> | </em><em>None</em>) – <p>Crossover to be applied when creating child individuals.
 The available crossovers are listed here:
 <a class="reference external" href="https://optuna.readthedocs.io/en/stable/reference/samplers/nsgaii.html">https://optuna.readthedocs.io/en/stable/reference/samplers/nsgaii.html</a>.</p>
 <p><a class="reference internal" href="optuna.samplers.nsgaii.UniformCrossover.html#optuna.samplers.nsgaii.UniformCrossover" title="optuna.samplers.nsgaii.UniformCrossover"><code class="xref py py-class docutils literal notranslate"><span class="pre">UniformCrossover</span></code></a> is always applied to parameters
@@ -174,8 +179,8 @@ specific crossover documentation.</p>
 <li><p><strong>crossover_prob</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Probability that a crossover (parameters swapping between parents) will occur
 when creating a new individual.</p></li>
 <li><p><strong>swapping_prob</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Probability of swapping each parameter of the parents during crossover.</p></li>
-<li><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em>) – Seed for random number generator.</p></li>
-<li><p><strong>constraints_func</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.11)"><em>Callable</em></a><em>[</em><em>[</em><a class="reference internal" href="../../generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial._frozen.FrozenTrial"><em>FrozenTrial</em></a><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>]</em><em>]</em><em>]</em>) – <p>An optional function that computes the objective constraints. It must take a
+<li><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em> | </em><em>None</em>) – Seed for random number generator.</p></li>
+<li><p><strong>constraints_func</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.11)"><em>Callable</em></a><em>[</em><em>[</em><a class="reference internal" href="../../generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial._frozen.FrozenTrial"><em>FrozenTrial</em></a><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>]</em><em>] </em><em>| </em><em>None</em>) – <p>An optional function that computes the objective constraints. It must take a
 <a class="reference internal" href="../../generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrozenTrial</span></code></a> and return the constraints. The return value must
 be a sequence of <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a> s. A value strictly larger than 0 means that a
 constraints is violated. A value equal to or smaller than 0 is considered feasible.
@@ -239,7 +244,7 @@ without prior notice. See <a class="reference external" href="https://github.com
 <li><p><strong>trial</strong> (<a class="reference internal" href="../../generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial._frozen.FrozenTrial"><em>FrozenTrial</em></a>) – Target trial object.
 Take a copy before modifying this object.</p></li>
 <li><p><strong>state</strong> (<a class="reference internal" href="../../generated/optuna.trial.TrialState.html#optuna.trial.TrialState" title="optuna.trial._state.TrialState"><em>TrialState</em></a>) – Resulting trial state.</p></li>
-<li><p><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.11)"><em>Optional</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>]</em><em>]</em>) – Resulting trial values. Guaranteed to not be <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if trial succeeded.</p></li>
+<li><p><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>] </em><em>| </em><em>None</em>) – Resulting trial values. Guaranteed to not be <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if trial succeeded.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -272,7 +277,7 @@ Take a copy before modifying this object.</p></li>
 </dl>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p>Please refer to <a class="reference internal" href="optuna.samplers.intersection_search_space.html#optuna.samplers.intersection_search_space" title="optuna.samplers.intersection_search_space"><code class="xref py py-func docutils literal notranslate"><span class="pre">intersection_search_space()</span></code></a> as an
+<p>Please refer to <a class="reference internal" href="../../generated/optuna.search_space.intersection_search_space.html#optuna.search_space.intersection_search_space" title="optuna.search_space.intersection_search_space"><code class="xref py py-func docutils literal notranslate"><span class="pre">intersection_search_space()</span></code></a> as an
 implementation of <a class="reference internal" href="optuna.samplers.BaseSampler.html#optuna.samplers.BaseSampler.infer_relative_search_space" title="optuna.samplers.BaseSampler.infer_relative_search_space"><code class="xref py py-func docutils literal notranslate"><span class="pre">infer_relative_search_space()</span></code></a>.</p>
 </div>
 </dd></dl>
@@ -360,7 +365,7 @@ Take a copy before modifying this object.</p></li>
 </div>
 <footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
 <a accesskey="p" class="btn btn-neutral float-left" href="optuna.samplers.PartialFixedSampler.html" rel="prev" title="optuna.samplers.PartialFixedSampler"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
-<a accesskey="n" class="btn btn-neutral float-right" href="optuna.samplers.MOTPESampler.html" rel="next" title="optuna.samplers.MOTPESampler">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+<a accesskey="n" class="btn btn-neutral float-right" href="optuna.samplers.NSGAIIISampler.html" rel="next" title="optuna.samplers.NSGAIIISampler">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
 </div>
 <hr/>
 <div role="contentinfo">

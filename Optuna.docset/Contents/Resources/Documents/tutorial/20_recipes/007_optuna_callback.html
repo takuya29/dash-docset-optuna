@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Callback for Study.optimize — Optuna 3.1.1 documentation</title>
+<title>Callback for Study.optimize — Optuna 3.2.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -18,10 +18,9 @@
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
 <script src="../../_static/jquery.js"></script>
-<script src="../../_static/underscore.js"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
 <script src="../../_static/doctools.js"></script>
 <script src="../../_static/sphinx_highlight.js"></script>
 <script src="../../_static/clipboard.min.js"></script>
@@ -29,8 +28,6 @@
 <script src="../../_static/js/theme.js"></script>
 <link href="../../genindex.html" rel="index" title="Index"/>
 <link href="../../search.html" rel="search" title="Search"/>
-<link href="008_specify_params.html" rel="next" title="Specify Hyperparameters Manually"/>
-<link href="006_user_defined_pruner.html" rel="prev" title="User-Defined Pruner"/>
 </head>
 <body class="wy-body-for-nav">
 <div class="navbar">
@@ -44,6 +41,9 @@
 </li>
 <li>
 <a class="header_link" href="https://optuna.org/#installation">Installation</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#dashboard">Dashboard</a>
 </li>
 <li>
 <a class="header_link" href="https://optuna.org/#blog">Blog</a>
@@ -68,7 +68,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.1.1
+                3.2.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -79,29 +79,9 @@
 </div>
 </div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Tutorial</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../index.html#key-features">Key Features</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../index.html#recipes">Recipes</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="../10_key_features/index.html">Key Features</a></li>
-<li class="toctree-l3 current"><a class="reference internal" href="index.html">Recipes</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="001_rdb.html">Saving/Resuming Study with RDB Backend</a></li>
-<li class="toctree-l4"><a class="reference internal" href="002_multi_objective.html">Multi-objective Optimization with Optuna</a></li>
-<li class="toctree-l4"><a class="reference internal" href="003_attributes.html">User Attributes</a></li>
-<li class="toctree-l4"><a class="reference internal" href="004_cli.html">Command-Line Interface</a></li>
-<li class="toctree-l4"><a class="reference internal" href="005_user_defined_sampler.html">User-Defined Sampler</a></li>
-<li class="toctree-l4"><a class="reference internal" href="006_user_defined_pruner.html">User-Defined Pruner</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">Callback for Study.optimize</a></li>
-<li class="toctree-l4"><a class="reference internal" href="008_specify_params.html">Specify Hyperparameters Manually</a></li>
-<li class="toctree-l4"><a class="reference internal" href="009_ask_and_tell.html">Ask-and-Tell Interface</a></li>
-<li class="toctree-l4"><a class="reference internal" href="010_reuse_best_trial.html">Re-use the best trial</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ</a></li>
 </ul>
@@ -117,8 +97,6 @@
 <!-- This file is necessary to remove "Edit on Github" button from readthedocs by following https://docs.readthedocs.io/en/stable/guides/remove-edit-buttons.html#remove-links-from-top-right-corner --><div aria-label="Page navigation" role="navigation">
 <ul class="wy-breadcrumbs">
 <li><a aria-label="Home" class="icon icon-home" href="../../index.html"></a></li>
-<li class="breadcrumb-item"><a href="../index.html">Tutorial</a></li>
-<li class="breadcrumb-item"><a href="index.html">Recipes</a></li>
 <li class="breadcrumb-item active">Callback for Study.optimize</li>
 </ul>
 <hr/>
@@ -180,18 +158,18 @@ So, we expect this study to stop after 7 trials.</p>
 <span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">study_stop_cb</span><span class="p">])</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>A new study created in memory with name: no-name-56860c67-459c-4429-9a5e-42751fe91b67
-Trial 0 finished with value: 0.2847584721438178 and parameters: {'x': 0.2847584721438178}. Best is trial 0 with value: 0.2847584721438178.
-Trial 1 finished with value: 0.6806011952150595 and parameters: {'x': 0.6806011952150595}. Best is trial 0 with value: 0.2847584721438178.
-Trial 2 finished with value: 0.008189812560828513 and parameters: {'x': 0.008189812560828513}. Best is trial 2 with value: 0.008189812560828513.
-Trial 3 finished with value: 0.8090320983482553 and parameters: {'x': 0.8090320983482553}. Best is trial 2 with value: 0.008189812560828513.
-Trial 4 finished with value: 0.6645518893065269 and parameters: {'x': 0.6645518893065269}. Best is trial 2 with value: 0.008189812560828513.
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>A new study created in memory with name: no-name-4626b173-5783-4800-9652-3816f014aade
+Trial 0 finished with value: 0.07677468706004276 and parameters: {'x': 0.07677468706004276}. Best is trial 0 with value: 0.07677468706004276.
+Trial 1 finished with value: 0.3275580456103028 and parameters: {'x': 0.3275580456103028}. Best is trial 0 with value: 0.07677468706004276.
+Trial 2 finished with value: 0.6493020876343165 and parameters: {'x': 0.6493020876343165}. Best is trial 0 with value: 0.07677468706004276.
+Trial 3 finished with value: 0.0026803988422470226 and parameters: {'x': 0.0026803988422470226}. Best is trial 3 with value: 0.0026803988422470226.
+Trial 4 finished with value: 0.32680876837195993 and parameters: {'x': 0.32680876837195993}. Best is trial 3 with value: 0.0026803988422470226.
 Trial 5 pruned.
 Trial 6 pruned.
 </pre></div>
 </div>
 <p>As you can see in the log above, the study stopped after 7 trials as expected.</p>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.008 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.006 seconds)</p>
 <a class="dashAnchor" name="//apple_ref/cpp/Section/sphx_glr_download_tutorial_20_recipes_007_optuna_callback.py"></a><div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorial-20-recipes-007-optuna-callback-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/69c9a8896808997c60d5d1879065fad2/007_optuna_callback.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">007_optuna_callback.py</span></code></a></p>
@@ -205,10 +183,7 @@ Trial 6 pruned.
 </section>
 </div>
 </div>
-<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
-<a accesskey="p" class="btn btn-neutral float-left" href="006_user_defined_pruner.html" rel="prev" title="User-Defined Pruner"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
-<a accesskey="n" class="btn btn-neutral float-right" href="008_specify_params.html" rel="next" title="Specify Hyperparameters Manually">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
-</div>
+<footer>
 <hr/>
 <div role="contentinfo">
 <p>© Copyright 2018, Optuna Contributors.</p>
