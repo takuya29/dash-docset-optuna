@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.study.study &mdash; Optuna 3.2.0 documentation</title>
+  <title>optuna.study.study &mdash; Optuna 3.3.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
@@ -75,7 +75,7 @@
               <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.2.0
+                3.3.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -558,7 +558,6 @@
 <span class="sd">            RuntimeError:</span>
 <span class="sd">                If nested invocation of this method occurs.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="n">_optimize</span><span class="p">(</span>
             <span class="n">study</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
             <span class="n">func</span><span class="o">=</span><span class="n">func</span><span class="p">,</span>
@@ -1126,9 +1125,7 @@
 <span class="sd">            metric_names: A list of metric names for the objective function.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">directions</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">metric_names</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;The number of objectives must match thhe length of the metric names.&quot;</span>
-            <span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The number of objectives must match the length of the metric names.&quot;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span><span class="o">.</span><span class="n">set_study_system_attr</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_study_id</span><span class="p">,</span> <span class="n">_SYSTEM_ATTR_METRIC_NAMES</span><span class="p">,</span> <span class="n">metric_names</span>

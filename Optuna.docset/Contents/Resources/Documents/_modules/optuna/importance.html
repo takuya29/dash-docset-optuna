@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.importance &mdash; Optuna 3.2.0 documentation</title>
+  <title>optuna.importance &mdash; Optuna 3.3.0 documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
@@ -75,7 +75,7 @@
               <img src="../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.2.0
+                3.3.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -117,8 +117,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for optuna.importance</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
@@ -154,8 +153,7 @@
 <span class="sd">    names and their values importances.</span>
 <span class="sd">    The importances are represented by non-negative floating point numbers, where higher values</span>
 <span class="sd">    mean that the parameters are more important.</span>
-<span class="sd">    The returned dictionary is of type :class:`collections.OrderedDict` and is ordered by</span>
-<span class="sd">    its values in a descending order.</span>
+<span class="sd">    The returned dictionary is ordered by its values in a descending order.</span>
 <span class="sd">    By default, the sum of the importance values are normalized to 1.0.</span>
 
 <span class="sd">    If ``params`` is :obj:`None`, all parameter that are present in all of the completed trials are</span>
@@ -209,8 +207,7 @@
 <span class="sd">                https://github.com/optuna/optuna/releases/tag/v3.0.0.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        An :class:`collections.OrderedDict` where the keys are parameter names and the values are</span>
-<span class="sd">        assessed importances.</span>
+<span class="sd">        A :obj:`dict` where the keys are parameter names and the values are assessed importances.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">evaluator</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -224,9 +221,9 @@
         <span class="n">s</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
         <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
             <span class="n">n_params</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">OrderedDict</span><span class="p">((</span><span class="n">param</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">n_params</span><span class="p">)</span> <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="k">return</span> <span class="nb">dict</span><span class="p">((</span><span class="n">param</span><span class="p">,</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">n_params</span><span class="p">)</span> <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">OrderedDict</span><span class="p">((</span><span class="n">param</span><span class="p">,</span> <span class="n">value</span> <span class="o">/</span> <span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+            <span class="k">return</span> <span class="nb">dict</span><span class="p">((</span><span class="n">param</span><span class="p">,</span> <span class="n">value</span> <span class="o">/</span> <span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
             <span class="s2">&quot;`normalize` option is an experimental feature.&quot;</span>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.samplers.nsgaii._crossovers._uniform &mdash; Optuna 3.2.0 documentation</title>
+  <title>optuna.samplers.nsgaii._crossovers._uniform &mdash; Optuna 3.3.0 documentation</title>
       <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../../../_static/copybutton.css" type="text/css" />
@@ -75,7 +75,7 @@
               <img src="../../../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.2.0
+                3.3.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
@@ -142,6 +142,8 @@
     <span class="n">n_parents</span> <span class="o">=</span> <span class="mi">2</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">swapping_prob</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mf">0.0</span> <span class="o">&lt;=</span> <span class="n">swapping_prob</span> <span class="o">&lt;=</span> <span class="mf">1.0</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`swapping_prob` must be a float value within the range [0.0, 1.0].&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_swapping_prob</span> <span class="o">=</span> <span class="n">swapping_prob</span>
 
 <div class="viewcode-block" id="UniformCrossover.crossover"><a class="viewcode-back" href="../../../../../reference/samplers/generated/optuna.samplers.nsgaii.UniformCrossover.html#optuna.samplers.nsgaii.UniformCrossover.crossover">[docs]</a>    <span class="k">def</span> <span class="nf">crossover</span><span class="p">(</span>

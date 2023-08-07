@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.integration — Optuna 3.2.0 documentation</title>
+<title>optuna.integration — Optuna 3.3.0 documentation</title>
 <link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -70,7 +70,7 @@
 <img alt="Logo" class="logo" src="../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.2.0
+                3.3.0
               </div>
 <div role="search">
 <form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -86,6 +86,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../tutorial/index.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="optuna.html">optuna</a></li>
+<li class="toctree-l2"><a class="reference internal" href="artifacts.html">optuna.artifacts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cli.html">optuna.cli</a></li>
 <li class="toctree-l2"><a class="reference internal" href="distributions.html">optuna.distributions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="exceptions.html">optuna.exceptions</a></li>
@@ -93,7 +94,9 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">optuna.integration</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#botorch">BoTorch</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="generated/optuna.integration.BoTorchSampler.html">optuna.integration.BoTorchSampler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/optuna.integration.botorch.logei_candidates_func.html">optuna.integration.botorch.logei_candidates_func</a></li>
 <li class="toctree-l4"><a class="reference internal" href="generated/optuna.integration.botorch.qei_candidates_func.html">optuna.integration.botorch.qei_candidates_func</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/optuna.integration.botorch.qnei_candidates_func.html">optuna.integration.botorch.qnei_candidates_func</a></li>
 <li class="toctree-l4"><a class="reference internal" href="generated/optuna.integration.botorch.qehvi_candidates_func.html">optuna.integration.botorch.qehvi_candidates_func</a></li>
 <li class="toctree-l4"><a class="reference internal" href="generated/optuna.integration.botorch.qnehvi_candidates_func.html">optuna.integration.botorch.qnehvi_candidates_func</a></li>
 <li class="toctree-l4"><a class="reference internal" href="generated/optuna.integration.botorch.qparego_candidates_func.html">optuna.integration.botorch.qparego_candidates_func</a></li>
@@ -126,10 +129,6 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#weights-biases">Weights &amp; Biases</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="generated/optuna.integration.WeightsAndBiasesCallback.html">optuna.integration.WeightsAndBiasesCallback</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#mxnet">MXNet</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="generated/optuna.integration.MXNetPruningCallback.html">optuna.integration.MXNetPruningCallback</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#pycma">pycma</a><ul>
@@ -220,14 +219,20 @@ the <a class="reference external" href="https://optuna-integration.readthedocs.i
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.BoTorchSampler.html#optuna.integration.BoTorchSampler" title="optuna.integration.BoTorchSampler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.BoTorchSampler</span></code></a></p></td>
 <td><p>A sampler that uses BoTorch, a Bayesian optimization library built on top of PyTorch.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.integration.botorch.qei_candidates_func.html#optuna.integration.botorch.qei_candidates_func" title="optuna.integration.botorch.qei_candidates_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.botorch.qei_candidates_func</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.integration.botorch.logei_candidates_func.html#optuna.integration.botorch.logei_candidates_func" title="optuna.integration.botorch.logei_candidates_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.botorch.logei_candidates_func</span></code></a></p></td>
+<td><p>Log Expected Improvement (LogEI).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.botorch.qei_candidates_func.html#optuna.integration.botorch.qei_candidates_func" title="optuna.integration.botorch.qei_candidates_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.botorch.qei_candidates_func</span></code></a></p></td>
 <td><p>Quasi MC-based batch Expected Improvement (qEI).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.integration.botorch.qnei_candidates_func.html#optuna.integration.botorch.qnei_candidates_func" title="optuna.integration.botorch.qnei_candidates_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.botorch.qnei_candidates_func</span></code></a></p></td>
+<td><p>Quasi MC-based batch Noisy Expected Improvement (qNEI).</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.botorch.qehvi_candidates_func.html#optuna.integration.botorch.qehvi_candidates_func" title="optuna.integration.botorch.qehvi_candidates_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.botorch.qehvi_candidates_func</span></code></a></p></td>
 <td><p>Quasi MC-based batch Expected Hypervolume Improvement (qEHVI).</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.integration.botorch.qnehvi_candidates_func.html#optuna.integration.botorch.qnehvi_candidates_func" title="optuna.integration.botorch.qnehvi_candidates_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.botorch.qnehvi_candidates_func</span></code></a></p></td>
-<td><p>Quasi MC-based batch Expected Noisy Hypervolume Improvement (qNEHVI).</p></td>
+<td><p>Quasi MC-based batch Noisy Expected Hypervolume Improvement (qNEHVI).</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.botorch.qparego_candidates_func.html#optuna.integration.botorch.qparego_candidates_func" title="optuna.integration.botorch.qparego_candidates_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.botorch.qparego_candidates_func</span></code></a></p></td>
 <td><p>Quasi MC-based extended ParEGO (qParEGO) for constrained multi-objective optimization.</p></td>
@@ -306,16 +311,6 @@ the <a class="reference external" href="https://optuna-integration.readthedocs.i
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.WeightsAndBiasesCallback.html#optuna.integration.WeightsAndBiasesCallback" title="optuna.integration.WeightsAndBiasesCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.WeightsAndBiasesCallback</span></code></a></p></td>
 <td><p>Callback to track Optuna trials with Weights &amp; Biases.</p></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="mxnet">
-<h2>MXNet<a class="headerlink" href="#mxnet" title="Permalink to this heading"></a></h2>
-<table class="autosummary longtable docutils align-default">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.MXNetPruningCallback.html#optuna.integration.MXNetPruningCallback" title="optuna.integration.MXNetPruningCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.MXNetPruningCallback</span></code></a></p></td>
-<td><p>MXNet callback to prune unpromising trials.</p></td>
 </tr>
 </tbody>
 </table>

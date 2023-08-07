@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.integration.BoTorchSampler — Optuna 3.2.0 documentation</title>
+<title>optuna.integration.BoTorchSampler — Optuna 3.3.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -28,7 +28,7 @@
 <script src="../../_static/js/theme.js"></script>
 <link href="../../genindex.html" rel="index" title="Index"/>
 <link href="../../search.html" rel="search" title="Search"/>
-<link href="optuna.integration.botorch.qei_candidates_func.html" rel="next" title="optuna.integration.botorch.qei_candidates_func"/>
+<link href="optuna.integration.botorch.logei_candidates_func.html" rel="next" title="optuna.integration.botorch.logei_candidates_func"/>
 <link href="../integration.html" rel="prev" title="optuna.integration"/>
 </head>
 <body class="wy-body-for-nav">
@@ -70,7 +70,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.2.0
+                3.3.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -86,6 +86,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../optuna.html">optuna</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../artifacts.html">optuna.artifacts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cli.html">optuna.cli</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../distributions.html">optuna.distributions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../exceptions.html">optuna.exceptions</a></li>
@@ -93,7 +94,9 @@
 <li class="toctree-l2 current"><a class="reference internal" href="../integration.html">optuna.integration</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="../integration.html#botorch">BoTorch</a><ul class="current">
 <li class="toctree-l4 current"><a class="current reference internal" href="#">optuna.integration.BoTorchSampler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="optuna.integration.botorch.logei_candidates_func.html">optuna.integration.botorch.logei_candidates_func</a></li>
 <li class="toctree-l4"><a class="reference internal" href="optuna.integration.botorch.qei_candidates_func.html">optuna.integration.botorch.qei_candidates_func</a></li>
+<li class="toctree-l4"><a class="reference internal" href="optuna.integration.botorch.qnei_candidates_func.html">optuna.integration.botorch.qnei_candidates_func</a></li>
 <li class="toctree-l4"><a class="reference internal" href="optuna.integration.botorch.qehvi_candidates_func.html">optuna.integration.botorch.qehvi_candidates_func</a></li>
 <li class="toctree-l4"><a class="reference internal" href="optuna.integration.botorch.qnehvi_candidates_func.html">optuna.integration.botorch.qnehvi_candidates_func</a></li>
 <li class="toctree-l4"><a class="reference internal" href="optuna.integration.botorch.qparego_candidates_func.html">optuna.integration.botorch.qparego_candidates_func</a></li>
@@ -105,7 +108,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#lightgbm">LightGBM</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#mlflow">MLflow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#weights-biases">Weights &amp; Biases</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../integration.html#mxnet">MXNet</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#pycma">pycma</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#pytorch">PyTorch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#scikit-learn">scikit-learn</a></li>
@@ -152,7 +154,7 @@
 <h1>optuna.integration.BoTorchSampler<a class="headerlink" href="#optuna-integration-botorchsampler" title="Permalink to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="optuna.integration.BoTorchSampler">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.integration.</span></span><span class="sig-name descname"><span class="pre">BoTorchSampler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">candidates_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constraints_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_startup_trials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">consider_running_trials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">independent_sampler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/botorch.html#BoTorchSampler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.integration.BoTorchSampler"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.integration.botorch.BoTorchSampler"></a><a class="headerlink" href="#optuna.integration.BoTorchSampler" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.integration.</span></span><span class="sig-name descname"><span class="pre">BoTorchSampler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">candidates_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constraints_func</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_startup_trials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">consider_running_trials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">independent_sampler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/integration/botorch.html#BoTorchSampler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.integration.BoTorchSampler"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.integration.botorch.BoTorchSampler"></a><a class="headerlink" href="#optuna.integration.BoTorchSampler" title="Permalink to this definition"></a></dt>
 <dd><p>A sampler that uses BoTorch, a Bayesian optimization library built on top of PyTorch.</p>
 <p>This sampler allows using BoTorch’s optimization algorithms from Optuna to suggest parameter
 configurations. Parameters are transformed to continuous space and passed to BoTorch, and then
@@ -181,8 +183,11 @@ candidates. The arguments are of type <code class="docutils literal notranslate"
 <code class="docutils literal notranslate"><span class="pre">torch.Tensor</span></code>. However, if <code class="docutils literal notranslate"><span class="pre">constraints_func</span></code> is omitted, constraints will be
 <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>. For any constraints that failed to compute, the tensor will contain
 NaN.</p>
-<p>If omitted, it is determined automatically based on the number of objectives. If the
-number of objectives is one, Quasi MC-based batch Expected Improvement (qEI) is used.
+<p>If omitted, it is determined automatically based on the number of objectives and
+whether a constraint is specified. If the
+number of objectives is one and no constraint is specified, log-Expected Improvement
+is used. If constraints are specified, quasi MC-based batch Expected Improvement
+(qEI) is used.
 If the number of objectives is either two or three, Quasi MC-based
 batch Expected Hypervolume Improvement (qEHVI) is used. Otherwise, for larger number
 of objectives, the faster Quasi MC-based extended ParEGO (qParEGO) is used.</p>
@@ -228,16 +233,19 @@ without prior notice. See <a class="reference external" href="https://github.com
 <tr class="row-odd"><td><p><a class="reference internal" href="#optuna.integration.BoTorchSampler.after_trial" title="optuna.integration.BoTorchSampler.after_trial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">after_trial</span></code></a>(study, trial, state, values)</p></td>
 <td><p>Trial post-processing.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#optuna.integration.BoTorchSampler.infer_relative_search_space" title="optuna.integration.BoTorchSampler.infer_relative_search_space"><code class="xref py py-obj docutils literal notranslate"><span class="pre">infer_relative_search_space</span></code></a>(study, trial)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.integration.BoTorchSampler.before_trial" title="optuna.integration.BoTorchSampler.before_trial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">before_trial</span></code></a>(study, trial)</p></td>
+<td><p>Trial pre-processing.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.integration.BoTorchSampler.infer_relative_search_space" title="optuna.integration.BoTorchSampler.infer_relative_search_space"><code class="xref py py-obj docutils literal notranslate"><span class="pre">infer_relative_search_space</span></code></a>(study, trial)</p></td>
 <td><p>Infer the search space that will be used by relative sampling in the target trial.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.integration.BoTorchSampler.reseed_rng" title="optuna.integration.BoTorchSampler.reseed_rng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reseed_rng</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.integration.BoTorchSampler.reseed_rng" title="optuna.integration.BoTorchSampler.reseed_rng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reseed_rng</span></code></a>()</p></td>
 <td><p>Reseed sampler's random number generator.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#optuna.integration.BoTorchSampler.sample_independent" title="optuna.integration.BoTorchSampler.sample_independent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample_independent</span></code></a>(study, trial, param_name, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.integration.BoTorchSampler.sample_independent" title="optuna.integration.BoTorchSampler.sample_independent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample_independent</span></code></a>(study, trial, param_name, ...)</p></td>
 <td><p>Sample a parameter for a given distribution.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.integration.BoTorchSampler.sample_relative" title="optuna.integration.BoTorchSampler.sample_relative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample_relative</span></code></a>(study, trial, search_space)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.integration.BoTorchSampler.sample_relative" title="optuna.integration.BoTorchSampler.sample_relative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample_relative</span></code></a>(study, trial, search_space)</p></td>
 <td><p>Sample parameters in a given search space.</p></td>
 </tr>
 </tbody>
@@ -261,6 +269,32 @@ without prior notice. See <a class="reference external" href="https://github.com
 Take a copy before modifying this object.</p></li>
 <li><p><strong>state</strong> (<a class="reference internal" href="optuna.trial.TrialState.html#optuna.trial.TrialState" title="optuna.trial._state.TrialState"><em>TrialState</em></a>) – Resulting trial state.</p></li>
 <li><p><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>] </em><em>| </em><em>None</em>) – Resulting trial values. Guaranteed to not be <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if trial succeeded.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.integration.BoTorchSampler.before_trial">
+<span class="sig-name descname"><span class="pre">before_trial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trial</span></span></em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.integration.BoTorchSampler.before_trial"></a><a class="headerlink" href="#optuna.integration.BoTorchSampler.before_trial" title="Permalink to this definition"></a></dt>
+<dd><p>Trial pre-processing.</p>
+<p>This method is called before the objective function is called and right after the trial is
+instantiated. More precisely, this method is called during trial initialization, just
+before the <a class="reference internal" href="../samplers/generated/optuna.samplers.BaseSampler.html#optuna.samplers.BaseSampler.infer_relative_search_space" title="optuna.samplers.BaseSampler.infer_relative_search_space"><code class="xref py py-func docutils literal notranslate"><span class="pre">infer_relative_search_space()</span></code></a> call. In other
+words, it is responsible for pre-processing that should be done before inferring the search
+space.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Added in v3.3.0 as an experimental feature. The interface may change in newer versions
+without prior notice. See <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v3.3.0">https://github.com/optuna/optuna/releases/tag/v3.3.0</a>.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>study</strong> (<a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.study.Study"><em>Study</em></a>) – Target study object.</p></li>
+<li><p><strong>trial</strong> (<a class="reference internal" href="optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial._frozen.FrozenTrial"><em>FrozenTrial</em></a>) – Target trial object.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -381,7 +415,7 @@ Take a copy before modifying this object.</p></li>
 </div>
 <footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
 <a accesskey="p" class="btn btn-neutral float-left" href="../integration.html" rel="prev" title="optuna.integration"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
-<a accesskey="n" class="btn btn-neutral float-right" href="optuna.integration.botorch.qei_candidates_func.html" rel="next" title="optuna.integration.botorch.qei_candidates_func">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+<a accesskey="n" class="btn btn-neutral float-right" href="optuna.integration.botorch.logei_candidates_func.html" rel="next" title="optuna.integration.botorch.logei_candidates_func">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
 </div>
 <hr/>
 <div role="contentinfo">

@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.visualization.matplotlib.plot_terminator_improvement — Optuna 3.2.0 documentation</title>
+<title>optuna.visualization.matplotlib.plot_terminator_improvement — Optuna 3.3.0 documentation</title>
 <link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -70,7 +70,7 @@
 <img alt="Logo" class="logo" src="../../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.2.0
+                3.3.0
               </div>
 <div role="search">
 <form action="../../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -86,6 +86,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../optuna.html">optuna</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../artifacts.html">optuna.artifacts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../cli.html">optuna.cli</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../distributions.html">optuna.distributions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../exceptions.html">optuna.exceptions</a></li>
@@ -102,6 +103,7 @@
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html">optuna.visualization</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="optuna.visualization.plot_contour.html">optuna.visualization.plot_contour</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.visualization.plot_edf.html">optuna.visualization.plot_edf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.visualization.plot_hypervolume_history.html">optuna.visualization.plot_hypervolume_history</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.visualization.plot_intermediate_values.html">optuna.visualization.plot_intermediate_values</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.visualization.plot_optimization_history.html">optuna.visualization.plot_optimization_history</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.visualization.plot_parallel_coordinate.html">optuna.visualization.plot_parallel_coordinate</a></li>
@@ -115,6 +117,7 @@
 <li class="toctree-l3 current"><a class="reference internal" href="../matplotlib.html">optuna.visualization.matplotlib</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="optuna.visualization.matplotlib.plot_contour.html">optuna.visualization.matplotlib.plot_contour</a></li>
 <li class="toctree-l4"><a class="reference internal" href="optuna.visualization.matplotlib.plot_edf.html">optuna.visualization.matplotlib.plot_edf</a></li>
+<li class="toctree-l4"><a class="reference internal" href="optuna.visualization.matplotlib.plot_hypervolume_history.html">optuna.visualization.matplotlib.plot_hypervolume_history</a></li>
 <li class="toctree-l4"><a class="reference internal" href="optuna.visualization.matplotlib.plot_intermediate_values.html">optuna.visualization.matplotlib.plot_intermediate_values</a></li>
 <li class="toctree-l4"><a class="reference internal" href="optuna.visualization.matplotlib.plot_optimization_history.html">optuna.visualization.matplotlib.plot_optimization_history</a></li>
 <li class="toctree-l4"><a class="reference internal" href="optuna.visualization.matplotlib.plot_parallel_coordinate.html">optuna.visualization.matplotlib.plot_parallel_coordinate</a></li>
@@ -161,10 +164,10 @@
 <span class="sig-prename descclassname"><span class="pre">optuna.visualization.matplotlib.</span></span><span class="sig-name descname"><span class="pre">plot_terminator_improvement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">improvement_evaluator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_evaluator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_n_trials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/optuna/visualization/matplotlib/_terminator_improvement.html#plot_terminator_improvement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Function/optuna.visualization.matplotlib.plot_terminator_improvement"></a><a class="headerlink" href="#optuna.visualization.matplotlib.plot_terminator_improvement" title="Permalink to this definition"></a></dt>
 <dd><p>Plot the potentials for future objective improvement.</p>
 <p>This function visualizes the objective improvement potentials, evaluated
-with <cite>improvement_evaluator</cite>.
+with <code class="docutils literal notranslate"><span class="pre">improvement_evaluator</span></code>.
 It helps to determine whether we should continue the optimization or not.
 You can also plot the error evaluated with
-<cite>error_evaluator</cite> if the <cite>plot_error</cite> argument is set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>.
+<code class="docutils literal notranslate"><span class="pre">error_evaluator</span></code> if the <code class="docutils literal notranslate"><span class="pre">plot_error</span></code> argument is set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>.
 Note that this function may take some time to compute
 the improvement potentials.</p>
 <div class="admonition seealso">
@@ -211,7 +214,7 @@ together with cross-validation errors.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>study</strong> (<a class="reference internal" href="../../generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><em>Study</em></a>) – A <a class="reference internal" href="../../generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> object whose trials are plotted for their improvement.</p></li>
 <li><p><strong>plot_error</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – A flag to show the error. If it is set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, errors
-evaluated by <cite>error_evaluator</cite> are also plotted as line graph.
+evaluated by <code class="docutils literal notranslate"><span class="pre">error_evaluator</span></code> are also plotted as line graph.
 Defaults to <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</p></li>
 <li><p><strong>improvement_evaluator</strong> (<a class="reference internal" href="../../generated/optuna.terminator.BaseImprovementEvaluator.html#optuna.terminator.BaseImprovementEvaluator" title="optuna.terminator.BaseImprovementEvaluator"><em>BaseImprovementEvaluator</em></a><em> | </em><em>None</em>) – An object that evaluates the improvement of the objective function.
 Default to <a class="reference internal" href="../../generated/optuna.terminator.RegretBoundEvaluator.html#optuna.terminator.RegretBoundEvaluator" title="optuna.terminator.RegretBoundEvaluator"><code class="xref py py-class docutils literal notranslate"><span class="pre">RegretBoundEvaluator</span></code></a>.</p></li>
@@ -223,7 +226,7 @@ shown in a lighter color. Defaults to <code class="docutils literal notranslate"
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A <a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="(in Matplotlib v3.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code></a> object.</p>
+<dd class="field-even"><p>A <a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="(in Matplotlib v3.7.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code></a> object.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Axes</p>

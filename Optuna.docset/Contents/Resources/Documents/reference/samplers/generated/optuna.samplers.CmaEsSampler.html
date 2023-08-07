@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.samplers.CmaEsSampler — Optuna 3.2.0 documentation</title>
+<title>optuna.samplers.CmaEsSampler — Optuna 3.3.0 documentation</title>
 <link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -70,7 +70,7 @@
 <img alt="Logo" class="logo" src="../../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.2.0
+                3.3.0
               </div>
 <div role="search">
 <form action="../../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -86,6 +86,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial/index.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../../index.html">API Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../../optuna.html">optuna</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../artifacts.html">optuna.artifacts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../cli.html">optuna.cli</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../distributions.html">optuna.distributions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../exceptions.html">optuna.exceptions</a></li>
@@ -147,7 +148,7 @@
 <h1>optuna.samplers.CmaEsSampler<a class="headerlink" href="#optuna-samplers-cmaessampler" title="Permalink to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="optuna.samplers.CmaEsSampler">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.samplers.</span></span><span class="sig-name descname"><span class="pre">CmaEsSampler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_startup_trials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">independent_sampler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">warn_independent_sampling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">consider_pruned_trials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">restart_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">popsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inc_popsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_separable_cma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_margin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_trials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/optuna/samplers/_cmaes.html#CmaEsSampler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.samplers.CmaEsSampler"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.samplers._cmaes.CmaEsSampler"></a><a class="headerlink" href="#optuna.samplers.CmaEsSampler" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.samplers.</span></span><span class="sig-name descname"><span class="pre">CmaEsSampler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_startup_trials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">independent_sampler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">warn_independent_sampling</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">consider_pruned_trials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">restart_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">popsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inc_popsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_separable_cma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_margin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr_adapt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_trials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/optuna/samplers/_cmaes.html#CmaEsSampler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.samplers.CmaEsSampler"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.samplers._cmaes.CmaEsSampler"></a><a class="headerlink" href="#optuna.samplers.CmaEsSampler" title="Permalink to this definition"></a></dt>
 <dd><p>A sampler using <a class="reference external" href="https://github.com/CyberAgentAILab/cmaes">cmaes</a> as the backend.</p>
 <p class="rubric">Example</p>
 <p>Optimize a simple quadratic function by using <a class="reference internal" href="#optuna.samplers.CmaEsSampler" title="optuna.samplers.CmaEsSampler"><code class="xref py py-class docutils literal notranslate"><span class="pre">CmaEsSampler</span></code></a>.</p>
@@ -190,6 +191,8 @@ Sep 2008, Dortmund, Germany. inria-00287367.</a></p></li>
 Warm Starting CMA-ES for Hyperparameter Optimization, AAAI. 2021.</a></p></li>
 <li><p><a class="reference external" href="https://arxiv.org/abs/2205.13482">R. Hamano, S. Saito, M. Nomura, S. Shirakawa. CMA-ES with Margin: Lower-Bounding Marginal
 Probability for Mixed-Integer Black-Box Optimization, GECCO. 2022.</a></p></li>
+<li><p><a class="reference external" href="https://arxiv.org/abs/2304.03473">M. Nomura, Y. Akimoto, I. Ono. CMA-ES with Learning Rate Adaptation: Can CMA-ES with
+Default Population Size Solve Multimodal and Noisy Problems?, GECCO. 2023.</a></p></li>
 </ul>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -284,6 +287,18 @@ versions without prior notice. See
 <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v3.1.0">https://github.com/optuna/optuna/releases/tag/v3.1.0</a>.</p>
 </div>
 </p></li>
+<li><p><strong>lr_adapt</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – <p>If this is <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, CMA-ES with learning rate adaptation is used.
+This algorithm focuses on working well on multimodal and/or noisy problems
+with default settings.
+Currently, this option cannot be used with <code class="docutils literal notranslate"><span class="pre">use_separable_cma=True</span></code> or
+<code class="docutils literal notranslate"><span class="pre">with_margin=True</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Added in v3.3.0 or later, as an experimental feature.
+The interface may change in newer versions without prior notice. See
+<a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v3.3.0">https://github.com/optuna/optuna/releases/tag/v3.3.0</a>.</p>
+</div>
+</p></li>
 <li><p><strong>source_trials</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a><em>[</em><a class="reference internal" href="../../generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial._frozen.FrozenTrial"><em>FrozenTrial</em></a><em>] </em><em>| </em><em>None</em>) – <p>This option is for Warm Starting CMA-ES, a method to transfer prior knowledge on
 similar HPO tasks through the initialization of CMA-ES. This method estimates a
 promising distribution from <code class="docutils literal notranslate"><span class="pre">source_trials</span></code> and generates the parameter of
@@ -305,16 +320,19 @@ versions without prior notice. See
 <tr class="row-odd"><td><p><a class="reference internal" href="#optuna.samplers.CmaEsSampler.after_trial" title="optuna.samplers.CmaEsSampler.after_trial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">after_trial</span></code></a>(study, trial, state, values)</p></td>
 <td><p>Trial post-processing.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#optuna.samplers.CmaEsSampler.infer_relative_search_space" title="optuna.samplers.CmaEsSampler.infer_relative_search_space"><code class="xref py py-obj docutils literal notranslate"><span class="pre">infer_relative_search_space</span></code></a>(study, trial)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.samplers.CmaEsSampler.before_trial" title="optuna.samplers.CmaEsSampler.before_trial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">before_trial</span></code></a>(study, trial)</p></td>
+<td><p>Trial pre-processing.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.samplers.CmaEsSampler.infer_relative_search_space" title="optuna.samplers.CmaEsSampler.infer_relative_search_space"><code class="xref py py-obj docutils literal notranslate"><span class="pre">infer_relative_search_space</span></code></a>(study, trial)</p></td>
 <td><p>Infer the search space that will be used by relative sampling in the target trial.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.samplers.CmaEsSampler.reseed_rng" title="optuna.samplers.CmaEsSampler.reseed_rng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reseed_rng</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.samplers.CmaEsSampler.reseed_rng" title="optuna.samplers.CmaEsSampler.reseed_rng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reseed_rng</span></code></a>()</p></td>
 <td><p>Reseed sampler's random number generator.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#optuna.samplers.CmaEsSampler.sample_independent" title="optuna.samplers.CmaEsSampler.sample_independent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample_independent</span></code></a>(study, trial, param_name, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.samplers.CmaEsSampler.sample_independent" title="optuna.samplers.CmaEsSampler.sample_independent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample_independent</span></code></a>(study, trial, param_name, ...)</p></td>
 <td><p>Sample a parameter for a given distribution.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.samplers.CmaEsSampler.sample_relative" title="optuna.samplers.CmaEsSampler.sample_relative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample_relative</span></code></a>(study, trial, search_space)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.samplers.CmaEsSampler.sample_relative" title="optuna.samplers.CmaEsSampler.sample_relative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample_relative</span></code></a>(study, trial, search_space)</p></td>
 <td><p>Sample parameters in a given search space.</p></td>
 </tr>
 </tbody>
@@ -338,6 +356,32 @@ without prior notice. See <a class="reference external" href="https://github.com
 Take a copy before modifying this object.</p></li>
 <li><p><strong>state</strong> (<a class="reference internal" href="../../generated/optuna.trial.TrialState.html#optuna.trial.TrialState" title="optuna.trial._state.TrialState"><em>TrialState</em></a>) – Resulting trial state.</p></li>
 <li><p><strong>values</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em>] </em><em>| </em><em>None</em>) – Resulting trial values. Guaranteed to not be <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if trial succeeded.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.samplers.CmaEsSampler.before_trial">
+<span class="sig-name descname"><span class="pre">before_trial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trial</span></span></em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.samplers.CmaEsSampler.before_trial"></a><a class="headerlink" href="#optuna.samplers.CmaEsSampler.before_trial" title="Permalink to this definition"></a></dt>
+<dd><p>Trial pre-processing.</p>
+<p>This method is called before the objective function is called and right after the trial is
+instantiated. More precisely, this method is called during trial initialization, just
+before the <a class="reference internal" href="optuna.samplers.BaseSampler.html#optuna.samplers.BaseSampler.infer_relative_search_space" title="optuna.samplers.BaseSampler.infer_relative_search_space"><code class="xref py py-func docutils literal notranslate"><span class="pre">infer_relative_search_space()</span></code></a> call. In other
+words, it is responsible for pre-processing that should be done before inferring the search
+space.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Added in v3.3.0 as an experimental feature. The interface may change in newer versions
+without prior notice. See <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v3.3.0">https://github.com/optuna/optuna/releases/tag/v3.3.0</a>.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>study</strong> (<a class="reference internal" href="../../generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.study.Study"><em>Study</em></a>) – Target study object.</p></li>
+<li><p><strong>trial</strong> (<a class="reference internal" href="../../generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial._frozen.FrozenTrial"><em>FrozenTrial</em></a>) – Target trial object.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>

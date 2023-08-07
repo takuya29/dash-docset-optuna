@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.search_space.intersection &mdash; Optuna 3.2.0 documentation</title>
+  <title>optuna.search_space.intersection &mdash; Optuna 3.3.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
@@ -75,7 +75,7 @@
               <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.2.0
+                3.3.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -119,7 +119,6 @@
   <h1>Source code for optuna.search_space.intersection</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
 <span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
@@ -196,21 +195,17 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_include_pruned</span> <span class="o">=</span> <span class="n">include_pruned</span>
 
-<div class="viewcode-block" id="IntersectionSearchSpace.calculate"><a class="viewcode-back" href="../../../reference/generated/optuna.search_space.IntersectionSearchSpace.html#optuna.search_space.IntersectionSearchSpace.calculate">[docs]</a>    <span class="k">def</span> <span class="nf">calculate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span> <span class="n">ordered_dict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">]:</span>
+<div class="viewcode-block" id="IntersectionSearchSpace.calculate"><a class="viewcode-back" href="../../../reference/generated/optuna.search_space.IntersectionSearchSpace.html#optuna.search_space.IntersectionSearchSpace.calculate">[docs]</a>    <span class="k">def</span> <span class="nf">calculate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the intersection search space of the :class:`~optuna.study.Study`.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            study:</span>
 <span class="sd">                A study with completed trials. The same study must be passed for one instance</span>
 <span class="sd">                of this class through its lifetime.</span>
-<span class="sd">            ordered_dict:</span>
-<span class="sd">                A boolean flag determining the return type.</span>
-<span class="sd">                If :obj:`False`, the returned object will be a :obj:`dict`.</span>
-<span class="sd">                If :obj:`True`, the returned object will be an :obj:`collections.OrderedDict`</span>
-<span class="sd">                sorted by keys, i.e. parameter names.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            A dictionary containing the parameter names and parameter&#39;s distributions.</span>
+<span class="sd">            A dictionary containing the parameter names and parameter&#39;s distributions sorted by</span>
+<span class="sd">            parameter names.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_study_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -228,16 +223,12 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_cached_trial_number</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">search_space</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_search_space</span> <span class="ow">or</span> <span class="p">{}</span>
-
-        <span class="k">if</span> <span class="n">ordered_dict</span><span class="p">:</span>
-            <span class="n">search_space</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">search_space</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
-
+        <span class="n">search_space</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">search_space</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
         <span class="k">return</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">search_space</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="intersection_search_space"><a class="viewcode-back" href="../../../reference/generated/optuna.search_space.intersection_search_space.html#optuna.search_space.intersection_search_space">[docs]</a><span class="k">def</span> <span class="nf">intersection_search_space</span><span class="p">(</span>
     <span class="n">trials</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">optuna</span><span class="o">.</span><span class="n">trial</span><span class="o">.</span><span class="n">FrozenTrial</span><span class="p">],</span>
-    <span class="n">ordered_dict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">include_pruned</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the intersection search space of the given trials.</span>
@@ -256,24 +247,17 @@
 <span class="sd">    Args:</span>
 <span class="sd">        trials:</span>
 <span class="sd">            A list of trials.</span>
-<span class="sd">        ordered_dict:</span>
-<span class="sd">            A boolean flag determining the return type.</span>
-<span class="sd">            If :obj:`False`, the returned object will be a :obj:`dict`.</span>
-<span class="sd">            If :obj:`True`, the returned object will be an :obj:`collections.OrderedDict` sorted by</span>
-<span class="sd">            keys, i.e. parameter names.</span>
 <span class="sd">        include_pruned:</span>
 <span class="sd">            Whether pruned trials should be included in the search space.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        A dictionary containing the parameter names and parameter&#39;s distributions.</span>
+<span class="sd">        A dictionary containing the parameter names and parameter&#39;s distributions sorted by</span>
+<span class="sd">        parameter names.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">search_space</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_calculate</span><span class="p">(</span><span class="n">trials</span><span class="p">,</span> <span class="n">include_pruned</span><span class="p">)</span>
     <span class="n">search_space</span> <span class="o">=</span> <span class="n">search_space</span> <span class="ow">or</span> <span class="p">{}</span>
-
-    <span class="k">if</span> <span class="n">ordered_dict</span><span class="p">:</span>
-        <span class="n">search_space</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">search_space</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
-
+    <span class="n">search_space</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">search_space</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
     <span class="k">return</span> <span class="n">search_space</span></div>
 </pre></div>
 

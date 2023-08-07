@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.integration.lightgbm.LightGBMTunerCV — Optuna 3.2.0 documentation</title>
+<title>optuna.integration.lightgbm.LightGBMTunerCV — Optuna 3.3.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -70,7 +70,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.2.0
+                3.3.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -86,6 +86,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../optuna.html">optuna</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../artifacts.html">optuna.artifacts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cli.html">optuna.cli</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../distributions.html">optuna.distributions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../exceptions.html">optuna.exceptions</a></li>
@@ -104,7 +105,6 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#mlflow">MLflow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#weights-biases">Weights &amp; Biases</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../integration.html#mxnet">MXNet</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#pycma">pycma</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#pytorch">PyTorch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#scikit-learn">scikit-learn</a></li>
@@ -167,13 +167,13 @@ listed below:</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>time_budget</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em> | </em><em>None</em>) – A time budget for parameter tuning in seconds.</p></li>
-<li><p><strong>study</strong> (<a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.study.Study"><em>Study</em></a><em> | </em><em>None</em>) – A <a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> instance to store optimization results. The
+<li><p><strong>study</strong> (<a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><em>optuna.study.Study</em></a><em> | </em><em>None</em>) – A <a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> instance to store optimization results. The
 <a class="reference internal" href="optuna.trial.Trial.html#optuna.trial.Trial" title="optuna.trial.Trial"><code class="xref py py-class docutils literal notranslate"><span class="pre">Trial</span></code></a> instances in it has the following user attributes:
 <code class="docutils literal notranslate"><span class="pre">elapsed_secs</span></code> is the elapsed time since the optimization starts.
 <code class="docutils literal notranslate"><span class="pre">average_iteration_time</span></code> is the average time of iteration to train the booster
 model in the trial. <code class="docutils literal notranslate"><span class="pre">lgbm_params</span></code> is a JSON-serialized dictionary of LightGBM
 parameters used in the trial.</p></li>
-<li><p><strong>optuna_callbacks</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.11)"><em>Callable</em></a><em>[</em><em>[</em><a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.study.Study"><em>Study</em></a><em>, </em><a class="reference internal" href="optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial._frozen.FrozenTrial"><em>FrozenTrial</em></a><em>]</em><em>, </em><em>None</em><em>]</em><em>] </em><em>| </em><em>None</em>) – List of Optuna callback functions that are invoked at the end of each trial.
+<li><p><strong>optuna_callbacks</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><em>Callable</em><em>[</em><em>[</em><a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><em>Study</em></a><em>, </em><a class="reference internal" href="optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><em>FrozenTrial</em></a><em>]</em><em>, </em><em>None</em><em>]</em><em>] </em><em>| </em><em>None</em>) – List of Optuna callback functions that are invoked at the end of each trial.
 Each function must accept two parameters with the following types in this order:
 <a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> and <a class="reference internal" href="optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrozenTrial</span></code></a>.
 Please note that this is not a <code class="docutils literal notranslate"><span class="pre">callbacks</span></code> argument of <a class="reference external" href="https://lightgbm.readthedocs.io/en/latest/pythonapi/lightgbm.train.html">lightgbm.train()</a> .</p></li>
@@ -211,23 +211,23 @@ that affects sampling for <code class="docutils literal notranslate"><span class
 Please enable it when you use this argument.</p>
 </div>
 </p></li>
-<li><p><strong>params</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a><em>]</em>) – </p></li>
+<li><p><strong>params</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>Any</em><em>]</em>) – </p></li>
 <li><p><strong>train_set</strong> (<em>lgb.Dataset</em>) – </p></li>
 <li><p><strong>num_boost_round</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – </p></li>
-<li><p><strong>folds</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Generator" title="(in Python v3.11)"><em>Generator</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><em>Tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em><em>, </em><em>None</em><em>, </em><em>None</em><em>] </em><em>| </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterator" title="(in Python v3.11)"><em>Iterator</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.11)"><em>Tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em><em>] </em><em>| </em><em>BaseCrossValidator</em><em> | </em><em>None</em>) – </p></li>
+<li><p><strong>folds</strong> (<em>Generator</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em><em>, </em><em>None</em><em>, </em><em>None</em><em>] </em><em>| </em><em>Iterator</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><em>tuple</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em><em>] </em><em>| </em><em>'BaseCrossValidator'</em><em> | </em><em>None</em>) – </p></li>
 <li><p><strong>nfold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – </p></li>
 <li><p><strong>stratified</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – </p></li>
 <li><p><strong>shuffle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – </p></li>
-<li><p><strong>fobj</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.11)"><em>Callable</em></a><em>[</em><em>[</em><em>...</em><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a><em>] </em><em>| </em><em>None</em>) – </p></li>
-<li><p><strong>feval</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.11)"><em>Callable</em></a><em>[</em><em>[</em><em>...</em><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a><em>] </em><em>| </em><em>None</em>) – </p></li>
+<li><p><strong>fobj</strong> (<em>Callable</em><em>[</em><em>...</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>None</em>) – </p></li>
+<li><p><strong>feval</strong> (<em>Callable</em><em>[</em><em>...</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>None</em>) – </p></li>
 <li><p><strong>feature_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
 <li><p><strong>categorical_feature</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
 <li><p><strong>early_stopping_rounds</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em> | </em><em>None</em>) – </p></li>
-<li><p><strong>fpreproc</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.11)"><em>Callable</em></a><em>[</em><em>[</em><em>...</em><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a><em>] </em><em>| </em><em>None</em>) – </p></li>
+<li><p><strong>fpreproc</strong> (<em>Callable</em><em>[</em><em>...</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>None</em>) – </p></li>
 <li><p><strong>verbose_eval</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em> | </em><em>None</em>) – </p></li>
 <li><p><strong>show_stdv</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – </p></li>
 <li><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – </p></li>
-<li><p><strong>callbacks</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.11)"><em>Callable</em></a><em>[</em><em>[</em><em>...</em><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><em>Any</em></a><em>]</em><em>] </em><em>| </em><em>None</em>) – </p></li>
+<li><p><strong>callbacks</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><em>Callable</em><em>[</em><em>...</em><em>, </em><em>Any</em><em>]</em><em>] </em><em>| </em><em>None</em>) – </p></li>
 <li><p><strong>sample_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em> | </em><em>None</em>) – </p></li>
 </ul>
 </dd>
@@ -283,7 +283,7 @@ Please enable it when you use this argument.</p>
 </table>
 <dl class="py property">
 <dt class="sig sig-object py" id="optuna.integration.lightgbm.LightGBMTunerCV.best_params">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">best_params</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></em><a class="dashAnchor" name="//apple_ref/cpp/Property/optuna.integration.lightgbm.LightGBMTunerCV.best_params"></a><a class="headerlink" href="#optuna.integration.lightgbm.LightGBMTunerCV.best_params" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">best_params</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="dashAnchor" name="//apple_ref/cpp/Property/optuna.integration.lightgbm.LightGBMTunerCV.best_params"></a><a class="headerlink" href="#optuna.integration.lightgbm.LightGBMTunerCV.best_params" title="Permalink to this definition"></a></dt>
 <dd><p>Return parameters of the best booster.</p>
 </dd></dl>
 <dl class="py property">
@@ -302,7 +302,7 @@ both of the <code class="docutils literal notranslate"><span class="pre">model_d
 when you resume tuning or you run tuning in parallel.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://lightgbm.readthedocs.io/en/latest/pythonapi/lightgbm.CVBooster.html#lightgbm.CVBooster" title="(in LightGBM v3.3.5.99)"><em>CVBooster</em></a></p>
+<dd class="field-odd"><p>lgb.CVBooster</p>
 </dd>
 </dl>
 </dd></dl>

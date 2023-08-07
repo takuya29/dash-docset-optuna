@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.visualization._optimization_history &mdash; Optuna 3.2.0 documentation</title>
+  <title>optuna.visualization._optimization_history &mdash; Optuna 3.3.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
@@ -75,7 +75,7 @@
               <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.2.0
+                3.3.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -119,6 +119,8 @@
   <h1>Source code for optuna.visualization._optimization_history</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">cast</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NamedTuple</span>
@@ -127,6 +129,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">optuna.logging</span> <span class="kn">import</span> <span class="n">get_logger</span>
+<span class="kn">from</span> <span class="nn">optuna.samplers._base</span> <span class="kn">import</span> <span class="n">_CONSTRAINTS_KEY</span>
 <span class="kn">from</span> <span class="nn">optuna.study</span> <span class="kn">import</span> <span class="n">Study</span>
 <span class="kn">from</span> <span class="nn">optuna.study._study_direction</span> <span class="kn">import</span> <span class="n">StudyDirection</span>
 <span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">FrozenTrial</span>
@@ -141,10 +144,17 @@
 <span class="n">_logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
+<span class="k">class</span> <span class="nc">_ValueState</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">Feasible</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">Infeasible</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">Incomplete</span> <span class="o">=</span> <span class="mi">2</span>
+
+
 <span class="k">class</span> <span class="nc">_ValuesInfo</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
     <span class="n">values</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
     <span class="n">stds</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span>
     <span class="n">label_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">states</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">_ValueState</span><span class="p">]</span>
 
 
 <span class="k">class</span> <span class="nc">_OptimizationHistoryInfo</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
@@ -167,27 +177,50 @@
 
     <span class="n">info_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">_OptimizationHistoryInfo</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">study</span> <span class="ow">in</span> <span class="n">studies</span><span class="p">:</span>
-        <span class="n">trials</span> <span class="o">=</span> <span class="n">study</span><span class="o">.</span><span class="n">get_trials</span><span class="p">(</span><span class="n">states</span><span class="o">=</span><span class="p">(</span><span class="n">TrialState</span><span class="o">.</span><span class="n">COMPLETE</span><span class="p">,))</span>
+        <span class="n">trials</span> <span class="o">=</span> <span class="n">study</span><span class="o">.</span><span class="n">get_trials</span><span class="p">()</span>
         <span class="n">label_name</span> <span class="o">=</span> <span class="n">target_name</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">studies</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">target_name</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="n">study</span><span class="o">.</span><span class="n">study_name</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">value_states</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">trials</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">trial</span><span class="o">.</span><span class="n">state</span> <span class="o">!=</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">COMPLETE</span><span class="p">:</span>
+                <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="s2">&quot;nan&quot;</span><span class="p">))</span>
+                <span class="n">value_states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_ValueState</span><span class="o">.</span><span class="n">Incomplete</span><span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="n">constraints</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">system_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_CONSTRAINTS_KEY</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">constraints</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">all</span><span class="p">([</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="mf">0.0</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">constraints</span><span class="p">]):</span>
+                <span class="n">value_states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_ValueState</span><span class="o">.</span><span class="n">Feasible</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">value_states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_ValueState</span><span class="o">.</span><span class="n">Infeasible</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">target</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">target</span><span class="p">(</span><span class="n">trial</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cast</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">trial</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">target</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">target</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">trials</span><span class="p">]</span>
             <span class="c1"># We don&#39;t calculate best for user-defined target function since we cannot tell</span>
             <span class="c1"># which direction is better.</span>
             <span class="n">best_values_info</span><span class="p">:</span> <span class="n">_ValuesInfo</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">cast</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">trials</span><span class="p">]</span>
+            <span class="n">feasible_best_values</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">if</span> <span class="n">study</span><span class="o">.</span><span class="n">direction</span> <span class="o">==</span> <span class="n">StudyDirection</span><span class="o">.</span><span class="n">MINIMIZE</span><span class="p">:</span>
-                <span class="n">best_values</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="o">.</span><span class="n">accumulate</span><span class="p">(</span><span class="n">values</span><span class="p">))</span>
+                <span class="n">feasible_best_values</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">v</span> <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="n">_ValueState</span><span class="o">.</span><span class="n">Feasible</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">v</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">value_states</span><span class="p">)</span>
+                <span class="p">]</span>
+                <span class="n">best_values</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="o">.</span><span class="n">accumulate</span><span class="p">(</span><span class="n">feasible_best_values</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">best_values</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="o">.</span><span class="n">accumulate</span><span class="p">(</span><span class="n">values</span><span class="p">))</span>
+                <span class="n">feasible_best_values</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">v</span> <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="n">_ValueState</span><span class="o">.</span><span class="n">Feasible</span> <span class="k">else</span> <span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">v</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">value_states</span><span class="p">)</span>
+                <span class="p">]</span>
+                <span class="n">best_values</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="o">.</span><span class="n">accumulate</span><span class="p">(</span><span class="n">feasible_best_values</span><span class="p">))</span>
             <span class="n">best_label_name</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="s2">&quot;Best Value&quot;</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">studies</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;Best Value of </span><span class="si">{</span><span class="n">study</span><span class="o">.</span><span class="n">study_name</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="p">)</span>
-            <span class="n">best_values_info</span> <span class="o">=</span> <span class="n">_ValuesInfo</span><span class="p">(</span><span class="n">best_values</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">best_label_name</span><span class="p">)</span>
+            <span class="n">best_values_info</span> <span class="o">=</span> <span class="n">_ValuesInfo</span><span class="p">(</span><span class="n">best_values</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">best_label_name</span><span class="p">,</span> <span class="n">value_states</span><span class="p">)</span>
         <span class="n">info_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="n">_OptimizationHistoryInfo</span><span class="p">(</span>
                 <span class="n">trial_numbers</span><span class="o">=</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">number</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">trials</span><span class="p">],</span>
-                <span class="n">values_info</span><span class="o">=</span><span class="n">_ValuesInfo</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">label_name</span><span class="p">),</span>
+                <span class="n">values_info</span><span class="o">=</span><span class="n">_ValuesInfo</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">label_name</span><span class="p">,</span> <span class="n">value_states</span><span class="p">),</span>
                 <span class="n">best_values_info</span><span class="o">=</span><span class="n">best_values_info</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">)</span>
@@ -195,7 +228,13 @@
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">info_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;There are no studies.&quot;</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">trial_numbers</span><span class="p">)</span> <span class="k">for</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">info_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">feasible_trial_count</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+        <span class="n">info</span><span class="o">.</span><span class="n">values_info</span><span class="o">.</span><span class="n">states</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">_ValueState</span><span class="o">.</span><span class="n">Feasible</span><span class="p">)</span> <span class="k">for</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">info_list</span>
+    <span class="p">)</span>
+    <span class="n">infeasible_trial_count</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+        <span class="n">info</span><span class="o">.</span><span class="n">values_info</span><span class="o">.</span><span class="n">states</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">_ValueState</span><span class="o">.</span><span class="n">Infeasible</span><span class="p">)</span> <span class="k">for</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">info_list</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">feasible_trial_count</span> <span class="o">+</span> <span class="n">infeasible_trial_count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;There are no complete trials.&quot;</span><span class="p">)</span>
         <span class="n">info_list</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
 
@@ -205,23 +244,42 @@
     <span class="c1"># When error_bar=True, a list of 0 or 1 element is returned.</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">info_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">feasible_trial_count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;There are no feasible trials.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
     <span class="n">all_trial_numbers</span> <span class="o">=</span> <span class="p">[</span><span class="n">number</span> <span class="k">for</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">info_list</span> <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="n">info</span><span class="o">.</span><span class="n">trial_numbers</span><span class="p">]</span>
     <span class="n">max_num_trial</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">all_trial_numbers</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
 
     <span class="k">def</span> <span class="nf">_aggregate</span><span class="p">(</span><span class="n">label_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">use_best_value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">_ValuesInfo</span><span class="p">]:</span>
         <span class="c1"># Calculate mean and std of values for each trial number.</span>
         <span class="n">values</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_num_trial</span><span class="p">)]</span>
+        <span class="n">states</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">_ValueState</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_num_trial</span><span class="p">)]</span>
         <span class="k">assert</span> <span class="n">info_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="k">for</span> <span class="n">trial_numbers</span><span class="p">,</span> <span class="n">values_info</span><span class="p">,</span> <span class="n">best_values_info</span> <span class="ow">in</span> <span class="n">info_list</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">use_best_value</span><span class="p">:</span>
                 <span class="k">assert</span> <span class="n">best_values_info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
                 <span class="n">values_info</span> <span class="o">=</span> <span class="n">best_values_info</span>
-            <span class="k">for</span> <span class="n">trial_number</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">trial_numbers</span><span class="p">,</span> <span class="n">values_info</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
-                <span class="n">values</span><span class="p">[</span><span class="n">trial_number</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-        <span class="n">trial_numbers_union</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_num_trial</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
-        <span class="n">value_means</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
-        <span class="n">value_stds</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">trial_numbers_union</span><span class="p">,</span> <span class="n">_ValuesInfo</span><span class="p">(</span><span class="n">value_means</span><span class="p">,</span> <span class="n">value_stds</span><span class="p">,</span> <span class="n">label_name</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">trial_numbers</span><span class="p">,</span> <span class="n">values_info</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">values_info</span><span class="o">.</span><span class="n">states</span><span class="p">):</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">math</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">use_best_value</span> <span class="ow">and</span> <span class="n">s</span> <span class="o">==</span> <span class="n">_ValueState</span><span class="o">.</span><span class="n">Feasible</span><span class="p">:</span>
+                        <span class="n">values</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">use_best_value</span><span class="p">:</span>
+                        <span class="n">values</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                <span class="n">states</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="n">trial_numbers_union</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">value_states</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">_ValueState</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">value_means</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">value_stds</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_num_trial</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">states</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">_ValueState</span><span class="o">.</span><span class="n">Feasible</span> <span class="ow">in</span> <span class="n">states</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                <span class="n">value_states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_ValueState</span><span class="o">.</span><span class="n">Feasible</span><span class="p">)</span>
+                <span class="n">trial_numbers_union</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="n">value_means</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+                <span class="n">value_stds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">value_states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_ValueState</span><span class="o">.</span><span class="n">Infeasible</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">trial_numbers_union</span><span class="p">,</span> <span class="n">_ValuesInfo</span><span class="p">(</span><span class="n">value_means</span><span class="p">,</span> <span class="n">value_stds</span><span class="p">,</span> <span class="n">label_name</span><span class="p">,</span> <span class="n">value_states</span><span class="p">)</span>
 
     <span class="n">eb_trial_numbers</span><span class="p">,</span> <span class="n">eb_values_info</span> <span class="o">=</span> <span class="n">_aggregate</span><span class="p">(</span><span class="n">target_name</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
     <span class="n">eb_best_values_info</span><span class="p">:</span> <span class="n">_ValuesInfo</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
@@ -298,26 +356,52 @@
 
     <span class="n">traces</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">trial_numbers</span><span class="p">,</span> <span class="n">values_info</span><span class="p">,</span> <span class="n">best_values_info</span> <span class="ow">in</span> <span class="n">info_list</span><span class="p">:</span>
+        <span class="n">infeasible_trial_numbers</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">n</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">trial_numbers</span><span class="p">,</span> <span class="n">values_info</span><span class="o">.</span><span class="n">states</span><span class="p">)</span> <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="n">_ValueState</span><span class="o">.</span><span class="n">Infeasible</span>
+        <span class="p">]</span>
         <span class="k">if</span> <span class="n">values_info</span><span class="o">.</span><span class="n">stds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">error_y</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">feasible_trial_numbers</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">num</span>
+                <span class="k">for</span> <span class="n">num</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">trial_numbers</span><span class="p">,</span> <span class="n">values_info</span><span class="o">.</span><span class="n">states</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="n">_ValueState</span><span class="o">.</span><span class="n">Feasible</span>
+            <span class="p">]</span>
+            <span class="n">feasible_trial_values</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">feasible_trial_numbers</span><span class="p">:</span>
+                <span class="n">feasible_trial_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">values_info</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">num</span><span class="p">])</span>
+            <span class="n">infeasible_trial_values</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">infeasible_trial_numbers</span><span class="p">:</span>
+                <span class="n">infeasible_trial_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">values_info</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">num</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">_ValueState</span><span class="o">.</span><span class="n">Infeasible</span> <span class="ow">in</span> <span class="n">values_info</span><span class="o">.</span><span class="n">states</span>
+                <span class="ow">or</span> <span class="n">_ValueState</span><span class="o">.</span><span class="n">Incomplete</span> <span class="ow">in</span> <span class="n">values_info</span><span class="o">.</span><span class="n">states</span>
+            <span class="p">):</span>
+                <span class="n">_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="s2">&quot;Your study contains infeasible trials. &quot;</span>
+                    <span class="s2">&quot;In optimization history plot, &quot;</span>
+                    <span class="s2">&quot;error bars are calculated for only feasible trial values.&quot;</span>
+                <span class="p">)</span>
             <span class="n">error_y</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;array&quot;</span><span class="p">:</span> <span class="n">values_info</span><span class="o">.</span><span class="n">stds</span><span class="p">,</span> <span class="s2">&quot;visible&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+            <span class="n">feasible_trial_numbers</span> <span class="o">=</span> <span class="n">trial_numbers</span>
+            <span class="n">feasible_trial_values</span> <span class="o">=</span> <span class="n">values_info</span><span class="o">.</span><span class="n">values</span>
+            <span class="n">infeasible_trial_values</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">traces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
-                <span class="n">x</span><span class="o">=</span><span class="n">trial_numbers</span><span class="p">,</span>
-                <span class="n">y</span><span class="o">=</span><span class="n">values_info</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+                <span class="n">x</span><span class="o">=</span><span class="n">feasible_trial_numbers</span><span class="p">,</span>
+                <span class="n">y</span><span class="o">=</span><span class="n">feasible_trial_values</span><span class="p">,</span>
                 <span class="n">error_y</span><span class="o">=</span><span class="n">error_y</span><span class="p">,</span>
                 <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;markers&quot;</span><span class="p">,</span>
                 <span class="n">name</span><span class="o">=</span><span class="n">values_info</span><span class="o">.</span><span class="n">label_name</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">)</span>
-
         <span class="k">if</span> <span class="n">best_values_info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">traces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
                     <span class="n">x</span><span class="o">=</span><span class="n">trial_numbers</span><span class="p">,</span>
                     <span class="n">y</span><span class="o">=</span><span class="n">best_values_info</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
                     <span class="n">name</span><span class="o">=</span><span class="n">best_values_info</span><span class="o">.</span><span class="n">label_name</span><span class="p">,</span>
+                    <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;lines&quot;</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="n">best_values_info</span><span class="o">.</span><span class="n">stds</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -342,7 +426,17 @@
                         <span class="n">fillcolor</span><span class="o">=</span><span class="s2">&quot;rgba(255,0,0,0.2)&quot;</span><span class="p">,</span>
                     <span class="p">)</span>
                 <span class="p">)</span>
-
+        <span class="n">traces</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
+                <span class="n">x</span><span class="o">=</span><span class="n">infeasible_trial_numbers</span><span class="p">,</span>
+                <span class="n">y</span><span class="o">=</span><span class="n">infeasible_trial_values</span><span class="p">,</span>
+                <span class="n">error_y</span><span class="o">=</span><span class="n">error_y</span><span class="p">,</span>
+                <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;markers&quot;</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Infeasible Trial&quot;</span><span class="p">,</span>
+                <span class="n">marker</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;#cccccc&quot;</span><span class="p">},</span>
+                <span class="n">showlegend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
     <span class="k">return</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">traces</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>
 </pre></div>
 

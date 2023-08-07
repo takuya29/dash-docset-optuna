@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.search_space.intersection_search_space — Optuna 3.2.0 documentation</title>
+<title>optuna.search_space.intersection_search_space — Optuna 3.3.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -70,7 +70,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.2.0
+                3.3.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -86,6 +86,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../optuna.html">optuna</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../artifacts.html">optuna.artifacts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cli.html">optuna.cli</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../distributions.html">optuna.distributions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../exceptions.html">optuna.exceptions</a></li>
@@ -135,7 +136,7 @@
 <h1>optuna.search_space.intersection_search_space<a class="headerlink" href="#optuna-search-space-intersection-search-space" title="Permalink to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="optuna.search_space.intersection_search_space">
-<span class="sig-prename descclassname"><span class="pre">optuna.search_space.</span></span><span class="sig-name descname"><span class="pre">intersection_search_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trials</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ordered_dict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_pruned</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/search_space/intersection.html#intersection_search_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Function/optuna.search_space.intersection_search_space"></a><a class="headerlink" href="#optuna.search_space.intersection_search_space" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">optuna.search_space.</span></span><span class="sig-name descname"><span class="pre">intersection_search_space</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trials</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_pruned</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/search_space/intersection.html#intersection_search_space"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Function/optuna.search_space.intersection_search_space"></a><a class="headerlink" href="#optuna.search_space.intersection_search_space" title="Permalink to this definition"></a></dt>
 <dd><p>Return the intersection search space of the given trials.</p>
 <p>Intersection search space contains the intersection of parameter distributions that have been
 suggested in the completed trials of the study so far.
@@ -152,15 +153,12 @@ as much as possible.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>trials</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference internal" href="optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><em>optuna.trial.FrozenTrial</em></a><em>]</em>) – A list of trials.</p></li>
-<li><p><strong>ordered_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – A boolean flag determining the return type.
-If <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>, the returned object will be a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code></a>.
-If <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, the returned object will be an <a class="reference external" href="https://docs.python.org/3/library/collections.html#collections.OrderedDict" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">collections.OrderedDict</span></code></a> sorted by
-keys, i.e. parameter names.</p></li>
 <li><p><strong>include_pruned</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Whether pruned trials should be included in the search space.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A dictionary containing the parameter names and parameter’s distributions.</p>
+<dd class="field-even"><p>A dictionary containing the parameter names and parameter’s distributions sorted by
+parameter names.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Dict[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>, BaseDistribution]</p>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.samplers._cmaes &mdash; Optuna 3.2.0 documentation</title>
+  <title>optuna.samplers._cmaes &mdash; Optuna 3.3.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
@@ -75,7 +75,7 @@
               <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.2.0
+                3.3.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -230,6 +230,9 @@
 <span class="sd">    - `R. Hamano, S. Saito, M. Nomura, S. Shirakawa. CMA-ES with Margin: Lower-Bounding Marginal</span>
 <span class="sd">      Probability for Mixed-Integer Black-Box Optimization, GECCO. 2022.</span>
 <span class="sd">      &lt;https://arxiv.org/abs/2205.13482&gt;`_</span>
+<span class="sd">    - `M. Nomura, Y. Akimoto, I. Ono. CMA-ES with Learning Rate Adaptation: Can CMA-ES with</span>
+<span class="sd">      Default Population Size Solve Multimodal and Noisy Problems?, GECCO. 2023.</span>
+<span class="sd">      &lt;https://arxiv.org/abs/2304.03473&gt;`_</span>
 
 <span class="sd">    .. seealso::</span>
 <span class="sd">        You can also use :class:`optuna.integration.PyCmaSampler` which is a sampler using cma</span>
@@ -337,6 +340,18 @@
 <span class="sd">                versions without prior notice. See</span>
 <span class="sd">                https://github.com/optuna/optuna/releases/tag/v3.1.0.</span>
 
+<span class="sd">        lr_adapt:</span>
+<span class="sd">            If this is :obj:`True`, CMA-ES with learning rate adaptation is used.</span>
+<span class="sd">            This algorithm focuses on working well on multimodal and/or noisy problems</span>
+<span class="sd">            with default settings.</span>
+<span class="sd">            Currently, this option cannot be used with ``use_separable_cma=True`` or</span>
+<span class="sd">            ``with_margin=True``.</span>
+
+<span class="sd">            .. note::</span>
+<span class="sd">                Added in v3.3.0 or later, as an experimental feature.</span>
+<span class="sd">                The interface may change in newer versions without prior notice. See</span>
+<span class="sd">                https://github.com/optuna/optuna/releases/tag/v3.3.0.</span>
+
 <span class="sd">        source_trials:</span>
 <span class="sd">            This option is for Warm Starting CMA-ES, a method to transfer prior knowledge on</span>
 <span class="sd">            similar HPO tasks through the initialization of CMA-ES. This method estimates a</span>
@@ -366,6 +381,7 @@
         <span class="n">inc_popsize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
         <span class="n">use_separable_cma</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">with_margin</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">lr_adapt</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">source_trials</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_x0</span> <span class="o">=</span> <span class="n">x0</span>
@@ -381,6 +397,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_inc_popsize</span> <span class="o">=</span> <span class="n">inc_popsize</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_use_separable_cma</span> <span class="o">=</span> <span class="n">use_separable_cma</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_with_margin</span> <span class="o">=</span> <span class="n">with_margin</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lr_adapt</span> <span class="o">=</span> <span class="n">lr_adapt</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_source_trials</span> <span class="o">=</span> <span class="n">source_trials</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_restart_strategy</span><span class="p">:</span>
@@ -418,6 +435,13 @@
                 <span class="n">ExperimentalWarning</span><span class="p">,</span>
             <span class="p">)</span>
 
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lr_adapt</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;`lr_adapt` option is an experimental feature.&quot;</span>
+                <span class="s2">&quot; The interface can change in the future.&quot;</span><span class="p">,</span>
+                <span class="n">ExperimentalWarning</span><span class="p">,</span>
+            <span class="p">)</span>
+
         <span class="k">if</span> <span class="n">source_trials</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span><span class="n">x0</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">sigma0</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">&quot;It is prohibited to pass `source_trials` argument when &quot;</span>
@@ -428,6 +452,12 @@
         <span class="k">if</span> <span class="n">source_trials</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">use_separable_cma</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">&quot;It is prohibited to pass `source_trials` argument when using separable CMA-ES.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">lr_adapt</span> <span class="ow">and</span> <span class="p">(</span><span class="n">use_separable_cma</span> <span class="ow">or</span> <span class="n">with_margin</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;It is prohibited to pass `use_separable_cma` or `with_margin` argument when &quot;</span>
+                <span class="s2">&quot;using `lr_adapt`.&quot;</span>
             <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">restart_strategy</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span>
@@ -809,6 +839,7 @@
             <span class="n">seed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_cma_rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">31</span> <span class="o">-</span> <span class="mi">2</span><span class="p">),</span>
             <span class="n">n_max_resampling</span><span class="o">=</span><span class="mi">10</span> <span class="o">*</span> <span class="n">n_dimension</span><span class="p">,</span>
             <span class="n">population_size</span><span class="o">=</span><span class="n">population_size</span><span class="p">,</span>
+            <span class="n">lr_adapt</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_lr_adapt</span><span class="p">,</span>
         <span class="p">)</span>
 
 <div class="viewcode-block" id="CmaEsSampler.sample_independent"><a class="viewcode-back" href="../../../reference/samplers/generated/optuna.samplers.CmaEsSampler.html#optuna.samplers.CmaEsSampler.sample_independent">[docs]</a>    <span class="k">def</span> <span class="nf">sample_independent</span><span class="p">(</span>

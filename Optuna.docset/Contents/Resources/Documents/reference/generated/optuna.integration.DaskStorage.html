@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.integration.DaskStorage — Optuna 3.2.0 documentation</title>
+<title>optuna.integration.DaskStorage — Optuna 3.3.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -70,7 +70,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.2.0
+                3.3.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -86,6 +86,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../optuna.html">optuna</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../artifacts.html">optuna.artifacts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cli.html">optuna.cli</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../distributions.html">optuna.distributions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../exceptions.html">optuna.exceptions</a></li>
@@ -101,7 +102,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#lightgbm">LightGBM</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#mlflow">MLflow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#weights-biases">Weights &amp; Biases</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../integration.html#mxnet">MXNet</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#pycma">pycma</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#pytorch">PyTorch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#scikit-learn">scikit-learn</a></li>
@@ -170,7 +170,7 @@ for SQLite storage). Defaults to <a class="reference external" href="https://doc
 <li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – Unique identifier for the Dask storage class. Specifying a custom name can sometimes
 be useful for logging or debugging. If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is provided,
 a random name will be automatically generated.</p></li>
-<li><p><strong>client</strong> (<a class="reference external" href="https://distributed.dask.org/en/stable/api.html#distributed.Client" title="(in Dask.distributed v2023.5.1)"><em>distributed.Client</em></a><em> | </em><em>None</em>) – Dask <code class="docutils literal notranslate"><span class="pre">Client</span></code> to connect to. If not provided, will attempt to find an
+<li><p><strong>client</strong> (<a class="reference external" href="https://distributed.dask.org/en/stable/api.html#distributed.Client" title="(in Dask.distributed v2023.8.0)"><em>distributed.Client</em></a><em> | </em><em>None</em>) – Dask <code class="docutils literal notranslate"><span class="pre">Client</span></code> to connect to. If not provided, will attempt to find an
 existing <code class="docutils literal notranslate"><span class="pre">Client</span></code>.</p></li>
 <li><p><strong>register</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Whether or not to register this storage instance with the cluster scheduler.
 Most common usage of this storage class will not need to specify this argument.

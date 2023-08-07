@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.trial._trial &mdash; Optuna 3.2.0 documentation</title>
+  <title>optuna.trial._trial &mdash; Optuna 3.3.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
@@ -75,7 +75,7 @@
               <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.2.0
+                3.3.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -170,12 +170,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">study</span> <span class="o">=</span> <span class="n">study</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_trial_id</span> <span class="o">=</span> <span class="n">trial_id</span>
 
-        <span class="c1"># TODO(Yanase): Remove _study_id attribute, and use study._study_id instead.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_study_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">study</span><span class="o">.</span><span class="n">_study_id</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">storage</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">study</span><span class="o">.</span><span class="n">_storage</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_cached_frozen_trial</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">get_trial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_trial_id</span><span class="p">)</span>
         <span class="n">study</span> <span class="o">=</span> <span class="n">pruners</span><span class="o">.</span><span class="n">_filter_study</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">study</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_frozen_trial</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">study</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">before_trial</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_frozen_trial</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">relative_search_space</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">study</span><span class="o">.</span><span class="n">sampler</span><span class="o">.</span><span class="n">infer_relative_search_space</span><span class="p">(</span>
             <span class="n">study</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cached_frozen_trial</span>
@@ -806,7 +806,7 @@
 
     <span class="k">def</span> <span class="nf">_get_latest_trial</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FrozenTrial</span><span class="p">:</span>
         <span class="c1"># TODO(eukaryo): Remove this method after `system_attrs` property is removed.</span>
-        <span class="n">latest_trial</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cached_frozen_trial</span><span class="p">)</span>
+        <span class="n">latest_trial</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cached_frozen_trial</span><span class="p">)</span>
         <span class="n">latest_trial</span><span class="o">.</span><span class="n">system_attrs</span> <span class="o">=</span> <span class="n">_LazyTrialSystemAttrs</span><span class="p">(</span>  <span class="c1"># type: ignore[assignment]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_trial_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">storage</span>
         <span class="p">)</span>

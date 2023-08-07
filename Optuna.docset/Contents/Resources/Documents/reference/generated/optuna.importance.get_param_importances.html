@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.importance.get_param_importances — Optuna 3.2.0 documentation</title>
+<title>optuna.importance.get_param_importances — Optuna 3.3.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -70,7 +70,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.2.0
+                3.3.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -86,6 +86,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../optuna.html">optuna</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../artifacts.html">optuna.artifacts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cli.html">optuna.cli</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../distributions.html">optuna.distributions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../exceptions.html">optuna.exceptions</a></li>
@@ -142,8 +143,7 @@
 names and their values importances.
 The importances are represented by non-negative floating point numbers, where higher values
 mean that the parameters are more important.
-The returned dictionary is of type <a class="reference external" href="https://docs.python.org/3/library/collections.html#collections.OrderedDict" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">collections.OrderedDict</span></code></a> and is ordered by
-its values in a descending order.
+The returned dictionary is ordered by its values in a descending order.
 By default, the sum of the importance values are normalized to 1.0.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">params</span></code> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, all parameter that are present in all of the completed trials are
 assessed.
@@ -196,8 +196,7 @@ versions without prior notice. See
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An <a class="reference external" href="https://docs.python.org/3/library/collections.html#collections.OrderedDict" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">collections.OrderedDict</span></code></a> where the keys are parameter names and the values are
-assessed importances.</p>
+<dd class="field-even"><p>A <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code></a> where the keys are parameter names and the values are assessed importances.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.11)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a>]</p>
