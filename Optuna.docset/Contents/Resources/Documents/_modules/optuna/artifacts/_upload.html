@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.artifacts._upload &mdash; Optuna 3.3.0 documentation</title>
+  <title>optuna.artifacts._upload &mdash; Optuna 3.4.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
@@ -18,13 +18,13 @@
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
-        <script src="../../../_static/clipboard.min.js"></script>
-        <script src="../../../_static/copybutton.js"></script>
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=5bbd4ff5"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=a56c686a"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -75,7 +75,7 @@
               <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.3.0
+                3.4.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -129,8 +129,9 @@
 <span class="kn">from</span> <span class="nn">optuna._experimental</span> <span class="kn">import</span> <span class="n">experimental_func</span>
 <span class="kn">from</span> <span class="nn">optuna.artifacts._protocol</span> <span class="kn">import</span> <span class="n">ArtifactStore</span>
 <span class="kn">from</span> <span class="nn">optuna.storages</span> <span class="kn">import</span> <span class="n">BaseStorage</span>
-<span class="kn">from</span> <span class="nn">optuna.trial._frozen</span> <span class="kn">import</span> <span class="n">FrozenTrial</span>
-<span class="kn">from</span> <span class="nn">optuna.trial._trial</span> <span class="kn">import</span> <span class="n">Trial</span>
+<span class="kn">from</span> <span class="nn">optuna.study</span> <span class="kn">import</span> <span class="n">Study</span>
+<span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">FrozenTrial</span>
+<span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">Trial</span>
 
 
 <span class="n">ARTIFACTS_ATTR_PREFIX</span> <span class="o">=</span> <span class="s2">&quot;artifacts:&quot;</span>
@@ -147,17 +148,20 @@
 
 <div class="viewcode-block" id="upload_artifact"><a class="viewcode-back" href="../../../reference/generated/optuna.artifacts.upload_artifact.html#optuna.artifacts.upload_artifact">[docs]</a><span class="nd">@experimental_func</span><span class="p">(</span><span class="s2">&quot;3.3.0&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">upload_artifact</span><span class="p">(</span>
-    <span class="n">trial</span><span class="p">:</span> <span class="n">Trial</span> <span class="o">|</span> <span class="n">FrozenTrial</span><span class="p">,</span>
+    <span class="n">study_or_trial</span><span class="p">:</span> <span class="n">Trial</span> <span class="o">|</span> <span class="n">FrozenTrial</span> <span class="o">|</span> <span class="n">Study</span><span class="p">,</span>
     <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">artifact_store</span><span class="p">:</span> <span class="n">ArtifactStore</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">storage</span><span class="p">:</span> <span class="n">BaseStorage</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">mimetype</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">encoding</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Upload an artifact to the artifact store.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        trial:</span>
-<span class="sd">            A :class:`~optuna.trial.Trial` object, or a :class:`~optuna.trial.FrozenTrial` object.</span>
+<span class="sd">        study_or_trial:</span>
+<span class="sd">            A :class:`~optuna.trial.Trial` object, a :class:`~optuna.trial.FrozenTrial`, or</span>
+<span class="sd">            a :class:`~optuna.study.Study` object.</span>
 <span class="sd">        file_path:</span>
 <span class="sd">            A path to the file to be uploaded.</span>
 <span class="sd">        artifact_store:</span>
@@ -165,6 +169,12 @@
 <span class="sd">        storage:</span>
 <span class="sd">            A storage object. If trial is not a :class:`~optuna.trial.Trial` object, this argument</span>
 <span class="sd">            is required.</span>
+<span class="sd">        mimetype:</span>
+<span class="sd">            A MIME type of the artifact. If not specified, the MIME type is guessed from the file</span>
+<span class="sd">            extension.</span>
+<span class="sd">        encoding:</span>
+<span class="sd">            An encoding of the artifact, which is suitable for use as a ``Content-Encoding``</span>
+<span class="sd">            header (e.g. gzip). If not specified, the encoding is guessed from the file extension.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        An artifact ID.</span>
@@ -172,25 +182,29 @@
 
     <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">Trial</span><span class="p">)</span> <span class="ow">and</span> <span class="n">storage</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">storage</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">storage</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">study_or_trial</span><span class="p">,</span> <span class="n">Trial</span><span class="p">)</span> <span class="ow">and</span> <span class="n">storage</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">storage</span> <span class="o">=</span> <span class="n">study_or_trial</span><span class="o">.</span><span class="n">storage</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">study_or_trial</span><span class="p">,</span> <span class="n">Study</span><span class="p">)</span> <span class="ow">and</span> <span class="n">storage</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">storage</span> <span class="o">=</span> <span class="n">study_or_trial</span><span class="o">.</span><span class="n">_storage</span>
 
     <span class="k">if</span> <span class="n">storage</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;storage is required for FrozenTrial.&quot;</span><span class="p">)</span>
 
-    <span class="n">trial_id</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">_trial_id</span>
     <span class="n">artifact_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span>
-
     <span class="n">guess_mimetype</span><span class="p">,</span> <span class="n">guess_encoding</span> <span class="o">=</span> <span class="n">mimetypes</span><span class="o">.</span><span class="n">guess_type</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-
     <span class="n">artifact</span> <span class="o">=</span> <span class="n">ArtifactMeta</span><span class="p">(</span>
         <span class="n">artifact_id</span><span class="o">=</span><span class="n">artifact_id</span><span class="p">,</span>
         <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span>
-        <span class="n">mimetype</span><span class="o">=</span><span class="n">guess_mimetype</span> <span class="ow">or</span> <span class="n">DEFAULT_MIME_TYPE</span><span class="p">,</span>
-        <span class="n">encoding</span><span class="o">=</span><span class="n">guess_encoding</span><span class="p">,</span>
+        <span class="n">mimetype</span><span class="o">=</span><span class="n">mimetype</span> <span class="ow">or</span> <span class="n">guess_mimetype</span> <span class="ow">or</span> <span class="n">DEFAULT_MIME_TYPE</span><span class="p">,</span>
+        <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span> <span class="ow">or</span> <span class="n">guess_encoding</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">attr_key</span> <span class="o">=</span> <span class="n">ARTIFACTS_ATTR_PREFIX</span> <span class="o">+</span> <span class="n">artifact_id</span>
-    <span class="n">storage</span><span class="o">.</span><span class="n">set_trial_system_attr</span><span class="p">(</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">attr_key</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">asdict</span><span class="p">(</span><span class="n">artifact</span><span class="p">)))</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">study_or_trial</span><span class="p">,</span> <span class="p">(</span><span class="n">Trial</span><span class="p">,</span> <span class="n">FrozenTrial</span><span class="p">)):</span>
+        <span class="n">trial_id</span> <span class="o">=</span> <span class="n">study_or_trial</span><span class="o">.</span><span class="n">_trial_id</span>
+        <span class="n">storage</span><span class="o">.</span><span class="n">set_trial_system_attr</span><span class="p">(</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">attr_key</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">asdict</span><span class="p">(</span><span class="n">artifact</span><span class="p">)))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">study_id</span> <span class="o">=</span> <span class="n">study_or_trial</span><span class="o">.</span><span class="n">_study_id</span>
+        <span class="n">storage</span><span class="o">.</span><span class="n">set_study_system_attr</span><span class="p">(</span><span class="n">study_id</span><span class="p">,</span> <span class="n">attr_key</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">asdict</span><span class="p">(</span><span class="n">artifact</span><span class="p">)))</span>
 
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">artifact_store</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">artifact_id</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>

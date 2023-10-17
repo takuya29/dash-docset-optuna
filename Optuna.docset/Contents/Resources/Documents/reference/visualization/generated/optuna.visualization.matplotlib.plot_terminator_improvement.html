@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.visualization.matplotlib.plot_terminator_improvement — Optuna 3.3.0 documentation</title>
+<title>optuna.visualization.matplotlib.plot_terminator_improvement — Optuna 3.4.0 documentation</title>
 <link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -18,13 +18,13 @@
 <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-<script src="../../../_static/jquery.js"></script>
-<script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
+<script src="../../../_static/jquery.js?v=5d32c60e"></script>
+<script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=5bbd4ff5"></script>
+<script src="../../../_static/doctools.js?v=888ff710"></script>
+<script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+<script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../../_static/copybutton.js?v=a56c686a"></script>
 <script src="../../../_static/js/theme.js"></script>
 <link href="../../../genindex.html" rel="index" title="Index"/>
 <link href="../../../search.html" rel="search" title="Search"/>
@@ -70,7 +70,7 @@
 <img alt="Logo" class="logo" src="../../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.3.0
+                3.4.0
               </div>
 <div role="search">
 <form action="../../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -167,7 +167,7 @@
 with <code class="docutils literal notranslate"><span class="pre">improvement_evaluator</span></code>.
 It helps to determine whether we should continue the optimization or not.
 You can also plot the error evaluated with
-<code class="docutils literal notranslate"><span class="pre">error_evaluator</span></code> if the <code class="docutils literal notranslate"><span class="pre">plot_error</span></code> argument is set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>.
+<code class="docutils literal notranslate"><span class="pre">error_evaluator</span></code> if the <code class="docutils literal notranslate"><span class="pre">plot_error</span></code> argument is set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>.
 Note that this function may take some time to compute
 the improvement potentials.</p>
 <div class="admonition seealso">
@@ -213,20 +213,20 @@ together with cross-validation errors.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>study</strong> (<a class="reference internal" href="../../generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><em>Study</em></a>) – A <a class="reference internal" href="../../generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> object whose trials are plotted for their improvement.</p></li>
-<li><p><strong>plot_error</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – A flag to show the error. If it is set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, errors
+<li><p><strong>plot_error</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – A flag to show the error. If it is set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, errors
 evaluated by <code class="docutils literal notranslate"><span class="pre">error_evaluator</span></code> are also plotted as line graph.
-Defaults to <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</p></li>
+Defaults to <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</p></li>
 <li><p><strong>improvement_evaluator</strong> (<a class="reference internal" href="../../generated/optuna.terminator.BaseImprovementEvaluator.html#optuna.terminator.BaseImprovementEvaluator" title="optuna.terminator.BaseImprovementEvaluator"><em>BaseImprovementEvaluator</em></a><em> | </em><em>None</em>) – An object that evaluates the improvement of the objective function.
 Default to <a class="reference internal" href="../../generated/optuna.terminator.RegretBoundEvaluator.html#optuna.terminator.RegretBoundEvaluator" title="optuna.terminator.RegretBoundEvaluator"><code class="xref py py-class docutils literal notranslate"><span class="pre">RegretBoundEvaluator</span></code></a>.</p></li>
 <li><p><strong>error_evaluator</strong> (<a class="reference internal" href="../../generated/optuna.terminator.BaseErrorEvaluator.html#optuna.terminator.BaseErrorEvaluator" title="optuna.terminator.BaseErrorEvaluator"><em>BaseErrorEvaluator</em></a><em> | </em><em>None</em>) – An object that evaluates the error inherent in the objective function.
 Default to <a class="reference internal" href="../../generated/optuna.terminator.CrossValidationErrorEvaluator.html#optuna.terminator.CrossValidationErrorEvaluator" title="optuna.terminator.CrossValidationErrorEvaluator"><code class="xref py py-class docutils literal notranslate"><span class="pre">CrossValidationErrorEvaluator</span></code></a>.</p></li>
-<li><p><strong>min_n_trials</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The minimum number of trials before termination is considered.
+<li><p><strong>min_n_trials</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – The minimum number of trials before termination is considered.
 Terminator improvements for trials below this value are
 shown in a lighter color. Defaults to <code class="docutils literal notranslate"><span class="pre">20</span></code>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A <a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="(in Matplotlib v3.7.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code></a> object.</p>
+<dd class="field-even"><p>A <a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="(in Matplotlib v3.8.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code></a> object.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Axes</p>

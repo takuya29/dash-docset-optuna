@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.artifacts.FileSystemArtifactStore — Optuna 3.3.0 documentation</title>
+<title>optuna.artifacts.FileSystemArtifactStore — Optuna 3.4.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -18,13 +18,13 @@
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-<script src="../../_static/jquery.js"></script>
-<script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-<script src="../../_static/doctools.js"></script>
-<script src="../../_static/sphinx_highlight.js"></script>
-<script src="../../_static/clipboard.min.js"></script>
-<script src="../../_static/copybutton.js"></script>
+<script src="../../_static/jquery.js?v=5d32c60e"></script>
+<script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=5bbd4ff5"></script>
+<script src="../../_static/doctools.js?v=888ff710"></script>
+<script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+<script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../_static/copybutton.js?v=a56c686a"></script>
 <script src="../../_static/js/theme.js"></script>
 <link href="../../genindex.html" rel="index" title="Index"/>
 <link href="../../search.html" rel="search" title="Search"/>
@@ -70,7 +70,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.3.0
+                3.4.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -92,6 +92,8 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.artifacts.Boto3ArtifactStore.html">optuna.artifacts.Boto3ArtifactStore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.artifacts.GCSArtifactStore.html">optuna.artifacts.GCSArtifactStore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.artifacts.Backoff.html">optuna.artifacts.Backoff</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.artifacts.upload_artifact.html">optuna.artifacts.upload_artifact</a></li>
 </ul>
 </li>
@@ -138,10 +140,10 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="optuna.artifacts.FileSystemArtifactStore">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.artifacts.</span></span><span class="sig-name descname"><span class="pre">FileSystemArtifactStore</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/artifacts/_filesystem.html#FileSystemArtifactStore"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.artifacts.FileSystemArtifactStore"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.artifacts._filesystem.FileSystemArtifactStore"></a><a class="headerlink" href="#optuna.artifacts.FileSystemArtifactStore" title="Permalink to this definition"></a></dt>
-<dd><p>An artifact backend for file systems.</p>
+<dd><p>An artifact store for file systems.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>base_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>Path</em>) – The base path to a directory to store artifacts.</p>
+<dd class="field-odd"><p><strong>base_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em> | </em><em>Path</em>) – The base path to a directory to store artifacts.</p>
 </dd>
 </dl>
 <p class="rubric">Example</p>
@@ -154,13 +156,13 @@
 
 <span class="n">base_path</span> <span class="o">=</span> <span class="s2">"./artifacts"</span>
 <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">artifact_backend</span> <span class="o">=</span> <span class="n">FileSystemArtifactStore</span><span class="p">(</span><span class="n">base_path</span><span class="o">=</span><span class="n">base_path</span><span class="p">)</span>
+<span class="n">artifact_store</span> <span class="o">=</span> <span class="n">FileSystemArtifactStore</span><span class="p">(</span><span class="n">base_path</span><span class="o">=</span><span class="n">base_path</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">:</span> <span class="n">optuna</span><span class="o">.</span><span class="n">Trial</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="o">...</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
     <span class="n">file_path</span> <span class="o">=</span> <span class="n">generate_example</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-    <span class="n">upload_artifact</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">artifact_backend</span><span class="p">)</span>
+    <span class="n">upload_artifact</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">artifact_store</span><span class="p">)</span>
     <span class="k">return</span> <span class="o">...</span>
 </pre></div>
 </div>

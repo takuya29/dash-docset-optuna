@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.artifacts — Optuna 3.3.0 documentation</title>
+<title>optuna.artifacts — Optuna 3.4.0 documentation</title>
 <link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -18,13 +18,13 @@
 <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-<script src="../_static/jquery.js"></script>
-<script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-<script src="../_static/doctools.js"></script>
-<script src="../_static/sphinx_highlight.js"></script>
-<script src="../_static/clipboard.min.js"></script>
-<script src="../_static/copybutton.js"></script>
+<script src="../_static/jquery.js?v=5d32c60e"></script>
+<script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=5bbd4ff5"></script>
+<script src="../_static/doctools.js?v=888ff710"></script>
+<script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+<script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../_static/copybutton.js?v=a56c686a"></script>
 <script src="../_static/js/theme.js"></script>
 <link href="../genindex.html" rel="index" title="Index"/>
 <link href="../search.html" rel="search" title="Search"/>
@@ -70,7 +70,7 @@
 <img alt="Logo" class="logo" src="../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.3.0
+                3.4.0
               </div>
 <div role="search">
 <form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -89,6 +89,8 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">optuna.artifacts</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="generated/optuna.artifacts.FileSystemArtifactStore.html">optuna.artifacts.FileSystemArtifactStore</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/optuna.artifacts.Boto3ArtifactStore.html">optuna.artifacts.Boto3ArtifactStore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/optuna.artifacts.GCSArtifactStore.html">optuna.artifacts.GCSArtifactStore</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/optuna.artifacts.Backoff.html">optuna.artifacts.Backoff</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/optuna.artifacts.upload_artifact.html">optuna.artifacts.upload_artifact</a></li>
 </ul>
 </li>
@@ -135,10 +137,16 @@
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.artifacts.FileSystemArtifactStore.html#optuna.artifacts.FileSystemArtifactStore" title="optuna.artifacts.FileSystemArtifactStore"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.artifacts.FileSystemArtifactStore</span></code></a></p></td>
-<td><p>An artifact backend for file systems.</p></td>
+<td><p>An artifact store for file systems.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.artifacts.Boto3ArtifactStore.html#optuna.artifacts.Boto3ArtifactStore" title="optuna.artifacts.Boto3ArtifactStore"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.artifacts.Boto3ArtifactStore</span></code></a></p></td>
 <td><p>An artifact backend for Boto3.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.artifacts.GCSArtifactStore.html#optuna.artifacts.GCSArtifactStore" title="optuna.artifacts.GCSArtifactStore"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.artifacts.GCSArtifactStore</span></code></a></p></td>
+<td><p>An artifact backend for Google Cloud Storage (GCS).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.artifacts.Backoff.html#optuna.artifacts.Backoff" title="optuna.artifacts.Backoff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.artifacts.Backoff</span></code></a></p></td>
+<td><p>An artifact store's middleware for exponential backoff.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.artifacts.upload_artifact.html#optuna.artifacts.upload_artifact" title="optuna.artifacts.upload_artifact"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.artifacts.upload_artifact</span></code></a></p></td>
 <td><p>Upload an artifact to the artifact store.</p></td>

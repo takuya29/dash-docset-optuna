@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.integration.LightGBMPruningCallback — Optuna 3.3.0 documentation</title>
+<title>optuna.integration.LightGBMPruningCallback — Optuna 3.4.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -18,13 +18,13 @@
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-<script src="../../_static/jquery.js"></script>
-<script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-<script src="../../_static/doctools.js"></script>
-<script src="../../_static/sphinx_highlight.js"></script>
-<script src="../../_static/clipboard.min.js"></script>
-<script src="../../_static/copybutton.js"></script>
+<script src="../../_static/jquery.js?v=5d32c60e"></script>
+<script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=5bbd4ff5"></script>
+<script src="../../_static/doctools.js?v=888ff710"></script>
+<script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+<script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../_static/copybutton.js?v=a56c686a"></script>
 <script src="../../_static/js/theme.js"></script>
 <link href="../../genindex.html" rel="index" title="Index"/>
 <link href="../../search.html" rel="search" title="Search"/>
@@ -70,7 +70,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.3.0
+                3.4.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -109,7 +109,6 @@
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#pytorch">PyTorch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#scikit-learn">scikit-learn</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#scikit-optimize">scikit-optimize</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../integration.html#shap">SHAP</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#tensorflow">TensorFlow</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../integration.html#xgboost">XGBoost</a></li>
 </ul>
@@ -159,20 +158,20 @@ of a LightGBM model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>trial</strong> (<a class="reference internal" href="optuna.trial.Trial.html#optuna.trial.Trial" title="optuna.trial._trial.Trial"><em>Trial</em></a>) – A <a class="reference internal" href="optuna.trial.Trial.html#optuna.trial.Trial" title="optuna.trial.Trial"><code class="xref py py-class docutils literal notranslate"><span class="pre">Trial</span></code></a> corresponding to the current evaluation of
+<li><p><strong>trial</strong> (<a class="reference internal" href="optuna.trial.Trial.html#optuna.trial.Trial" title="optuna.trial.Trial"><em>optuna.trial.Trial</em></a>) – A <a class="reference internal" href="optuna.trial.Trial.html#optuna.trial.Trial" title="optuna.trial.Trial"><code class="xref py py-class docutils literal notranslate"><span class="pre">Trial</span></code></a> corresponding to the current evaluation of
 the objective function.</p></li>
-<li><p><strong>metric</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – An evaluation metric for pruning, e.g., <code class="docutils literal notranslate"><span class="pre">binary_error</span></code> and <code class="docutils literal notranslate"><span class="pre">multi_error</span></code>.
+<li><p><strong>metric</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – An evaluation metric for pruning, e.g., <code class="docutils literal notranslate"><span class="pre">binary_error</span></code> and <code class="docutils literal notranslate"><span class="pre">multi_error</span></code>.
 Please refer to
 <a class="reference external" href="https://lightgbm.readthedocs.io/en/latest/Parameters.html#metric">LightGBM reference</a>
 for further details.</p></li>
-<li><p><strong>valid_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The name of the target validation.
+<li><p><strong>valid_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the target validation.
 Validation names are specified by <code class="docutils literal notranslate"><span class="pre">valid_names</span></code> option of
 <a class="reference external" href="https://lightgbm.readthedocs.io/en/latest/Python-API.html#lightgbm.train">train method</a>.
 If omitted, <code class="docutils literal notranslate"><span class="pre">valid_0</span></code> is used which is the default name of the first validation.
 Note that this argument will be ignored if you are calling
 <a class="reference external" href="https://lightgbm.readthedocs.io/en/latest/Python-API.html#lightgbm.cv">cv method</a>
 instead of train method.</p></li>
-<li><p><strong>report_interval</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Check if the trial should report intermediate values for pruning every n-th boosting
+<li><p><strong>report_interval</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – Check if the trial should report intermediate values for pruning every n-th boosting
 iteration. By default <code class="docutils literal notranslate"><span class="pre">report_interval=1</span></code> and reporting is performed after every
 iteration. Note that the pruning itself is performed according to the interval
 definition of the pruner.</p></li>

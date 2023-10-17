@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.study.create_study — Optuna 3.3.0 documentation</title>
+<title>optuna.study.create_study — Optuna 3.4.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -18,13 +18,13 @@
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-<script src="../../_static/jquery.js"></script>
-<script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-<script src="../../_static/doctools.js"></script>
-<script src="../../_static/sphinx_highlight.js"></script>
-<script src="../../_static/clipboard.min.js"></script>
-<script src="../../_static/copybutton.js"></script>
+<script src="../../_static/jquery.js?v=5d32c60e"></script>
+<script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=5bbd4ff5"></script>
+<script src="../../_static/doctools.js?v=888ff710"></script>
+<script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+<script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../_static/copybutton.js?v=a56c686a"></script>
 <script src="../../_static/js/theme.js"></script>
 <link href="../../genindex.html" rel="index" title="Index"/>
 <link href="../../search.html" rel="search" title="Search"/>
@@ -70,7 +70,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.3.0
+                3.4.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -106,6 +106,7 @@
 <li class="toctree-l3"><a class="reference internal" href="optuna.study.load_study.html">optuna.study.load_study</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.study.delete_study.html">optuna.study.delete_study</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.study.copy_study.html">optuna.study.copy_study</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.study.get_all_study_names.html">optuna.study.get_all_study_names</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.study.get_all_study_summaries.html">optuna.study.get_all_study_summaries</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.study.MaxTrialsCallback.html">optuna.study.MaxTrialsCallback</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.study.StudyDirection.html">optuna.study.StudyDirection</a></li>
@@ -161,7 +162,7 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>storage</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>BaseStorage</em><em> | </em><em>None</em>) – <p>Database URL. If this argument is set to None, in-memory storage is used, and the
+<li><p><strong>storage</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em> | </em><em>storages.BaseStorage</em><em> | </em><em>None</em>) – <p>Database URL. If this argument is set to None, in-memory storage is used, and the
 <a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> will not be persistent.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -174,16 +175,16 @@ pass it to the <code class="docutils literal notranslate"><span class="pre">stor
 </div></blockquote>
 </div>
 </p></li>
-<li><p><strong>sampler</strong> (<a class="reference internal" href="../samplers/generated/optuna.samplers.BaseSampler.html#optuna.samplers.BaseSampler" title="optuna.samplers._base.BaseSampler"><em>BaseSampler</em></a><em> | </em><em>None</em>) – A sampler object that implements background algorithm for value suggestion.
-If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is specified, <a class="reference internal" href="../samplers/generated/optuna.samplers.TPESampler.html#optuna.samplers.TPESampler" title="optuna.samplers.TPESampler"><code class="xref py py-class docutils literal notranslate"><span class="pre">TPESampler</span></code></a> is used during
+<li><p><strong>sampler</strong> (<em>'samplers.BaseSampler'</em><em> | </em><em>None</em>) – A sampler object that implements background algorithm for value suggestion.
+If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> is specified, <a class="reference internal" href="../samplers/generated/optuna.samplers.TPESampler.html#optuna.samplers.TPESampler" title="optuna.samplers.TPESampler"><code class="xref py py-class docutils literal notranslate"><span class="pre">TPESampler</span></code></a> is used during
 single-objective optimization and <a class="reference internal" href="../samplers/generated/optuna.samplers.NSGAIISampler.html#optuna.samplers.NSGAIISampler" title="optuna.samplers.NSGAIISampler"><code class="xref py py-class docutils literal notranslate"><span class="pre">NSGAIISampler</span></code></a> during
 multi-objective optimization. See also <a class="reference internal" href="../samplers/index.html#module-optuna.samplers" title="optuna.samplers"><code class="xref py py-class docutils literal notranslate"><span class="pre">samplers</span></code></a>.</p></li>
-<li><p><strong>pruner</strong> (<a class="reference internal" href="optuna.pruners.BasePruner.html#optuna.pruners.BasePruner" title="optuna.pruners._base.BasePruner"><em>BasePruner</em></a><em> | </em><em>None</em>) – A pruner object that decides early stopping of unpromising trials. If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>
+<li><p><strong>pruner</strong> (<a class="reference internal" href="optuna.pruners.BasePruner.html#optuna.pruners.BasePruner" title="optuna.pruners.BasePruner"><em>pruners.BasePruner</em></a><em> | </em><em>None</em>) – A pruner object that decides early stopping of unpromising trials. If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>
 is specified, <a class="reference internal" href="optuna.pruners.MedianPruner.html#optuna.pruners.MedianPruner" title="optuna.pruners.MedianPruner"><code class="xref py py-class docutils literal notranslate"><span class="pre">MedianPruner</span></code></a> is used as the default. See
 also <a class="reference internal" href="../pruners.html#module-optuna.pruners" title="optuna.pruners"><code class="xref py py-class docutils literal notranslate"><span class="pre">pruners</span></code></a>.</p></li>
-<li><p><strong>study_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>None</em>) – Study’s name. If this argument is set to None, a unique name is generated
+<li><p><strong>study_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em> | </em><em>None</em>) – Study’s name. If this argument is set to None, a unique name is generated
 automatically.</p></li>
-<li><p><strong>direction</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><a class="reference internal" href="optuna.study.StudyDirection.html#optuna.study.StudyDirection" title="optuna.study._study_direction.StudyDirection"><em>StudyDirection</em></a><em> | </em><em>None</em>) – <p>Direction of optimization. Set <code class="docutils literal notranslate"><span class="pre">minimize</span></code> for minimization and <code class="docutils literal notranslate"><span class="pre">maximize</span></code> for
+<li><p><strong>direction</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em> | </em><a class="reference internal" href="optuna.study.StudyDirection.html#optuna.study.StudyDirection" title="optuna.study.StudyDirection"><em>StudyDirection</em></a><em> | </em><em>None</em>) – <p>Direction of optimization. Set <code class="docutils literal notranslate"><span class="pre">minimize</span></code> for minimization and <code class="docutils literal notranslate"><span class="pre">maximize</span></code> for
 maximization. You can also pass the corresponding <a class="reference internal" href="optuna.study.StudyDirection.html#optuna.study.StudyDirection" title="optuna.study.StudyDirection"><code class="xref py py-class docutils literal notranslate"><span class="pre">StudyDirection</span></code></a>
 object. <code class="docutils literal notranslate"><span class="pre">direction</span></code> and <code class="docutils literal notranslate"><span class="pre">directions</span></code> must not be specified at the same time.</p>
 <div class="admonition note">
@@ -192,12 +193,12 @@ object. <code class="docutils literal notranslate"><span class="pre">direction</
 is set to “minimize”.</p>
 </div>
 </p></li>
-<li><p><strong>load_if_exists</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Flag to control the behavior to handle a conflict of study names.
+<li><p><strong>load_if_exists</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – Flag to control the behavior to handle a conflict of study names.
 In the case where a study named <code class="docutils literal notranslate"><span class="pre">study_name</span></code> already exists in the <code class="docutils literal notranslate"><span class="pre">storage</span></code>,
 a <a class="reference internal" href="optuna.exceptions.DuplicatedStudyError.html#optuna.exceptions.DuplicatedStudyError" title="optuna.exceptions.DuplicatedStudyError"><code class="xref py py-class docutils literal notranslate"><span class="pre">DuplicatedStudyError</span></code></a> is raised if <code class="docutils literal notranslate"><span class="pre">load_if_exists</span></code> is
-set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.
+set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.
 Otherwise, the creation of the study is skipped, and the existing one is returned.</p></li>
-<li><p><strong>directions</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.11)"><em>Sequence</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><a class="reference internal" href="optuna.study.StudyDirection.html#optuna.study.StudyDirection" title="optuna.study._study_direction.StudyDirection"><em>StudyDirection</em></a><em>] </em><em>| </em><em>None</em>) – A sequence of directions during multi-objective optimization.
+<li><p><strong>directions</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em> | </em><a class="reference internal" href="optuna.study.StudyDirection.html#optuna.study.StudyDirection" title="optuna.study.StudyDirection"><em>StudyDirection</em></a><em>] </em><em>| </em><em>None</em>) – A sequence of directions during multi-objective optimization.
 <code class="docutils literal notranslate"><span class="pre">direction</span></code> and <code class="docutils literal notranslate"><span class="pre">directions</span></code> must not be specified at the same time.</p></li>
 </ul>
 </dd>
@@ -205,7 +206,7 @@ Otherwise, the creation of the study is skipped, and the existing one is returne
 <dd class="field-even"><p>A <a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> object.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.study.Study"><em>Study</em></a></p>
+<dd class="field-odd"><p><a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study">Study</a></p>
 </dd>
 </dl>
 <div class="admonition seealso">

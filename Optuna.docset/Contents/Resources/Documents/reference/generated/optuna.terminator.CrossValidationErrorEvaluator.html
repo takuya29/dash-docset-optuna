@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.terminator.CrossValidationErrorEvaluator — Optuna 3.3.0 documentation</title>
+<title>optuna.terminator.CrossValidationErrorEvaluator — Optuna 3.4.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -18,13 +18,13 @@
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-<script src="../../_static/jquery.js"></script>
-<script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-<script src="../../_static/doctools.js"></script>
-<script src="../../_static/sphinx_highlight.js"></script>
-<script src="../../_static/clipboard.min.js"></script>
-<script src="../../_static/copybutton.js"></script>
+<script src="../../_static/jquery.js?v=5d32c60e"></script>
+<script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=5bbd4ff5"></script>
+<script src="../../_static/doctools.js?v=888ff710"></script>
+<script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+<script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../_static/copybutton.js?v=a56c686a"></script>
 <script src="../../_static/js/theme.js"></script>
 <link href="../../genindex.html" rel="index" title="Index"/>
 <link href="../../search.html" rel="search" title="Search"/>
@@ -70,7 +70,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.3.0
+                3.4.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -103,6 +103,7 @@
 <li class="toctree-l3"><a class="reference internal" href="optuna.terminator.Terminator.html">optuna.terminator.Terminator</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.terminator.BaseImprovementEvaluator.html">optuna.terminator.BaseImprovementEvaluator</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.terminator.RegretBoundEvaluator.html">optuna.terminator.RegretBoundEvaluator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.terminator.BestValueStagnationEvaluator.html">optuna.terminator.BestValueStagnationEvaluator</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.terminator.BaseErrorEvaluator.html">optuna.terminator.BaseErrorEvaluator</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">optuna.terminator.CrossValidationErrorEvaluator</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#optuna.terminator.CrossValidationErrorEvaluator"><code class="docutils literal notranslate"><span class="pre">CrossValidationErrorEvaluator</span></code></a></li>
@@ -169,7 +170,7 @@ without prior notice. See <a class="reference external" href="https://github.com
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>trials</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference internal" href="optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><em>FrozenTrial</em></a><em>]</em>) – A list of trials to consider. The best trial in <code class="docutils literal notranslate"><span class="pre">trials</span></code> is used to compute the
+<li><p><strong>trials</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a><em>[</em><a class="reference internal" href="optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><em>FrozenTrial</em></a><em>]</em>) – A list of trials to consider. The best trial in <code class="docutils literal notranslate"><span class="pre">trials</span></code> is used to compute the
 statistical error.</p></li>
 <li><p><strong>study_direction</strong> (<a class="reference internal" href="optuna.study.StudyDirection.html#optuna.study.StudyDirection" title="optuna.study.StudyDirection"><em>StudyDirection</em></a>) – The direction of the study.</p></li>
 </ul>
@@ -178,7 +179,7 @@ statistical error.</p></li>
 <dd class="field-even"><p>A float representing the statistical error of the objective function.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)">float</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
 </dd>
 </dl>
 </dd></dl>

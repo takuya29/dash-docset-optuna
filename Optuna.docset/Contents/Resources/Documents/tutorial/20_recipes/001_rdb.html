@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Saving/Resuming Study with RDB Backend — Optuna 3.3.0 documentation</title>
+<title>Saving/Resuming Study with RDB Backend — Optuna 3.4.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -18,13 +18,13 @@
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-<script src="../../_static/jquery.js"></script>
-<script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-<script src="../../_static/doctools.js"></script>
-<script src="../../_static/sphinx_highlight.js"></script>
-<script src="../../_static/clipboard.min.js"></script>
-<script src="../../_static/copybutton.js"></script>
+<script src="../../_static/jquery.js?v=5d32c60e"></script>
+<script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=5bbd4ff5"></script>
+<script src="../../_static/doctools.js?v=888ff710"></script>
+<script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+<script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../_static/copybutton.js?v=a56c686a"></script>
 <script src="../../_static/js/theme.js"></script>
 <link href="../../genindex.html" rel="index" title="Index"/>
 <link href="../../search.html" rel="search" title="Search"/>
@@ -68,7 +68,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.3.0
+                3.4.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -146,9 +146,9 @@ An SQLite file <code class="docutils literal notranslate"><span class="pre">exam
 <span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Trial 0 finished with value: 6.2756715419486815 and parameters: {'x': -0.5051290469651821}. Best is trial 0 with value: 6.2756715419486815.
-Trial 1 finished with value: 11.569648306037218 and parameters: {'x': -1.4014185726013224}. Best is trial 0 with value: 6.2756715419486815.
-Trial 2 finished with value: 54.2794598092923 and parameters: {'x': -5.367459522066769}. Best is trial 0 with value: 6.2756715419486815.
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Trial 0 finished with value: 47.72618397294882 and parameters: {'x': -4.908413998375374}. Best is trial 0 with value: 47.72618397294882.
+Trial 1 finished with value: 7.816566016463757 and parameters: {'x': 4.7958122283987095}. Best is trial 1 with value: 7.816566016463757.
+Trial 2 finished with value: 5.611041422893084 and parameters: {'x': 4.36876369080858}. Best is trial 2 with value: 5.611041422893084.
 </pre></div>
 </div>
 </section>
@@ -161,12 +161,13 @@ passing the study name <code class="docutils literal notranslate"><span class="p
 </pre></div>
 </div>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Using an existing study with name 'example-study' instead of creating a new one.
-Trial 3 finished with value: 27.127509081540865 and parameters: {'x': -3.208407537965982}. Best is trial 0 with value: 6.2756715419486815.
-Trial 4 finished with value: 27.810406117700975 and parameters: {'x': -3.2735572546148557}. Best is trial 0 with value: 6.2756715419486815.
-Trial 5 finished with value: 58.2263796754341 and parameters: {'x': 9.63062118542351}. Best is trial 0 with value: 6.2756715419486815.
+Trial 3 finished with value: 1.1036258839175588 and parameters: {'x': 0.9494640016079607}. Best is trial 3 with value: 1.1036258839175588.
+Trial 4 finished with value: 3.17709662346231 and parameters: {'x': 0.21755880224274726}. Best is trial 3 with value: 1.1036258839175588.
+Trial 5 finished with value: 0.0989299555291568 and parameters: {'x': 2.3145313267850387}. Best is trial 5 with value: 0.0989299555291568.
 </pre></div>
 </div>
-<p>Note that the storage doesn’t store the state of the instance of <a class="reference internal" href="../../reference/samplers/index.html#module-optuna.samplers" title="optuna.samplers"><code class="xref py py-mod docutils literal notranslate"><span class="pre">samplers</span></code></a>.
+<p>Note that the storage doesn’t store the state of the instance of <a class="reference internal" href="../../reference/samplers/index.html#module-optuna.samplers" title="optuna.samplers"><code class="xref py py-mod docutils literal notranslate"><span class="pre">samplers</span></code></a>
+and <a class="reference internal" href="../../reference/pruners.html#module-optuna.pruners" title="optuna.pruners"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pruners</span></code></a>.
 When we resume a study with a sampler whose <code class="docutils literal notranslate"><span class="pre">seed</span></code> argument is specified for
 reproducibility, you need to restore the sampler with using <code class="docutils literal notranslate"><span class="pre">pickle</span></code> as follows:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pickle</span>
@@ -199,12 +200,12 @@ For example, we can get all trials of <code class="docutils literal notranslate"
 </pre></div>
 </div>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>   number      value  params_x     state
-0       0   6.275672 -0.505129  COMPLETE
-1       1  11.569648 -1.401419  COMPLETE
-2       2  54.279460 -5.367460  COMPLETE
-3       3  27.127509 -3.208408  COMPLETE
-4       4  27.810406 -3.273557  COMPLETE
-5       5  58.226380  9.630621  COMPLETE
+0       0  47.726184 -4.908414  COMPLETE
+1       1   7.816566  4.795812  COMPLETE
+2       2   5.611041  4.368764  COMPLETE
+3       3   1.103626  0.949464  COMPLETE
+4       4   3.177097  0.217559  COMPLETE
+5       5   0.098930  2.314531  COMPLETE
 </pre></div>
 </div>
 <p>A <a class="reference internal" href="../../reference/generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> object also provides properties
@@ -216,13 +217,13 @@ such as <a class="reference internal" href="../../reference/generated/optuna.stu
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Trials: "</span><span class="p">,</span> <span class="n">study</span><span class="o">.</span><span class="n">trials</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Best params:  {'x': -0.5051290469651821}
-Best value:  6.2756715419486815
-Best Trial:  FrozenTrial(number=0, state=TrialState.COMPLETE, values=[6.2756715419486815], datetime_start=datetime.datetime(2023, 8, 7, 12, 34, 55, 513150), datetime_complete=datetime.datetime(2023, 8, 7, 12, 34, 55, 553781), params={'x': -0.5051290469651821}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=1, value=None)
-Trials:  [FrozenTrial(number=0, state=TrialState.COMPLETE, values=[6.2756715419486815], datetime_start=datetime.datetime(2023, 8, 7, 12, 34, 55, 513150), datetime_complete=datetime.datetime(2023, 8, 7, 12, 34, 55, 553781), params={'x': -0.5051290469651821}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=1, value=None), FrozenTrial(number=1, state=TrialState.COMPLETE, values=[11.569648306037218], datetime_start=datetime.datetime(2023, 8, 7, 12, 34, 55, 578367), datetime_complete=datetime.datetime(2023, 8, 7, 12, 34, 55, 600358), params={'x': -1.4014185726013224}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=2, value=None), FrozenTrial(number=2, state=TrialState.COMPLETE, values=[54.2794598092923], datetime_start=datetime.datetime(2023, 8, 7, 12, 34, 55, 620126), datetime_complete=datetime.datetime(2023, 8, 7, 12, 34, 55, 640607), params={'x': -5.367459522066769}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=3, value=None), FrozenTrial(number=3, state=TrialState.COMPLETE, values=[27.127509081540865], datetime_start=datetime.datetime(2023, 8, 7, 12, 34, 55, 707588), datetime_complete=datetime.datetime(2023, 8, 7, 12, 34, 55, 741227), params={'x': -3.208407537965982}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=4, value=None), FrozenTrial(number=4, state=TrialState.COMPLETE, values=[27.810406117700975], datetime_start=datetime.datetime(2023, 8, 7, 12, 34, 55, 763551), datetime_complete=datetime.datetime(2023, 8, 7, 12, 34, 55, 785670), params={'x': -3.2735572546148557}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=5, value=None), FrozenTrial(number=5, state=TrialState.COMPLETE, values=[58.2263796754341], datetime_start=datetime.datetime(2023, 8, 7, 12, 34, 55, 804706), datetime_complete=datetime.datetime(2023, 8, 7, 12, 34, 55, 826147), params={'x': 9.63062118542351}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=6, value=None)]
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Best params:  {'x': 2.3145313267850387}
+Best value:  0.0989299555291568
+Best Trial:  FrozenTrial(number=5, state=TrialState.COMPLETE, values=[0.0989299555291568], datetime_start=datetime.datetime(2023, 10, 17, 12, 35, 34, 164506), datetime_complete=datetime.datetime(2023, 10, 17, 12, 35, 34, 187347), params={'x': 2.3145313267850387}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=6, value=None)
+Trials:  [FrozenTrial(number=0, state=TrialState.COMPLETE, values=[47.72618397294882], datetime_start=datetime.datetime(2023, 10, 17, 12, 35, 33, 889092), datetime_complete=datetime.datetime(2023, 10, 17, 12, 35, 33, 930274), params={'x': -4.908413998375374}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=1, value=None), FrozenTrial(number=1, state=TrialState.COMPLETE, values=[7.816566016463757], datetime_start=datetime.datetime(2023, 10, 17, 12, 35, 33, 953377), datetime_complete=datetime.datetime(2023, 10, 17, 12, 35, 33, 972949), params={'x': 4.7958122283987095}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=2, value=None), FrozenTrial(number=2, state=TrialState.COMPLETE, values=[5.611041422893084], datetime_start=datetime.datetime(2023, 10, 17, 12, 35, 33, 990329), datetime_complete=datetime.datetime(2023, 10, 17, 12, 35, 34, 11882), params={'x': 4.36876369080858}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=3, value=None), FrozenTrial(number=3, state=TrialState.COMPLETE, values=[1.1036258839175588], datetime_start=datetime.datetime(2023, 10, 17, 12, 35, 34, 75107), datetime_complete=datetime.datetime(2023, 10, 17, 12, 35, 34, 105328), params={'x': 0.9494640016079607}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=4, value=None), FrozenTrial(number=4, state=TrialState.COMPLETE, values=[3.17709662346231], datetime_start=datetime.datetime(2023, 10, 17, 12, 35, 34, 126592), datetime_complete=datetime.datetime(2023, 10, 17, 12, 35, 34, 146304), params={'x': 0.21755880224274726}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=5, value=None), FrozenTrial(number=5, state=TrialState.COMPLETE, values=[0.0989299555291568], datetime_start=datetime.datetime(2023, 10, 17, 12, 35, 34, 164506), datetime_complete=datetime.datetime(2023, 10, 17, 12, 35, 34, 187347), params={'x': 2.3145313267850387}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=6, value=None)]
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.709 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.665 seconds)</p>
 <a class="dashAnchor" name="//apple_ref/cpp/Section/sphx_glr_download_tutorial_20_recipes_001_rdb.py"></a><div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorial-20-recipes-001-rdb-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/b73c661c07098863641f4ba78170b234/001_rdb.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">001_rdb.py</span></code></a></p>

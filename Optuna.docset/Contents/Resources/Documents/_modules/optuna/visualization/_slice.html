@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.visualization._slice &mdash; Optuna 3.3.0 documentation</title>
+  <title>optuna.visualization._slice &mdash; Optuna 3.4.0 documentation</title>
       <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
@@ -18,13 +18,13 @@
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
-        <script src="../../../_static/clipboard.min.js"></script>
-        <script src="../../../_static/copybutton.js"></script>
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=5bbd4ff5"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+        <script src="../../../_static/copybutton.js?v=a56c686a"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -75,7 +75,7 @@
               <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.3.0
+                3.4.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -127,6 +127,7 @@
 <span class="kn">from</span> <span class="nn">optuna.distributions</span> <span class="kn">import</span> <span class="n">CategoricalChoiceType</span>
 <span class="kn">from</span> <span class="nn">optuna.distributions</span> <span class="kn">import</span> <span class="n">CategoricalDistribution</span>
 <span class="kn">from</span> <span class="nn">optuna.logging</span> <span class="kn">import</span> <span class="n">get_logger</span>
+<span class="kn">from</span> <span class="nn">optuna.samplers._base</span> <span class="kn">import</span> <span class="n">_CONSTRAINTS_KEY</span>
 <span class="kn">from</span> <span class="nn">optuna.study</span> <span class="kn">import</span> <span class="n">Study</span>
 <span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">FrozenTrial</span>
 <span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">TrialState</span>
@@ -152,12 +153,19 @@
     <span class="n">trial_numbers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
     <span class="n">is_log</span><span class="p">:</span> <span class="nb">bool</span>
     <span class="n">is_numerical</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="n">constraints</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span>
     <span class="n">x_labels</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">CategoricalChoiceType</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span>
 
 
 <span class="k">class</span> <span class="nc">_SlicePlotInfo</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
     <span class="n">target_name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">subplots</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">_SliceSubplotInfo</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">_PlotValues</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+    <span class="n">x</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span>
+    <span class="n">y</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">trial_numbers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
 
 
 <span class="k">def</span> <span class="nf">_get_slice_subplot_info</span><span class="p">(</span>
@@ -175,15 +183,27 @@
 
         <span class="n">target</span> <span class="o">=</span> <span class="n">_target</span>
 
-    <span class="k">return</span> <span class="n">_SliceSubplotInfo</span><span class="p">(</span>
+    <span class="n">plot_info</span> <span class="o">=</span> <span class="n">_SliceSubplotInfo</span><span class="p">(</span>
         <span class="n">param_name</span><span class="o">=</span><span class="n">param</span><span class="p">,</span>
-        <span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">param</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">trials</span> <span class="k">if</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">params</span><span class="p">],</span>
-        <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="n">target</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">trials</span> <span class="k">if</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">params</span><span class="p">],</span>
-        <span class="n">trial_numbers</span><span class="o">=</span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">number</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">trials</span> <span class="k">if</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">params</span><span class="p">],</span>
+        <span class="n">x</span><span class="o">=</span><span class="p">[],</span>
+        <span class="n">y</span><span class="o">=</span><span class="p">[],</span>
+        <span class="n">trial_numbers</span><span class="o">=</span><span class="p">[],</span>
         <span class="n">is_log</span><span class="o">=</span><span class="n">log_scale</span><span class="p">,</span>
         <span class="n">is_numerical</span><span class="o">=</span><span class="n">numerical</span><span class="p">,</span>
         <span class="n">x_labels</span><span class="o">=</span><span class="n">x_labels</span><span class="p">,</span>
+        <span class="n">constraints</span><span class="o">=</span><span class="p">[],</span>
     <span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">trials</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">param</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">params</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">plot_info</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">param</span><span class="p">])</span>
+        <span class="n">plot_info</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">target</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+        <span class="n">plot_info</span><span class="o">.</span><span class="n">trial_numbers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">number</span><span class="p">)</span>
+        <span class="n">constraints</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">system_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_CONSTRAINTS_KEY</span><span class="p">)</span>
+        <span class="n">plot_info</span><span class="o">.</span><span class="n">constraints</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">constraints</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">all</span><span class="p">([</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="mf">0.0</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">constraints</span><span class="p">]))</span>
+
+    <span class="k">return</span> <span class="n">plot_info</span>
 
 
 <span class="k">def</span> <span class="nf">_get_slice_plot_info</span><span class="p">(</span>
@@ -300,7 +320,7 @@
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">subplots</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[],</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>
     <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">subplots</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">figure</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">_generate_slice_subplot</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">subplots</span><span class="p">[</span><span class="mi">0</span><span class="p">])],</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>
+        <span class="n">figure</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">_generate_slice_subplot</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">subplots</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>
         <span class="n">figure</span><span class="o">.</span><span class="n">update_xaxes</span><span class="p">(</span><span class="n">title_text</span><span class="o">=</span><span class="n">info</span><span class="o">.</span><span class="n">subplots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">param_name</span><span class="p">)</span>
         <span class="n">figure</span><span class="o">.</span><span class="n">update_yaxes</span><span class="p">(</span><span class="n">title_text</span><span class="o">=</span><span class="n">info</span><span class="o">.</span><span class="n">target_name</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">info</span><span class="o">.</span><span class="n">subplots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">is_numerical</span><span class="p">:</span>
@@ -315,10 +335,11 @@
         <span class="n">showscale</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># showscale option only needs to be specified once.</span>
         <span class="k">for</span> <span class="n">column_index</span><span class="p">,</span> <span class="n">subplot_info</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">subplots</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
             <span class="n">trace</span> <span class="o">=</span> <span class="n">_generate_slice_subplot</span><span class="p">(</span><span class="n">subplot_info</span><span class="p">)</span>
-            <span class="n">trace</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">marker</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;showscale&quot;</span><span class="p">:</span> <span class="n">showscale</span><span class="p">})</span>  <span class="c1"># showscale&#39;s default is True.</span>
+            <span class="n">trace</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">marker</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;showscale&quot;</span><span class="p">:</span> <span class="n">showscale</span><span class="p">})</span>  <span class="c1"># showscale&#39;s default is True.</span>
             <span class="k">if</span> <span class="n">showscale</span><span class="p">:</span>
                 <span class="n">showscale</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="n">figure</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="n">column_index</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">trace</span><span class="p">:</span>
+                <span class="n">figure</span><span class="o">.</span><span class="n">add_trace</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="n">column_index</span><span class="p">)</span>
             <span class="n">figure</span><span class="o">.</span><span class="n">update_xaxes</span><span class="p">(</span><span class="n">title_text</span><span class="o">=</span><span class="n">subplot_info</span><span class="o">.</span><span class="n">param_name</span><span class="p">,</span> <span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="n">column_index</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">column_index</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="n">figure</span><span class="o">.</span><span class="n">update_yaxes</span><span class="p">(</span><span class="n">title_text</span><span class="o">=</span><span class="n">info</span><span class="o">.</span><span class="n">target_name</span><span class="p">,</span> <span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="n">column_index</span><span class="p">)</span>
@@ -339,26 +360,57 @@
     <span class="k">return</span> <span class="n">figure</span>
 
 
-<span class="k">def</span> <span class="nf">_generate_slice_subplot</span><span class="p">(</span><span class="n">subplot_info</span><span class="p">:</span> <span class="n">_SliceSubplotInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Scatter&quot;</span><span class="p">:</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;None&quot;</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">subplot_info</span><span class="o">.</span><span class="n">x</span><span class="p">]</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="n">y</span> <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;None&quot;</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">subplot_info</span><span class="o">.</span><span class="n">y</span><span class="p">]</span>
+<span class="k">def</span> <span class="nf">_generate_slice_subplot</span><span class="p">(</span><span class="n">subplot_info</span><span class="p">:</span> <span class="n">_SliceSubplotInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Scatter</span><span class="p">]:</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="k">return</span> <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
-        <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
-        <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
-        <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;markers&quot;</span><span class="p">,</span>
-        <span class="n">marker</span><span class="o">=</span><span class="p">{</span>
-            <span class="s2">&quot;line&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;Grey&quot;</span><span class="p">},</span>
-            <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">subplot_info</span><span class="o">.</span><span class="n">trial_numbers</span><span class="p">,</span>
-            <span class="s2">&quot;colorscale&quot;</span><span class="p">:</span> <span class="n">COLOR_SCALE</span><span class="p">,</span>
-            <span class="s2">&quot;colorbar&quot;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Trial&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>  <span class="c1"># Offset the colorbar position with a fixed width `xpad`.</span>
-                <span class="s2">&quot;xpad&quot;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span>
+    <span class="n">feasible</span> <span class="o">=</span> <span class="n">_PlotValues</span><span class="p">([],</span> <span class="p">[],</span> <span class="p">[])</span>
+    <span class="n">infeasible</span> <span class="o">=</span> <span class="n">_PlotValues</span><span class="p">([],</span> <span class="p">[],</span> <span class="p">[])</span>
+
+    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
+        <span class="n">subplot_info</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">subplot_info</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">subplot_info</span><span class="o">.</span><span class="n">trial_numbers</span><span class="p">,</span> <span class="n">subplot_info</span><span class="o">.</span><span class="n">constraints</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">x</span> <span class="o">!=</span> <span class="s2">&quot;None&quot;</span> <span class="ow">or</span> <span class="n">y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">y</span> <span class="o">!=</span> <span class="s2">&quot;None&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">c</span><span class="p">:</span>
+                <span class="n">feasible</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="n">feasible</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+                <span class="n">feasible</span><span class="o">.</span><span class="n">trial_numbers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">num</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">infeasible</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="n">infeasible</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">trace</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">feasible</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">feasible</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
+            <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;markers&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Feasible Trial&quot;</span><span class="p">,</span>
+            <span class="n">marker</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;line&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;Grey&quot;</span><span class="p">},</span>
+                <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">feasible</span><span class="o">.</span><span class="n">trial_numbers</span><span class="p">,</span>
+                <span class="s2">&quot;colorscale&quot;</span><span class="p">:</span> <span class="n">COLOR_SCALE</span><span class="p">,</span>
+                <span class="s2">&quot;colorbar&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Trial&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>  <span class="c1"># Offset the colorbar position with a fixed width `xpad`.</span>
+                    <span class="s2">&quot;xpad&quot;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span>
+                <span class="p">},</span>
             <span class="p">},</span>
-        <span class="p">},</span>
-        <span class="n">showlegend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">showlegend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
     <span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">infeasible</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">trace</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
+                <span class="n">x</span><span class="o">=</span><span class="n">infeasible</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
+                <span class="n">y</span><span class="o">=</span><span class="n">infeasible</span><span class="o">.</span><span class="n">y</span><span class="p">,</span>
+                <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;markers&quot;</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Infeasible Trial&quot;</span><span class="p">,</span>
+                <span class="n">marker</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;#cccccc&quot;</span><span class="p">,</span>
+                <span class="p">},</span>
+                <span class="n">showlegend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">trace</span>
 </pre></div>
 
            </div>

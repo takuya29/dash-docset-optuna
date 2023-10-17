@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.get_all_study_summaries — Optuna 3.3.0 documentation</title>
+<title>optuna.get_all_study_summaries — Optuna 3.4.0 documentation</title>
 <link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
@@ -18,18 +18,18 @@
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
-<script src="../../_static/jquery.js"></script>
-<script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-<script src="../../_static/doctools.js"></script>
-<script src="../../_static/sphinx_highlight.js"></script>
-<script src="../../_static/clipboard.min.js"></script>
-<script src="../../_static/copybutton.js"></script>
+<script src="../../_static/jquery.js?v=5d32c60e"></script>
+<script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=5bbd4ff5"></script>
+<script src="../../_static/doctools.js?v=888ff710"></script>
+<script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+<script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../_static/copybutton.js?v=a56c686a"></script>
 <script src="../../_static/js/theme.js"></script>
 <link href="../../genindex.html" rel="index" title="Index"/>
 <link href="../../search.html" rel="search" title="Search"/>
 <link href="optuna.TrialPruned.html" rel="next" title="optuna.TrialPruned"/>
-<link href="optuna.copy_study.html" rel="prev" title="optuna.copy_study"/>
+<link href="optuna.get_all_study_names.html" rel="prev" title="optuna.get_all_study_names"/>
 </head>
 <body class="wy-body-for-nav">
 <div class="navbar">
@@ -70,7 +70,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.3.0
+                3.4.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -90,6 +90,7 @@
 <li class="toctree-l3"><a class="reference internal" href="optuna.load_study.html">optuna.load_study</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.delete_study.html">optuna.delete_study</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.copy_study.html">optuna.copy_study</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.get_all_study_names.html">optuna.get_all_study_names</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">optuna.get_all_study_summaries</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#optuna.get_all_study_summaries"><code class="docutils literal notranslate"><span class="pre">get_all_study_summaries()</span></code></a></li>
 </ul>
@@ -164,9 +165,9 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>storage</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em> | </em><em>BaseStorage</em>) – Database URL such as <code class="docutils literal notranslate"><span class="pre">sqlite:///example.db</span></code>. Please see also the documentation of
+<li><p><strong>storage</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em> | </em><em>storages.BaseStorage</em>) – Database URL such as <code class="docutils literal notranslate"><span class="pre">sqlite:///example.db</span></code>. Please see also the documentation of
 <a class="reference internal" href="optuna.study.create_study.html#optuna.study.create_study" title="optuna.study.create_study"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_study()</span></code></a> for further details.</p></li>
-<li><p><strong>include_best_trial</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Include the best trials if exist. It potentially increases the number of queries and
+<li><p><strong>include_best_trial</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – Include the best trials if exist. It potentially increases the number of queries and
 may take longer to fetch summaries depending on the storage.</p></li>
 </ul>
 </dd>
@@ -174,7 +175,7 @@ may take longer to fetch summaries depending on the storage.</p></li>
 <dd class="field-even"><p>List of study history summarized as <a class="reference internal" href="optuna.study.StudySummary.html#optuna.study.StudySummary" title="optuna.study.StudySummary"><code class="xref py py-class docutils literal notranslate"><span class="pre">StudySummary</span></code></a> objects.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.11)"><em>List</em></a>[<a class="reference internal" href="optuna.study.StudySummary.html#optuna.study.StudySummary" title="optuna.study._study_summary.StudySummary"><em>StudySummary</em></a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)">list</a>[<a class="reference internal" href="optuna.study.StudySummary.html#optuna.study.StudySummary" title="optuna.study.StudySummary">StudySummary</a>]</p>
 </dd>
 </dl>
 <div class="admonition seealso">
@@ -187,7 +188,7 @@ may take longer to fetch summaries depending on the storage.</p></li>
 </div>
 </div>
 <footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
-<a accesskey="p" class="btn btn-neutral float-left" href="optuna.copy_study.html" rel="prev" title="optuna.copy_study"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="p" class="btn btn-neutral float-left" href="optuna.get_all_study_names.html" rel="prev" title="optuna.get_all_study_names"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
 <a accesskey="n" class="btn btn-neutral float-right" href="optuna.TrialPruned.html" rel="next" title="optuna.TrialPruned">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
 </div>
 <hr/>
