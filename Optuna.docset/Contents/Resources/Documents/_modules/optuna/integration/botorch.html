@@ -1,18 +1,20 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.integration.botorch &mdash; Optuna 3.4.0 documentation</title>
-      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/plot_directive.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/sg_gallery-binder.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/sg_gallery-dataframe.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/sg_gallery-rendered-html.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+  <title>optuna.integration.botorch &mdash; Optuna 3.5.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=61a4c737" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=3150ea5e" />
+
+  
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
@@ -20,7 +22,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=5bbd4ff5"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=3f729fb1"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
         <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -75,7 +77,7 @@
               <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.4.0
+                3.5.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -149,6 +151,7 @@
     <span class="kn">from</span> <span class="nn">botorch.acquisition.monte_carlo</span> <span class="kn">import</span> <span class="n">qExpectedImprovement</span>
     <span class="kn">from</span> <span class="nn">botorch.acquisition.monte_carlo</span> <span class="kn">import</span> <span class="n">qNoisyExpectedImprovement</span>
     <span class="kn">from</span> <span class="nn">botorch.acquisition.multi_objective</span> <span class="kn">import</span> <span class="n">monte_carlo</span>
+    <span class="kn">from</span> <span class="nn">botorch.acquisition.multi_objective.analytic</span> <span class="kn">import</span> <span class="n">ExpectedHypervolumeImprovement</span>
     <span class="kn">from</span> <span class="nn">botorch.acquisition.multi_objective.objective</span> <span class="kn">import</span> <span class="n">IdentityMCMultiOutputObjective</span>
     <span class="kn">from</span> <span class="nn">botorch.acquisition.objective</span> <span class="kn">import</span> <span class="n">ConstrainedMCObjective</span>
     <span class="kn">from</span> <span class="nn">botorch.acquisition.objective</span> <span class="kn">import</span> <span class="n">GenericMCObjective</span>
@@ -183,6 +186,7 @@
 <span class="n">_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 <span class="k">with</span> <span class="n">try_import</span><span class="p">()</span> <span class="k">as</span> <span class="n">_imports_logei</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">botorch.acquisition.analytic</span> <span class="kn">import</span> <span class="n">LogConstrainedExpectedImprovement</span>
     <span class="kn">from</span> <span class="nn">botorch.acquisition.analytic</span> <span class="kn">import</span> <span class="n">LogExpectedImprovement</span>
 
 
@@ -197,7 +201,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Log Expected Improvement (LogEI).</span>
 
 <span class="sd">    The default value of ``candidates_func`` in :class:`~optuna.integration.BoTorchSampler`</span>
-<span class="sd">    with single-objective optimization for non-constrained problems.</span>
+<span class="sd">    with single-objective optimization.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        train_x:</span>
@@ -212,8 +216,10 @@
 <span class="sd">            ``(n_trials, n_objectives)``. ``n_trials`` is identical to that of ``train_x``.</span>
 <span class="sd">            ``n_objectives`` is the number of objectives. Observations are not normalized.</span>
 <span class="sd">        train_con:</span>
-<span class="sd">            Objective constraints. This option is not supported in ``logei_candidates_func`` and</span>
-<span class="sd">            must be :obj:`None`.</span>
+<span class="sd">            Objective constraints. A ``torch.Tensor`` of shape ``(n_trials, n_constraints)``.</span>
+<span class="sd">            ``n_trials`` is identical to that of ``train_x``. ``n_constraints`` is the number of</span>
+<span class="sd">            constraints. A constraint is violated if strictly larger than 0. If no constraints are</span>
+<span class="sd">            involved in the optimization, this argument will be :obj:`None`.</span>
 <span class="sd">        bounds:</span>
 <span class="sd">            Search space bounds. A ``torch.Tensor`` of shape ``(2, n_params)``. ``n_params`` is</span>
 <span class="sd">            identical to that of ``train_x``. The first and the second rows correspond to the</span>
@@ -238,11 +244,22 @@
 
     <span class="k">if</span> <span class="n">train_obj</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Objective may only contain single values with logEI.&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">train_con</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;Constraint is not supported with logei_candidates_func. &quot;</span>
-            <span class="o">+</span> <span class="s2">&quot;Please use qei_candidates_func instead.&quot;</span>
-        <span class="p">)</span>
+    <span class="n">n_constraints</span> <span class="o">=</span> <span class="n">train_con</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">train_con</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">n_constraints</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">train_con</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="n">train_y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">train_obj</span><span class="p">,</span> <span class="n">train_con</span><span class="p">],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">is_feas</span> <span class="o">=</span> <span class="p">(</span><span class="n">train_con</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">train_obj_feas</span> <span class="o">=</span> <span class="n">train_obj</span><span class="p">[</span><span class="n">is_feas</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">train_obj_feas</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;No objective values are feasible. Using 0 as the best objective in logEI.&quot;</span>
+            <span class="p">)</span>
+            <span class="n">best_f</span> <span class="o">=</span> <span class="n">train_obj</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">best_f</span> <span class="o">=</span> <span class="n">train_obj_feas</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+
     <span class="k">else</span><span class="p">:</span>
         <span class="n">train_y</span> <span class="o">=</span> <span class="n">train_obj</span>
         <span class="n">best_f</span> <span class="o">=</span> <span class="n">train_obj</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
@@ -252,11 +269,18 @@
     <span class="n">model</span> <span class="o">=</span> <span class="n">SingleTaskGP</span><span class="p">(</span><span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">outcome_transform</span><span class="o">=</span><span class="n">Standardize</span><span class="p">(</span><span class="n">m</span><span class="o">=</span><span class="n">train_y</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
     <span class="n">mll</span> <span class="o">=</span> <span class="n">ExactMarginalLogLikelihood</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">likelihood</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
     <span class="n">fit_gpytorch_mll</span><span class="p">(</span><span class="n">mll</span><span class="p">)</span>
-
-    <span class="n">acqf</span> <span class="o">=</span> <span class="n">LogExpectedImprovement</span><span class="p">(</span>
-        <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
-        <span class="n">best_f</span><span class="o">=</span><span class="n">best_f</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">n_constraints</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">acqf</span> <span class="o">=</span> <span class="n">LogConstrainedExpectedImprovement</span><span class="p">(</span>
+            <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+            <span class="n">best_f</span><span class="o">=</span><span class="n">best_f</span><span class="p">,</span>
+            <span class="n">objective_index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+            <span class="n">constraints</span><span class="o">=</span><span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_constraints</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)},</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">acqf</span> <span class="o">=</span> <span class="n">LogExpectedImprovement</span><span class="p">(</span>
+            <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+            <span class="n">best_f</span><span class="o">=</span><span class="n">best_f</span><span class="p">,</span>
+        <span class="p">)</span>
 
     <span class="n">standard_bounds</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">bounds</span><span class="p">)</span>
     <span class="n">standard_bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
@@ -285,9 +309,6 @@
     <span class="n">pending_x</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;torch.Tensor&quot;</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;torch.Tensor&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Quasi MC-based batch Expected Improvement (qEI).</span>
-
-<span class="sd">    The default value of ``candidates_func`` in :class:`~optuna.integration.BoTorchSampler`</span>
-<span class="sd">    with single-objective optimization for constrained problems.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        train_x:</span>
@@ -502,8 +523,8 @@
     <span class="n">fit_gpytorch_mll</span><span class="p">(</span><span class="n">mll</span><span class="p">)</span>
 
     <span class="c1"># Approximate box decomposition similar to Ax when the number of objectives is large.</span>
-    <span class="c1"># https://github.com/facebook/Ax/blob/master/ax/models/torch/botorch_moo_defaults</span>
-    <span class="k">if</span> <span class="n">n_objectives</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+    <span class="c1"># https://github.com/pytorch/botorch/blob/36d09a4297c2a0ff385077b7fcdd5a9d308e40cc/botorch/acquisition/multi_objective/utils.py#L46-L63</span>
+    <span class="k">if</span> <span class="n">n_objectives</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="p">:</span>
         <span class="n">alpha</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">8</span> <span class="o">+</span> <span class="n">n_objectives</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.0</span>
@@ -532,6 +553,71 @@
         <span class="n">num_restarts</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
         <span class="n">raw_samples</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span>
         <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;batch_limit&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;maxiter&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="s2">&quot;nonnegative&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+        <span class="n">sequential</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">candidates</span> <span class="o">=</span> <span class="n">unnormalize</span><span class="p">(</span><span class="n">candidates</span><span class="o">.</span><span class="n">detach</span><span class="p">(),</span> <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">candidates</span></div>
+
+
+<div class="viewcode-block" id="ehvi_candidates_func"><a class="viewcode-back" href="../../../reference/generated/optuna.integration.botorch.ehvi_candidates_func.html#optuna.integration.ehvi_candidates_func">[docs]</a><span class="nd">@experimental_func</span><span class="p">(</span><span class="s2">&quot;3.5.0&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">ehvi_candidates_func</span><span class="p">(</span>
+    <span class="n">train_x</span><span class="p">:</span> <span class="s2">&quot;torch.Tensor&quot;</span><span class="p">,</span>
+    <span class="n">train_obj</span><span class="p">:</span> <span class="s2">&quot;torch.Tensor&quot;</span><span class="p">,</span>
+    <span class="n">train_con</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;torch.Tensor&quot;</span><span class="p">],</span>
+    <span class="n">bounds</span><span class="p">:</span> <span class="s2">&quot;torch.Tensor&quot;</span><span class="p">,</span>
+    <span class="n">pending_x</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;torch.Tensor&quot;</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;torch.Tensor&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Expected Hypervolume Improvement (EHVI).</span>
+
+<span class="sd">    The default value of ``candidates_func`` in :class:`~optuna.integration.BoTorchSampler`</span>
+<span class="sd">    with multi-objective optimization without constraints.</span>
+
+<span class="sd">    .. seealso::</span>
+<span class="sd">        :func:`~optuna.integration.botorch.qei_candidates_func` for argument and return value</span>
+<span class="sd">        descriptions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">n_objectives</span> <span class="o">=</span> <span class="n">train_obj</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">train_con</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Constraints are not supported with ehvi_candidates_func.&quot;</span><span class="p">)</span>
+
+    <span class="n">train_y</span> <span class="o">=</span> <span class="n">train_obj</span>
+    <span class="n">train_x</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">train_x</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">)</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">SingleTaskGP</span><span class="p">(</span><span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">outcome_transform</span><span class="o">=</span><span class="n">Standardize</span><span class="p">(</span><span class="n">m</span><span class="o">=</span><span class="n">train_y</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
+    <span class="n">mll</span> <span class="o">=</span> <span class="n">ExactMarginalLogLikelihood</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">likelihood</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+    <span class="n">fit_gpytorch_mll</span><span class="p">(</span><span class="n">mll</span><span class="p">)</span>
+
+    <span class="c1"># Approximate box decomposition similar to Ax when the number of objectives is large.</span>
+    <span class="c1"># https://github.com/pytorch/botorch/blob/36d09a4297c2a0ff385077b7fcdd5a9d308e40cc/botorch/acquisition/multi_objective/utils.py#L46-L63</span>
+    <span class="k">if</span> <span class="n">n_objectives</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">8</span> <span class="o">+</span> <span class="n">n_objectives</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="n">ref_point</span> <span class="o">=</span> <span class="n">train_obj</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span> <span class="mf">1e-8</span>
+
+    <span class="n">partitioning</span> <span class="o">=</span> <span class="n">NondominatedPartitioning</span><span class="p">(</span><span class="n">ref_point</span><span class="o">=</span><span class="n">ref_point</span><span class="p">,</span> <span class="n">Y</span><span class="o">=</span><span class="n">train_y</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+
+    <span class="n">ref_point_list</span> <span class="o">=</span> <span class="n">ref_point</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+    <span class="n">acqf</span> <span class="o">=</span> <span class="n">ExpectedHypervolumeImprovement</span><span class="p">(</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+        <span class="n">ref_point</span><span class="o">=</span><span class="n">ref_point_list</span><span class="p">,</span>
+        <span class="n">partitioning</span><span class="o">=</span><span class="n">partitioning</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">standard_bounds</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">bounds</span><span class="p">)</span>
+    <span class="n">standard_bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="n">candidates</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">optimize_acqf</span><span class="p">(</span>
+        <span class="n">acq_function</span><span class="o">=</span><span class="n">acqf</span><span class="p">,</span>
+        <span class="n">bounds</span><span class="o">=</span><span class="n">standard_bounds</span><span class="p">,</span>
+        <span class="n">q</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">num_restarts</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+        <span class="n">raw_samples</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span>
+        <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;batch_limit&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;maxiter&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">},</span>
         <span class="n">sequential</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
 
@@ -585,8 +671,8 @@
     <span class="n">fit_gpytorch_mll</span><span class="p">(</span><span class="n">mll</span><span class="p">)</span>
 
     <span class="c1"># Approximate box decomposition similar to Ax when the number of objectives is large.</span>
-    <span class="c1"># https://github.com/facebook/Ax/blob/master/ax/models/torch/botorch_moo_defaults</span>
-    <span class="k">if</span> <span class="n">n_objectives</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+    <span class="c1"># https://github.com/pytorch/botorch/blob/36d09a4297c2a0ff385077b7fcdd5a9d308e40cc/botorch/acquisition/multi_objective/utils.py#L46-L63</span>
+    <span class="k">if</span> <span class="n">n_objectives</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="p">:</span>
         <span class="n">alpha</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mi">8</span> <span class="o">+</span> <span class="n">n_objectives</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.0</span>
@@ -711,11 +797,13 @@
     <span class="p">],</span>
     <span class="s2">&quot;torch.Tensor&quot;</span><span class="p">,</span>
 <span class="p">]:</span>
-    <span class="k">if</span> <span class="n">n_objectives</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">n_objectives</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">has_constraint</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">consider_running_trials</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ehvi_candidates_func</span>
+    <span class="k">elif</span> <span class="n">n_objectives</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">qparego_candidates_func</span>
     <span class="k">elif</span> <span class="n">n_objectives</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">qehvi_candidates_func</span>
-    <span class="k">elif</span> <span class="n">has_constraint</span> <span class="ow">or</span> <span class="n">consider_running_trials</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">consider_running_trials</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">qei_candidates_func</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">logei_candidates_func</span>
@@ -757,8 +845,10 @@
 <span class="sd">            is used. If constraints are specified, quasi MC-based batch Expected Improvement</span>
 <span class="sd">            (qEI) is used.</span>
 <span class="sd">            If the number of objectives is either two or three, Quasi MC-based</span>
-<span class="sd">            batch Expected Hypervolume Improvement (qEHVI) is used. Otherwise, for larger number</span>
-<span class="sd">            of objectives, the faster Quasi MC-based extended ParEGO (qParEGO) is used.</span>
+<span class="sd">            batch Expected Hypervolume Improvement (qEHVI) is used. Otherwise, for a larger number</span>
+<span class="sd">            of objectives, analytic Expected Hypervolume Improvement is used if no constraints</span>
+<span class="sd">            are specified, or the faster Quasi MC-based extended ParEGO (qParEGO) is used if</span>
+<span class="sd">            constraints are present.</span>
 
 <span class="sd">            The function should assume *maximization* of the objective.</span>
 

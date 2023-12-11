@@ -2,25 +2,25 @@
 
 <html class="writer-html5" lang="en">
 <head>
-<meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.samplers — Optuna 3.4.0 documentation</title>
-<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<title>optuna.samplers — Optuna 3.5.0 documentation</title>
+<link href="../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/theme.css?v=19f00094" rel="stylesheet" type="text/css"/>
+<link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
 <link href="../../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/sg_gallery.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/sg_gallery-binder.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/sg_gallery-dataframe.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/sg_gallery-rendered-html.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery.css?v=61a4c737" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-binder.css?v=f4aeca0c" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/custom.css?v=3150ea5e" rel="stylesheet" type="text/css"/>
 <link href="../../_static/favicon.ico" rel="shortcut icon"/>
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
 <script src="../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=5bbd4ff5"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=3f729fb1"></script>
 <script src="../../_static/doctools.js?v=888ff710"></script>
 <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -71,7 +71,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.4.0
+                3.5.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -104,7 +104,6 @@
 <li class="toctree-l3"><a class="reference internal" href="generated/optuna.samplers.PartialFixedSampler.html">optuna.samplers.PartialFixedSampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/optuna.samplers.NSGAIISampler.html">optuna.samplers.NSGAIISampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/optuna.samplers.NSGAIIISampler.html">optuna.samplers.NSGAIIISampler</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/optuna.samplers.MOTPESampler.html">optuna.samplers.MOTPESampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/optuna.samplers.QMCSampler.html">optuna.samplers.QMCSampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/optuna.samplers.BruteForceSampler.html">optuna.samplers.BruteForceSampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/optuna.samplers.IntersectionSearchSpace.html">optuna.samplers.IntersectionSearchSpace</a></li>
@@ -299,7 +298,7 @@
 This table shows the time complexity of the sampling algorithms. We may omit other terms that depend on the implementation in Optuna, including <span class="math notranslate nohighlight">\(O(d)\)</span> to call the sampling methods and <span class="math notranslate nohighlight">\(O(n)\)</span> to collect the completed trials.
 This means that, for example, the actual time complexity of <a class="reference internal" href="generated/optuna.samplers.RandomSampler.html#optuna.samplers.RandomSampler" title="optuna.samplers.RandomSampler"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomSampler</span></code></a> is <span class="math notranslate nohighlight">\(O(d+n+d) = O(d+n)\)</span>.
 From another perspective, with the exception of <a class="reference internal" href="generated/optuna.samplers.NSGAIISampler.html#optuna.samplers.NSGAIISampler" title="optuna.samplers.NSGAIISampler"><code class="xref py py-class docutils literal notranslate"><span class="pre">NSGAIISampler</span></code></a>, all time complexity is written for single-objective optimization.</p>
-<p>(**): The budget depends on the number of parameters and the number of objectives.</p>
+<p>(**): (1) The budget depends on the number of parameters and the number of objectives. (2) This budget includes <code class="docutils literal notranslate"><span class="pre">n_startup_trials</span></code> if a sampler has <code class="docutils literal notranslate"><span class="pre">n_startup_trials</span></code> as one of its arguments.</p>
 <p>(***): This time complexity assumes that the number of population size <span class="math notranslate nohighlight">\(p\)</span> and the number of parallelization are regular.
 This means that the number of parallelization should not exceed the number of population size <span class="math notranslate nohighlight">\(p\)</span>.</p>
 </div></blockquote>
@@ -341,19 +340,16 @@ This means that the number of parallelization should not exceed the number of po
 <tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.samplers.NSGAIIISampler.html#optuna.samplers.NSGAIIISampler" title="optuna.samplers.NSGAIIISampler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.samplers.NSGAIIISampler</span></code></a></p></td>
 <td><p>Multi-objective sampler using the NSGA-III algorithm.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.samplers.MOTPESampler.html#optuna.samplers.MOTPESampler" title="optuna.samplers.MOTPESampler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.samplers.MOTPESampler</span></code></a></p></td>
-<td><p>Multi-objective sampler using the MOTPE algorithm.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.samplers.QMCSampler.html#optuna.samplers.QMCSampler" title="optuna.samplers.QMCSampler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.samplers.QMCSampler</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.samplers.QMCSampler.html#optuna.samplers.QMCSampler" title="optuna.samplers.QMCSampler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.samplers.QMCSampler</span></code></a></p></td>
 <td><p>A Quasi Monte Carlo Sampler that generates low-discrepancy sequences.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.samplers.BruteForceSampler.html#optuna.samplers.BruteForceSampler" title="optuna.samplers.BruteForceSampler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.samplers.BruteForceSampler</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.samplers.BruteForceSampler.html#optuna.samplers.BruteForceSampler" title="optuna.samplers.BruteForceSampler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.samplers.BruteForceSampler</span></code></a></p></td>
 <td><p>Sampler using brute force.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.samplers.IntersectionSearchSpace.html#optuna.samplers.IntersectionSearchSpace" title="optuna.samplers.IntersectionSearchSpace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.samplers.IntersectionSearchSpace</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.samplers.IntersectionSearchSpace.html#optuna.samplers.IntersectionSearchSpace" title="optuna.samplers.IntersectionSearchSpace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.samplers.IntersectionSearchSpace</span></code></a></p></td>
 <td><p>A class to calculate the intersection search space of a <a class="reference internal" href="../generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.samplers.intersection_search_space.html#optuna.samplers.intersection_search_space" title="optuna.samplers.intersection_search_space"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.samplers.intersection_search_space</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.samplers.intersection_search_space.html#optuna.samplers.intersection_search_space" title="optuna.samplers.intersection_search_space"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.samplers.intersection_search_space</span></code></a></p></td>
 <td><p>Return the intersection search space of the <a class="reference internal" href="../generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a>.</p></td>
 </tr>
 </tbody>

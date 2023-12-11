@@ -2,25 +2,25 @@
 
 <html class="writer-html5" lang="en">
 <head>
-<meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.samplers.TPESampler — Optuna 3.4.0 documentation</title>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<title>optuna.samplers.TPESampler — Optuna 3.5.0 documentation</title>
+<link href="../../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/theme.css?v=19f00094" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sg_gallery.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sg_gallery-binder.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sg_gallery-dataframe.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sg_gallery-rendered-html.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sg_gallery.css?v=61a4c737" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=3150ea5e" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/favicon.ico" rel="shortcut icon"/>
 <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
 <script src="../../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=5bbd4ff5"></script>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=3f729fb1"></script>
 <script src="../../../_static/doctools.js?v=888ff710"></script>
 <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -70,7 +70,7 @@
 <img alt="Logo" class="logo" src="../../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.4.0
+                3.5.0
               </div>
 <div role="search">
 <form action="../../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -106,7 +106,6 @@
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.PartialFixedSampler.html">optuna.samplers.PartialFixedSampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.NSGAIISampler.html">optuna.samplers.NSGAIISampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.NSGAIIISampler.html">optuna.samplers.NSGAIIISampler</a></li>
-<li class="toctree-l3"><a class="reference internal" href="optuna.samplers.MOTPESampler.html">optuna.samplers.MOTPESampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.QMCSampler.html">optuna.samplers.QMCSampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.BruteForceSampler.html">optuna.samplers.BruteForceSampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.IntersectionSearchSpace.html">optuna.samplers.IntersectionSearchSpace</a></li>
@@ -161,11 +160,17 @@ maximizes the ratio <code class="docutils literal notranslate"><span class="pre"
 <li><p><a class="reference external" href="https://papers.nips.cc/paper/4443-algorithms-for-hyper-parameter-optimization.pdf">Algorithms for Hyper-Parameter Optimization</a></p></li>
 <li><p><a class="reference external" href="http://proceedings.mlr.press/v28/bergstra13.pdf">Making a Science of Model Search: Hyperparameter Optimization in Hundreds of
 Dimensions for Vision Architectures</a></p></li>
-<li><p><a class="reference external" href="https://dl.acm.org/doi/10.1145/3377930.3389817">Multiobjective tree-structured parzen estimator for computationally expensive optimization
-problems</a></p></li>
+<li><p><a class="reference external" href="https://arxiv.org/abs/2304.11127">Tree-Structured Parzen Estimator: Understanding Its Algorithm Components and Their Roles for
+Better Empirical Performance</a></p></li>
+</ul>
+<p>For multi-objective TPE (MOTPE), please refer to the following papers:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://dl.acm.org/doi/10.1145/3377930.3389817">Multiobjective Tree-Structured Parzen Estimator for Computationally Expensive Optimization
+Problems</a></p></li>
 <li><p><a class="reference external" href="https://doi.org/10.1613/jair.1.13188">Multiobjective Tree-Structured Parzen Estimator</a></p></li>
 </ul>
 <p class="rubric">Example</p>
+<p>An example of a single-objective optimization is as follows:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optuna</span>
 <span class="kn">from</span> <span class="nn">optuna.samplers</span> <span class="kn">import</span> <span class="n">TPESampler</span>
 
@@ -178,6 +183,28 @@ problems</a></p></li>
 <span class="n">study</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">create_study</span><span class="p">(</span><span class="n">sampler</span><span class="o">=</span><span class="n">TPESampler</span><span class="p">())</span>
 <span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#optuna.samplers.TPESampler" title="optuna.samplers.TPESampler"><code class="xref py py-class docutils literal notranslate"><span class="pre">TPESampler</span></code></a> can handle a multi-objective task as well and
+the following shows an example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optuna</span>
+
+
+<span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_categorical</span><span class="p">(</span><span class="s2">"y"</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="n">f1</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span>
+    <span class="n">f2</span> <span class="o">=</span> <span class="o">-</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span>
+
+
+<span class="c1"># We minimize the first objective and maximize the second objective.</span>
+<span class="n">sampler</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">samplers</span><span class="o">.</span><span class="n">TPESampler</span><span class="p">()</span>
+<span class="n">study</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">create_study</span><span class="p">(</span><span class="n">directions</span><span class="o">=</span><span class="p">[</span><span class="s2">"minimize"</span><span class="p">,</span> <span class="s2">"maximize"</span><span class="p">],</span> <span class="n">sampler</span><span class="o">=</span><span class="n">sampler</span><span class="p">)</span>
+<span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -280,11 +307,6 @@ optimization to avoid having multiple workers evaluating similar parameter
 configurations. In particular, if each objective function evaluation is costly
 and the durations of the running states are significant, and/or the number of
 workers is high.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This feature can be used for only single-objective optimization; this argument is
-ignored for multi-objective optimization.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>

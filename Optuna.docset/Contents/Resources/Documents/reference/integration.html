@@ -2,25 +2,25 @@
 
 <html class="writer-html5" lang="en">
 <head>
-<meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.integration — Optuna 3.4.0 documentation</title>
-<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
-<link href="../_static/css/theme.css" rel="stylesheet" type="text/css"/>
-<link href="../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<title>optuna.integration — Optuna 3.5.0 documentation</title>
+<link href="../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
+<link href="../_static/css/theme.css?v=19f00094" rel="stylesheet" type="text/css"/>
+<link href="../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
 <link href="../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
-<link href="../_static/sg_gallery.css" rel="stylesheet" type="text/css"/>
-<link href="../_static/sg_gallery-binder.css" rel="stylesheet" type="text/css"/>
-<link href="../_static/sg_gallery-dataframe.css" rel="stylesheet" type="text/css"/>
-<link href="../_static/sg_gallery-rendered-html.css" rel="stylesheet" type="text/css"/>
-<link href="../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/sg_gallery.css?v=61a4c737" rel="stylesheet" type="text/css"/>
+<link href="../_static/sg_gallery-binder.css?v=f4aeca0c" rel="stylesheet" type="text/css"/>
+<link href="../_static/sg_gallery-dataframe.css?v=2082cf3c" rel="stylesheet" type="text/css"/>
+<link href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" rel="stylesheet" type="text/css"/>
+<link href="../_static/css/custom.css?v=3150ea5e" rel="stylesheet" type="text/css"/>
 <link href="../_static/favicon.ico" rel="shortcut icon"/>
 <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
 <script src="../_static/jquery.js?v=5d32c60e"></script>
 <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=5bbd4ff5"></script>
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=3f729fb1"></script>
 <script src="../_static/doctools.js?v=888ff710"></script>
 <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -70,7 +70,7 @@
 <img alt="Logo" class="logo" src="../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.4.0
+                3.5.0
               </div>
 <div role="search">
 <form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -94,6 +94,7 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">optuna.integration</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#botorch">BoTorch</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="generated/optuna.integration.BoTorchSampler.html">optuna.integration.BoTorchSampler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated/optuna.integration.botorch.ehvi_candidates_func.html">optuna.integration.botorch.ehvi_candidates_func</a></li>
 <li class="toctree-l4"><a class="reference internal" href="generated/optuna.integration.botorch.logei_candidates_func.html">optuna.integration.botorch.logei_candidates_func</a></li>
 <li class="toctree-l4"><a class="reference internal" href="generated/optuna.integration.botorch.qei_candidates_func.html">optuna.integration.botorch.qei_candidates_func</a></li>
 <li class="toctree-l4"><a class="reference internal" href="generated/optuna.integration.botorch.qnei_candidates_func.html">optuna.integration.botorch.qnei_candidates_func</a></li>
@@ -108,12 +109,6 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#dask">Dask</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="generated/optuna.integration.DaskStorage.html">optuna.integration.DaskStorage</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#fast-ai">fast.ai</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="generated/optuna.integration.FastAIV1PruningCallback.html">optuna.integration.FastAIV1PruningCallback</a></li>
-<li class="toctree-l4"><a class="reference internal" href="generated/optuna.integration.FastAIV2PruningCallback.html">optuna.integration.FastAIV2PruningCallback</a></li>
-<li class="toctree-l4"><a class="reference internal" href="generated/optuna.integration.FastAIPruningCallback.html">optuna.integration.FastAIPruningCallback</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#lightgbm">LightGBM</a><ul>
@@ -158,6 +153,7 @@
 <li class="toctree-l4"><a class="reference internal" href="generated/optuna.integration.XGBoostPruningCallback.html">optuna.integration.XGBoostPruningCallback</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#dependencies-of-each-integration">Dependencies of each integration</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="logging.html">optuna.logging</a></li>
@@ -215,22 +211,25 @@ the <a class="reference external" href="https://optuna-integration.readthedocs.i
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.BoTorchSampler.html#optuna.integration.BoTorchSampler" title="optuna.integration.BoTorchSampler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.BoTorchSampler</span></code></a></p></td>
 <td><p>A sampler that uses BoTorch, a Bayesian optimization library built on top of PyTorch.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.integration.botorch.logei_candidates_func.html#optuna.integration.botorch.logei_candidates_func" title="optuna.integration.botorch.logei_candidates_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.botorch.logei_candidates_func</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.integration.botorch.ehvi_candidates_func.html#optuna.integration.botorch.ehvi_candidates_func" title="optuna.integration.botorch.ehvi_candidates_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.botorch.ehvi_candidates_func</span></code></a></p></td>
+<td><p>Expected Hypervolume Improvement (EHVI).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.botorch.logei_candidates_func.html#optuna.integration.botorch.logei_candidates_func" title="optuna.integration.botorch.logei_candidates_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.botorch.logei_candidates_func</span></code></a></p></td>
 <td><p>Log Expected Improvement (LogEI).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.botorch.qei_candidates_func.html#optuna.integration.botorch.qei_candidates_func" title="optuna.integration.botorch.qei_candidates_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.botorch.qei_candidates_func</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.integration.botorch.qei_candidates_func.html#optuna.integration.botorch.qei_candidates_func" title="optuna.integration.botorch.qei_candidates_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.botorch.qei_candidates_func</span></code></a></p></td>
 <td><p>Quasi MC-based batch Expected Improvement (qEI).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.integration.botorch.qnei_candidates_func.html#optuna.integration.botorch.qnei_candidates_func" title="optuna.integration.botorch.qnei_candidates_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.botorch.qnei_candidates_func</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.botorch.qnei_candidates_func.html#optuna.integration.botorch.qnei_candidates_func" title="optuna.integration.botorch.qnei_candidates_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.botorch.qnei_candidates_func</span></code></a></p></td>
 <td><p>Quasi MC-based batch Noisy Expected Improvement (qNEI).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.botorch.qehvi_candidates_func.html#optuna.integration.botorch.qehvi_candidates_func" title="optuna.integration.botorch.qehvi_candidates_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.botorch.qehvi_candidates_func</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.integration.botorch.qehvi_candidates_func.html#optuna.integration.botorch.qehvi_candidates_func" title="optuna.integration.botorch.qehvi_candidates_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.botorch.qehvi_candidates_func</span></code></a></p></td>
 <td><p>Quasi MC-based batch Expected Hypervolume Improvement (qEHVI).</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.integration.botorch.qnehvi_candidates_func.html#optuna.integration.botorch.qnehvi_candidates_func" title="optuna.integration.botorch.qnehvi_candidates_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.botorch.qnehvi_candidates_func</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.botorch.qnehvi_candidates_func.html#optuna.integration.botorch.qnehvi_candidates_func" title="optuna.integration.botorch.qnehvi_candidates_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.botorch.qnehvi_candidates_func</span></code></a></p></td>
 <td><p>Quasi MC-based batch Noisy Expected Hypervolume Improvement (qNEHVI).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.botorch.qparego_candidates_func.html#optuna.integration.botorch.qparego_candidates_func" title="optuna.integration.botorch.qparego_candidates_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.botorch.qparego_candidates_func</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.integration.botorch.qparego_candidates_func.html#optuna.integration.botorch.qparego_candidates_func" title="optuna.integration.botorch.qparego_candidates_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.botorch.qparego_candidates_func</span></code></a></p></td>
 <td><p>Quasi MC-based extended ParEGO (qParEGO) for constrained multi-objective optimization.</p></td>
 </tr>
 </tbody>
@@ -252,22 +251,6 @@ the <a class="reference external" href="https://optuna-integration.readthedocs.i
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.DaskStorage.html#optuna.integration.DaskStorage" title="optuna.integration.DaskStorage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.DaskStorage</span></code></a></p></td>
 <td><p>Dask-compatible storage class.</p></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="fast-ai">
-<h2>fast.ai<a class="headerlink" href="#fast-ai" title="Permalink to this heading"></a></h2>
-<table class="autosummary longtable docutils align-default">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.FastAIV1PruningCallback.html#optuna.integration.FastAIV1PruningCallback" title="optuna.integration.FastAIV1PruningCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.FastAIV1PruningCallback</span></code></a></p></td>
-<td><p>FastAI callback to prune unpromising trials for fastai.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.integration.FastAIV2PruningCallback.html#optuna.integration.FastAIV2PruningCallback" title="optuna.integration.FastAIV2PruningCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.FastAIV2PruningCallback</span></code></a></p></td>
-<td><p>FastAI callback to prune unpromising trials for fastai.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.FastAIPruningCallback.html#optuna.integration.FastAIPruningCallback" title="optuna.integration.FastAIPruningCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.FastAIPruningCallback</span></code></a></p></td>
-<td><p>alias of <a class="reference internal" href="generated/optuna.integration.FastAIV2PruningCallback.html#optuna.integration.FastAIV2PruningCallback" title="optuna.integration.fastaiv2.FastAIV2PruningCallback"><code class="xref py py-class docutils literal notranslate"><span class="pre">FastAIV2PruningCallback</span></code></a></p></td>
 </tr>
 </tbody>
 </table>
@@ -376,6 +359,97 @@ the <a class="reference external" href="https://optuna-integration.readthedocs.i
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.integration.XGBoostPruningCallback.html#optuna.integration.XGBoostPruningCallback" title="optuna.integration.XGBoostPruningCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.integration.XGBoostPruningCallback</span></code></a></p></td>
 <td><p>Callback for XGBoost to prune unpromising trials.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="dependencies-of-each-integration">
+<h2>Dependencies of each integration<a class="headerlink" href="#dependencies-of-each-integration" title="Permalink to this heading"></a></h2>
+<p>We summarize the necessary dependencies for each integration.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Integration</p></th>
+<th class="head"><p>Dependencies</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/optuna/optuna/tree/master/optuna/integration/allennlp">AllenNLP</a></p></td>
+<td><p>allennlp, torch, psutil, jsonnet</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/botorch.py">BoTorch</a></p></td>
+<td><p>botorch, gpytorch, torch</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/catalyst.py">Catalyst</a></p></td>
+<td><p>catalyst</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/catboost.py">CatBoost</a></p></td>
+<td><p>catboost</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/chainermn.py">ChainerMN</a></p></td>
+<td><p>chainermn</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/chainer.py">Chainer</a></p></td>
+<td><p>chainer</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/cma.py">pycma</a></p></td>
+<td><p>cma</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/dask.py">Dask</a></p></td>
+<td><p>distributed</p></td>
+</tr>
+<tr class="row-even"><td><p>FastAI (<a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/fastaiv1.py">v1</a>, <a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/fastaiv2.py">v2</a>)</p></td>
+<td><p>fastai</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/keras.py">Keras</a></p></td>
+<td><p>keras</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/lightgbm.py">LightGBMTuner</a></p></td>
+<td><p>lightgbm, scikit-learn</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/lightgbm.py">LightGBMPruningCallback</a></p></td>
+<td><p>lightgbm</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/mlflow.py">MLflow</a></p></td>
+<td><p>mlflow</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/mxnet.py">MXNet</a></p></td>
+<td><p>mxnet</p></td>
+</tr>
+<tr class="row-even"><td><p>PyTorch <a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/pytorch_distributed.py">Distributed</a></p></td>
+<td><p>torch</p></td>
+</tr>
+<tr class="row-odd"><td><p>PyTorch (<a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/pytorch_ignite.py">Ignite</a>)</p></td>
+<td><p>pytorch-ignite</p></td>
+</tr>
+<tr class="row-even"><td><p>PyTorch (<a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/pytorch_lightning.py">Lightning</a>)</p></td>
+<td><p>pytorch-lightning</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/shap.py">SHAP</a></p></td>
+<td><p>scikit-learn, shap</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/sklearn.py">Scikit-learn</a></p></td>
+<td><p>pandas, scipy, scikit-learn</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/skopt.py">Scikit-optimize</a></p></td>
+<td><p>scikit-optimize</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/skorch.py">SKorch</a></p></td>
+<td><p>skorch</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/tensorboard.py">TensorBoard</a></p></td>
+<td><p>tensorboard, tensorflow</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/tensorflow.py">TensorFlow</a></p></td>
+<td><p>tensorflow, tensorflow-estimator</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/tfkeras.py">TensorFlow + Keras</a></p></td>
+<td><p>tensorflow</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/wandb.py">Weights &amp; Biases</a></p></td>
+<td><p>wandb</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/xgboost.py">XGBoost</a></p></td>
+<td><p>xgboost</p></td>
 </tr>
 </tbody>
 </table>

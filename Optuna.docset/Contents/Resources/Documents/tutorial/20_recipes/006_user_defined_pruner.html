@@ -2,25 +2,25 @@
 
 <html class="writer-html5" lang="en">
 <head>
-<meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>User-Defined Pruner — Optuna 3.4.0 documentation</title>
-<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<title>User-Defined Pruner — Optuna 3.5.0 documentation</title>
+<link href="../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/theme.css?v=19f00094" rel="stylesheet" type="text/css"/>
+<link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
 <link href="../../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/sg_gallery.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/sg_gallery-binder.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/sg_gallery-dataframe.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/sg_gallery-rendered-html.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery.css?v=61a4c737" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-binder.css?v=f4aeca0c" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/custom.css?v=3150ea5e" rel="stylesheet" type="text/css"/>
 <link href="../../_static/favicon.ico" rel="shortcut icon"/>
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
 <script src="../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=5bbd4ff5"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=3f729fb1"></script>
 <script src="../../_static/doctools.js?v=888ff710"></script>
 <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -68,7 +68,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.4.0
+                3.5.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -154,7 +154,7 @@ a holdout set, decreases with enough training steps due to overfitting. This
 means that a trial could be pruned even if it had a favorable (high) value on a
 previous training set. After pruning, Optuna will take the intermediate value
 last reported as the value of the trial.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <a class="sphx-glr-backref-module-sklearn-datasets sphx-glr-backref-type-py-function" href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_iris.html#sklearn.datasets.load_iris" title="sklearn.datasets.load_iris"><span class="n">load_iris</span></a>
 <span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <a class="sphx-glr-backref-module-sklearn-model_selection sphx-glr-backref-type-py-function" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html#sklearn.model_selection.train_test_split" title="sklearn.model_selection.train_test_split"><span class="n">train_test_split</span></a>
 <span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <a class="sphx-glr-backref-module-sklearn-linear_model sphx-glr-backref-type-py-class" href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDClassifier.html#sklearn.linear_model.SGDClassifier" title="sklearn.linear_model.SGDClassifier"><span class="n">SGDClassifier</span></a>
@@ -197,7 +197,7 @@ last reported as the value of the trial.</p>
 </pre></div>
 </div>
 <p>Lastly, let’s confirm the implementation is correct with the simple hyperparameter optimization.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
     <span class="n">iris</span> <span class="o">=</span> <a class="sphx-glr-backref-module-sklearn-datasets sphx-glr-backref-type-py-function" href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_iris.html#sklearn.datasets.load_iris" title="sklearn.datasets.load_iris"><span class="n">load_iris</span></a><span class="p">()</span>
     <span class="n">classes</span> <span class="o">=</span> <a class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function" href="https://numpy.org/doc/stable/reference/generated/numpy.unique.html#numpy.unique" title="numpy.unique"><span class="n">np</span><span class="o">.</span><span class="n">unique</span></a><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
     <span class="n">X_train</span><span class="p">,</span> <span class="n">X_valid</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_valid</span> <span class="o">=</span> <a class="sphx-glr-backref-module-sklearn-model_selection sphx-glr-backref-type-py-function" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html#sklearn.model_selection.train_test_split" title="sklearn.model_selection.train_test_split"><span class="n">train_test_split</span></a><span class="p">(</span>
@@ -226,22 +226,33 @@ last reported as the value of the trial.</p>
 <span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>prune() True: Trial 6, Step 3, Score 0.66
-prune() True: Trial 7, Step 1, Score 0.34
-prune() True: Trial 12, Step 3, Score 0.5
-prune() True: Trial 22, Step 1, Score 0.56
-prune() True: Trial 24, Step 1, Score 0.56
-prune() True: Trial 30, Step 1, Score 0.36
-prune() True: Trial 40, Step 4, Score 0.54
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>prune() True: Trial 10, Step 2, Score 0.38
+prune() True: Trial 11, Step 2, Score 0.58
+prune() True: Trial 12, Step 1, Score 0.62
+prune() True: Trial 13, Step 2, Score 0.38
+prune() True: Trial 16, Step 2, Score 0.62
+prune() True: Trial 19, Step 2, Score 0.64
+prune() True: Trial 20, Step 4, Score 0.7
+prune() True: Trial 29, Step 2, Score 0.64
+prune() True: Trial 30, Step 4, Score 0.68
+prune() True: Trial 31, Step 1, Score 0.36
+prune() True: Trial 34, Step 1, Score 0.64
+prune() True: Trial 36, Step 2, Score 0.64
+prune() True: Trial 39, Step 1, Score 0.62
+prune() True: Trial 41, Step 1, Score 0.32
+prune() True: Trial 42, Step 4, Score 0.42
+prune() True: Trial 45, Step 2, Score 0.62
+prune() True: Trial 46, Step 1, Score 0.48
+prune() True: Trial 47, Step 4, Score 0.62
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.811 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.667 seconds)</p>
 <a class="dashAnchor" name="//apple_ref/cpp/Section/sphx_glr_download_tutorial_20_recipes_006_user_defined_pruner.py"></a><div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorial-20-recipes-006-user-defined-pruner-py">
-<div class="sphx-glr-download sphx-glr-download-python docutils container">
-<p><a class="reference download internal" download="" href="../../_downloads/367a7656d509bad6b4c2a664ffbc3653/006_user_defined_pruner.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">006_user_defined_pruner.py</span></code></a></p>
-</div>
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/78587bcda498aafb5da0880193ba8ebe/006_user_defined_pruner.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">006_user_defined_pruner.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/367a7656d509bad6b4c2a664ffbc3653/006_user_defined_pruner.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">006_user_defined_pruner.py</span></code></a></p>
 </div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>

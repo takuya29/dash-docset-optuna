@@ -2,25 +2,25 @@
 
 <html class="writer-html5" lang="en">
 <head>
-<meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Saving/Resuming Study with RDB Backend — Optuna 3.4.0 documentation</title>
-<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<title>Saving/Resuming Study with RDB Backend — Optuna 3.5.0 documentation</title>
+<link href="../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/theme.css?v=19f00094" rel="stylesheet" type="text/css"/>
+<link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
 <link href="../../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/sg_gallery.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/sg_gallery-binder.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/sg_gallery-dataframe.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/sg_gallery-rendered-html.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery.css?v=61a4c737" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-binder.css?v=f4aeca0c" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/custom.css?v=3150ea5e" rel="stylesheet" type="text/css"/>
 <link href="../../_static/favicon.ico" rel="shortcut icon"/>
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
 <script src="../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=5bbd4ff5"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=3f729fb1"></script>
 <script src="../../_static/doctools.js?v=888ff710"></script>
 <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -68,7 +68,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.4.0
+                3.5.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -122,7 +122,7 @@ Please refer to <a class="reference external" href="https://docs.sqlalchemy.org/
 <h2>New Study<a class="headerlink" href="#new-study" title="Permalink to this heading"></a></h2>
 <p>We can create a persistent study by calling <a class="reference internal" href="../../reference/generated/optuna.study.create_study.html#optuna.study.create_study" title="optuna.study.create_study"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_study()</span></code></a> function as follows.
 An SQLite file <code class="docutils literal notranslate"><span class="pre">example.db</span></code> is automatically initialized with a new study record.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="kn">import</span> <span class="nn">optuna</span>
@@ -138,7 +138,7 @@ An SQLite file <code class="docutils literal notranslate"><span class="pre">exam
 </pre></div>
 </div>
 <p>To run a study, call <a class="reference internal" href="../../reference/generated/optuna.study.Study.html#optuna.study.Study.optimize" title="optuna.study.Study.optimize"><code class="xref py py-func docutils literal notranslate"><span class="pre">optimize()</span></code></a> method passing an objective function.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
 
@@ -146,9 +146,9 @@ An SQLite file <code class="docutils literal notranslate"><span class="pre">exam
 <span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Trial 0 finished with value: 47.72618397294882 and parameters: {'x': -4.908413998375374}. Best is trial 0 with value: 47.72618397294882.
-Trial 1 finished with value: 7.816566016463757 and parameters: {'x': 4.7958122283987095}. Best is trial 1 with value: 7.816566016463757.
-Trial 2 finished with value: 5.611041422893084 and parameters: {'x': 4.36876369080858}. Best is trial 2 with value: 5.611041422893084.
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Trial 0 finished with value: 0.22183222490487275 and parameters: {'x': 2.4709906845202703}. Best is trial 0 with value: 0.22183222490487275.
+Trial 1 finished with value: 25.219912845750205 and parameters: {'x': 7.021943134460027}. Best is trial 0 with value: 0.22183222490487275.
+Trial 2 finished with value: 44.43147363510689 and parameters: {'x': -4.6656937849789415}. Best is trial 0 with value: 0.22183222490487275.
 </pre></div>
 </div>
 </section>
@@ -156,14 +156,14 @@ Trial 2 finished with value: 5.611041422893084 and parameters: {'x': 4.368763690
 <h2>Resume Study<a class="headerlink" href="#resume-study" title="Permalink to this heading"></a></h2>
 <p>To resume a study, instantiate a <a class="reference internal" href="../../reference/generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> object
 passing the study name <code class="docutils literal notranslate"><span class="pre">example-study</span></code> and the DB URL <code class="docutils literal notranslate"><span class="pre">sqlite:///example-study.db</span></code>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">study</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">create_study</span><span class="p">(</span><a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str"><span class="n">study_name</span></a><span class="o">=</span><a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str"><span class="n">study_name</span></a><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str"><span class="n">storage_name</span></a><span class="p">,</span> <span class="n">load_if_exists</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">study</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">create_study</span><span class="p">(</span><a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str"><span class="n">study_name</span></a><span class="o">=</span><a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str"><span class="n">study_name</span></a><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str"><span class="n">storage_name</span></a><span class="p">,</span> <span class="n">load_if_exists</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Using an existing study with name 'example-study' instead of creating a new one.
-Trial 3 finished with value: 1.1036258839175588 and parameters: {'x': 0.9494640016079607}. Best is trial 3 with value: 1.1036258839175588.
-Trial 4 finished with value: 3.17709662346231 and parameters: {'x': 0.21755880224274726}. Best is trial 3 with value: 1.1036258839175588.
-Trial 5 finished with value: 0.0989299555291568 and parameters: {'x': 2.3145313267850387}. Best is trial 5 with value: 0.0989299555291568.
+Trial 3 finished with value: 9.440908890233157 and parameters: {'x': -1.0726062048744804}. Best is trial 0 with value: 0.22183222490487275.
+Trial 4 finished with value: 28.35262377444822 and parameters: {'x': 7.324718187326745}. Best is trial 0 with value: 0.22183222490487275.
+Trial 5 finished with value: 11.151592114843824 and parameters: {'x': -1.3393999632933795}. Best is trial 0 with value: 0.22183222490487275.
 </pre></div>
 </div>
 <p>Note that the storage doesn’t store the state of the instance of <a class="reference internal" href="../../reference/samplers/index.html#module-optuna.samplers" title="optuna.samplers"><code class="xref py py-mod docutils literal notranslate"><span class="pre">samplers</span></code></a>
@@ -188,7 +188,7 @@ reproducibility, you need to restore the sampler with using <code class="docutil
 <h2>Experimental History<a class="headerlink" href="#experimental-history" title="Permalink to this heading"></a></h2>
 <p>We can access histories of studies and trials via the <a class="reference internal" href="../../reference/generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> class.
 For example, we can get all trials of <code class="docutils literal notranslate"><span class="pre">example-study</span></code> as:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">study</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">create_study</span><span class="p">(</span><a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str"><span class="n">study_name</span></a><span class="o">=</span><a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str"><span class="n">study_name</span></a><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str"><span class="n">storage_name</span></a><span class="p">,</span> <span class="n">load_if_exists</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">study</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">create_study</span><span class="p">(</span><a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str"><span class="n">study_name</span></a><span class="o">=</span><a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str"><span class="n">study_name</span></a><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str"><span class="n">storage_name</span></a><span class="p">,</span> <span class="n">load_if_exists</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <a class="sphx-glr-backref-module-pandas-core-frame sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="pandas.core.frame.DataFrame"><span class="n">df</span></a> <span class="o">=</span> <span class="n">study</span><span class="o">.</span><span class="n">trials_dataframe</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">(</span><span class="s2">"number"</span><span class="p">,</span> <span class="s2">"value"</span><span class="p">,</span> <span class="s2">"params"</span><span class="p">,</span> <span class="s2">"state"</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -196,40 +196,40 @@ For example, we can get all trials of <code class="docutils literal notranslate"
 </pre></div>
 </div>
 <p>The method <a class="reference internal" href="../../reference/generated/optuna.study.Study.html#optuna.study.Study.trials_dataframe" title="optuna.study.Study.trials_dataframe"><code class="xref py py-func docutils literal notranslate"><span class="pre">trials_dataframe()</span></code></a> returns a pandas dataframe like:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><a class="sphx-glr-backref-module-pandas-core-frame sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="pandas.core.frame.DataFrame"><span class="n">df</span></a><span class="p">)</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><a class="sphx-glr-backref-module-pandas-core-frame sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="pandas.core.frame.DataFrame"><span class="n">df</span></a><span class="p">)</span>
 </pre></div>
 </div>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>   number      value  params_x     state
-0       0  47.726184 -4.908414  COMPLETE
-1       1   7.816566  4.795812  COMPLETE
-2       2   5.611041  4.368764  COMPLETE
-3       3   1.103626  0.949464  COMPLETE
-4       4   3.177097  0.217559  COMPLETE
-5       5   0.098930  2.314531  COMPLETE
+0       0   0.221832  2.470991  COMPLETE
+1       1  25.219913  7.021943  COMPLETE
+2       2  44.431474 -4.665694  COMPLETE
+3       3   9.440909 -1.072606  COMPLETE
+4       4  28.352624  7.324718  COMPLETE
+5       5  11.151592 -1.339400  COMPLETE
 </pre></div>
 </div>
 <p>A <a class="reference internal" href="../../reference/generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> object also provides properties
 such as <a class="reference internal" href="../../reference/generated/optuna.study.Study.html#optuna.study.Study.trials" title="optuna.study.Study.trials"><code class="xref py py-attr docutils literal notranslate"><span class="pre">trials</span></code></a>, <a class="reference internal" href="../../reference/generated/optuna.study.Study.html#optuna.study.Study.best_value" title="optuna.study.Study.best_value"><code class="xref py py-attr docutils literal notranslate"><span class="pre">best_value</span></code></a>,
 <a class="reference internal" href="../../reference/generated/optuna.study.Study.html#optuna.study.Study.best_params" title="optuna.study.Study.best_params"><code class="xref py py-attr docutils literal notranslate"><span class="pre">best_params</span></code></a> (see also <a class="reference internal" href="../10_key_features/001_first.html#first"><span class="std std-ref">Lightweight, versatile, and platform agnostic architecture</span></a>).</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">"Best params: "</span><span class="p">,</span> <span class="n">study</span><span class="o">.</span><span class="n">best_params</span><span class="p">)</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">"Best params: "</span><span class="p">,</span> <span class="n">study</span><span class="o">.</span><span class="n">best_params</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Best value: "</span><span class="p">,</span> <span class="n">study</span><span class="o">.</span><span class="n">best_value</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Best Trial: "</span><span class="p">,</span> <span class="n">study</span><span class="o">.</span><span class="n">best_trial</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Trials: "</span><span class="p">,</span> <span class="n">study</span><span class="o">.</span><span class="n">trials</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Best params:  {'x': 2.3145313267850387}
-Best value:  0.0989299555291568
-Best Trial:  FrozenTrial(number=5, state=TrialState.COMPLETE, values=[0.0989299555291568], datetime_start=datetime.datetime(2023, 10, 17, 12, 35, 34, 164506), datetime_complete=datetime.datetime(2023, 10, 17, 12, 35, 34, 187347), params={'x': 2.3145313267850387}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=6, value=None)
-Trials:  [FrozenTrial(number=0, state=TrialState.COMPLETE, values=[47.72618397294882], datetime_start=datetime.datetime(2023, 10, 17, 12, 35, 33, 889092), datetime_complete=datetime.datetime(2023, 10, 17, 12, 35, 33, 930274), params={'x': -4.908413998375374}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=1, value=None), FrozenTrial(number=1, state=TrialState.COMPLETE, values=[7.816566016463757], datetime_start=datetime.datetime(2023, 10, 17, 12, 35, 33, 953377), datetime_complete=datetime.datetime(2023, 10, 17, 12, 35, 33, 972949), params={'x': 4.7958122283987095}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=2, value=None), FrozenTrial(number=2, state=TrialState.COMPLETE, values=[5.611041422893084], datetime_start=datetime.datetime(2023, 10, 17, 12, 35, 33, 990329), datetime_complete=datetime.datetime(2023, 10, 17, 12, 35, 34, 11882), params={'x': 4.36876369080858}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=3, value=None), FrozenTrial(number=3, state=TrialState.COMPLETE, values=[1.1036258839175588], datetime_start=datetime.datetime(2023, 10, 17, 12, 35, 34, 75107), datetime_complete=datetime.datetime(2023, 10, 17, 12, 35, 34, 105328), params={'x': 0.9494640016079607}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=4, value=None), FrozenTrial(number=4, state=TrialState.COMPLETE, values=[3.17709662346231], datetime_start=datetime.datetime(2023, 10, 17, 12, 35, 34, 126592), datetime_complete=datetime.datetime(2023, 10, 17, 12, 35, 34, 146304), params={'x': 0.21755880224274726}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=5, value=None), FrozenTrial(number=5, state=TrialState.COMPLETE, values=[0.0989299555291568], datetime_start=datetime.datetime(2023, 10, 17, 12, 35, 34, 164506), datetime_complete=datetime.datetime(2023, 10, 17, 12, 35, 34, 187347), params={'x': 2.3145313267850387}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=6, value=None)]
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Best params:  {'x': 2.4709906845202703}
+Best value:  0.22183222490487275
+Best Trial:  FrozenTrial(number=0, state=TrialState.COMPLETE, values=[0.22183222490487275], datetime_start=datetime.datetime(2023, 12, 11, 12, 35, 28, 263795), datetime_complete=datetime.datetime(2023, 12, 11, 12, 35, 28, 301096), params={'x': 2.4709906845202703}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=1, value=None)
+Trials:  [FrozenTrial(number=0, state=TrialState.COMPLETE, values=[0.22183222490487275], datetime_start=datetime.datetime(2023, 12, 11, 12, 35, 28, 263795), datetime_complete=datetime.datetime(2023, 12, 11, 12, 35, 28, 301096), params={'x': 2.4709906845202703}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=1, value=None), FrozenTrial(number=1, state=TrialState.COMPLETE, values=[25.219912845750205], datetime_start=datetime.datetime(2023, 12, 11, 12, 35, 28, 321382), datetime_complete=datetime.datetime(2023, 12, 11, 12, 35, 28, 339568), params={'x': 7.021943134460027}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=2, value=None), FrozenTrial(number=2, state=TrialState.COMPLETE, values=[44.43147363510689], datetime_start=datetime.datetime(2023, 12, 11, 12, 35, 28, 358146), datetime_complete=datetime.datetime(2023, 12, 11, 12, 35, 28, 375376), params={'x': -4.6656937849789415}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=3, value=None), FrozenTrial(number=3, state=TrialState.COMPLETE, values=[9.440908890233157], datetime_start=datetime.datetime(2023, 12, 11, 12, 35, 28, 427647), datetime_complete=datetime.datetime(2023, 12, 11, 12, 35, 28, 451937), params={'x': -1.0726062048744804}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=4, value=None), FrozenTrial(number=4, state=TrialState.COMPLETE, values=[28.35262377444822], datetime_start=datetime.datetime(2023, 12, 11, 12, 35, 28, 470297), datetime_complete=datetime.datetime(2023, 12, 11, 12, 35, 28, 487996), params={'x': 7.324718187326745}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=5, value=None), FrozenTrial(number=5, state=TrialState.COMPLETE, values=[11.151592114843824], datetime_start=datetime.datetime(2023, 12, 11, 12, 35, 28, 503357), datetime_complete=datetime.datetime(2023, 12, 11, 12, 35, 28, 519673), params={'x': -1.3393999632933795}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=6, value=None)]
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.665 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 1.364 seconds)</p>
 <a class="dashAnchor" name="//apple_ref/cpp/Section/sphx_glr_download_tutorial_20_recipes_001_rdb.py"></a><div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorial-20-recipes-001-rdb-py">
-<div class="sphx-glr-download sphx-glr-download-python docutils container">
-<p><a class="reference download internal" download="" href="../../_downloads/b73c661c07098863641f4ba78170b234/001_rdb.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">001_rdb.py</span></code></a></p>
-</div>
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/29dc01fa0a6cc866899e95e53fbf9e2f/001_rdb.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">001_rdb.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/b73c661c07098863641f4ba78170b234/001_rdb.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">001_rdb.py</span></code></a></p>
 </div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>

@@ -2,25 +2,25 @@
 
 <html class="writer-html5" lang="en">
 <head>
-<meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Callback for Study.optimize — Optuna 3.4.0 documentation</title>
-<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<title>Callback for Study.optimize — Optuna 3.5.0 documentation</title>
+<link href="../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/theme.css?v=19f00094" rel="stylesheet" type="text/css"/>
+<link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
 <link href="../../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/sg_gallery.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/sg_gallery-binder.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/sg_gallery-dataframe.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/sg_gallery-rendered-html.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery.css?v=61a4c737" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-binder.css?v=f4aeca0c" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/custom.css?v=3150ea5e" rel="stylesheet" type="text/css"/>
 <link href="../../_static/favicon.ico" rel="shortcut icon"/>
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
 <script src="../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=5bbd4ff5"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=3f729fb1"></script>
 <script src="../../_static/doctools.js?v=888ff710"></script>
 <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -68,7 +68,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.4.0
+                3.5.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -119,7 +119,7 @@ it takes <a class="reference internal" href="../../reference/generated/optuna.st
 <p>This example implements a stateful callback which stops the optimization
 if a certain number of trials are pruned in a row.
 The number of trials pruned in a row is specified by <code class="docutils literal notranslate"><span class="pre">threshold</span></code>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optuna</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optuna</span>
 
 
 <span class="k">class</span> <span class="nc">StopWhenTrialKeepBeingPrunedCallback</span><span class="p">:</span>
@@ -138,7 +138,7 @@ The number of trials pruned in a row is specified by <code class="docutils liter
 </pre></div>
 </div>
 <p>This objective prunes all the trials except for the first 5 trials (<code class="docutils literal notranslate"><span class="pre">trial.number</span></code> starts with 0).</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">trial</span><span class="o">.</span><span class="n">number</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="p">:</span>
         <span class="k">raise</span> <a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-exception" href="https://docs.python.org/3/library/exceptions.html#Exception" title="builtins.Exception"><span class="n">optuna</span><span class="o">.</span><span class="n">TrialPruned</span></a>
 
@@ -147,7 +147,7 @@ The number of trials pruned in a row is specified by <code class="docutils liter
 </div>
 <p>Here, we set the threshold to <code class="docutils literal notranslate"><span class="pre">2</span></code>: optimization finishes once two trials are pruned in a row.
 So, we expect this study to stop after 7 trials.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="c1"># Add stream handler of stdout to show the messages</span>
@@ -158,12 +158,12 @@ So, we expect this study to stop after 7 trials.</p>
 <span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">study_stop_cb</span><span class="p">])</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>A new study created in memory with name: no-name-6c999d7c-7b7d-4805-ad13-cf91fac2f153
-Trial 0 finished with value: 0.8239980077588908 and parameters: {'x': 0.8239980077588908}. Best is trial 0 with value: 0.8239980077588908.
-Trial 1 finished with value: 0.7671913393914082 and parameters: {'x': 0.7671913393914082}. Best is trial 1 with value: 0.7671913393914082.
-Trial 2 finished with value: 0.5661999590327497 and parameters: {'x': 0.5661999590327497}. Best is trial 2 with value: 0.5661999590327497.
-Trial 3 finished with value: 0.3912805074677822 and parameters: {'x': 0.3912805074677822}. Best is trial 3 with value: 0.3912805074677822.
-Trial 4 finished with value: 0.2998109482198007 and parameters: {'x': 0.2998109482198007}. Best is trial 4 with value: 0.2998109482198007.
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>A new study created in memory with name: no-name-d00bf254-1bd4-473e-8c4c-9b3f70a0818f
+Trial 0 finished with value: 0.28228026431358477 and parameters: {'x': 0.28228026431358477}. Best is trial 0 with value: 0.28228026431358477.
+Trial 1 finished with value: 0.5600520253059312 and parameters: {'x': 0.5600520253059312}. Best is trial 0 with value: 0.28228026431358477.
+Trial 2 finished with value: 0.18504838682467462 and parameters: {'x': 0.18504838682467462}. Best is trial 2 with value: 0.18504838682467462.
+Trial 3 finished with value: 0.09138211440396671 and parameters: {'x': 0.09138211440396671}. Best is trial 3 with value: 0.09138211440396671.
+Trial 4 finished with value: 0.85385272254626 and parameters: {'x': 0.85385272254626}. Best is trial 3 with value: 0.09138211440396671.
 Trial 5 pruned.
 Trial 6 pruned.
 </pre></div>
@@ -171,11 +171,11 @@ Trial 6 pruned.
 <p>As you can see in the log above, the study stopped after 7 trials as expected.</p>
 <p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.005 seconds)</p>
 <a class="dashAnchor" name="//apple_ref/cpp/Section/sphx_glr_download_tutorial_20_recipes_007_optuna_callback.py"></a><div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorial-20-recipes-007-optuna-callback-py">
-<div class="sphx-glr-download sphx-glr-download-python docutils container">
-<p><a class="reference download internal" download="" href="../../_downloads/69c9a8896808997c60d5d1879065fad2/007_optuna_callback.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">007_optuna_callback.py</span></code></a></p>
-</div>
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/8a3b786e31e54819e53dfa737aebc72d/007_optuna_callback.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">007_optuna_callback.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/69c9a8896808997c60d5d1879065fad2/007_optuna_callback.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">007_optuna_callback.py</span></code></a></p>
 </div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>

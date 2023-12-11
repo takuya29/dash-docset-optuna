@@ -1,18 +1,20 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.integration.sklearn &mdash; Optuna 3.4.0 documentation</title>
-      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/plot_directive.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/sg_gallery.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/sg_gallery-binder.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/sg_gallery-dataframe.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/sg_gallery-rendered-html.css" type="text/css" />
-      <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+  <title>optuna.integration.sklearn &mdash; Optuna 3.5.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=61a4c737" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=3150ea5e" />
+
+  
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
   <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
@@ -20,7 +22,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=5bbd4ff5"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=3f729fb1"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
         <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -75,7 +77,7 @@
               <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.4.0
+                3.5.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -117,19 +119,19 @@
            <div itemprop="articleBody">
              
   <h1>Source code for optuna.integration.sklearn</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">DEBUG</span>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Iterable</span>
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Mapping</span>
+<span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">DEBUG</span>
 <span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">INFO</span>
 <span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">WARNING</span>
 <span class="kn">from</span> <span class="nn">numbers</span> <span class="kn">import</span> <span class="n">Integral</span>
 <span class="kn">from</span> <span class="nn">numbers</span> <span class="kn">import</span> <span class="n">Number</span>
 <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Mapping</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -143,6 +145,7 @@
 <span class="kn">from</span> <span class="nn">optuna._imports</span> <span class="kn">import</span> <span class="n">try_import</span>
 <span class="kn">from</span> <span class="nn">optuna.distributions</span> <span class="kn">import</span> <span class="n">_convert_old_distribution_to_new_distribution</span>
 <span class="kn">from</span> <span class="nn">optuna.study</span> <span class="kn">import</span> <span class="n">StudyDirection</span>
+<span class="kn">from</span> <span class="nn">optuna.terminator</span> <span class="kn">import</span> <span class="n">report_cross_validation_scores</span>
 <span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">FrozenTrial</span>
 <span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">Trial</span>
 
@@ -171,14 +174,14 @@
 <span class="n">OneDimArrayLikeType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="s2">&quot;pd.Series&quot;</span><span class="p">]</span>
 <span class="n">TwoDimArrayLikeType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="s2">&quot;pd.DataFrame&quot;</span><span class="p">,</span> <span class="s2">&quot;spmatrix&quot;</span><span class="p">]</span>
 <span class="n">IterableType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="s2">&quot;pd.DataFrame&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="s2">&quot;pd.Series&quot;</span><span class="p">,</span> <span class="s2">&quot;spmatrix&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
-<span class="n">IndexableType</span> <span class="o">=</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">]</span>
+<span class="n">IndexableType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Iterable</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
 
 <span class="n">_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">_check_fit_params</span><span class="p">(</span>
-    <span class="n">X</span><span class="p">:</span> <span class="n">TwoDimArrayLikeType</span><span class="p">,</span> <span class="n">fit_params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">indices</span><span class="p">:</span> <span class="n">OneDimArrayLikeType</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+    <span class="n">X</span><span class="p">:</span> <span class="n">TwoDimArrayLikeType</span><span class="p">,</span> <span class="n">fit_params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">indices</span><span class="p">:</span> <span class="n">OneDimArrayLikeType</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
     <span class="n">fit_params_validated</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">fit_params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="c1"># NOTE Original implementation:</span>
@@ -232,8 +235,8 @@
 
 
 <span class="k">def</span> <span class="nf">_safe_indexing</span><span class="p">(</span>
-    <span class="n">X</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">OneDimArrayLikeType</span><span class="p">,</span> <span class="n">TwoDimArrayLikeType</span><span class="p">],</span> <span class="n">indices</span><span class="p">:</span> <span class="n">OneDimArrayLikeType</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">OneDimArrayLikeType</span><span class="p">,</span> <span class="n">TwoDimArrayLikeType</span><span class="p">]:</span>
+    <span class="n">X</span><span class="p">:</span> <span class="n">OneDimArrayLikeType</span> <span class="o">|</span> <span class="n">TwoDimArrayLikeType</span><span class="p">,</span> <span class="n">indices</span><span class="p">:</span> <span class="n">OneDimArrayLikeType</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OneDimArrayLikeType</span> <span class="o">|</span> <span class="n">TwoDimArrayLikeType</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">X</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">X</span>
 
@@ -302,12 +305,12 @@
         <span class="n">estimator</span><span class="p">:</span> <span class="s2">&quot;sklearn.base.BaseEstimator&quot;</span><span class="p">,</span>
         <span class="n">param_distributions</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">distributions</span><span class="o">.</span><span class="n">BaseDistribution</span><span class="p">],</span>
         <span class="n">X</span><span class="p">:</span> <span class="n">TwoDimArrayLikeType</span><span class="p">,</span>
-        <span class="n">y</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">OneDimArrayLikeType</span><span class="p">,</span> <span class="n">TwoDimArrayLikeType</span><span class="p">]],</span>
+        <span class="n">y</span><span class="p">:</span> <span class="n">OneDimArrayLikeType</span> <span class="o">|</span> <span class="n">TwoDimArrayLikeType</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">cv</span><span class="p">:</span> <span class="s2">&quot;BaseCrossValidator&quot;</span><span class="p">,</span>
         <span class="n">enable_pruning</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
-        <span class="n">error_score</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
-        <span class="n">fit_params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
-        <span class="n">groups</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">OneDimArrayLikeType</span><span class="p">],</span>
+        <span class="n">error_score</span><span class="p">:</span> <span class="n">Number</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">fit_params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+        <span class="n">groups</span><span class="p">:</span> <span class="n">OneDimArrayLikeType</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">max_iter</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">return_train_score</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
         <span class="n">scoring</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Number</span><span class="p">],</span>
@@ -362,6 +365,10 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_store_scores</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">scores</span><span class="p">)</span>
 
+        <span class="n">test_scores</span> <span class="o">=</span> <span class="n">scores</span><span class="p">[</span><span class="s2">&quot;test_score&quot;</span><span class="p">]</span>
+        <span class="n">scores_list</span> <span class="o">=</span> <span class="n">test_scores</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">test_scores</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="n">test_scores</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">report_cross_validation_scores</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">scores_list</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="n">trial</span><span class="o">.</span><span class="n">user_attrs</span><span class="p">[</span><span class="s2">&quot;mean_test_score&quot;</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">_cross_validate_with_pruning</span><span class="p">(</span>
@@ -410,7 +417,7 @@
 
         <span class="k">return</span> <span class="n">scores</span>
 
-    <span class="k">def</span> <span class="nf">_get_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="n">Trial</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">_get_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="n">Trial</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
         <span class="k">return</span> <span class="p">{</span>
             <span class="n">name</span><span class="p">:</span> <span class="n">trial</span><span class="o">.</span><span class="n">_suggest</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">distribution</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">distribution</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_distributions</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
@@ -419,10 +426,10 @@
     <span class="k">def</span> <span class="nf">_partial_fit_and_score</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">estimator</span><span class="p">:</span> <span class="s2">&quot;sklearn.base.BaseEstimator&quot;</span><span class="p">,</span>
-        <span class="n">train</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
-        <span class="n">test</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
-        <span class="n">partial_fit_params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Number</span><span class="p">]:</span>
+        <span class="n">train</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+        <span class="n">test</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+        <span class="n">partial_fit_params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Number</span><span class="p">]:</span>
         <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">_safe_split</span><span class="p">(</span><span class="n">estimator</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">train</span><span class="p">)</span>
         <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">_safe_split</span><span class="p">(</span><span class="n">estimator</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">test</span><span class="p">,</span> <span class="n">train_indices</span><span class="o">=</span><span class="n">train</span><span class="p">)</span>
 
@@ -651,7 +658,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_trial_</span><span class="o">.</span><span class="n">number</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">best_params_</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">best_params_</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Parameters of the best trial in the :class:`~optuna.study.Study`.&quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_is_fitted</span><span class="p">()</span>
@@ -683,7 +690,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_estimator_</span><span class="o">.</span><span class="n">classes_</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">cv_results_</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">cv_results_</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;A dictionary mapping a metric name to a list of</span>
 <span class="sd">        Cross-Validation results of all trials.&quot;&quot;&quot;</span>
         <span class="n">cv_results_dict_in_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">trial_</span><span class="o">.</span><span class="n">user_attrs</span> <span class="k">for</span> <span class="n">trial_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">trials_</span><span class="p">]</span>
@@ -703,7 +710,7 @@
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">trials_</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">trials_</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">trials_</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;All trials in the :class:`~optuna.study.Study`.&quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_is_fitted</span><span class="p">()</span>
@@ -711,7 +718,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">study_</span><span class="o">.</span><span class="n">trials</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">user_attrs_</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">user_attrs_</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;User attributes in the :class:`~optuna.study.Study`.&quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_check_is_fitted</span><span class="p">()</span>
@@ -719,7 +726,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">study_</span><span class="o">.</span><span class="n">user_attrs</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">decision_function</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">OneDimArrayLikeType</span><span class="p">,</span> <span class="n">TwoDimArrayLikeType</span><span class="p">]]:</span>
+    <span class="k">def</span> <span class="nf">decision_function</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">OneDimArrayLikeType</span> <span class="o">|</span> <span class="n">TwoDimArrayLikeType</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Call ``decision_function`` on the best estimator.</span>
 
 <span class="sd">        This is available only if the underlying estimator supports</span>
@@ -743,7 +750,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_estimator_</span><span class="o">.</span><span class="n">inverse_transform</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="n">OneDimArrayLikeType</span><span class="p">,</span> <span class="n">TwoDimArrayLikeType</span><span class="p">]]:</span>
+    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">OneDimArrayLikeType</span> <span class="o">|</span> <span class="n">TwoDimArrayLikeType</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Call ``predict`` on the best estimator.</span>
 
 <span class="sd">        This is available only if the underlying estimator supports ``predict``</span>
@@ -823,21 +830,21 @@
         <span class="n">estimator</span><span class="p">:</span> <span class="s2">&quot;sklearn.base.BaseEstimator&quot;</span><span class="p">,</span>
         <span class="n">param_distributions</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">distributions</span><span class="o">.</span><span class="n">BaseDistribution</span><span class="p">],</span>
         <span class="o">*</span><span class="p">,</span>
-        <span class="n">cv</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="s2">&quot;BaseCrossValidator&quot;</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">cv</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="s2">&quot;BaseCrossValidator&quot;</span> <span class="o">|</span> <span class="n">Iterable</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">enable_pruning</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">error_score</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Number</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>
+        <span class="n">error_score</span><span class="p">:</span> <span class="n">Number</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>
         <span class="n">max_iter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
-        <span class="n">n_jobs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">n_trials</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
-        <span class="n">random_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">n_jobs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">n_trials</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="n">random_state</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">refit</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">return_train_score</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">scoring</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">study</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">study_module</span><span class="o">.</span><span class="n">Study</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">subsample</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
-        <span class="n">timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">scoring</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">study</span><span class="p">:</span> <span class="n">study_module</span><span class="o">.</span><span class="n">Study</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">subsample</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="n">callbacks</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">study_module</span><span class="o">.</span><span class="n">Study</span><span class="p">,</span> <span class="n">FrozenTrial</span><span class="p">],</span> <span class="kc">None</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">callbacks</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">study_module</span><span class="o">.</span><span class="n">Study</span><span class="p">,</span> <span class="n">FrozenTrial</span><span class="p">],</span> <span class="kc">None</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">_imports</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
 
@@ -898,13 +905,13 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">study</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">study</span><span class="o">.</span><span class="n">direction</span> <span class="o">!=</span> <span class="n">StudyDirection</span><span class="o">.</span><span class="n">MAXIMIZE</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;direction of study must be &#39;maximize&#39;.&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_more_tags</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">_more_tags</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
         <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;non_deterministic&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;no_validation&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
 
     <span class="k">def</span> <span class="nf">_refit</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">X</span><span class="p">:</span> <span class="n">TwoDimArrayLikeType</span><span class="p">,</span>
-        <span class="n">y</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">OneDimArrayLikeType</span><span class="p">,</span> <span class="n">TwoDimArrayLikeType</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">y</span><span class="p">:</span> <span class="n">OneDimArrayLikeType</span> <span class="o">|</span> <span class="n">TwoDimArrayLikeType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">fit_params</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;OptunaSearchCV&quot;</span><span class="p">:</span>
         <span class="n">n_samples</span> <span class="o">=</span> <span class="n">_num_samples</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
@@ -931,8 +938,8 @@
 <div class="viewcode-block" id="OptunaSearchCV.fit"><a class="viewcode-back" href="../../../reference/generated/optuna.integration.OptunaSearchCV.html#optuna.integration.OptunaSearchCV.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">X</span><span class="p">:</span> <span class="n">TwoDimArrayLikeType</span><span class="p">,</span>
-        <span class="n">y</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">OneDimArrayLikeType</span><span class="p">,</span> <span class="n">TwoDimArrayLikeType</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">groups</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">OneDimArrayLikeType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">y</span><span class="p">:</span> <span class="n">OneDimArrayLikeType</span> <span class="o">|</span> <span class="n">TwoDimArrayLikeType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">groups</span><span class="p">:</span> <span class="n">OneDimArrayLikeType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">fit_params</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;OptunaSearchCV&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Run fit with all sets of parameters.</span>
@@ -1044,7 +1051,7 @@
 <div class="viewcode-block" id="OptunaSearchCV.score"><a class="viewcode-back" href="../../../reference/generated/optuna.integration.OptunaSearchCV.html#optuna.integration.OptunaSearchCV.score">[docs]</a>    <span class="k">def</span> <span class="nf">score</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">X</span><span class="p">:</span> <span class="n">TwoDimArrayLikeType</span><span class="p">,</span>
-        <span class="n">y</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">OneDimArrayLikeType</span><span class="p">,</span> <span class="n">TwoDimArrayLikeType</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">y</span><span class="p">:</span> <span class="n">OneDimArrayLikeType</span> <span class="o">|</span> <span class="n">TwoDimArrayLikeType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the score on the given data.</span>
 

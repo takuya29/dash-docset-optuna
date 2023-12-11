@@ -2,25 +2,25 @@
 
 <html class="writer-html5" lang="en">
 <head>
-<meta charset="utf-8"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Optuna Artifacts Tutorial — Optuna 3.4.0 documentation</title>
-<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/css/theme.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<title>Optuna Artifacts Tutorial — Optuna 3.5.0 documentation</title>
+<link href="../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/theme.css?v=19f00094" rel="stylesheet" type="text/css"/>
+<link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
 <link href="../../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/sg_gallery.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/sg_gallery-binder.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/sg_gallery-dataframe.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/sg_gallery-rendered-html.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/css/custom.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery.css?v=61a4c737" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-binder.css?v=f4aeca0c" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/custom.css?v=3150ea5e" rel="stylesheet" type="text/css"/>
 <link href="../../_static/favicon.ico" rel="shortcut icon"/>
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
 <script src="../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=5bbd4ff5"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=3f729fb1"></script>
 <script src="../../_static/doctools.js?v=888ff710"></script>
 <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -68,7 +68,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.4.0
+                3.5.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -346,7 +346,7 @@ formulating the problem as a minimization problem of an objective function that 
 molecule as input and outputs the adsorption energy, this problem is solved as a black-box optimization problem.</p>
 <p>First, let’s import the necessary modules and define some helper functions. You need to install the ASE library for handling
 chemical structures in addition to Optuna, so please install it with <cite>pip install ase</cite>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span> <span class="nn">io</span>
 <span class="kn">import</span> <span class="nn">logging</span>
@@ -426,7 +426,7 @@ stable structure, then saves the structure in the artifact store and returns the
 specified using SQLite, and a back end using the local file system is used for the artifact store. In other words, it corresponds
 to Scenario 1 explained in the previous section. After performing 100 trials of optimization, it displays the information for the
 best trial, and finally saves the chemical structure as <cite>best_atoms.png</cite>. The obtained <cite>best_atoms.png</cite> is shown in Figure 4.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Objective</span><span class="p">:</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Objective</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">artifact_store</span><span class="p">:</span> <span class="n">FileSystemArtifactStore</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_artifact_store</span> <span class="o">=</span> <span class="n">artifact_store</span>
 
@@ -510,18 +510,18 @@ FileSystemArtifactStore is experimental (supported from v3.3.0). The interface c
 
 upload_artifact is experimental (supported from v3.3.0). The interface can change in the future.
 
-Trial 0 finished with value: -0.9849687913732377 and parameters: {'phi': -0.4663963709814516, 'theta': 0.5109388344625783, 'psi': -0.9709894987358423, 'x_pos': 0.09998642969343113, 'y_pos': 0.058447283562646, 'z_hig': 2.573940766392553}. Best is trial 0 with value: -0.9849687913732377.
-Trial 1 finished with value: -0.9844331732953704 and parameters: {'phi': -0.7743760000292277, 'theta': 0.9879550848853642, 'psi': -0.43202891008988, 'x_pos': 0.30538478068941566, 'y_pos': 0.2146849057814446, 'z_hig': 1.110931536993435}. Best is trial 0 with value: -0.9849687913732377.
-Trial 2 finished with value: -0.0008514337863234633 and parameters: {'phi': -0.4818254521581333, 'theta': -0.6458089845537951, 'psi': -0.3368717284788758, 'x_pos': 0.03702800903190073, 'y_pos': 0.4605400475442619, 'z_hig': 4.522513669010976}. Best is trial 0 with value: -0.9849687913732377.
+Trial 0 finished with value: -0.985260924667408 and parameters: {'phi': 0.989505296823826, 'theta': 0.10066427488971774, 'psi': -0.07153020479964045, 'x_pos': 0.05276910624021197, 'y_pos': 0.24390981050567034, 'z_hig': 2.4762266426601536}. Best is trial 0 with value: -0.985260924667408.
+Trial 1 finished with value: -0.9849324075330659 and parameters: {'phi': 0.778429470511552, 'theta': 0.6519330676979787, 'psi': 0.4333102339931383, 'x_pos': 0.3345450157401969, 'y_pos': 0.37202564318898534, 'z_hig': 1.033425242200721}. Best is trial 0 with value: -0.985260924667408.
+Trial 2 finished with value: -0.9844005164330947 and parameters: {'phi': -0.6437860879383521, 'theta': 0.6171369430029547, 'psi': 0.49311965917619305, 'x_pos': 0.11717888741673887, 'y_pos': 0.4576011663680069, 'z_hig': 4.0554108521448}. Best is trial 0 with value: -0.985260924667408.
 Best trial is #0
-    Its adsorption energy is -0.9849687913732377
+    Its adsorption energy is -0.985260924667408
     Its adsorption position is
-        phi  : -0.4663963709814516
-        theta: 0.5109388344625783
-        psi. : -0.9709894987358423
-        x_pos: 0.09998642969343113
-        y_pos: 0.058447283562646
-        z_hig: 2.573940766392553
+        phi  : 0.989505296823826
+        theta: 0.10066427488971774
+        psi. : -0.07153020479964045
+        x_pos: 0.05276910624021197
+        y_pos: 0.24390981050567034
+        z_hig: 2.4762266426601536
 Atoms(symbols='COPt64', pbc=True, cell=[[11.087434329005065, 0.0, 0.0], [5.5437171645025325, 9.601999791710057, 0.0], [0.0, 0.0, 86.78963916567001]], tags=..., calculator=SinglePointCalculator(...))
 </pre></div>
 </div>
@@ -546,13 +546,13 @@ avoid overloading it, such as in an external file system or AWS S3.</p>
 purposes such as saving snapshots of machine learning models, optimizing chemical structures, and human-in-the-loop optimization
 of images and sounds. It’s a powerful assistant for black-box optimization with Optuna. Also, if there are ways to use it that
 we, the Optuna committers, haven’t noticed, please let us know on GitHub discussions. Have a great optimization life with Optuna!</p>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (3 minutes 26.877 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 28.404 seconds)</p>
 <a class="dashAnchor" name="//apple_ref/cpp/Section/sphx_glr_download_tutorial_20_recipes_012_artifact_tutorial.py"></a><div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorial-20-recipes-012-artifact-tutorial-py">
-<div class="sphx-glr-download sphx-glr-download-python docutils container">
-<p><a class="reference download internal" download="" href="../../_downloads/c6677d4c023c6db19263bfde776df019/012_artifact_tutorial.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">012_artifact_tutorial.py</span></code></a></p>
-</div>
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/6e6a1710a8301512ef0074d3b66ee7fd/012_artifact_tutorial.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">012_artifact_tutorial.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/c6677d4c023c6db19263bfde776df019/012_artifact_tutorial.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">012_artifact_tutorial.py</span></code></a></p>
 </div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
