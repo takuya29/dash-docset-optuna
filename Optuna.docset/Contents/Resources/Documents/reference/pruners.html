@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.pruners — Optuna 3.5.0 documentation</title>
+<title>optuna.pruners — Optuna 3.6.0 documentation</title>
 <link href="../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
 <link href="../_static/css/theme.css?v=19f00094" rel="stylesheet" type="text/css"/>
 <link href="../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
@@ -20,7 +20,7 @@
   <![endif]-->
 <script src="../_static/jquery.js?v=5d32c60e"></script>
 <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=3f729fb1"></script>
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=9222ef7d"></script>
 <script src="../_static/doctools.js?v=888ff710"></script>
 <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -70,7 +70,7 @@
 <img alt="Logo" class="logo" src="../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.5.0
+                3.6.0
               </div>
 <div role="search">
 <form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -102,6 +102,7 @@
 <li class="toctree-l3"><a class="reference internal" href="generated/optuna.pruners.SuccessiveHalvingPruner.html">optuna.pruners.SuccessiveHalvingPruner</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/optuna.pruners.HyperbandPruner.html">optuna.pruners.HyperbandPruner</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/optuna.pruners.ThresholdPruner.html">optuna.pruners.ThresholdPruner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/optuna.pruners.WilcoxonPruner.html">optuna.pruners.WilcoxonPruner</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="samplers/index.html">optuna.samplers</a></li>
@@ -137,6 +138,10 @@
 <span class="target" id="module-optuna.pruners"></span><section id="optuna-pruners">
 <a class="dashAnchor" name="//apple_ref/cpp/Module/optuna.pruners"></a><h1>optuna.pruners<a class="headerlink" href="#optuna-pruners" title="Permalink to this heading"></a></h1>
 <p>The <a class="reference internal" href="#module-optuna.pruners" title="optuna.pruners"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pruners</span></code></a> module defines a <a class="reference internal" href="generated/optuna.pruners.BasePruner.html#optuna.pruners.BasePruner" title="optuna.pruners.BasePruner"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasePruner</span></code></a> class characterized by an abstract <a class="reference internal" href="generated/optuna.pruners.BasePruner.html#optuna.pruners.BasePruner.prune" title="optuna.pruners.BasePruner.prune"><code class="xref py py-meth docutils literal notranslate"><span class="pre">prune()</span></code></a> method, which, for a given trial and its associated study, returns a boolean value representing whether the trial should be pruned. This determination is made based on stored intermediate values of the objective function, as previously reported for the trial using <a class="reference internal" href="generated/optuna.trial.Trial.html#optuna.trial.Trial.report" title="optuna.trial.Trial.report"><code class="xref py py-meth docutils literal notranslate"><span class="pre">optuna.trial.Trial.report()</span></code></a>. The remaining classes in this module represent child classes, inheriting from <a class="reference internal" href="generated/optuna.pruners.BasePruner.html#optuna.pruners.BasePruner" title="optuna.pruners.BasePruner"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasePruner</span></code></a>, which implement different pruning strategies.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Currently <a class="reference internal" href="#module-optuna.pruners" title="optuna.pruners"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pruners</span></code></a> module is expected to be used only for single-objective optimization.</p>
+</div>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <p><a class="reference internal" href="../tutorial/10_key_features/003_efficient_optimization_algorithms.html#pruning"><span class="std std-ref">Efficient Optimization Algorithms</span></a> tutorial explains the concept of the pruner classes and a minimal example.</p>
@@ -170,6 +175,9 @@
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.pruners.ThresholdPruner.html#optuna.pruners.ThresholdPruner" title="optuna.pruners.ThresholdPruner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.pruners.ThresholdPruner</span></code></a></p></td>
 <td><p>Pruner to detect outlying metrics of the trials.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.pruners.WilcoxonPruner.html#optuna.pruners.WilcoxonPruner" title="optuna.pruners.WilcoxonPruner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.pruners.WilcoxonPruner</span></code></a></p></td>
+<td><p>Pruner based on the <a class="reference external" href="https://en.wikipedia.org/w/index.php?title=Wilcoxon_signed-rank_test&amp;oldid=1195011212">Wilcoxon signed-rank test</a>.</p></td>
 </tr>
 </tbody>
 </table>

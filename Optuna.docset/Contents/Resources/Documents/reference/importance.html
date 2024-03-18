@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.importance — Optuna 3.5.0 documentation</title>
+<title>optuna.importance — Optuna 3.6.0 documentation</title>
 <link href="../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
 <link href="../_static/css/theme.css?v=19f00094" rel="stylesheet" type="text/css"/>
 <link href="../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
@@ -20,7 +20,7 @@
   <![endif]-->
 <script src="../_static/jquery.js?v=5d32c60e"></script>
 <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=3f729fb1"></script>
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=9222ef7d"></script>
 <script src="../_static/doctools.js?v=888ff710"></script>
 <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -70,7 +70,7 @@
 <img alt="Logo" class="logo" src="../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.5.0
+                3.6.0
               </div>
 <div role="search">
 <form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -94,6 +94,7 @@
 <li class="toctree-l3"><a class="reference internal" href="generated/optuna.importance.get_param_importances.html">optuna.importance.get_param_importances</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/optuna.importance.FanovaImportanceEvaluator.html">optuna.importance.FanovaImportanceEvaluator</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/optuna.importance.MeanDecreaseImpurityImportanceEvaluator.html">optuna.importance.MeanDecreaseImpurityImportanceEvaluator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/optuna.importance.PedAnovaImportanceEvaluator.html">optuna.importance.PedAnovaImportanceEvaluator</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="integration.html">optuna.integration</a></li>
@@ -131,13 +132,14 @@
 <div itemprop="articleBody">
 <span class="target" id="module-optuna.importance"></span><section id="optuna-importance">
 <a class="dashAnchor" name="//apple_ref/cpp/Module/optuna.importance"></a><h1>optuna.importance<a class="headerlink" href="#optuna-importance" title="Permalink to this heading"></a></h1>
-<p>The <a class="reference internal" href="#module-optuna.importance" title="optuna.importance"><code class="xref py py-mod docutils literal notranslate"><span class="pre">importance</span></code></a> module provides functionality for evaluating hyperparameter importances based on completed trials in a given study. The utility function <a class="reference internal" href="generated/optuna.importance.get_param_importances.html#optuna.importance.get_param_importances" title="optuna.importance.get_param_importances"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_param_importances()</span></code></a> takes a <a class="reference internal" href="generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> and optional evaluator as two of its inputs. The evaluator must derive from <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseImportanceEvaluator</span></code>, and is initialized as a <a class="reference internal" href="generated/optuna.importance.FanovaImportanceEvaluator.html#optuna.importance.FanovaImportanceEvaluator" title="optuna.importance.FanovaImportanceEvaluator"><code class="xref py py-class docutils literal notranslate"><span class="pre">FanovaImportanceEvaluator</span></code></a> by default when not passed in. Users implementing custom evaluators should refer to either <a class="reference internal" href="generated/optuna.importance.FanovaImportanceEvaluator.html#optuna.importance.FanovaImportanceEvaluator" title="optuna.importance.FanovaImportanceEvaluator"><code class="xref py py-class docutils literal notranslate"><span class="pre">FanovaImportanceEvaluator</span></code></a> or <a class="reference internal" href="generated/optuna.importance.MeanDecreaseImpurityImportanceEvaluator.html#optuna.importance.MeanDecreaseImpurityImportanceEvaluator" title="optuna.importance.MeanDecreaseImpurityImportanceEvaluator"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeanDecreaseImpurityImportanceEvaluator</span></code></a> as a guide, paying close attention to the format of the return value from the Evaluator’s <code class="docutils literal notranslate"><span class="pre">evaluate</span></code> function.</p>
+<p>The <a class="reference internal" href="#module-optuna.importance" title="optuna.importance"><code class="xref py py-mod docutils literal notranslate"><span class="pre">importance</span></code></a> module provides functionality for evaluating hyperparameter importances based on completed trials in a given study. The utility function <a class="reference internal" href="generated/optuna.importance.get_param_importances.html#optuna.importance.get_param_importances" title="optuna.importance.get_param_importances"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_param_importances()</span></code></a> takes a <a class="reference internal" href="generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> and optional evaluator as two of its inputs. The evaluator must derive from <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseImportanceEvaluator</span></code>, and is initialized as a <a class="reference internal" href="generated/optuna.importance.FanovaImportanceEvaluator.html#optuna.importance.FanovaImportanceEvaluator" title="optuna.importance.FanovaImportanceEvaluator"><code class="xref py py-class docutils literal notranslate"><span class="pre">FanovaImportanceEvaluator</span></code></a> by default when not passed in. Users implementing custom evaluators should refer to either <a class="reference internal" href="generated/optuna.importance.FanovaImportanceEvaluator.html#optuna.importance.FanovaImportanceEvaluator" title="optuna.importance.FanovaImportanceEvaluator"><code class="xref py py-class docutils literal notranslate"><span class="pre">FanovaImportanceEvaluator</span></code></a>, <a class="reference internal" href="generated/optuna.importance.MeanDecreaseImpurityImportanceEvaluator.html#optuna.importance.MeanDecreaseImpurityImportanceEvaluator" title="optuna.importance.MeanDecreaseImpurityImportanceEvaluator"><code class="xref py py-class docutils literal notranslate"><span class="pre">MeanDecreaseImpurityImportanceEvaluator</span></code></a>, or <a class="reference internal" href="generated/optuna.importance.PedAnovaImportanceEvaluator.html#optuna.importance.PedAnovaImportanceEvaluator" title="optuna.importance.PedAnovaImportanceEvaluator"><code class="xref py py-class docutils literal notranslate"><span class="pre">PedAnovaImportanceEvaluator</span></code></a> as a guide, paying close attention to the format of the return value from the Evaluator’s <code class="docutils literal notranslate"><span class="pre">evaluate</span></code> function.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><a class="reference internal" href="generated/optuna.importance.FanovaImportanceEvaluator.html#optuna.importance.FanovaImportanceEvaluator" title="optuna.importance.FanovaImportanceEvaluator"><code class="xref py py-class docutils literal notranslate"><span class="pre">FanovaImportanceEvaluator</span></code></a> takes over 1 minute when given a study that contains 1000+ trials.
 We published <a class="reference external" href="https://github.com/optuna/optuna-fast-fanova">optuna-fast-fanova</a> library,
 that is a Cython accelerated fANOVA implementation. By using it, you can get hyperparameter
-importances within a few seconds.</p>
+importances within a few seconds.
+If <code class="docutils literal notranslate"><span class="pre">n_trials</span></code> is more than 10000, the Cython implementation takes more than a minute, so you can use <a class="reference internal" href="generated/optuna.importance.PedAnovaImportanceEvaluator.html#optuna.importance.PedAnovaImportanceEvaluator" title="optuna.importance.PedAnovaImportanceEvaluator"><code class="xref py py-class docutils literal notranslate"><span class="pre">PedAnovaImportanceEvaluator</span></code></a> instead, enabling the evaluation to finish in a second.</p>
 </div>
 <table class="autosummary longtable docutils align-default">
 <tbody>
@@ -149,6 +151,9 @@ importances within a few seconds.</p>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.importance.MeanDecreaseImpurityImportanceEvaluator.html#optuna.importance.MeanDecreaseImpurityImportanceEvaluator" title="optuna.importance.MeanDecreaseImpurityImportanceEvaluator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.importance.MeanDecreaseImpurityImportanceEvaluator</span></code></a></p></td>
 <td><p>Mean Decrease Impurity (MDI) parameter importance evaluator.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.importance.PedAnovaImportanceEvaluator.html#optuna.importance.PedAnovaImportanceEvaluator" title="optuna.importance.PedAnovaImportanceEvaluator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.importance.PedAnovaImportanceEvaluator</span></code></a></p></td>
+<td><p>PED-ANOVA importance evaluator.</p></td>
 </tr>
 </tbody>
 </table>

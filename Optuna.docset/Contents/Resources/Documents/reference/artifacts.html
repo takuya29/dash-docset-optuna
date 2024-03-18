@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.artifacts — Optuna 3.5.0 documentation</title>
+<title>optuna.artifacts — Optuna 3.6.0 documentation</title>
 <link href="../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
 <link href="../_static/css/theme.css?v=19f00094" rel="stylesheet" type="text/css"/>
 <link href="../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
@@ -20,7 +20,7 @@
   <![endif]-->
 <script src="../_static/jquery.js?v=5d32c60e"></script>
 <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=3f729fb1"></script>
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=9222ef7d"></script>
 <script src="../_static/doctools.js?v=888ff710"></script>
 <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -28,7 +28,7 @@
 <script src="../_static/js/theme.js"></script>
 <link href="../genindex.html" rel="index" title="Index"/>
 <link href="../search.html" rel="search" title="Search"/>
-<link href="generated/optuna.artifacts.FileSystemArtifactStore.html" rel="next" title="optuna.artifacts.FileSystemArtifactStore"/>
+<link href="cli.html" rel="next" title="optuna.cli"/>
 <link href="generated/optuna.TrialPruned.html" rel="prev" title="optuna.TrialPruned"/>
 </head>
 <body class="wy-body-for-nav">
@@ -70,7 +70,7 @@
 <img alt="Logo" class="logo" src="../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.5.0
+                3.6.0
               </div>
 <div role="search">
 <form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -87,11 +87,11 @@
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="optuna.html">optuna</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">optuna.artifacts</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="generated/optuna.artifacts.FileSystemArtifactStore.html">optuna.artifacts.FileSystemArtifactStore</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/optuna.artifacts.Boto3ArtifactStore.html">optuna.artifacts.Boto3ArtifactStore</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/optuna.artifacts.GCSArtifactStore.html">optuna.artifacts.GCSArtifactStore</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/optuna.artifacts.Backoff.html">optuna.artifacts.Backoff</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/optuna.artifacts.upload_artifact.html">optuna.artifacts.upload_artifact</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#optuna.artifacts.FileSystemArtifactStore"><code class="docutils literal notranslate"><span class="pre">FileSystemArtifactStore</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#optuna.artifacts.Boto3ArtifactStore"><code class="docutils literal notranslate"><span class="pre">Boto3ArtifactStore</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#optuna.artifacts.GCSArtifactStore"><code class="docutils literal notranslate"><span class="pre">GCSArtifactStore</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#optuna.artifacts.Backoff"><code class="docutils literal notranslate"><span class="pre">Backoff</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#optuna.artifacts.upload_artifact"><code class="docutils literal notranslate"><span class="pre">upload_artifact()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="cli.html">optuna.cli</a></li>
@@ -134,31 +134,189 @@
 <span class="target" id="module-optuna.artifacts"></span><section id="optuna-artifacts">
 <a class="dashAnchor" name="//apple_ref/cpp/Module/optuna.artifacts"></a><h1>optuna.artifacts<a class="headerlink" href="#optuna-artifacts" title="Permalink to this heading"></a></h1>
 <p>The <a class="reference internal" href="#module-optuna.artifacts" title="optuna.artifacts"><code class="xref py py-mod docutils literal notranslate"><span class="pre">artifacts</span></code></a> module provides the way to manage artifacts (output files) in Optuna.</p>
-<table class="autosummary longtable docutils align-default">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.artifacts.FileSystemArtifactStore.html#optuna.artifacts.FileSystemArtifactStore" title="optuna.artifacts.FileSystemArtifactStore"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.artifacts.FileSystemArtifactStore</span></code></a></p></td>
-<td><p>An artifact store for file systems.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.artifacts.Boto3ArtifactStore.html#optuna.artifacts.Boto3ArtifactStore" title="optuna.artifacts.Boto3ArtifactStore"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.artifacts.Boto3ArtifactStore</span></code></a></p></td>
-<td><p>An artifact backend for Boto3.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.artifacts.GCSArtifactStore.html#optuna.artifacts.GCSArtifactStore" title="optuna.artifacts.GCSArtifactStore"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.artifacts.GCSArtifactStore</span></code></a></p></td>
-<td><p>An artifact backend for Google Cloud Storage (GCS).</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.artifacts.Backoff.html#optuna.artifacts.Backoff" title="optuna.artifacts.Backoff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.artifacts.Backoff</span></code></a></p></td>
-<td><p>An artifact store's middleware for exponential backoff.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.artifacts.upload_artifact.html#optuna.artifacts.upload_artifact" title="optuna.artifacts.upload_artifact"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.artifacts.upload_artifact</span></code></a></p></td>
-<td><p>Upload an artifact to the artifact store.</p></td>
-</tr>
-</tbody>
-</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="optuna.artifacts.FileSystemArtifactStore">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.artifacts.</span></span><span class="sig-name descname"><span class="pre">FileSystemArtifactStore</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/optuna/artifacts/_filesystem.html#FileSystemArtifactStore"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.artifacts.FileSystemArtifactStore"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.artifacts._filesystem.FileSystemArtifactStore"></a><a class="headerlink" href="#optuna.artifacts.FileSystemArtifactStore" title="Permalink to this definition"></a></dt>
+<dd><p>An artifact store for file systems.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>base_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em> | </em><em>Path</em>) – The base path to a directory to store artifacts.</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">import</span> <span class="nn">optuna</span>
+<span class="kn">from</span> <span class="nn">optuna.artifacts</span> <span class="kn">import</span> <span class="n">FileSystemArtifactStore</span>
+<span class="kn">from</span> <span class="nn">optuna.artifacts</span> <span class="kn">import</span> <span class="n">upload_artifact</span>
+
+
+<span class="n">base_path</span> <span class="o">=</span> <span class="s2">"./artifacts"</span>
+<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">artifact_store</span> <span class="o">=</span> <span class="n">FileSystemArtifactStore</span><span class="p">(</span><span class="n">base_path</span><span class="o">=</span><span class="n">base_path</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">:</span> <span class="n">optuna</span><span class="o">.</span><span class="n">Trial</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="o">...</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">file_path</span> <span class="o">=</span> <span class="n">generate_example</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">upload_artifact</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">artifact_store</span><span class="p">)</span>
+    <span class="k">return</span> <span class="o">...</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Added in v3.3.0 as an experimental feature. The interface may change in newer versions
+without prior notice. See <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v3.3.0">https://github.com/optuna/optuna/releases/tag/v3.3.0</a>.</p>
+</div>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="optuna.artifacts.Boto3ArtifactStore">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.artifacts.</span></span><span class="sig-name descname"><span class="pre">Boto3ArtifactStore</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avoid_buf_copy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/optuna/artifacts/_boto3.html#Boto3ArtifactStore"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.artifacts.Boto3ArtifactStore"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.artifacts._boto3.Boto3ArtifactStore"></a><a class="headerlink" href="#optuna.artifacts.Boto3ArtifactStore" title="Permalink to this definition"></a></dt>
+<dd><p>An artifact backend for Boto3.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bucket_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the bucket to store artifacts.</p></li>
+<li><p><strong>client</strong> (<em>S3Client</em><em> | </em><em>None</em>) – A Boto3 client to use for storage operations. If not specified, a new client will
+be created.</p></li>
+<li><p><strong>avoid_buf_copy</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – If True, skip procedure to copy the content of the source file object to a buffer
+before uploading it to S3 ins. This is default to False because using upload_fileobj()
+method of Boto3 client might close the source file object.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optuna</span>
+<span class="kn">from</span> <span class="nn">optuna.artifacts</span> <span class="kn">import</span> <span class="n">upload_artifact</span>
+<span class="kn">from</span> <span class="nn">optuna.artifacts</span> <span class="kn">import</span> <span class="n">Boto3ArtifactStore</span>
+
+
+<span class="n">artifact_store</span> <span class="o">=</span> <span class="n">Boto3ArtifactStore</span><span class="p">(</span><span class="s2">"my-bucket"</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">:</span> <span class="n">optuna</span><span class="o">.</span><span class="n">Trial</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="o">...</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">file_path</span> <span class="o">=</span> <span class="n">generate_example</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">upload_artifact</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">artifact_store</span><span class="p">)</span>
+    <span class="k">return</span> <span class="o">...</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Added in v3.3.0 as an experimental feature. The interface may change in newer versions
+without prior notice. See <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v3.3.0">https://github.com/optuna/optuna/releases/tag/v3.3.0</a>.</p>
+</div>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="optuna.artifacts.GCSArtifactStore">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.artifacts.</span></span><span class="sig-name descname"><span class="pre">GCSArtifactStore</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bucket_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/optuna/artifacts/_gcs.html#GCSArtifactStore"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.artifacts.GCSArtifactStore"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.artifacts._gcs.GCSArtifactStore"></a><a class="headerlink" href="#optuna.artifacts.GCSArtifactStore" title="Permalink to this definition"></a></dt>
+<dd><p>An artifact backend for Google Cloud Storage (GCS).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bucket_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the bucket to store artifacts.</p></li>
+<li><p><strong>client</strong> (<em>google.cloud.storage.Client</em><em> | </em><em>None</em>) – A google-cloud-storage <cite>Client</cite> to use for storage operations. If not specified, a new
+client will be created with default settings.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optuna</span>
+<span class="kn">from</span> <span class="nn">optuna.artifacts</span> <span class="kn">import</span> <span class="n">GCSArtifactStore</span><span class="p">,</span> <span class="n">upload_artifact</span>
+
+
+<span class="n">artifact_backend</span> <span class="o">=</span> <span class="n">GCSArtifactStore</span><span class="p">(</span><span class="s2">"my-bucket"</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">:</span> <span class="n">optuna</span><span class="o">.</span><span class="n">Trial</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="o">...</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">file_path</span> <span class="o">=</span> <span class="n">generate_example</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">upload_artifact</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">artifact_backend</span><span class="p">)</span>
+    <span class="k">return</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p>Before running this code, you will have to install <cite>gcloud</cite> and run</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gcloud<span class="w"> </span>auth<span class="w"> </span>application-default<span class="w"> </span>login
+</pre></div>
+</div>
+<p>so that the Cloud Storage library can automatically find the credential.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Added in v3.4.0 as an experimental feature. The interface may change in newer versions
+without prior notice. See <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v3.4.0">https://github.com/optuna/optuna/releases/tag/v3.4.0</a>.</p>
+</div>
+</dd></dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="optuna.artifacts.Backoff">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.artifacts.</span></span><span class="sig-name descname"><span class="pre">Backoff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">backend</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_retries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multiplier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/optuna/artifacts/_backoff.html#Backoff"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.artifacts.Backoff"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.artifacts._backoff.Backoff"></a><a class="headerlink" href="#optuna.artifacts.Backoff" title="Permalink to this definition"></a></dt>
+<dd><p>An artifact store’s middleware for exponential backoff.</p>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optuna</span>
+<span class="kn">from</span> <span class="nn">optuna.artifacts</span> <span class="kn">import</span> <span class="n">upload_artifact</span>
+<span class="kn">from</span> <span class="nn">optuna.artifacts</span> <span class="kn">import</span> <span class="n">Boto3ArtifactStore</span>
+<span class="kn">from</span> <span class="nn">optuna.artifacts</span> <span class="kn">import</span> <span class="n">Backoff</span>
+
+
+<span class="n">artifact_store</span> <span class="o">=</span> <span class="n">Backoff</span><span class="p">(</span><span class="n">Boto3ArtifactStore</span><span class="p">(</span><span class="s2">"my-bucket"</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">:</span> <span class="n">optuna</span><span class="o">.</span><span class="n">Trial</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="o">...</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">file_path</span> <span class="o">=</span> <span class="n">generate_example</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+    <span class="n">upload_artifact</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">artifact_store</span><span class="p">)</span>
+    <span class="k">return</span> <span class="o">...</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>backend</strong> (<em>ArtifactStore</em>) – </p></li>
+<li><p><strong>max_retries</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – </p></li>
+<li><p><strong>multiplier</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – </p></li>
+<li><p><strong>min_delay</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – </p></li>
+<li><p><strong>max_delay</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="optuna.artifacts.upload_artifact">
+<span class="sig-prename descclassname"><span class="pre">optuna.artifacts.</span></span><span class="sig-name descname"><span class="pre">upload_artifact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study_or_trial</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">artifact_store</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">storage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mimetype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/optuna/artifacts/_upload.html#upload_artifact"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Function/optuna.artifacts.upload_artifact"></a><a class="headerlink" href="#optuna.artifacts.upload_artifact" title="Permalink to this definition"></a></dt>
+<dd><p>Upload an artifact to the artifact store.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>study_or_trial</strong> (<a class="reference internal" href="generated/optuna.trial.Trial.html#optuna.trial.Trial" title="optuna.trial.Trial"><em>Trial</em></a><em> | </em><a class="reference internal" href="generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><em>FrozenTrial</em></a><em> | </em><a class="reference internal" href="generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><em>Study</em></a>) – A <a class="reference internal" href="generated/optuna.trial.Trial.html#optuna.trial.Trial" title="optuna.trial.Trial"><code class="xref py py-class docutils literal notranslate"><span class="pre">Trial</span></code></a> object, a <a class="reference internal" href="generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrozenTrial</span></code></a>, or
+a <a class="reference internal" href="generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> object.</p></li>
+<li><p><strong>file_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – A path to the file to be uploaded.</p></li>
+<li><p><strong>artifact_store</strong> (<em>ArtifactStore</em>) – An artifact store.</p></li>
+<li><p><strong>storage</strong> (<em>BaseStorage</em><em> | </em><em>None</em>) – A storage object. If trial is not a <a class="reference internal" href="generated/optuna.trial.Trial.html#optuna.trial.Trial" title="optuna.trial.Trial"><code class="xref py py-class docutils literal notranslate"><span class="pre">Trial</span></code></a> object, this argument
+is required.</p></li>
+<li><p><strong>mimetype</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em> | </em><em>None</em>) – A MIME type of the artifact. If not specified, the MIME type is guessed from the file
+extension.</p></li>
+<li><p><strong>encoding</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em> | </em><em>None</em>) – An encoding of the artifact, which is suitable for use as a <code class="docutils literal notranslate"><span class="pre">Content-Encoding</span></code>
+header (e.g. gzip). If not specified, the encoding is guessed from the file extension.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An artifact ID.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Added in v3.3.0 as an experimental feature. The interface may change in newer versions
+without prior notice. See <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v3.3.0">https://github.com/optuna/optuna/releases/tag/v3.3.0</a>.</p>
+</div>
+</dd></dl>
 </section>
 </div>
 </div>
 <footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
 <a accesskey="p" class="btn btn-neutral float-left" href="generated/optuna.TrialPruned.html" rel="prev" title="optuna.TrialPruned"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
-<a accesskey="n" class="btn btn-neutral float-right" href="generated/optuna.artifacts.FileSystemArtifactStore.html" rel="next" title="optuna.artifacts.FileSystemArtifactStore">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+<a accesskey="n" class="btn btn-neutral float-right" href="cli.html" rel="next" title="optuna.cli">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
 </div>
 <hr/>
 <div role="contentinfo">

@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.samplers.TPESampler — Optuna 3.5.0 documentation</title>
+<title>optuna.samplers.TPESampler — Optuna 3.6.0 documentation</title>
 <link href="../../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/css/theme.css?v=19f00094" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
@@ -20,7 +20,7 @@
   <![endif]-->
 <script src="../../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=3f729fb1"></script>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=9222ef7d"></script>
 <script src="../../../_static/doctools.js?v=888ff710"></script>
 <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -70,7 +70,7 @@
 <img alt="Logo" class="logo" src="../../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.5.0
+                3.6.0
               </div>
 <div role="search">
 <form action="../../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -103,6 +103,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.CmaEsSampler.html">optuna.samplers.CmaEsSampler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.samplers.GPSampler.html">optuna.samplers.GPSampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.PartialFixedSampler.html">optuna.samplers.PartialFixedSampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.NSGAIISampler.html">optuna.samplers.NSGAIISampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.NSGAIIISampler.html">optuna.samplers.NSGAIIISampler</a></li>
@@ -165,7 +166,7 @@ Better Empirical Performance</a></p></li>
 </ul>
 <p>For multi-objective TPE (MOTPE), please refer to the following papers:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://dl.acm.org/doi/10.1145/3377930.3389817">Multiobjective Tree-Structured Parzen Estimator for Computationally Expensive Optimization
+<li><p><a class="reference external" href="https://doi.org/10.1145/3377930.3389817">Multiobjective Tree-Structured Parzen Estimator for Computationally Expensive Optimization
 Problems</a></p></li>
 <li><p><a class="reference external" href="https://doi.org/10.1613/jair.1.13188">Multiobjective Tree-Structured Parzen Estimator</a></p></li>
 </ul>
@@ -237,7 +238,7 @@ for more details.</p>
 <p>In the multi-objective case, this argument is only used to compute the weights of
 bad trials, i.e., trials to construct <cite>g(x)</cite> in the <a class="reference external" href="https://papers.nips.cc/paper/4443-algorithms-for-hyper-parameter-optimization.pdf">paper</a>
 ). The weights of good trials, i.e., trials to construct <cite>l(x)</cite>, are computed by a
-rule based on the hypervolume contribution proposed in the <a class="reference external" href="https://dl.acm.org/doi/10.1145/3377930.3389817">paper of MOTPE</a>.</p>
+rule based on the hypervolume contribution proposed in the <a class="reference external" href="https://doi.org/10.1613/jair.1.13188">paper of MOTPE</a>.</p>
 </div>
 </p></li>
 <li><p><strong>seed</strong> (<em>Optional</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>]</em>) – Seed for random number generator.</p></li>

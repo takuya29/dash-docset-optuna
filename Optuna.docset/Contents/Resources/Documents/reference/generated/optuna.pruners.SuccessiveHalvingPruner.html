@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.pruners.SuccessiveHalvingPruner — Optuna 3.5.0 documentation</title>
+<title>optuna.pruners.SuccessiveHalvingPruner — Optuna 3.6.0 documentation</title>
 <link href="../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css?v=19f00094" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
@@ -20,7 +20,7 @@
   <![endif]-->
 <script src="../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=3f729fb1"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=9222ef7d"></script>
 <script src="../../_static/doctools.js?v=888ff710"></script>
 <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -71,7 +71,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.5.0
+                3.6.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -106,6 +106,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.pruners.HyperbandPruner.html">optuna.pruners.HyperbandPruner</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.pruners.ThresholdPruner.html">optuna.pruners.ThresholdPruner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.pruners.WilcoxonPruner.html">optuna.pruners.WilcoxonPruner</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../samplers/index.html">optuna.samplers</a></li>
@@ -145,10 +146,10 @@
 <dt class="sig sig-object py" id="optuna.pruners.SuccessiveHalvingPruner">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.pruners.</span></span><span class="sig-name descname"><span class="pre">SuccessiveHalvingPruner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min_resource</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reduction_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_early_stopping_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bootstrap_count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/pruners/_successive_halving.html#SuccessiveHalvingPruner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.pruners.SuccessiveHalvingPruner"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.pruners._successive_halving.SuccessiveHalvingPruner"></a><a class="headerlink" href="#optuna.pruners.SuccessiveHalvingPruner" title="Permalink to this definition"></a></dt>
 <dd><p>Pruner using Asynchronous Successive Halving Algorithm.</p>
-<p><a class="reference external" href="https://arxiv.org/abs/1502.07943">Successive Halving</a> is a bandit-based algorithm to
-identify the best one among multiple configurations. This class implements an asynchronous
-version of Successive Halving. Please refer to the paper of
-<a class="reference external" href="http://arxiv.org/abs/1810.05934">Asynchronous Successive Halving</a> for detailed descriptions.</p>
+<p><a class="reference external" href="https://proceedings.mlr.press/v51/jamieson16.html">Successive Halving</a> is a bandit-based
+algorithm to identify the best one among multiple configurations. This class implements an
+asynchronous version of Successive Halving. Please refer to the paper of
+<a class="reference external" href="https://proceedings.mlsys.org/paper_files/paper/2020/file/a06f20b349c6cf09a6b171c71b88bbfc-Paper.pdf">Asynchronous Successive Halving</a> for detailed descriptions.</p>
 <p>Note that, this class does not take care of the parameter for the maximum
 resource, referred to as <span class="math notranslate nohighlight">\(R\)</span> in the paper. The maximum resource allocated to a trial is
 typically limited inside the objective function (e.g., <code class="docutils literal notranslate"><span class="pre">step</span></code> number in <a class="reference external" href="https://github.com/optuna/optuna-examples/blob/main/simple_pruning.py">simple_pruning.py</a>,
@@ -198,8 +199,8 @@ typically limited inside the objective function (e.g., <code class="docutils lit
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>min_resource</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – <p>A parameter for specifying the minimum resource allocated to a trial
-(in the <a class="reference external" href="http://arxiv.org/abs/1810.05934">paper</a> this parameter is
-referred to as <span class="math notranslate nohighlight">\(r\)</span>).
+(in the <a class="reference external" href="https://proceedings.mlsys.org/paper_files/paper/2020/file/a06f20b349c6cf09a6b171c71b88bbfc-Paper.pdf">paper</a> this parameter is referred to as
+<span class="math notranslate nohighlight">\(r\)</span>).
 This parameter defaults to ‘auto’ where the value is determined based on a heuristic
 that looks at the number of required steps for the first trial to complete.</p>
 <p>A trial is never pruned until it executes
@@ -224,13 +225,13 @@ manually specify the minimum possible step to <code class="docutils literal notr
 </div>
 </p></li>
 <li><p><strong>reduction_factor</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – <p>A parameter for specifying reduction factor of promotable trials
-(in the <a class="reference external" href="http://arxiv.org/abs/1810.05934">paper</a> this parameter is
+(in the <a class="reference external" href="https://proceedings.mlsys.org/paper_files/paper/2020/file/a06f20b349c6cf09a6b171c71b88bbfc-Paper.pdf">paper</a> this parameter is
 referred to as <span class="math notranslate nohighlight">\(\eta\)</span>).  At the completion point of each rung,
 about <span class="math notranslate nohighlight">\({1 \over \mathsf{reduction}\_\mathsf{factor}}\)</span>
 trials will be promoted.</p>
 </p></li>
 <li><p><strong>min_early_stopping_rate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – <p>A parameter for specifying the minimum early-stopping rate
-(in the <a class="reference external" href="http://arxiv.org/abs/1810.05934">paper</a> this parameter is
+(in the <a class="reference external" href="https://proceedings.mlsys.org/paper_files/paper/2020/file/a06f20b349c6cf09a6b171c71b88bbfc-Paper.pdf">paper</a> this parameter is
 referred to as <span class="math notranslate nohighlight">\(s\)</span>).</p>
 </p></li>
 <li><p><strong>bootstrap_count</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – Minimum number of trials that need to complete a rung before any trial

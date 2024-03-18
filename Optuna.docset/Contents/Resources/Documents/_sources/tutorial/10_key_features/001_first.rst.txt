@@ -33,11 +33,11 @@ Quadratic Function Example
 Usually, Optuna is used to optimize hyperparameters, but as an example,
 let's optimize a simple quadratic function: :math:`(x - 2)^2`.
 
-.. GENERATED FROM PYTHON SOURCE LINES 20-21
+.. GENERATED FROM PYTHON SOURCE LINES 19-20
 
 First of all, import :mod:`optuna`.
 
-.. GENERATED FROM PYTHON SOURCE LINES 21-25
+.. GENERATED FROM PYTHON SOURCE LINES 20-24
 
 .. code-block:: Python
 
@@ -52,11 +52,11 @@ First of all, import :mod:`optuna`.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 26-27
+.. GENERATED FROM PYTHON SOURCE LINES 25-26
 
 In optuna, conventionally functions to be optimized are named `objective`.
 
-.. GENERATED FROM PYTHON SOURCE LINES 27-34
+.. GENERATED FROM PYTHON SOURCE LINES 26-33
 
 .. code-block:: Python
 
@@ -74,7 +74,7 @@ In optuna, conventionally functions to be optimized are named `objective`.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 35-50
+.. GENERATED FROM PYTHON SOURCE LINES 34-49
 
 This function returns the value of :math:`(x - 2)^2`. Our goal is to find the value of ``x``
 that minimizes the output of the ``objective`` function. This is the "optimization."
@@ -92,7 +92,7 @@ provided. In our example, from :math:`-10` to :math:`10`.
 To start the optimization, we create a study object and pass the objective function to method
 :func:`~optuna.study.Study.optimize` as follows.
 
-.. GENERATED FROM PYTHON SOURCE LINES 50-55
+.. GENERATED FROM PYTHON SOURCE LINES 49-54
 
 .. code-block:: Python
 
@@ -108,11 +108,11 @@ To start the optimization, we create a study object and pass the objective funct
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 56-57
+.. GENERATED FROM PYTHON SOURCE LINES 55-56
 
 You can get the best parameter as follows.
 
-.. GENERATED FROM PYTHON SOURCE LINES 57-62
+.. GENERATED FROM PYTHON SOURCE LINES 56-61
 
 .. code-block:: Python
 
@@ -129,23 +129,23 @@ You can get the best parameter as follows.
 
  .. code-block:: none
 
-    Found x: 1.970713512072165, (x - 2)^2: 0.0008576983751472222
+    Found x: 2.0050895910749604, (x - 2)^2: 2.590393731031688e-05
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 63-64
+.. GENERATED FROM PYTHON SOURCE LINES 62-63
 
 We can see that the ``x`` value found by Optuna is close to the optimal value of ``2``.
 
-.. GENERATED FROM PYTHON SOURCE LINES 66-70
+.. GENERATED FROM PYTHON SOURCE LINES 65-69
 
 .. note::
     When used to search for hyperparameters in machine learning,
     usually the objective function would return the loss or accuracy
     of the model.
 
-.. GENERATED FROM PYTHON SOURCE LINES 73-85
+.. GENERATED FROM PYTHON SOURCE LINES 72-84
 
 Study Object
 ------------
@@ -160,11 +160,11 @@ In Optuna, we use the study object to manage optimization.
 Method :func:`~optuna.study.create_study` returns a study object.
 A study object has useful properties for analyzing the optimization outcome.
 
-.. GENERATED FROM PYTHON SOURCE LINES 87-88
+.. GENERATED FROM PYTHON SOURCE LINES 86-87
 
 To get the dictionary of parameter name and parameter values:
 
-.. GENERATED FROM PYTHON SOURCE LINES 88-92
+.. GENERATED FROM PYTHON SOURCE LINES 87-91
 
 .. code-block:: Python
 
@@ -181,15 +181,15 @@ To get the dictionary of parameter name and parameter values:
  .. code-block:: none
 
 
-    {'x': 1.970713512072165}
+    {'x': 2.0050895910749604}
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 93-94
+.. GENERATED FROM PYTHON SOURCE LINES 92-93
 
 To get the best observed value of the objective function:
 
-.. GENERATED FROM PYTHON SOURCE LINES 94-98
+.. GENERATED FROM PYTHON SOURCE LINES 93-97
 
 .. code-block:: Python
 
@@ -206,15 +206,15 @@ To get the best observed value of the objective function:
  .. code-block:: none
 
 
-    0.0008576983751472222
+    2.590393731031688e-05
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 99-100
+.. GENERATED FROM PYTHON SOURCE LINES 98-99
 
 To get the best trial:
 
-.. GENERATED FROM PYTHON SOURCE LINES 100-104
+.. GENERATED FROM PYTHON SOURCE LINES 99-103
 
 .. code-block:: Python
 
@@ -231,15 +231,15 @@ To get the best trial:
  .. code-block:: none
 
 
-    FrozenTrial(number=63, state=TrialState.COMPLETE, values=[0.0008576983751472222], datetime_start=datetime.datetime(2023, 12, 11, 12, 35, 20, 510189), datetime_complete=datetime.datetime(2023, 12, 11, 12, 35, 20, 513644), params={'x': 1.970713512072165}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=63, value=None)
+    FrozenTrial(number=71, state=TrialState.COMPLETE, values=[2.590393731031688e-05], datetime_start=datetime.datetime(2024, 3, 18, 12, 31, 22, 637586), datetime_complete=datetime.datetime(2024, 3, 18, 12, 31, 22, 641162), params={'x': 2.0050895910749604}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=71, value=None)
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 105-106
+.. GENERATED FROM PYTHON SOURCE LINES 104-105
 
 To get all trials:
 
-.. GENERATED FROM PYTHON SOURCE LINES 106-111
+.. GENERATED FROM PYTHON SOURCE LINES 105-110
 
 .. code-block:: Python
 
@@ -256,17 +256,17 @@ To get all trials:
 
  .. code-block:: none
 
-    FrozenTrial(number=0, state=TrialState.COMPLETE, values=[2.774636097078682], datetime_start=datetime.datetime(2023, 12, 11, 12, 35, 20, 312488), datetime_complete=datetime.datetime(2023, 12, 11, 12, 35, 20, 313097), params={'x': 0.3342761041881275}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=0, value=None)
-    FrozenTrial(number=1, state=TrialState.COMPLETE, values=[0.011701438069913177], datetime_start=datetime.datetime(2023, 12, 11, 12, 35, 20, 313324), datetime_complete=datetime.datetime(2023, 12, 11, 12, 35, 20, 313505), params={'x': 2.1081731855401937}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=1, value=None)
+    FrozenTrial(number=0, state=TrialState.COMPLETE, values=[48.274880960213935], datetime_start=datetime.datetime(2024, 3, 18, 12, 31, 22, 411970), datetime_complete=datetime.datetime(2024, 3, 18, 12, 31, 22, 412664), params={'x': -4.94801273460361}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=0, value=None)
+    FrozenTrial(number=1, state=TrialState.COMPLETE, values=[114.34360385128335], datetime_start=datetime.datetime(2024, 3, 18, 12, 31, 22, 412928), datetime_complete=datetime.datetime(2024, 3, 18, 12, 31, 22, 413165), params={'x': -8.693156870227021}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=1, value=None)
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 112-113
+.. GENERATED FROM PYTHON SOURCE LINES 111-112
 
 To get the number of trials:
 
-.. GENERATED FROM PYTHON SOURCE LINES 113-117
+.. GENERATED FROM PYTHON SOURCE LINES 112-116
 
 .. code-block:: Python
 
@@ -287,11 +287,11 @@ To get the number of trials:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 118-119
+.. GENERATED FROM PYTHON SOURCE LINES 117-118
 
 By executing :func:`~optuna.study.Study.optimize` again, we can continue the optimization.
 
-.. GENERATED FROM PYTHON SOURCE LINES 119-123
+.. GENERATED FROM PYTHON SOURCE LINES 118-122
 
 .. code-block:: Python
 
@@ -306,11 +306,11 @@ By executing :func:`~optuna.study.Study.optimize` again, we can continue the opt
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 124-125
+.. GENERATED FROM PYTHON SOURCE LINES 123-124
 
 To get the updated number of trials:
 
-.. GENERATED FROM PYTHON SOURCE LINES 125-129
+.. GENERATED FROM PYTHON SOURCE LINES 124-128
 
 .. code-block:: Python
 
@@ -331,12 +331,12 @@ To get the updated number of trials:
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 130-132
+.. GENERATED FROM PYTHON SOURCE LINES 129-131
 
 As the objective function is so easy that the last 100 trials don't improve the result.
 However, we can check the result again:
 
-.. GENERATED FROM PYTHON SOURCE LINES 132-135
+.. GENERATED FROM PYTHON SOURCE LINES 131-134
 
 .. code-block:: Python
 
@@ -351,7 +351,7 @@ However, we can check the result again:
 
  .. code-block:: none
 
-    Found x: 1.9884377397414053, (x - 2)^2: 0.0001336858622874795
+    Found x: 2.000903919424077, (x - 2)^2: 8.17070325223643e-07
 
 
 
@@ -359,7 +359,7 @@ However, we can check the result again:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.780 seconds)
+   **Total running time of the script:** (0 minutes 0.759 seconds)
 
 
 .. _sphx_glr_download_tutorial_10_key_features_001_first.py:

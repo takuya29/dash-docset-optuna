@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.storages._journal.file &mdash; Optuna 3.5.0 documentation</title>
+  <title>optuna.storages._journal.file &mdash; Optuna 3.6.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -22,7 +22,7 @@
   
         <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=3f729fb1"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=9222ef7d"></script>
         <script src="../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
         <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -77,7 +77,7 @@
               <img src="../../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.5.0
+                3.6.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -170,7 +170,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Acquire a lock in a blocking way by creating a symbolic link of a file.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            :obj:`True` if it succeeded in creating a symbolic link of `self._lock_target_file`.</span>
+<span class="sd">            :obj:`True` if it succeeded in creating a symbolic link of ``self._lock_target_file``.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">sleep_secs</span> <span class="o">=</span> <span class="mf">0.001</span>
@@ -222,7 +222,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Acquire a lock in a blocking way by creating a lock file.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            :obj:`True` if it succeeded in creating a `self._lock_file`</span>
+<span class="sd">            :obj:`True` if it succeeded in creating a ``self._lock_file``.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">sleep_secs</span> <span class="o">=</span> <span class="mf">0.001</span>
@@ -279,34 +279,46 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_file_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">file_path</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span> <span class="o">=</span> <span class="n">lock_obj</span> <span class="ow">or</span> <span class="n">JournalFileSymlinkLock</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_file_path</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_file_path</span><span class="p">):</span>
-            <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_file_path</span><span class="p">,</span> <span class="s2">&quot;ab&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>  <span class="c1"># Create a file if it does not exist</span>
+            <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_file_path</span><span class="p">,</span> <span class="s2">&quot;ab&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>  <span class="c1"># Create a file if it does not exist.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_log_number_offset</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
 
 <div class="viewcode-block" id="JournalFileStorage.read_logs"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.JournalFileStorage.html#optuna.storages.JournalFileStorage.read_logs">[docs]</a>    <span class="k">def</span> <span class="nf">read_logs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log_number_from</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
         <span class="n">logs</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_file_path</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="c1"># Maintain remaining_log_size to allow writing by another process</span>
+            <span class="c1"># while reading the log.</span>
+            <span class="n">remaining_log_size</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_file_path</span><span class="p">)</span><span class="o">.</span><span class="n">st_size</span>
             <span class="n">log_number_start</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">if</span> <span class="n">log_number_from</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_log_number_offset</span><span class="p">:</span>
                 <span class="n">f</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_log_number_offset</span><span class="p">[</span><span class="n">log_number_from</span><span class="p">])</span>
                 <span class="n">log_number_start</span> <span class="o">=</span> <span class="n">log_number_from</span>
+                <span class="n">remaining_log_size</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_log_number_offset</span><span class="p">[</span><span class="n">log_number_from</span><span class="p">]</span>
 
             <span class="n">last_decode_error</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="k">for</span> <span class="n">log_number</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">log_number_start</span><span class="p">):</span>
+                <span class="n">byte_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                <span class="n">remaining_log_size</span> <span class="o">-=</span> <span class="n">byte_len</span>
+                <span class="k">if</span> <span class="n">remaining_log_size</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">break</span>
                 <span class="k">if</span> <span class="n">last_decode_error</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="n">last_decode_error</span>
                 <span class="k">if</span> <span class="n">log_number</span> <span class="o">+</span> <span class="mi">1</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_log_number_offset</span><span class="p">:</span>
-                    <span class="n">byte_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_log_number_offset</span><span class="p">[</span><span class="n">log_number</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_log_number_offset</span><span class="p">[</span><span class="n">log_number</span><span class="p">]</span> <span class="o">+</span> <span class="n">byte_len</span>
                     <span class="p">)</span>
                 <span class="k">if</span> <span class="n">log_number</span> <span class="o">&lt;</span> <span class="n">log_number_from</span><span class="p">:</span>
+                    <span class="k">continue</span>
+
+                <span class="c1"># Ensure that each line ends with line separators (\n, \r\n).</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">):</span>
+                    <span class="n">last_decode_error</span> <span class="o">=</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid log format.&quot;</span><span class="p">)</span>
+                    <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_log_number_offset</span><span class="p">[</span><span class="n">log_number</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
                     <span class="k">continue</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">logs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">line</span><span class="p">))</span>
                 <span class="k">except</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
                     <span class="n">last_decode_error</span> <span class="o">=</span> <span class="n">err</span>
                     <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_log_number_offset</span><span class="p">[</span><span class="n">log_number</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
-
             <span class="k">return</span> <span class="n">logs</span></div>
 
 <div class="viewcode-block" id="JournalFileStorage.append_logs"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.JournalFileStorage.html#optuna.storages.JournalFileStorage.append_logs">[docs]</a>    <span class="k">def</span> <span class="nf">append_logs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">logs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>

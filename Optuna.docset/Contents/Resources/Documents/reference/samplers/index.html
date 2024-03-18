@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.samplers — Optuna 3.5.0 documentation</title>
+<title>optuna.samplers — Optuna 3.6.0 documentation</title>
 <link href="../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css?v=19f00094" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
@@ -20,7 +20,7 @@
   <![endif]-->
 <script src="../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=3f729fb1"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=9222ef7d"></script>
 <script src="../../_static/doctools.js?v=888ff710"></script>
 <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -30,7 +30,7 @@
 <link href="../../genindex.html" rel="index" title="Index"/>
 <link href="../../search.html" rel="search" title="Search"/>
 <link href="generated/optuna.samplers.BaseSampler.html" rel="next" title="optuna.samplers.BaseSampler"/>
-<link href="../generated/optuna.pruners.ThresholdPruner.html" rel="prev" title="optuna.pruners.ThresholdPruner"/>
+<link href="../generated/optuna.pruners.WilcoxonPruner.html" rel="prev" title="optuna.pruners.WilcoxonPruner"/>
 </head>
 <body class="wy-body-for-nav">
 <div class="navbar">
@@ -71,7 +71,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.5.0
+                3.6.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -101,6 +101,7 @@
 <li class="toctree-l3"><a class="reference internal" href="generated/optuna.samplers.RandomSampler.html">optuna.samplers.RandomSampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/optuna.samplers.TPESampler.html">optuna.samplers.TPESampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/optuna.samplers.CmaEsSampler.html">optuna.samplers.CmaEsSampler</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/optuna.samplers.GPSampler.html">optuna.samplers.GPSampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/optuna.samplers.PartialFixedSampler.html">optuna.samplers.PartialFixedSampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/optuna.samplers.NSGAIISampler.html">optuna.samplers.NSGAIISampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/optuna.samplers.NSGAIIISampler.html">optuna.samplers.NSGAIIISampler</a></li>
@@ -160,6 +161,7 @@
 <th class="head"><p>CmaEsSampler</p></th>
 <th class="head"><p>NSGAIISampler</p></th>
 <th class="head"><p>QMCSampler</p></th>
+<th class="head"><p>GPSampler</p></th>
 <th class="head"><p>BoTorchSampler</p></th>
 <th class="head"><p>BruteForceSampler</p></th>
 </tr>
@@ -173,6 +175,7 @@
 <td><p><span class="math notranslate nohighlight">\(\blacktriangle\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\color{green}\checkmark\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\color{green}\checkmark\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\color{green}\checkmark\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\color{green}\checkmark\)</span> (<span class="math notranslate nohighlight">\(\color{red}\times\)</span> for infinite domain)</p></td>
 </tr>
 <tr class="row-odd"><td><p>Integer parameters</p></td>
@@ -183,6 +186,7 @@
 <td><p><span class="math notranslate nohighlight">\(\blacktriangle\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\color{green}\checkmark\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\color{green}\checkmark\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\blacktriangle\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\color{green}\checkmark\)</span></p></td>
 </tr>
 <tr class="row-even"><td><p>Categorical parameters</p></td>
@@ -193,6 +197,7 @@
 <td><p><span class="math notranslate nohighlight">\(\color{green}\checkmark\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\blacktriangle\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\color{green}\checkmark\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\blacktriangle\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\color{green}\checkmark\)</span></p></td>
 </tr>
 <tr class="row-odd"><td><p>Pruning</p></td>
@@ -202,6 +207,7 @@
 <td><p><span class="math notranslate nohighlight">\(\blacktriangle\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\color{red}\times\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\color{green}\checkmark\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\blacktriangle\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\blacktriangle\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\color{green}\checkmark\)</span></p></td>
 </tr>
@@ -213,12 +219,14 @@
 <td><p><span class="math notranslate nohighlight">\(\blacktriangle\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\blacktriangle\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\color{green}\checkmark\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\color{green}\checkmark\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\blacktriangle\)</span></p></td>
 </tr>
 <tr class="row-odd"><td><p>Conditional search space</p></td>
 <td><p><span class="math notranslate nohighlight">\(\color{green}\checkmark\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\blacktriangle\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\color{green}\checkmark\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\blacktriangle\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\blacktriangle\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\blacktriangle\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\blacktriangle\)</span></p></td>
@@ -232,6 +240,7 @@
 <td><p><span class="math notranslate nohighlight">\(\color{red}\times\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\color{green}\checkmark\)</span> (<span class="math notranslate nohighlight">\(\blacktriangle\)</span> for single-objective)</p></td>
 <td><p><span class="math notranslate nohighlight">\(\color{green}\checkmark\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\color{red}\times\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\color{green}\checkmark\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\color{green}\checkmark\)</span></p></td>
 </tr>
@@ -244,6 +253,7 @@
 <td><p><span class="math notranslate nohighlight">\(\color{green}\checkmark\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\blacktriangle\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\color{green}\checkmark\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\color{green}\checkmark\)</span></p></td>
 </tr>
 <tr class="row-even"><td><p>Distributed optimization</p></td>
 <td><p><span class="math notranslate nohighlight">\(\color{green}\checkmark\)</span></p></td>
@@ -254,6 +264,7 @@
 <td><p><span class="math notranslate nohighlight">\(\color{green}\checkmark\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\blacktriangle\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\color{green}\checkmark\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\color{green}\checkmark\)</span></p></td>
 </tr>
 <tr class="row-odd"><td><p>Constrained optimization</p></td>
 <td><p><span class="math notranslate nohighlight">\(\color{red}\times\)</span></p></td>
@@ -261,6 +272,7 @@
 <td><p><span class="math notranslate nohighlight">\(\color{green}\checkmark\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\color{red}\times\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\color{green}\checkmark\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\color{red}\times\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\color{red}\times\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\color{green}\checkmark\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(\color{red}\times\)</span></p></td>
@@ -273,6 +285,7 @@
 <td><p><span class="math notranslate nohighlight">\(O(mp^2)\)</span> (***)</p></td>
 <td><p><span class="math notranslate nohighlight">\(O(dn)\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(O(n^3)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(O(n^3)\)</span></p></td>
 <td><p><span class="math notranslate nohighlight">\(O(d)\)</span></p></td>
 </tr>
 <tr class="row-odd"><td><p>Recommended budgets (#trials)
@@ -283,6 +296,7 @@
 <td><p>1000 – 10000</p></td>
 <td><p>100 – 10000</p></td>
 <td><p>as many as one likes</p></td>
+<td><p>– 500</p></td>
 <td><p>10 – 100</p></td>
 <td><p>number of combinations</p></td>
 </tr>
@@ -302,6 +316,13 @@ From another perspective, with the exception of <a class="reference internal" hr
 <p>(***): This time complexity assumes that the number of population size <span class="math notranslate nohighlight">\(p\)</span> and the number of parallelization are regular.
 This means that the number of parallelization should not exceed the number of population size <span class="math notranslate nohighlight">\(p\)</span>.</p>
 </div></blockquote>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Samplers initialize their random number generators by specifying <code class="docutils literal notranslate"><span class="pre">seed</span></code> argument at initialization.
+However, samplers reseed them when <code class="docutils literal notranslate"><span class="pre">n_jobs!=1</span></code> of <a class="reference internal" href="../generated/optuna.study.Study.html#optuna.study.Study.optimize" title="optuna.study.Study.optimize"><code class="xref py py-func docutils literal notranslate"><span class="pre">optuna.study.Study.optimize()</span></code></a> to avoid sampling duplicated parameters by using the same generator.
+Thus we can hardly reproduce the optimization results with <code class="docutils literal notranslate"><span class="pre">n_jobs!=1</span></code>.
+For the same reason, make sure that use either <code class="docutils literal notranslate"><span class="pre">seed=None</span></code> or different <code class="docutils literal notranslate"><span class="pre">seed</span></code> values among processes with distributed optimization explained in <a class="reference internal" href="../../tutorial/10_key_features/004_distributed.html#distributed"><span class="std std-ref">Easy Parallelization</span></a> tutorial.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -331,25 +352,28 @@ This means that the number of parallelization should not exceed the number of po
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.samplers.CmaEsSampler.html#optuna.samplers.CmaEsSampler" title="optuna.samplers.CmaEsSampler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.samplers.CmaEsSampler</span></code></a></p></td>
 <td><p>A sampler using <a class="reference external" href="https://github.com/CyberAgentAILab/cmaes">cmaes</a> as the backend.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.samplers.PartialFixedSampler.html#optuna.samplers.PartialFixedSampler" title="optuna.samplers.PartialFixedSampler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.samplers.PartialFixedSampler</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.samplers.GPSampler.html#optuna.samplers.GPSampler" title="optuna.samplers.GPSampler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.samplers.GPSampler</span></code></a></p></td>
+<td><p>Sampler using Gaussian process-based Bayesian optimization.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.samplers.PartialFixedSampler.html#optuna.samplers.PartialFixedSampler" title="optuna.samplers.PartialFixedSampler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.samplers.PartialFixedSampler</span></code></a></p></td>
 <td><p>Sampler with partially fixed parameters.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.samplers.NSGAIISampler.html#optuna.samplers.NSGAIISampler" title="optuna.samplers.NSGAIISampler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.samplers.NSGAIISampler</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.samplers.NSGAIISampler.html#optuna.samplers.NSGAIISampler" title="optuna.samplers.NSGAIISampler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.samplers.NSGAIISampler</span></code></a></p></td>
 <td><p>Multi-objective sampler using the NSGA-II algorithm.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.samplers.NSGAIIISampler.html#optuna.samplers.NSGAIIISampler" title="optuna.samplers.NSGAIIISampler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.samplers.NSGAIIISampler</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.samplers.NSGAIIISampler.html#optuna.samplers.NSGAIIISampler" title="optuna.samplers.NSGAIIISampler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.samplers.NSGAIIISampler</span></code></a></p></td>
 <td><p>Multi-objective sampler using the NSGA-III algorithm.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.samplers.QMCSampler.html#optuna.samplers.QMCSampler" title="optuna.samplers.QMCSampler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.samplers.QMCSampler</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.samplers.QMCSampler.html#optuna.samplers.QMCSampler" title="optuna.samplers.QMCSampler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.samplers.QMCSampler</span></code></a></p></td>
 <td><p>A Quasi Monte Carlo Sampler that generates low-discrepancy sequences.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.samplers.BruteForceSampler.html#optuna.samplers.BruteForceSampler" title="optuna.samplers.BruteForceSampler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.samplers.BruteForceSampler</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.samplers.BruteForceSampler.html#optuna.samplers.BruteForceSampler" title="optuna.samplers.BruteForceSampler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.samplers.BruteForceSampler</span></code></a></p></td>
 <td><p>Sampler using brute force.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.samplers.IntersectionSearchSpace.html#optuna.samplers.IntersectionSearchSpace" title="optuna.samplers.IntersectionSearchSpace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.samplers.IntersectionSearchSpace</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.samplers.IntersectionSearchSpace.html#optuna.samplers.IntersectionSearchSpace" title="optuna.samplers.IntersectionSearchSpace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.samplers.IntersectionSearchSpace</span></code></a></p></td>
 <td><p>A class to calculate the intersection search space of a <a class="reference internal" href="../generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a>.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.samplers.intersection_search_space.html#optuna.samplers.intersection_search_space" title="optuna.samplers.intersection_search_space"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.samplers.intersection_search_space</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.samplers.intersection_search_space.html#optuna.samplers.intersection_search_space" title="optuna.samplers.intersection_search_space"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.samplers.intersection_search_space</span></code></a></p></td>
 <td><p>Return the intersection search space of the <a class="reference internal" href="../generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a>.</p></td>
 </tr>
 </tbody>
@@ -367,7 +391,7 @@ This means that the number of parallelization should not exceed the number of po
 </div>
 </div>
 <footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
-<a accesskey="p" class="btn btn-neutral float-left" href="../generated/optuna.pruners.ThresholdPruner.html" rel="prev" title="optuna.pruners.ThresholdPruner"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="p" class="btn btn-neutral float-left" href="../generated/optuna.pruners.WilcoxonPruner.html" rel="prev" title="optuna.pruners.WilcoxonPruner"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
 <a accesskey="n" class="btn btn-neutral float-right" href="generated/optuna.samplers.BaseSampler.html" rel="next" title="optuna.samplers.BaseSampler">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
 </div>
 <hr/>

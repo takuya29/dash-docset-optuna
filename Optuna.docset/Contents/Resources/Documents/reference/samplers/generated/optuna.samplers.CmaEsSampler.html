@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.samplers.CmaEsSampler — Optuna 3.5.0 documentation</title>
+<title>optuna.samplers.CmaEsSampler — Optuna 3.6.0 documentation</title>
 <link href="../../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/css/theme.css?v=19f00094" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
@@ -20,7 +20,7 @@
   <![endif]-->
 <script src="../../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=3f729fb1"></script>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=9222ef7d"></script>
 <script src="../../../_static/doctools.js?v=888ff710"></script>
 <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -28,7 +28,7 @@
 <script src="../../../_static/js/theme.js"></script>
 <link href="../../../genindex.html" rel="index" title="Index"/>
 <link href="../../../search.html" rel="search" title="Search"/>
-<link href="optuna.samplers.PartialFixedSampler.html" rel="next" title="optuna.samplers.PartialFixedSampler"/>
+<link href="optuna.samplers.GPSampler.html" rel="next" title="optuna.samplers.GPSampler"/>
 <link href="optuna.samplers.TPESampler.html" rel="prev" title="optuna.samplers.TPESampler"/>
 </head>
 <body class="wy-body-for-nav">
@@ -70,7 +70,7 @@
 <img alt="Logo" class="logo" src="../../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.5.0
+                3.6.0
               </div>
 <div role="search">
 <form action="../../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -103,6 +103,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#optuna.samplers.CmaEsSampler"><code class="docutils literal notranslate"><span class="pre">CmaEsSampler</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.samplers.GPSampler.html">optuna.samplers.GPSampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.PartialFixedSampler.html">optuna.samplers.PartialFixedSampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.NSGAIISampler.html">optuna.samplers.NSGAIISampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.NSGAIIISampler.html">optuna.samplers.NSGAIIISampler</a></li>
@@ -178,24 +179,24 @@ the parameters of multivariate normal distribution.</p>
 <p>For further information about CMA-ES algorithm, please refer to the following papers:</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://arxiv.org/abs/1604.00772">N. Hansen, The CMA Evolution Strategy: A Tutorial. arXiv:1604.00772, 2016.</a></p></li>
-<li><p><a class="reference external" href="http://www.cmap.polytechnique.fr/~nikolaus.hansen/cec2005ipopcmaes.pdf">A. Auger and N. Hansen. A restart CMA evolution strategy with increasing population
+<li><p><a class="reference external" href="https://doi.org/10.1109/CEC.2005.1554902">A. Auger and N. Hansen. A restart CMA evolution strategy with increasing population
 size. In Proceedings of the IEEE Congress on Evolutionary Computation (CEC 2005),
 pages 1769–1776. IEEE Press, 2005.</a></p></li>
-<li><p><a class="reference external" href="https://dl.acm.org/doi/10.1145/1570256.1570333">N. Hansen. Benchmarking a BI-Population CMA-ES on the BBOB-2009 Function Testbed.
+<li><p><a class="reference external" href="https://doi.org/10.1145/1570256.1570333">N. Hansen. Benchmarking a BI-Population CMA-ES on the BBOB-2009 Function Testbed.
 GECCO Workshop, 2009.</a></p></li>
-<li><p><a class="reference external" href="https://hal.inria.fr/inria-00287367/document">Raymond Ros, Nikolaus Hansen. A Simple Modification in CMA-ES Achieving Linear Time and
+<li><p><a class="reference external" href="https://doi.org/10.1007/978-3-540-87700-4_30">Raymond Ros, Nikolaus Hansen. A Simple Modification in CMA-ES Achieving Linear Time and
 Space Complexity. 10th International Conference on Parallel Problem Solving From Nature,
 Sep 2008, Dortmund, Germany. inria-00287367.</a></p></li>
-<li><p><a class="reference external" href="https://arxiv.org/abs/2012.06932">Masahiro Nomura, Shuhei Watanabe, Youhei Akimoto, Yoshihiko Ozaki, Masaki Onishi.
+<li><p><a class="reference external" href="https://doi.org/10.1609/aaai.v35i10.17109">Masahiro Nomura, Shuhei Watanabe, Youhei Akimoto, Yoshihiko Ozaki, Masaki Onishi.
 Warm Starting CMA-ES for Hyperparameter Optimization, AAAI. 2021.</a></p></li>
-<li><p><a class="reference external" href="https://arxiv.org/abs/2205.13482">R. Hamano, S. Saito, M. Nomura, S. Shirakawa. CMA-ES with Margin: Lower-Bounding Marginal
+<li><p><a class="reference external" href="https://doi.org/10.1145/3512290.3528827">R. Hamano, S. Saito, M. Nomura, S. Shirakawa. CMA-ES with Margin: Lower-Bounding Marginal
 Probability for Mixed-Integer Black-Box Optimization, GECCO. 2022.</a></p></li>
-<li><p><a class="reference external" href="https://arxiv.org/abs/2304.03473">M. Nomura, Y. Akimoto, I. Ono. CMA-ES with Learning Rate Adaptation: Can CMA-ES with
+<li><p><a class="reference external" href="https://doi.org/10.1145/3583131.3590358">M. Nomura, Y. Akimoto, I. Ono. CMA-ES with Learning Rate Adaptation: Can CMA-ES with
 Default Population Size Solve Multimodal and Noisy Problems?, GECCO. 2023.</a></p></li>
 </ul>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
-<p>You can also use <a class="reference internal" href="../../generated/optuna.integration.PyCmaSampler.html#optuna.integration.PyCmaSampler" title="optuna.integration.PyCmaSampler"><code class="xref py py-class docutils literal notranslate"><span class="pre">optuna.integration.PyCmaSampler</span></code></a> which is a sampler using cma
+<p>You can also use <a class="reference external" href="https://optuna-integration.readthedocs.io/en/stable/reference/generated/optuna_integration.PyCmaSampler.html#optuna_integration.PyCmaSampler">optuna_integration.PyCmaSampler</a> which is a sampler using cma
 library as the backend.</p>
 </div>
 <dl class="field-list simple">
@@ -501,7 +502,7 @@ Take a copy before modifying this object.</p></li>
 </div>
 <footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
 <a accesskey="p" class="btn btn-neutral float-left" href="optuna.samplers.TPESampler.html" rel="prev" title="optuna.samplers.TPESampler"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
-<a accesskey="n" class="btn btn-neutral float-right" href="optuna.samplers.PartialFixedSampler.html" rel="next" title="optuna.samplers.PartialFixedSampler">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+<a accesskey="n" class="btn btn-neutral float-right" href="optuna.samplers.GPSampler.html" rel="next" title="optuna.samplers.GPSampler">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
 </div>
 <hr/>
 <div role="contentinfo">

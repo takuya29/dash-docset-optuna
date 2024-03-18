@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+
+<html class="writer-html5" lang="en">
+<head>
+<meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>optuna.pruners.WilcoxonPruner — Optuna 3.6.0 documentation</title>
+<link href="../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/theme.css?v=19f00094" rel="stylesheet" type="text/css"/>
+<link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery.css?v=61a4c737" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-binder.css?v=f4aeca0c" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/custom.css?v=3150ea5e" rel="stylesheet" type="text/css"/>
+<link href="../../_static/favicon.ico" rel="shortcut icon"/>
+<!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+<script src="../../_static/jquery.js?v=5d32c60e"></script>
+<script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=9222ef7d"></script>
+<script src="../../_static/doctools.js?v=888ff710"></script>
+<script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+<script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../_static/copybutton.js?v=a56c686a"></script>
+<script src="../../_static/js/theme.js"></script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="../samplers/index.html" rel="next" title="optuna.samplers"/>
+<link href="optuna.pruners.ThresholdPruner.html" rel="prev" title="optuna.pruners.ThresholdPruner"/>
+</head>
+<body class="wy-body-for-nav">
+<div class="navbar">
+<div class="navbar ml-auto">
+<ul class="navbar-nav">
+<li>
+<a class="header_link" href="https://optuna.org/#key_features">Key Features</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#code_examples">Code Examples</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#installation">Installation</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#dashboard">Dashboard</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#blog">Blog</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#video">Videos</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#paper">Paper</a>
+</li>
+<li>
+<a class="header_link" href="https://optuna.org/#community">Community</a>
+</li>
+</ul>
+</div>
+</div>
+<div class="wy-grid-for-nav">
+<nav class="wy-nav-side" data-toggle="wy-nav-shift">
+<div class="wy-side-scroll">
+<div class="wy-side-nav-search">
+<a href="../../index.html">
+<img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
+</a>
+<div class="version">
+                3.6.0
+              </div>
+<div role="search">
+<form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
+<input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
+<input name="check_keywords" type="hidden" value="yes"/>
+<input name="area" type="hidden" value="default"/>
+</form>
+</div>
+</div><div aria-label="Navigation menu" class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../optuna.html">optuna</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../artifacts.html">optuna.artifacts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cli.html">optuna.cli</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../distributions.html">optuna.distributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exceptions.html">optuna.exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../importance.html">optuna.importance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../integration.html">optuna.integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../logging.html">optuna.logging</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../pruners.html">optuna.pruners</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="optuna.pruners.BasePruner.html">optuna.pruners.BasePruner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.pruners.MedianPruner.html">optuna.pruners.MedianPruner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.pruners.NopPruner.html">optuna.pruners.NopPruner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.pruners.PatientPruner.html">optuna.pruners.PatientPruner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.pruners.PercentilePruner.html">optuna.pruners.PercentilePruner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.pruners.SuccessiveHalvingPruner.html">optuna.pruners.SuccessiveHalvingPruner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.pruners.HyperbandPruner.html">optuna.pruners.HyperbandPruner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.pruners.ThresholdPruner.html">optuna.pruners.ThresholdPruner</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">optuna.pruners.WilcoxonPruner</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#optuna.pruners.WilcoxonPruner"><code class="docutils literal notranslate"><span class="pre">WilcoxonPruner</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../samplers/index.html">optuna.samplers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../search_space.html">optuna.search_space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storages.html">optuna.storages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../study.html">optuna.study</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../terminator.html">optuna.terminator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../trial.html">optuna.trial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../visualization/index.html">optuna.visualization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">FAQ</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<section class="wy-nav-content-wrap" data-toggle="wy-nav-shift"><nav aria-label="Mobile navigation menu" class="wy-nav-top">
+<i class="fa fa-bars" data-toggle="wy-nav-top"></i>
+<a href="../../index.html">Optuna</a>
+</nav>
+<div class="wy-nav-content">
+<div class="rst-content">
+<!-- This file is necessary to remove "Edit on Github" button from readthedocs by following https://docs.readthedocs.io/en/stable/guides/remove-edit-buttons.html#remove-links-from-top-right-corner --><div aria-label="Page navigation" role="navigation">
+<ul class="wy-breadcrumbs">
+<li><a aria-label="Home" class="icon icon-home" href="../../index.html"></a></li>
+<li class="breadcrumb-item"><a href="../index.html">API Reference</a></li>
+<li class="breadcrumb-item"><a href="../pruners.html">optuna.pruners</a></li>
+<li class="breadcrumb-item active">optuna.pruners.WilcoxonPruner</li>
+</ul>
+<hr/>
+</div>
+<div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
+<div itemprop="articleBody">
+<section id="optuna-pruners-wilcoxonpruner">
+<h1>optuna.pruners.WilcoxonPruner<a class="headerlink" href="#optuna-pruners-wilcoxonpruner" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="optuna.pruners.WilcoxonPruner">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.pruners.</span></span><span class="sig-name descname"><span class="pre">WilcoxonPruner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_startup_steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/pruners/_wilcoxon.html#WilcoxonPruner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.pruners.WilcoxonPruner"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.pruners._wilcoxon.WilcoxonPruner"></a><a class="headerlink" href="#optuna.pruners.WilcoxonPruner" title="Permalink to this definition"></a></dt>
+<dd><p>Pruner based on the <a class="reference external" href="https://en.wikipedia.org/w/index.php?title=Wilcoxon_signed-rank_test&amp;oldid=1195011212">Wilcoxon signed-rank test</a>.</p>
+<p>This pruner performs the Wilcoxon signed-rank test between the current trial and the current best trial,
+and stops whenever the pruner is sure up to a given p-value that the current trial is worse than the best one.</p>
+<p>This pruner is effective for optimizing the mean/median of some (costly-to-evaluate) performance scores over a set of problem instances.
+Example applications include the optimization of:
+- the mean performance of a heuristic method (simulated annealing, genetic algorithm, SAT solver, etc.) on a set of problem instances,
+- the k-fold cross-validation score of a machine learning model, and
+- the accuracy of outputs of a large language model (LLM) on a set of questions.</p>
+<p>There can be “easy” or “hard” instances (the pruner handles correspondence of the instances between different trials).
+In each trial, it is recommended to shuffle the evaluation order, so that the optimization doesn’t overfit to the instances in the beginning.</p>
+<p>When you use this pruner, you must call <cite>Trial.report(value, step)</cite> function for each step (instance id) with
+the evaluated value. The instance id may not be in ascending order.
+This is different from other pruners in that the reported value need not converge
+to the real value. (To use pruners such as <cite>SuccessiveHalvingPruner</cite> in the same setting, you must provide e.g.,
+the historical average of the evaluated values.)</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>Please refer to <a class="reference internal" href="optuna.trial.Trial.html#optuna.trial.Trial.report" title="optuna.trial.Trial.report"><code class="xref py py-meth docutils literal notranslate"><span class="pre">report()</span></code></a>.</p>
+</div>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optuna</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<span class="c1"># We minimize the mean evaluation loss over all the problem instances.</span>
+<span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">instance</span><span class="p">):</span>
+    <span class="c1"># A toy loss function for demonstrative purpose.</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">param</span> <span class="o">-</span> <span class="n">instance</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+
+
+<span class="n">problem_instances</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
+    <span class="c1"># Sample a parameter.</span>
+    <span class="n">param</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"param"</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Evaluate performance of the parameter.</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># For best results, shuffle the evaluation order in each trial.</span>
+    <span class="n">instance_ids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">problem_instances</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">instance_id</span> <span class="ow">in</span> <span class="n">instance_ids</span><span class="p">:</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">problem_instances</span><span class="p">[</span><span class="n">instance_id</span><span class="p">])</span>
+        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+
+        <span class="c1"># Report loss together with the instance id.</span>
+        <span class="c1"># CAVEAT: You need to pass the same id for the same instance,</span>
+        <span class="c1"># otherwise WilcoxonPruner cannot correctly pair the losses across trials and</span>
+        <span class="c1"># the pruning performance will degrade.</span>
+        <span class="n">trial</span><span class="o">.</span><span class="n">report</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">instance_id</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">trial</span><span class="o">.</span><span class="n">should_prune</span><span class="p">():</span>
+            <span class="c1"># Return the current predicted value instead of raising `TrialPruned`.</span>
+            <span class="c1"># This is a workaround to tell the Optuna about the evaluation</span>
+            <span class="c1"># results in pruned trials. (See the note below.)</span>
+            <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+
+
+<span class="n">study</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">create_study</span><span class="p">(</span><span class="n">pruner</span><span class="o">=</span><span class="n">optuna</span><span class="o">.</span><span class="n">pruners</span><span class="o">.</span><span class="n">WilcoxonPruner</span><span class="p">(</span><span class="n">p_threshold</span><span class="o">=</span><span class="mf">0.1</span><span class="p">))</span>
+<span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This pruner cannot handle <code class="docutils literal notranslate"><span class="pre">infinity</span></code> or <code class="docutils literal notranslate"><span class="pre">nan</span></code> values.
+Trials containing those values are never pruned.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If <cite>trial.should_prune()</cite> returns <cite>True</cite>, you can return an
+estimation of the final value (e.g., the average of all evaluated
+values) instead of <cite>raise optuna.TrialPruned()</cite>.
+This is a workaround for the problem that currently there is no way
+to tell Optuna the predicted objective value for trials raising
+<cite>TrialPruned</cite>.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>p_threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – <p>The p-value threshold for pruning. This value should be between 0 and 1.
+A trial will be pruned whenever the pruner is sure up to the given p-value
+that the current trial is worse than the best trial.
+The larger this value is, the more aggressive pruning will be performed.
+Defaults to 0.1.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This pruner repeatedly performs statistical tests between the
+current trial and the current best trial with increasing samples.
+The false-positive rate of such a sequential test is different from
+performing the test only once. To get the nominal false-positive rate,
+please specify the Pocock-corrected p-value.</p>
+</div>
+</p></li>
+<li><p><strong>n_startup_steps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – The number of steps before which no trials are pruned.
+Pruning starts only after you have <cite>n_startup_steps</cite> steps of
+available observations for comparison between the current trial
+and the best trial.
+Defaults to 0 (pruning kicks in from the very first step).</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Added in v3.6.0 as an experimental feature. The interface may change in newer versions
+without prior notice. See <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v3.6.0">https://github.com/optuna/optuna/releases/tag/v3.6.0</a>.</p>
+</div>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.pruners.WilcoxonPruner.prune" title="optuna.pruners.WilcoxonPruner.prune"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prune</span></code></a>(study, trial)</p></td>
+<td><p>Judge whether the trial should be pruned based on the reported values.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.pruners.WilcoxonPruner.prune">
+<span class="sig-name descname"><span class="pre">prune</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trial</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/pruners/_wilcoxon.html#WilcoxonPruner.prune"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.pruners.WilcoxonPruner.prune"></a><a class="headerlink" href="#optuna.pruners.WilcoxonPruner.prune" title="Permalink to this definition"></a></dt>
+<dd><p>Judge whether the trial should be pruned based on the reported values.</p>
+<p>Note that this method is not supposed to be called by library users. Instead,
+<a class="reference internal" href="optuna.trial.Trial.html#optuna.trial.Trial.report" title="optuna.trial.Trial.report"><code class="xref py py-func docutils literal notranslate"><span class="pre">optuna.trial.Trial.report()</span></code></a> and <a class="reference internal" href="optuna.trial.Trial.html#optuna.trial.Trial.should_prune" title="optuna.trial.Trial.should_prune"><code class="xref py py-func docutils literal notranslate"><span class="pre">optuna.trial.Trial.should_prune()</span></code></a> provide
+user interfaces to implement pruning mechanism in an objective function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>study</strong> (<a class="reference internal" href="optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><em>optuna.study.Study</em></a>) – Study object of the target study.</p></li>
+<li><p><strong>trial</strong> (<a class="reference internal" href="optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial._frozen.FrozenTrial"><em>FrozenTrial</em></a>) – FrozenTrial object of the target trial.
+Take a copy before modifying this object.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A boolean value representing whether the trial should be pruned.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+</dd></dl>
+</section>
+</div>
+</div>
+<footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
+<a accesskey="p" class="btn btn-neutral float-left" href="optuna.pruners.ThresholdPruner.html" rel="prev" title="optuna.pruners.ThresholdPruner"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="../samplers/index.html" rel="next" title="optuna.samplers">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+</div>
+<hr/>
+<div role="contentinfo">
+<p>© Copyright 2018, Optuna Contributors.</p>
+</div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+    <a href="../../privacy.html">Privacy Policy</a>.
+     
+
+
+</footer>
+</div>
+</div>
+</section>
+</div>
+<script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+</body>
+</html>

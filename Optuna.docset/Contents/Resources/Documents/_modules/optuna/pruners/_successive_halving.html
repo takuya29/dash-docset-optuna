@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.pruners._successive_halving &mdash; Optuna 3.5.0 documentation</title>
+  <title>optuna.pruners._successive_halving &mdash; Optuna 3.6.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -22,7 +22,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=3f729fb1"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=9222ef7d"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
         <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -77,7 +77,7 @@
               <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.5.0
+                3.6.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -133,10 +133,11 @@
 <div class="viewcode-block" id="SuccessiveHalvingPruner"><a class="viewcode-back" href="../../../reference/generated/optuna.pruners.SuccessiveHalvingPruner.html#optuna.pruners.SuccessiveHalvingPruner">[docs]</a><span class="k">class</span> <span class="nc">SuccessiveHalvingPruner</span><span class="p">(</span><span class="n">BasePruner</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Pruner using Asynchronous Successive Halving Algorithm.</span>
 
-<span class="sd">    `Successive Halving &lt;https://arxiv.org/abs/1502.07943&gt;`_ is a bandit-based algorithm to</span>
-<span class="sd">    identify the best one among multiple configurations. This class implements an asynchronous</span>
-<span class="sd">    version of Successive Halving. Please refer to the paper of</span>
-<span class="sd">    `Asynchronous Successive Halving &lt;http://arxiv.org/abs/1810.05934&gt;`_ for detailed descriptions.</span>
+<span class="sd">    `Successive Halving &lt;https://proceedings.mlr.press/v51/jamieson16.html&gt;`_ is a bandit-based</span>
+<span class="sd">    algorithm to identify the best one among multiple configurations. This class implements an</span>
+<span class="sd">    asynchronous version of Successive Halving. Please refer to the paper of</span>
+<span class="sd">    `Asynchronous Successive Halving &lt;https://proceedings.mlsys.org/paper_files/paper/2020/file/</span>
+<span class="sd">    a06f20b349c6cf09a6b171c71b88bbfc-Paper.pdf&gt;`_ for detailed descriptions.</span>
 
 <span class="sd">    Note that, this class does not take care of the parameter for the maximum</span>
 <span class="sd">    resource, referred to as :math:`R` in the paper. The maximum resource allocated to a trial is</span>
@@ -191,8 +192,9 @@
 <span class="sd">    Args:</span>
 <span class="sd">        min_resource:</span>
 <span class="sd">            A parameter for specifying the minimum resource allocated to a trial</span>
-<span class="sd">            (in the `paper &lt;http://arxiv.org/abs/1810.05934&gt;`_ this parameter is</span>
-<span class="sd">            referred to as :math:`r`).</span>
+<span class="sd">            (in the `paper &lt;https://proceedings.mlsys.org/paper_files/paper/2020/file/</span>
+<span class="sd">            a06f20b349c6cf09a6b171c71b88bbfc-Paper.pdf&gt;`_ this parameter is referred to as</span>
+<span class="sd">            :math:`r`).</span>
 <span class="sd">            This parameter defaults to &#39;auto&#39; where the value is determined based on a heuristic</span>
 <span class="sd">            that looks at the number of required steps for the first trial to complete.</span>
 
@@ -217,13 +219,15 @@
 <span class="sd">                manually specify the minimum possible step to ``min_resource``.</span>
 <span class="sd">        reduction_factor:</span>
 <span class="sd">            A parameter for specifying reduction factor of promotable trials</span>
-<span class="sd">            (in the `paper &lt;http://arxiv.org/abs/1810.05934&gt;`_ this parameter is</span>
+<span class="sd">            (in the `paper &lt;https://proceedings.mlsys.org/paper_files/paper/2020/file/</span>
+<span class="sd">            a06f20b349c6cf09a6b171c71b88bbfc-Paper.pdf&gt;`_ this parameter is</span>
 <span class="sd">            referred to as :math:`\\eta`).  At the completion point of each rung,</span>
 <span class="sd">            about :math:`{1 \\over \\mathsf{reduction}\\_\\mathsf{factor}}`</span>
 <span class="sd">            trials will be promoted.</span>
 <span class="sd">        min_early_stopping_rate:</span>
 <span class="sd">            A parameter for specifying the minimum early-stopping rate</span>
-<span class="sd">            (in the `paper &lt;http://arxiv.org/abs/1810.05934&gt;`_ this parameter is</span>
+<span class="sd">            (in the `paper &lt;https://proceedings.mlsys.org/paper_files/paper/2020/file/</span>
+<span class="sd">            a06f20b349c6cf09a6b171c71b88bbfc-Paper.pdf&gt;`_ this parameter is</span>
 <span class="sd">            referred to as :math:`s`).</span>
 <span class="sd">        bootstrap_count:</span>
 <span class="sd">            Minimum number of trials that need to complete a rung before any trial</span>

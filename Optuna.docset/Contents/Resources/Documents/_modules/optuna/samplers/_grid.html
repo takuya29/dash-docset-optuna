@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.samplers._grid &mdash; Optuna 3.5.0 documentation</title>
+  <title>optuna.samplers._grid &mdash; Optuna 3.6.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -22,7 +22,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=3f729fb1"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=9222ef7d"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
         <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -77,7 +77,7 @@
               <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.5.0
+                3.6.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -172,9 +172,12 @@
 
 <span class="sd">    Note:</span>
 
-<span class="sd">        :class:`~optuna.samplers.GridSampler` automatically stops the optimization if all</span>
-<span class="sd">        combinations in the passed ``search_space`` have already been evaluated, internally</span>
-<span class="sd">        invoking the :func:`~optuna.study.Study.stop` method.</span>
+<span class="sd">        This sampler with :ref:`ask_and_tell` raises :exc:`RuntimeError` just after evaluating</span>
+<span class="sd">        the final grid. This is because :class:`~optuna.samplers.GridSampler` automatically</span>
+<span class="sd">        stops the optimization if all combinations in the passed ``search_space`` have already</span>
+<span class="sd">        been evaluated, internally invoking the :func:`~optuna.study.Study.stop` method.</span>
+<span class="sd">        As a workaround, we need to handle the error manually as in</span>
+<span class="sd">        https://github.com/optuna/optuna/issues/4121#issuecomment-1305289910.</span>
 
 <span class="sd">    Note:</span>
 

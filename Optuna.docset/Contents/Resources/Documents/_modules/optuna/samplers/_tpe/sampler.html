@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.samplers._tpe.sampler &mdash; Optuna 3.5.0 documentation</title>
+  <title>optuna.samplers._tpe.sampler &mdash; Optuna 3.6.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -22,7 +22,7 @@
   
         <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=3f729fb1"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=9222ef7d"></script>
         <script src="../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
         <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -77,7 +77,7 @@
               <img src="../../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.5.0
+                3.6.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -128,7 +128,6 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -150,6 +149,7 @@
 <span class="kn">from</span> <span class="nn">optuna.search_space.group_decomposed</span> <span class="kn">import</span> <span class="n">_GroupDecomposedSearchSpace</span>
 <span class="kn">from</span> <span class="nn">optuna.search_space.group_decomposed</span> <span class="kn">import</span> <span class="n">_SearchSpaceGroup</span>
 <span class="kn">from</span> <span class="nn">optuna.study</span> <span class="kn">import</span> <span class="n">Study</span>
+<span class="kn">from</span> <span class="nn">optuna.study._multi_objective</span> <span class="kn">import</span> <span class="n">_fast_non_dominated_sort</span>
 <span class="kn">from</span> <span class="nn">optuna.study._study_direction</span> <span class="kn">import</span> <span class="n">StudyDirection</span>
 <span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">FrozenTrial</span>
 <span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">TrialState</span>
@@ -201,7 +201,7 @@
 <span class="sd">    For multi-objective TPE (MOTPE), please refer to the following papers:</span>
 
 <span class="sd">    - `Multiobjective Tree-Structured Parzen Estimator for Computationally Expensive Optimization</span>
-<span class="sd">      Problems &lt;https://dl.acm.org/doi/10.1145/3377930.3389817&gt;`_</span>
+<span class="sd">      Problems &lt;https://doi.org/10.1145/3377930.3389817&gt;`_</span>
 <span class="sd">    - `Multiobjective Tree-Structured Parzen Estimator &lt;https://doi.org/10.1613/jair.1.13188&gt;`_</span>
 
 <span class="sd">    Example:</span>
@@ -282,7 +282,7 @@
 <span class="sd">                &lt;https://papers.nips.cc/paper/4443-algorithms-for-hyper-parameter-optimization.pdf&gt;`_</span>
 <span class="sd">                ). The weights of good trials, i.e., trials to construct `l(x)`, are computed by a</span>
 <span class="sd">                rule based on the hypervolume contribution proposed in the `paper of MOTPE</span>
-<span class="sd">                &lt;https://dl.acm.org/doi/10.1145/3377930.3389817&gt;`_.</span>
+<span class="sd">                &lt;https://doi.org/10.1613/jair.1.13188&gt;`_.</span>
 <span class="sd">        seed:</span>
 <span class="sd">            Seed for random number generator.</span>
 <span class="sd">        multivariate:</span>
@@ -598,58 +598,77 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_constraints_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="n">below</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_internal_repr</span><span class="p">(</span><span class="n">below_trials</span><span class="p">,</span> <span class="n">search_space</span><span class="p">)</span>
-        <span class="n">above</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_internal_repr</span><span class="p">(</span><span class="n">above_trials</span><span class="p">,</span> <span class="n">search_space</span><span class="p">)</span>
+        <span class="n">mpe_below</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_parzen_estimator</span><span class="p">(</span>
+            <span class="n">study</span><span class="p">,</span> <span class="n">search_space</span><span class="p">,</span> <span class="n">below_trials</span><span class="p">,</span> <span class="n">handle_below</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+        <span class="n">mpe_above</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_parzen_estimator</span><span class="p">(</span>
+            <span class="n">study</span><span class="p">,</span> <span class="n">search_space</span><span class="p">,</span> <span class="n">above_trials</span><span class="p">,</span> <span class="n">handle_below</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
 
-        <span class="c1"># We then sample by maximizing log likelihood ratio.</span>
-        <span class="k">if</span> <span class="n">study</span><span class="o">.</span><span class="n">_is_multi_objective</span><span class="p">():</span>
-            <span class="n">param_mask_below</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">below_trials</span><span class="p">:</span>
-                <span class="n">param_mask_below</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                    <span class="nb">all</span><span class="p">((</span><span class="n">param_name</span> <span class="ow">in</span> <span class="n">trial</span><span class="o">.</span><span class="n">params</span><span class="p">)</span> <span class="k">for</span> <span class="n">param_name</span> <span class="ow">in</span> <span class="n">search_space</span><span class="p">)</span>
-                <span class="p">)</span>
-            <span class="n">weights_below</span> <span class="o">=</span> <span class="n">_calculate_weights_below_for_multi_objective</span><span class="p">(</span>
-                <span class="n">study</span><span class="p">,</span> <span class="n">below_trials</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constraints_func</span>
-            <span class="p">)[</span><span class="n">param_mask_below</span><span class="p">]</span>
-            <span class="n">mpe_below</span> <span class="o">=</span> <span class="n">_ParzenEstimator</span><span class="p">(</span>
-                <span class="n">below</span><span class="p">,</span> <span class="n">search_space</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parzen_estimator_parameters</span><span class="p">,</span> <span class="n">weights_below</span>
-            <span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">mpe_below</span> <span class="o">=</span> <span class="n">_ParzenEstimator</span><span class="p">(</span><span class="n">below</span><span class="p">,</span> <span class="n">search_space</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parzen_estimator_parameters</span><span class="p">)</span>
-        <span class="n">mpe_above</span> <span class="o">=</span> <span class="n">_ParzenEstimator</span><span class="p">(</span><span class="n">above</span><span class="p">,</span> <span class="n">search_space</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parzen_estimator_parameters</span><span class="p">)</span>
         <span class="n">samples_below</span> <span class="o">=</span> <span class="n">mpe_below</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="o">.</span><span class="n">rng</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_ei_candidates</span><span class="p">)</span>
-        <span class="n">log_likelihoods_below</span> <span class="o">=</span> <span class="n">mpe_below</span><span class="o">.</span><span class="n">log_pdf</span><span class="p">(</span><span class="n">samples_below</span><span class="p">)</span>
-        <span class="n">log_likelihoods_above</span> <span class="o">=</span> <span class="n">mpe_above</span><span class="o">.</span><span class="n">log_pdf</span><span class="p">(</span><span class="n">samples_below</span><span class="p">)</span>
-        <span class="n">ret</span> <span class="o">=</span> <span class="n">TPESampler</span><span class="o">.</span><span class="n">_compare</span><span class="p">(</span><span class="n">samples_below</span><span class="p">,</span> <span class="n">log_likelihoods_below</span><span class="p">,</span> <span class="n">log_likelihoods_above</span><span class="p">)</span>
+        <span class="n">acq_func_vals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_acquisition_func</span><span class="p">(</span><span class="n">samples_below</span><span class="p">,</span> <span class="n">mpe_below</span><span class="p">,</span> <span class="n">mpe_above</span><span class="p">)</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">TPESampler</span><span class="o">.</span><span class="n">_compare</span><span class="p">(</span><span class="n">samples_below</span><span class="p">,</span> <span class="n">acq_func_vals</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">search_space</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">ret</span><span class="p">[</span><span class="n">param_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">to_external_repr</span><span class="p">(</span><span class="n">ret</span><span class="p">[</span><span class="n">param_name</span><span class="p">])</span>
 
         <span class="k">return</span> <span class="n">ret</span>
 
+    <span class="k">def</span> <span class="nf">_build_parzen_estimator</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span>
+        <span class="n">search_space</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">],</span>
+        <span class="n">trials</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">],</span>
+        <span class="n">handle_below</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_ParzenEstimator</span><span class="p">:</span>
+        <span class="n">observations</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_internal_repr</span><span class="p">(</span><span class="n">trials</span><span class="p">,</span> <span class="n">search_space</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">handle_below</span> <span class="ow">and</span> <span class="n">study</span><span class="o">.</span><span class="n">_is_multi_objective</span><span class="p">():</span>
+            <span class="n">param_mask_below</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">trials</span><span class="p">:</span>
+                <span class="n">param_mask_below</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="nb">all</span><span class="p">((</span><span class="n">param_name</span> <span class="ow">in</span> <span class="n">trial</span><span class="o">.</span><span class="n">params</span><span class="p">)</span> <span class="k">for</span> <span class="n">param_name</span> <span class="ow">in</span> <span class="n">search_space</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="n">weights_below</span> <span class="o">=</span> <span class="n">_calculate_weights_below_for_multi_objective</span><span class="p">(</span>
+                <span class="n">study</span><span class="p">,</span> <span class="n">trials</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constraints_func</span>
+            <span class="p">)[</span><span class="n">param_mask_below</span><span class="p">]</span>
+            <span class="n">mpe</span> <span class="o">=</span> <span class="n">_ParzenEstimator</span><span class="p">(</span>
+                <span class="n">observations</span><span class="p">,</span> <span class="n">search_space</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parzen_estimator_parameters</span><span class="p">,</span> <span class="n">weights_below</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">mpe</span> <span class="o">=</span> <span class="n">_ParzenEstimator</span><span class="p">(</span><span class="n">observations</span><span class="p">,</span> <span class="n">search_space</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parzen_estimator_parameters</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">mpe</span>
+
+    <span class="k">def</span> <span class="nf">_compute_acquisition_func</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">samples</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+        <span class="n">mpe_below</span><span class="p">:</span> <span class="n">_ParzenEstimator</span><span class="p">,</span>
+        <span class="n">mpe_above</span><span class="p">:</span> <span class="n">_ParzenEstimator</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="n">log_likelihoods_below</span> <span class="o">=</span> <span class="n">mpe_below</span><span class="o">.</span><span class="n">log_pdf</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+        <span class="n">log_likelihoods_above</span> <span class="o">=</span> <span class="n">mpe_above</span><span class="o">.</span><span class="n">log_pdf</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+        <span class="n">acq_func_vals</span> <span class="o">=</span> <span class="n">log_likelihoods_below</span> <span class="o">-</span> <span class="n">log_likelihoods_above</span>
+        <span class="k">return</span> <span class="n">acq_func_vals</span>
+
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">_compare</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span>
         <span class="n">samples</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
-        <span class="n">log_l</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-        <span class="n">log_g</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
+        <span class="n">acquisition_func_vals</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span><span class="p">]:</span>
         <span class="n">sample_size</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">samples</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span><span class="o">.</span><span class="n">size</span>
-        <span class="k">if</span> <span class="n">sample_size</span><span class="p">:</span>
-            <span class="n">score</span> <span class="o">=</span> <span class="n">log_l</span> <span class="o">-</span> <span class="n">log_g</span>
-            <span class="k">if</span> <span class="n">sample_size</span> <span class="o">!=</span> <span class="n">score</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="s2">&quot;The size of the &#39;samples&#39; and that of the &#39;score&#39; &quot;</span>
-                    <span class="s2">&quot;should be same. &quot;</span>
-                    <span class="s2">&quot;But (samples.size, score.size) = (</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sample_size</span><span class="p">,</span> <span class="n">score</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
-                <span class="p">)</span>
-            <span class="n">best</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
-            <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="n">best</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">samples</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-        <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">sample_size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The size of `samples` must be positive, but got </span><span class="si">{</span><span class="n">sample_size</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">sample_size</span> <span class="o">!=</span> <span class="n">acquisition_func_vals</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;The size of &#39;samples&#39; should be more than 0.&quot;</span>
-                <span class="s2">&quot;But samples.size = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sample_size</span><span class="p">)</span>
+                <span class="s2">&quot;The sizes of `samples` and `acquisition_func_vals` must be same, but got &quot;</span>
+                <span class="s2">&quot;(samples.size, acquisition_func_vals.size) = &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">sample_size</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">acquisition_func_vals</span><span class="o">.</span><span class="n">size</span><span class="si">}</span><span class="s2">).&quot;</span>
             <span class="p">)</span>
+
+        <span class="n">best_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">acquisition_func_vals</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="n">best_idx</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">samples</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 
 <div class="viewcode-block" id="TPESampler.hyperopt_parameters"><a class="viewcode-back" href="../../../../reference/samplers/generated/optuna.samplers.TPESampler.html#optuna.samplers.TPESampler.hyperopt_parameters">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">hyperopt_parameters</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
@@ -710,21 +729,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_random_sampler</span><span class="o">.</span><span class="n">after_trial</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="n">trial</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span></div></div>
 
 
-<span class="k">def</span> <span class="nf">_calculate_nondomination_rank</span><span class="p">(</span><span class="n">loss_vals</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">n_below</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-    <span class="n">ranks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">loss_vals</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">num_ranked</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">rank</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">domination_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">loss_vals</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">&gt;=</span> <span class="n">loss_vals</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span>
-        <span class="n">loss_vals</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">&gt;</span> <span class="n">loss_vals</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span>
-    <span class="p">)</span>
-    <span class="k">while</span> <span class="n">num_ranked</span> <span class="o">&lt;</span> <span class="n">n_below</span><span class="p">:</span>
-        <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">ranks</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">&amp;</span> <span class="n">domination_mat</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">num_ranked</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">counts</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">ranks</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
-        <span class="n">ranks</span><span class="p">[(</span><span class="n">counts</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">ranks</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="n">rank</span>
-        <span class="n">rank</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="k">return</span> <span class="n">ranks</span>
-
-
 <span class="k">def</span> <span class="nf">_split_trials</span><span class="p">(</span>
     <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span>
     <span class="n">trials</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">],</span>
@@ -737,14 +741,16 @@
     <span class="n">infeasible_trials</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">trials</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">constraints_enabled</span> <span class="ow">and</span> <span class="n">_get_infeasible_trial_score</span><span class="p">(</span><span class="n">trial</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">trial</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">RUNNING</span><span class="p">:</span>
+            <span class="c1"># We should check if the trial is RUNNING before the feasibility check</span>
+            <span class="c1"># because its constraint values have not yet been set.</span>
+            <span class="n">running_trials</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trial</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">constraints_enabled</span> <span class="ow">and</span> <span class="n">_get_infeasible_trial_score</span><span class="p">(</span><span class="n">trial</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">infeasible_trials</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trial</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">trial</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">COMPLETE</span><span class="p">:</span>
             <span class="n">complete_trials</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trial</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">trial</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">PRUNED</span><span class="p">:</span>
             <span class="n">pruned_trials</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trial</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">trial</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">RUNNING</span><span class="p">:</span>
-            <span class="n">running_trials</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trial</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">assert</span> <span class="kc">False</span>
 
@@ -796,13 +802,11 @@
         <span class="c1"># The type of trials must be `list`, but not `Sequence`.</span>
         <span class="k">return</span> <span class="p">[],</span> <span class="nb">list</span><span class="p">(</span><span class="n">trials</span><span class="p">)</span>
 
-    <span class="n">lvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">trial</span><span class="o">.</span><span class="n">values</span> <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">trials</span><span class="p">])</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">direction</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">study</span><span class="o">.</span><span class="n">directions</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">direction</span> <span class="o">==</span> <span class="n">StudyDirection</span><span class="o">.</span><span class="n">MAXIMIZE</span><span class="p">:</span>
-            <span class="n">lvals</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">lvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">trial</span><span class="o">.</span><span class="n">values</span> <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">trials</span><span class="p">])</span>
+    <span class="n">lvals</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">1.0</span> <span class="k">if</span> <span class="n">d</span> <span class="o">==</span> <span class="n">StudyDirection</span><span class="o">.</span><span class="n">MAXIMIZE</span> <span class="k">else</span> <span class="mf">1.0</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">study</span><span class="o">.</span><span class="n">directions</span><span class="p">])</span>
 
     <span class="c1"># Solving HSSP for variables number of times is a waste of time.</span>
-    <span class="n">nondomination_ranks</span> <span class="o">=</span> <span class="n">_calculate_nondomination_rank</span><span class="p">(</span><span class="n">lvals</span><span class="p">,</span> <span class="n">n_below</span><span class="p">)</span>
+    <span class="n">nondomination_ranks</span> <span class="o">=</span> <span class="n">_fast_non_dominated_sort</span><span class="p">(</span><span class="n">lvals</span><span class="p">,</span> <span class="n">n_below</span><span class="o">=</span><span class="n">n_below</span><span class="p">)</span>
     <span class="k">assert</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">n_below</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">lvals</span><span class="p">)</span>
 
     <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lvals</span><span class="p">)))</span>

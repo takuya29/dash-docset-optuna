@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Callback for Study.optimize — Optuna 3.5.0 documentation</title>
+<title>Callback for Study.optimize — Optuna 3.6.0 documentation</title>
 <link href="../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css?v=19f00094" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
@@ -20,7 +20,7 @@
   <![endif]-->
 <script src="../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=3f729fb1"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=9222ef7d"></script>
 <script src="../../_static/doctools.js?v=888ff710"></script>
 <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -68,7 +68,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.5.0
+                3.6.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -113,7 +113,7 @@ to download the full example code</p>
 <p>This tutorial showcases how to use &amp; implement Optuna <code class="docutils literal notranslate"><span class="pre">Callback</span></code> for <a class="reference internal" href="../../reference/generated/optuna.study.Study.html#optuna.study.Study.optimize" title="optuna.study.Study.optimize"><code class="xref py py-func docutils literal notranslate"><span class="pre">optimize()</span></code></a>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">Callback</span></code> is called after every evaluation of <code class="docutils literal notranslate"><span class="pre">objective</span></code>, and
 it takes <a class="reference internal" href="../../reference/generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> and <a class="reference internal" href="../../reference/generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrozenTrial</span></code></a> as arguments, and does some work.</p>
-<p><a class="reference internal" href="../../reference/generated/optuna.integration.MLflowCallback.html#optuna.integration.MLflowCallback" title="optuna.integration.MLflowCallback"><code class="xref py py-class docutils literal notranslate"><span class="pre">MLflowCallback</span></code></a> is a great example.</p>
+<p><a class="reference external" href="https://optuna-integration.readthedocs.io/en/stable/reference/generated/optuna_integration.MLflowCallback.html">MLflowCallback</a> is a great example.</p>
 <section id="stop-optimization-after-some-trials-are-pruned-in-a-row">
 <h2>Stop optimization after some trials are pruned in a row<a class="headerlink" href="#stop-optimization-after-some-trials-are-pruned-in-a-row" title="Permalink to this heading"></a></h2>
 <p>This example implements a stateful callback which stops the optimization
@@ -158,12 +158,12 @@ So, we expect this study to stop after 7 trials.</p>
 <span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">study_stop_cb</span><span class="p">])</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>A new study created in memory with name: no-name-d00bf254-1bd4-473e-8c4c-9b3f70a0818f
-Trial 0 finished with value: 0.28228026431358477 and parameters: {'x': 0.28228026431358477}. Best is trial 0 with value: 0.28228026431358477.
-Trial 1 finished with value: 0.5600520253059312 and parameters: {'x': 0.5600520253059312}. Best is trial 0 with value: 0.28228026431358477.
-Trial 2 finished with value: 0.18504838682467462 and parameters: {'x': 0.18504838682467462}. Best is trial 2 with value: 0.18504838682467462.
-Trial 3 finished with value: 0.09138211440396671 and parameters: {'x': 0.09138211440396671}. Best is trial 3 with value: 0.09138211440396671.
-Trial 4 finished with value: 0.85385272254626 and parameters: {'x': 0.85385272254626}. Best is trial 3 with value: 0.09138211440396671.
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>A new study created in memory with name: no-name-e8b71b66-1dec-4741-8cf8-465da7df907a
+Trial 0 finished with value: 0.45529724965403306 and parameters: {'x': 0.45529724965403306}. Best is trial 0 with value: 0.45529724965403306.
+Trial 1 finished with value: 0.3768059745059933 and parameters: {'x': 0.3768059745059933}. Best is trial 1 with value: 0.3768059745059933.
+Trial 2 finished with value: 0.6582913991515582 and parameters: {'x': 0.6582913991515582}. Best is trial 1 with value: 0.3768059745059933.
+Trial 3 finished with value: 0.6009987497930275 and parameters: {'x': 0.6009987497930275}. Best is trial 1 with value: 0.3768059745059933.
+Trial 4 finished with value: 0.12194927089981666 and parameters: {'x': 0.12194927089981666}. Best is trial 4 with value: 0.12194927089981666.
 Trial 5 pruned.
 Trial 6 pruned.
 </pre></div>
