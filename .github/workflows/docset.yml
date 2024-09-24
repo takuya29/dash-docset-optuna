@@ -54,6 +54,7 @@ jobs:
       - name: install dependencies
         run: |
           cd optuna
+          sudo apt-get install optipng
           python -m pip install -U pip
           pip install --progress-bar off -U .[document]
       - name: Build Document
