@@ -15,7 +15,7 @@ jobs:
     name: Push to contrib repository
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           persist-credentials: false
       - name: get version
@@ -23,7 +23,7 @@ jobs:
         run: |
           version=$(cat .version | sed -e "s/v//")
           echo "version=${version}" >> $GITHUB_OUTPUT
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: Kapeli/Dash-User-Contributions
           ref: master
