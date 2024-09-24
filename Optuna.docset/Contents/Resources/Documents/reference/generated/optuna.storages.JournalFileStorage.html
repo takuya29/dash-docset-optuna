@@ -4,23 +4,22 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.storages.JournalFileStorage — Optuna 3.6.1 documentation</title>
+<title>optuna.storages.JournalFileStorage — Optuna 4.0.0 documentation</title>
 <link href="../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css?v=19f00094" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
-<link href="../../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/sg_gallery.css?v=61a4c737" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery.css?v=d2d258e8" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-binder.css?v=f4aeca0c" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" rel="stylesheet" type="text/css"/>
-<link href="../../_static/css/custom.css?v=3150ea5e" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/custom.css?v=d0d4e556" rel="stylesheet" type="text/css"/>
 <link href="../../_static/favicon.ico" rel="shortcut icon"/>
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
 <script src="../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=3b629b1b"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=6fa1bce2"></script>
 <script src="../../_static/doctools.js?v=888ff710"></script>
 <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -28,8 +27,8 @@
 <script src="../../_static/js/theme.js"></script>
 <link href="../../genindex.html" rel="index" title="Index"/>
 <link href="../../search.html" rel="search" title="Search"/>
-<link href="optuna.storages.JournalFileSymlinkLock.html" rel="next" title="optuna.storages.JournalFileSymlinkLock"/>
-<link href="optuna.storages.JournalStorage.html" rel="prev" title="optuna.storages.JournalStorage"/>
+<link href="optuna.storages.JournalRedisStorage.html" rel="next" title="optuna.storages.JournalRedisStorage"/>
+<link href="optuna.storages.BaseJournalLogStorage.html" rel="prev" title="optuna.storages.BaseJournalLogStorage"/>
 </head>
 <body class="wy-body-for-nav">
 <div class="navbar">
@@ -48,6 +47,9 @@
 <a class="header_link" href="https://optuna.org/#dashboard">Dashboard</a>
 </li>
 <li>
+<a class="header_link" href="https://optuna.org/#hub">OptunaHub</a>
+</li>
+<li>
 <a class="header_link" href="https://optuna.org/#blog">Blog</a>
 </li>
 <li>
@@ -55,9 +57,6 @@
 </li>
 <li>
 <a class="header_link" href="https://optuna.org/#paper">Paper</a>
-</li>
-<li>
-<a class="header_link" href="https://optuna.org/#community">Community</a>
 </li>
 </ul>
 </div>
@@ -70,7 +69,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.6.1
+                4.0.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -101,13 +100,13 @@
 <li class="toctree-l3"><a class="reference internal" href="optuna.storages.RetryFailedTrialCallback.html">optuna.storages.RetryFailedTrialCallback</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.storages.fail_stale_trials.html">optuna.storages.fail_stale_trials</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.storages.JournalStorage.html">optuna.storages.JournalStorage</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">optuna.storages.JournalFileStorage</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#optuna.storages.JournalFileStorage"><code class="docutils literal notranslate"><span class="pre">JournalFileStorage</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../storages.html#optuna-storages-journal">optuna.storages.journal</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../storages.html#deprecated-modules">Deprecated Modules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="optuna.storages.BaseJournalLogStorage.html">optuna.storages.BaseJournalLogStorage</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">optuna.storages.JournalFileStorage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="optuna.storages.JournalRedisStorage.html">optuna.storages.JournalRedisStorage</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="optuna.storages.JournalFileSymlinkLock.html">optuna.storages.JournalFileSymlinkLock</a></li>
-<li class="toctree-l3"><a class="reference internal" href="optuna.storages.JournalFileOpenLock.html">optuna.storages.JournalFileOpenLock</a></li>
-<li class="toctree-l3"><a class="reference internal" href="optuna.storages.JournalRedisStorage.html">optuna.storages.JournalRedisStorage</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../study.html">optuna.study</a></li>
@@ -142,16 +141,14 @@
 <h1>optuna.storages.JournalFileStorage<a class="headerlink" href="#optuna-storages-journalfilestorage" title="Permalink to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="optuna.storages.JournalFileStorage">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.storages.</span></span><span class="sig-name descname"><span class="pre">JournalFileStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lock_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_journal/file.html#JournalFileStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.storages.JournalFileStorage"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.storages._journal.file.JournalFileStorage"></a><a class="headerlink" href="#optuna.storages.JournalFileStorage" title="Permalink to this definition"></a></dt>
-<dd><p>File storage class for Journal log backend.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>file_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – Path of file to persist the log to.</p></li>
-<li><p><strong>lock_obj</strong> (<em>JournalFileBaseLock</em><em> | </em><em>None</em>) – Lock object for process exclusivity.</p></li>
-</ul>
-</dd>
-</dl>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.storages.</span></span><span class="sig-name descname"><span class="pre">JournalFileStorage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lock_obj</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/journal/_file.html#JournalFileStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.storages.JournalFileStorage"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.storages.journal._file.JournalFileStorage"></a><a class="headerlink" href="#optuna.storages.JournalFileStorage" title="Permalink to this definition"></a></dt>
+<dd><div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Deprecated in v4.0.0. This feature will be removed in the future. The removal of this
+feature is currently scheduled for v6.0.0, but this schedule is subject to change.
+See <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v4.0.0">https://github.com/optuna/optuna/releases/tag/v4.0.0</a>.</p>
+<p>Use <a class="reference internal" href="optuna.storages.journal.JournalFileBackend.html#optuna.storages.journal.JournalFileBackend" title="optuna.storages.journal.JournalFileBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">JournalFileBackend</span></code></a> instead.</p>
+</div>
 <p class="rubric">Methods</p>
 <table class="autosummary longtable docutils align-default">
 <tbody>
@@ -163,13 +160,21 @@
 </tr>
 </tbody>
 </table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – </p></li>
+<li><p><strong>lock_obj</strong> (<em>BaseJournalFileLock</em><em> | </em><em>None</em>) – </p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="optuna.storages.JournalFileStorage.append_logs">
-<span class="sig-name descname"><span class="pre">append_logs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_journal/file.html#JournalFileStorage.append_logs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.JournalFileStorage.append_logs"></a><a class="headerlink" href="#optuna.storages.JournalFileStorage.append_logs" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">append_logs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logs</span></span></em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.JournalFileStorage.append_logs"></a><a class="headerlink" href="#optuna.storages.JournalFileStorage.append_logs" title="Permalink to this definition"></a></dt>
 <dd><p>Append logs to the backend.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>logs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.12)"><em>List</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><em>Dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><em>Any</em></a><em>]</em><em>]</em>) – A list that contains json-serializable logs.</p>
+<dd class="field-odd"><p><strong>logs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>Any</em><em>]</em><em>]</em>) – A list that contains json-serializable logs.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
@@ -178,7 +183,7 @@
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="optuna.storages.JournalFileStorage.read_logs">
-<span class="sig-name descname"><span class="pre">read_logs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_number_from</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_journal/file.html#JournalFileStorage.read_logs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.JournalFileStorage.read_logs"></a><a class="headerlink" href="#optuna.storages.JournalFileStorage.read_logs" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">read_logs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_number_from</span></span></em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.JournalFileStorage.read_logs"></a><a class="headerlink" href="#optuna.storages.JournalFileStorage.read_logs" title="Permalink to this definition"></a></dt>
 <dd><p>Read logs with a log number greater than or equal to <code class="docutils literal notranslate"><span class="pre">log_number_from</span></code>.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">log_number_from</span></code> is 0, read all the logs.</p>
 <dl class="field-list simple">
@@ -189,7 +194,7 @@
 <dd class="field-even"><p>Logs with log number greater than or equal to <code class="docutils literal notranslate"><span class="pre">log_number_from</span></code>.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.12)"><em>List</em></a>[<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><em>Dict</em></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><em>Any</em></a>]]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a>, Any]]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -198,8 +203,8 @@
 </div>
 </div>
 <footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
-<a accesskey="p" class="btn btn-neutral float-left" href="optuna.storages.JournalStorage.html" rel="prev" title="optuna.storages.JournalStorage"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
-<a accesskey="n" class="btn btn-neutral float-right" href="optuna.storages.JournalFileSymlinkLock.html" rel="next" title="optuna.storages.JournalFileSymlinkLock">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+<a accesskey="p" class="btn btn-neutral float-left" href="optuna.storages.BaseJournalLogStorage.html" rel="prev" title="optuna.storages.BaseJournalLogStorage"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="optuna.storages.JournalRedisStorage.html" rel="next" title="optuna.storages.JournalRedisStorage">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
 </div>
 <hr/>
 <div role="contentinfo">

@@ -3,16 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.storages._rdb.storage &mdash; Optuna 3.6.1 documentation</title>
+  <title>optuna.storages._rdb.storage &mdash; Optuna 4.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="../../../../_static/plot_directive.css" />
-      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery.css?v=61a4c737" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery.css?v=d2d258e8" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
-      <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css?v=3150ea5e" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css?v=d0d4e556" />
 
   
     <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
@@ -22,7 +21,7 @@
   
         <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=3b629b1b"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=6fa1bce2"></script>
         <script src="../../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
         <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,6 +48,9 @@
                     <a href="https://optuna.org/#dashboard" class="header_link">Dashboard</a>
                 </li>
                 <li>
+                    <a href="https://optuna.org/#hub" class="header_link">OptunaHub</a>
+                </li>
+                <li>
                     <a href="https://optuna.org/#blog" class="header_link">Blog</a>
                 </li>
                 <li>
@@ -56,9 +58,6 @@
                 </li>
                 <li>
                     <a href="https://optuna.org/#paper" class="header_link">Paper</a>
-                </li>
-                <li>
-                    <a href="https://optuna.org/#community" class="header_link">Community</a>
                 </li>
             </ul>
         </div>
@@ -77,7 +76,7 @@
               <img src="../../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.6.1
+                4.0.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -125,9 +124,12 @@
 <span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
 <span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">timedelta</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Container</span>
@@ -301,7 +303,7 @@
 <span class="sd">        mechanism. Set ``heartbeat_interval``, ``grace_period``, and ``failed_trial_callback``</span>
 <span class="sd">        appropriately according to your use case. For more details, please refer to the</span>
 <span class="sd">        :ref:`tutorial &lt;heartbeat_monitoring&gt;` and `Example page</span>
-<span class="sd">        &lt;https://github.com/optuna/optuna-examples/blob/main/pytorch/pytorch_checkpoint.py&gt;`_.</span>
+<span class="sd">        &lt;https://github.com/optuna/optuna-examples/blob/main/pytorch/pytorch_checkpoint.py&gt;`__.</span>
 
 <span class="sd">    .. seealso::</span>
 <span class="sd">        You can use :class:`~optuna.storages.RetryFailedTrialCallback` to automatically retry</span>
@@ -564,48 +566,53 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="c1"># Retry a couple of times. Deadlocks may occur in distributed environments.</span>
-        <span class="n">n_retries</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
-            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="c1"># Ensure that that study exists.</span>
-                    <span class="c1">#</span>
-                    <span class="c1"># Locking within a study is necessary since the creation of a trial is not an</span>
-                    <span class="c1"># atomic operation. More precisely, the trial number computed in</span>
-                    <span class="c1"># `_get_prepared_new_trial` is prone to race conditions without this lock.</span>
-                    <span class="n">models</span><span class="o">.</span><span class="n">StudyModel</span><span class="o">.</span><span class="n">find_or_raise_by_id</span><span class="p">(</span><span class="n">study_id</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">for_update</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-                    <span class="n">trial</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_prepared_new_trial</span><span class="p">(</span><span class="n">study_id</span><span class="p">,</span> <span class="n">template_trial</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
-                    <span class="k">break</span>  <span class="c1"># Successfully created trial.</span>
-                <span class="k">except</span> <span class="n">sqlalchemy_exc</span><span class="o">.</span><span class="n">OperationalError</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">n_retries</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
-                        <span class="k">raise</span>
-
-                <span class="n">n_retries</span> <span class="o">+=</span> <span class="mi">1</span>
-
+        <span class="k">def</span> <span class="nf">_create_frozen_trial</span><span class="p">(</span>
+            <span class="n">trial</span><span class="p">:</span> <span class="s2">&quot;models.TrialModel&quot;</span><span class="p">,</span> <span class="n">template_trial</span><span class="p">:</span> <span class="n">FrozenTrial</span> <span class="o">|</span> <span class="kc">None</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FrozenTrial</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">template_trial</span><span class="p">:</span>
                 <span class="n">frozen</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">template_trial</span><span class="p">)</span>
                 <span class="n">frozen</span><span class="o">.</span><span class="n">number</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">number</span>
                 <span class="n">frozen</span><span class="o">.</span><span class="n">datetime_start</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">datetime_start</span>
                 <span class="n">frozen</span><span class="o">.</span><span class="n">_trial_id</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">trial_id</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">frozen</span> <span class="o">=</span> <span class="n">FrozenTrial</span><span class="p">(</span>
-                    <span class="n">number</span><span class="o">=</span><span class="n">trial</span><span class="o">.</span><span class="n">number</span><span class="p">,</span>
-                    <span class="n">state</span><span class="o">=</span><span class="n">trial</span><span class="o">.</span><span class="n">state</span><span class="p">,</span>
-                    <span class="n">value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                    <span class="n">values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                    <span class="n">datetime_start</span><span class="o">=</span><span class="n">trial</span><span class="o">.</span><span class="n">datetime_start</span><span class="p">,</span>
-                    <span class="n">datetime_complete</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                    <span class="n">params</span><span class="o">=</span><span class="p">{},</span>
-                    <span class="n">distributions</span><span class="o">=</span><span class="p">{},</span>
-                    <span class="n">user_attrs</span><span class="o">=</span><span class="p">{},</span>
-                    <span class="n">system_attrs</span><span class="o">=</span><span class="p">{},</span>
-                    <span class="n">intermediate_values</span><span class="o">=</span><span class="p">{},</span>
-                    <span class="n">trial_id</span><span class="o">=</span><span class="n">trial</span><span class="o">.</span><span class="n">trial_id</span><span class="p">,</span>
-                <span class="p">)</span>
+                <span class="k">return</span> <span class="n">frozen</span>
+            <span class="k">return</span> <span class="n">FrozenTrial</span><span class="p">(</span>
+                <span class="n">number</span><span class="o">=</span><span class="n">trial</span><span class="o">.</span><span class="n">number</span><span class="p">,</span>
+                <span class="n">state</span><span class="o">=</span><span class="n">trial</span><span class="o">.</span><span class="n">state</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">values</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">datetime_start</span><span class="o">=</span><span class="n">trial</span><span class="o">.</span><span class="n">datetime_start</span><span class="p">,</span>
+                <span class="n">datetime_complete</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">params</span><span class="o">=</span><span class="p">{},</span>
+                <span class="n">distributions</span><span class="o">=</span><span class="p">{},</span>
+                <span class="n">user_attrs</span><span class="o">=</span><span class="p">{},</span>
+                <span class="n">system_attrs</span><span class="o">=</span><span class="p">{},</span>
+                <span class="n">intermediate_values</span><span class="o">=</span><span class="p">{},</span>
+                <span class="n">trial_id</span><span class="o">=</span><span class="n">trial</span><span class="o">.</span><span class="n">trial_id</span><span class="p">,</span>
+            <span class="p">)</span>
 
-            <span class="k">return</span> <span class="n">frozen</span>
+        <span class="c1"># Retry maximum five times. Deadlocks may occur in distributed environments.</span>
+        <span class="n">MAX_RETRIES</span> <span class="o">=</span> <span class="mi">5</span>
+        <span class="k">for</span> <span class="n">n_retries</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">MAX_RETRIES</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+                    <span class="c1"># This lock is necessary because the trial creation is not an atomic operation</span>
+                    <span class="c1"># and the calculation of trial.number is prone to race conditions.</span>
+                    <span class="n">models</span><span class="o">.</span><span class="n">StudyModel</span><span class="o">.</span><span class="n">find_or_raise_by_id</span><span class="p">(</span><span class="n">study_id</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">for_update</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="n">trial</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_prepared_new_trial</span><span class="p">(</span><span class="n">study_id</span><span class="p">,</span> <span class="n">template_trial</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="n">_create_frozen_trial</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">template_trial</span><span class="p">)</span>
+            <span class="c1"># sqlalchemy_exc.OperationalError is converted to ``StorageInternalError``.</span>
+            <span class="k">except</span> <span class="n">optuna</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">StorageInternalError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="c1"># ``OperationalError`` happens either by (1) invalid inputs, e.g., too long string,</span>
+                <span class="c1"># or (2) timeout error, which relates to deadlock. Although Error (1) is not</span>
+                <span class="c1"># intended to be caught here, it must be fixed to use RDBStorage anyways.</span>
+                <span class="k">if</span> <span class="n">n_retries</span> <span class="o">==</span> <span class="n">MAX_RETRIES</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">e</span>
+
+                <span class="c1"># Optuna defers to the DB administrator to reduce DB server congestion, hence</span>
+                <span class="c1"># Optuna simply uses non-exponential backoff here for retries caused by deadlock.</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">)</span>
+
+        <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Should not be reached.&quot;</span>
 
     <span class="k">def</span> <span class="nf">_get_prepared_new_trial</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -1031,10 +1038,9 @@
             <span class="n">direction</span> <span class="o">=</span> <span class="n">_directions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
             <span class="k">if</span> <span class="n">direction</span> <span class="o">==</span> <span class="n">StudyDirection</span><span class="o">.</span><span class="n">MAXIMIZE</span><span class="p">:</span>
-                <span class="n">trial</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">find_max_value_trial</span><span class="p">(</span><span class="n">study_id</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
+                <span class="n">trial_id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">find_max_value_trial_id</span><span class="p">(</span><span class="n">study_id</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">trial</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">find_min_value_trial</span><span class="p">(</span><span class="n">study_id</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
-            <span class="n">trial_id</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">trial_id</span>
+                <span class="n">trial_id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">find_min_value_trial_id</span><span class="p">(</span><span class="n">study_id</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_trial</span><span class="p">(</span><span class="n">trial_id</span><span class="p">)</span></div>
 
@@ -1096,11 +1102,15 @@
 
 <div class="viewcode-block" id="RDBStorage.record_heartbeat"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.record_heartbeat">[docs]</a>    <span class="k">def</span> <span class="nf">record_heartbeat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
+            <span class="c1"># Fetch heartbeat with read-only.</span>
             <span class="n">heartbeat</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TrialHeartbeatModel</span><span class="o">.</span><span class="n">where_trial_id</span><span class="p">(</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">heartbeat</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">heartbeat</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># heartbeat record does not exist.</span>
                 <span class="n">heartbeat</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TrialHeartbeatModel</span><span class="p">(</span><span class="n">trial_id</span><span class="o">=</span><span class="n">trial_id</span><span class="p">)</span>
                 <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">heartbeat</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Re-fetch the existing heartbeat with the write authorization.</span>
+                <span class="n">heartbeat</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TrialHeartbeatModel</span><span class="o">.</span><span class="n">where_trial_id</span><span class="p">(</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+                <span class="k">assert</span> <span class="n">heartbeat</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
                 <span class="n">heartbeat</span><span class="o">.</span><span class="n">heartbeat</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sqlalchemy</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="n">now</span><span class="p">())</span><span class="o">.</span><span class="n">scalar</span><span class="p">()</span></div>
 
     <span class="k">def</span> <span class="nf">_get_stale_trial_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
@@ -1131,7 +1141,7 @@
                     <span class="k">continue</span>
                 <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">heartbeats</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
                 <span class="n">heartbeat</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">heartbeats</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">heartbeat</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">current_heartbeat</span> <span class="o">-</span> <span class="n">heartbeat</span><span class="p">)</span><span class="o">.</span><span class="n">seconds</span> <span class="o">&gt;</span> <span class="n">grace_period</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">current_heartbeat</span> <span class="o">-</span> <span class="n">heartbeat</span> <span class="o">&gt;</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">grace_period</span><span class="p">):</span>
                     <span class="n">stale_trial_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">trial_id</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">stale_trial_ids</span>

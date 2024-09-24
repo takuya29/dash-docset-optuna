@@ -4,23 +4,22 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>(File-based) Journal Storage — Optuna 3.6.1 documentation</title>
+<title>(File-based) Journal Storage — Optuna 4.0.0 documentation</title>
 <link href="../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css?v=19f00094" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
-<link href="../../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/sg_gallery.css?v=61a4c737" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery.css?v=d2d258e8" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-binder.css?v=f4aeca0c" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" rel="stylesheet" type="text/css"/>
-<link href="../../_static/css/custom.css?v=3150ea5e" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/custom.css?v=d0d4e556" rel="stylesheet" type="text/css"/>
 <link href="../../_static/favicon.ico" rel="shortcut icon"/>
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
 <script src="../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=3b629b1b"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=6fa1bce2"></script>
 <script src="../../_static/doctools.js?v=888ff710"></script>
 <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -46,6 +45,9 @@
 <a class="header_link" href="https://optuna.org/#dashboard">Dashboard</a>
 </li>
 <li>
+<a class="header_link" href="https://optuna.org/#hub">OptunaHub</a>
+</li>
+<li>
 <a class="header_link" href="https://optuna.org/#blog">Blog</a>
 </li>
 <li>
@@ -53,9 +55,6 @@
 </li>
 <li>
 <a class="header_link" href="https://optuna.org/#paper">Paper</a>
-</li>
-<li>
-<a class="header_link" href="https://optuna.org/#community">Community</a>
 </li>
 </ul>
 </div>
@@ -68,7 +67,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.6.1
+                4.0.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -106,7 +105,7 @@
 <div class="sphx-glr-download-link-note admonition note">
 <p class="admonition-title">Note</p>
 <p><a class="reference internal" href="#sphx-glr-download-tutorial-20-recipes-011-journal-storage-py"><span class="std std-ref">Go to the end</span></a>
-to download the full example code</p>
+to download the full example code.</p>
 </div>
 <section class="sphx-glr-example-title" id="file-based-journal-storage">
 <a class="dashAnchor" name="//apple_ref/cpp/Section/(File-based) Journal Storage"></a><span id="journal-storage"></span><a class="dashAnchor" name="//apple_ref/cpp/Section/(File-based) Journal Storage"></a><span id="sphx-glr-tutorial-20-recipes-011-journal-storage-py"></span><h1>(File-based) Journal Storage<a class="headerlink" href="#file-based-journal-storage" title="Permalink to this heading"></a></h1>
@@ -122,8 +121,9 @@ RDB or Redis.</p>
 <span class="c1"># Add stream handler of stdout to show the messages</span>
 <span class="n">optuna</span><span class="o">.</span><span class="n">logging</span><span class="o">.</span><span class="n">get_logger</span><span class="p">(</span><span class="s2">"optuna"</span><span class="p">)</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><a class="sphx-glr-backref-module-logging sphx-glr-backref-type-py-class" href="https://docs.python.org/3/library/logging.handlers.html#logging.StreamHandler" title="logging.StreamHandler"><span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span></a><span class="p">(</span><a class="sphx-glr-backref-module-io sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="io.TextIOWrapper"><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span></a><span class="p">))</span>
 <a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str"><span class="n">study_name</span></a> <span class="o">=</span> <span class="s2">"example-study"</span>  <span class="c1"># Unique identifier of the study.</span>
+<a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str"><span class="n">file_path</span></a> <span class="o">=</span> <span class="s2">"./optuna_journal_storage.log"</span>
 <span class="n">storage</span> <span class="o">=</span> <a class="sphx-glr-backref-module-abc sphx-glr-backref-type-py-class" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="abc.ABC"><span class="n">optuna</span><span class="o">.</span><span class="n">storages</span><span class="o">.</span><span class="n">JournalStorage</span></a><span class="p">(</span>
-    <a class="sphx-glr-backref-module-abc sphx-glr-backref-type-py-class" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="abc.ABC"><span class="n">optuna</span><span class="o">.</span><span class="n">storages</span><span class="o">.</span><span class="n">JournalFileStorage</span></a><span class="p">(</span><span class="s2">"./journal.log"</span><span class="p">),</span>  <span class="c1"># NFS path for distributed optimization</span>
+    <a class="sphx-glr-backref-module-abc sphx-glr-backref-type-py-class" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="abc.ABC"><span class="n">optuna</span><span class="o">.</span><span class="n">storages</span><span class="o">.</span><span class="n">journal</span><span class="o">.</span><span class="n">JournalFileBackend</span></a><span class="p">(</span><a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str"><span class="n">file_path</span></a><span class="p">),</span>  <span class="c1"># NFS path for distributed optimization</span>
 <span class="p">)</span>
 
 <span class="n">study</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">create_study</span><span class="p">(</span><a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str"><span class="n">study_name</span></a><span class="o">=</span><a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str"><span class="n">study_name</span></a><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="n">storage</span><span class="p">)</span>
@@ -137,14 +137,10 @@ RDB or Redis.</p>
 <span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/runner/work/dash-docset-optuna/dash-docset-optuna/optuna/tutorial/20_recipes/011_journal_storage.py:22: ExperimentalWarning:
-
-JournalStorage is experimental (supported from v3.1.0). The interface can change in the future.
-
-A new study created in Journal with name: example-study
-Trial 0 finished with value: 19.5221782263349 and parameters: {'x': 6.418390909181181}. Best is trial 0 with value: 19.5221782263349.
-Trial 1 finished with value: 9.466858983358504 and parameters: {'x': 5.076826121729745}. Best is trial 1 with value: 9.466858983358504.
-Trial 2 finished with value: 0.03929607916194411 and parameters: {'x': 2.1982323867634754}. Best is trial 2 with value: 0.03929607916194411.
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>A new study created in Journal with name: example-study
+Trial 0 finished with value: 0.01741512984991897 and parameters: {'x': 1.8680336033305487}. Best is trial 0 with value: 0.01741512984991897.
+Trial 1 finished with value: 84.78441818572622 and parameters: {'x': -7.207845469257519}. Best is trial 0 with value: 0.01741512984991897.
+Trial 2 finished with value: 31.637097454471338 and parameters: {'x': -3.6246864316574428}. Best is trial 0 with value: 0.01741512984991897.
 </pre></div>
 </div>
 <p>Although the optimization in this example is too short to run in parallel, you can extend this
@@ -153,7 +149,7 @@ example to write a optimization script which can be run in parallel.</p>
 <p class="admonition-title">Note</p>
 <p>In a Windows environment, an error message “A required privilege is not held by the client”
 may appear. In this case, you can solve the problem with creating storage by specifying
-<a class="reference internal" href="../../reference/generated/optuna.storages.JournalFileOpenLock.html#optuna.storages.JournalFileOpenLock" title="optuna.storages.JournalFileOpenLock"><code class="xref py py-class docutils literal notranslate"><span class="pre">JournalFileOpenLock</span></code></a>. See the reference of
+<a class="reference internal" href="../../reference/generated/optuna.storages.journal.JournalFileOpenLock.html#optuna.storages.journal.JournalFileOpenLock" title="optuna.storages.journal.JournalFileOpenLock"><code class="xref py py-class docutils literal notranslate"><span class="pre">JournalFileOpenLock</span></code></a>. See the reference of
 <a class="reference internal" href="../../reference/generated/optuna.storages.JournalStorage.html#optuna.storages.JournalStorage" title="optuna.storages.JournalStorage"><code class="xref py py-class docutils literal notranslate"><span class="pre">JournalStorage</span></code></a> for any details.</p>
 </div>
 <p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.011 seconds)</p>
@@ -163,6 +159,9 @@ may appear. In this case, you can solve the problem with creating storage by spe
 </div>
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/00877c0a2a46ce2ffa45b06c373560a2/011_journal_storage.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">011_journal_storage.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/86c157e9f8059362366efc76c192a957/011_journal_storage.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">011_journal_storage.zip</span></code></a></p>
 </div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>

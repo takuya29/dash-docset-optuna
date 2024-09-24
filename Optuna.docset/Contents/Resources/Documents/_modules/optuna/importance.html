@@ -3,16 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.importance &mdash; Optuna 3.6.1 documentation</title>
+  <title>optuna.importance &mdash; Optuna 4.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
-      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=61a4c737" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
       <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
       <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
       <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=3150ea5e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=d0d4e556" />
 
   
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
@@ -22,7 +21,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=3b629b1b"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=6fa1bce2"></script>
         <script src="../../_static/doctools.js?v=888ff710"></script>
         <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
         <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,6 +48,9 @@
                     <a href="https://optuna.org/#dashboard" class="header_link">Dashboard</a>
                 </li>
                 <li>
+                    <a href="https://optuna.org/#hub" class="header_link">OptunaHub</a>
+                </li>
+                <li>
                     <a href="https://optuna.org/#blog" class="header_link">Blog</a>
                 </li>
                 <li>
@@ -56,9 +58,6 @@
                 </li>
                 <li>
                     <a href="https://optuna.org/#paper" class="header_link">Paper</a>
-                </li>
-                <li>
-                    <a href="https://optuna.org/#community" class="header_link">Community</a>
                 </li>
             </ul>
         </div>
@@ -77,7 +76,7 @@
               <img src="../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.6.1
+                4.0.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -119,13 +118,11 @@
            <div itemprop="articleBody">
              
   <h1>Source code for optuna.importance</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span> <span class="nn">optuna.exceptions</span> <span class="kn">import</span> <span class="n">ExperimentalWarning</span>
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Callable</span>
+
+<span class="kn">from</span> <span class="nn">optuna._experimental</span> <span class="kn">import</span> <span class="n">warn_experimental_argument</span>
 <span class="kn">from</span> <span class="nn">optuna.importance._base</span> <span class="kn">import</span> <span class="n">BaseImportanceEvaluator</span>
 <span class="kn">from</span> <span class="nn">optuna.importance._fanova</span> <span class="kn">import</span> <span class="n">FanovaImportanceEvaluator</span>
 <span class="kn">from</span> <span class="nn">optuna.importance._mean_decrease_impurity</span> <span class="kn">import</span> <span class="n">MeanDecreaseImpurityImportanceEvaluator</span>
@@ -146,11 +143,11 @@
 <div class="viewcode-block" id="get_param_importances"><a class="viewcode-back" href="../../reference/generated/optuna.importance.get_param_importances.html#optuna.importance.get_param_importances">[docs]</a><span class="k">def</span> <span class="nf">get_param_importances</span><span class="p">(</span>
     <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
-    <span class="n">evaluator</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BaseImportanceEvaluator</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">target</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">FrozenTrial</span><span class="p">],</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">evaluator</span><span class="p">:</span> <span class="n">BaseImportanceEvaluator</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">params</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">target</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">FrozenTrial</span><span class="p">],</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">normalize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Evaluate parameter importances based on completed trials in the given study.</span>
 
 <span class="sd">    The parameter importances are returned as a dictionary where the keys consist of parameter</span>
@@ -190,7 +187,7 @@
 <span class="sd">            .. note::</span>
 <span class="sd">                :class:`~optuna.importance.FanovaImportanceEvaluator` takes over 1 minute</span>
 <span class="sd">                when given a study that contains 1000+ trials. We published</span>
-<span class="sd">                `optuna-fast-fanova &lt;https://github.com/optuna/optuna-fast-fanova&gt;`_ library,</span>
+<span class="sd">                `optuna-fast-fanova &lt;https://github.com/optuna/optuna-fast-fanova&gt;`__ library,</span>
 <span class="sd">                that is a Cython accelerated fANOVA implementation.</span>
 <span class="sd">                By using it, you can get hyperparameter importances within a few seconds.</span>
 <span class="sd">                If ``n_trials`` is more than 10000, the Cython implementation takes more than</span>
@@ -240,11 +237,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">dict</span><span class="p">((</span><span class="n">param</span><span class="p">,</span> <span class="n">value</span> <span class="o">/</span> <span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-            <span class="s2">&quot;`normalize` option is an experimental feature.&quot;</span>
-            <span class="s2">&quot; The interface can change in the future.&quot;</span><span class="p">,</span>
-            <span class="n">ExperimentalWarning</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="n">warn_experimental_argument</span><span class="p">(</span><span class="s2">&quot;normalize&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span></div>
 </pre></div>
 

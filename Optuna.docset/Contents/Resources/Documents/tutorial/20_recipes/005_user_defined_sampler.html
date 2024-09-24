@@ -4,23 +4,22 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>User-Defined Sampler — Optuna 3.6.1 documentation</title>
+<title>User-Defined Sampler — Optuna 4.0.0 documentation</title>
 <link href="../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css?v=19f00094" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
-<link href="../../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/sg_gallery.css?v=61a4c737" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery.css?v=d2d258e8" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-binder.css?v=f4aeca0c" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" rel="stylesheet" type="text/css"/>
-<link href="../../_static/css/custom.css?v=3150ea5e" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/custom.css?v=d0d4e556" rel="stylesheet" type="text/css"/>
 <link href="../../_static/favicon.ico" rel="shortcut icon"/>
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
 <script src="../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=3b629b1b"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=6fa1bce2"></script>
 <script src="../../_static/doctools.js?v=888ff710"></script>
 <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -46,6 +45,9 @@
 <a class="header_link" href="https://optuna.org/#dashboard">Dashboard</a>
 </li>
 <li>
+<a class="header_link" href="https://optuna.org/#hub">OptunaHub</a>
+</li>
+<li>
 <a class="header_link" href="https://optuna.org/#blog">Blog</a>
 </li>
 <li>
@@ -53,9 +55,6 @@
 </li>
 <li>
 <a class="header_link" href="https://optuna.org/#paper">Paper</a>
-</li>
-<li>
-<a class="header_link" href="https://optuna.org/#community">Community</a>
 </li>
 </ul>
 </div>
@@ -68,7 +67,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.6.1
+                4.0.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -106,7 +105,7 @@
 <div class="sphx-glr-download-link-note admonition note">
 <p class="admonition-title">Note</p>
 <p><a class="reference internal" href="#sphx-glr-download-tutorial-20-recipes-005-user-defined-sampler-py"><span class="std std-ref">Go to the end</span></a>
-to download the full example code</p>
+to download the full example code.</p>
 </div>
 <a class="dashAnchor" name="//apple_ref/cpp/Section/User-Defined Sampler"></a><section class="sphx-glr-example-title" id="user-defined-sampler">
 <a class="dashAnchor" name="//apple_ref/cpp/Section/User-Defined Sampler"></a><span id="sphx-glr-tutorial-20-recipes-005-user-defined-sampler-py"></span><span id="id1"></span><h1>User-Defined Sampler<a class="headerlink" href="#user-defined-sampler" title="Permalink to this heading"></a></h1>
@@ -221,8 +220,8 @@ If you’re interested in how to support those features, please see
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Parameters that achieve the best value: "</span><span class="p">,</span> <span class="n">best_trial</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Best value:  -1.7610706715404019
-Parameters that achieve the best value:  {'x': 0.5627780674800009, 'y': -2.0777898247769264}
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Best value:  -4.0608496902089035
+Parameters that achieve the best value:  {'x': 0.06547021481780524, 'y': -4.065136039237193}
 </pre></div>
 </div>
 <p>In this optimization, the values of <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> parameters are sampled by using
@@ -242,6 +241,9 @@ if there are no complete trials.</p>
 </div>
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/313887734fbc4aba626c945cd2d75115/005_user_defined_sampler.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">005_user_defined_sampler.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/fb5f5cd54aff4a2bcdd46efc72f805f7/005_user_defined_sampler.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">005_user_defined_sampler.zip</span></code></a></p>
 </div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>

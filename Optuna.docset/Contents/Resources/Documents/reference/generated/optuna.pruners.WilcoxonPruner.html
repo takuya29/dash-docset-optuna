@@ -4,23 +4,22 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.pruners.WilcoxonPruner — Optuna 3.6.1 documentation</title>
+<title>optuna.pruners.WilcoxonPruner — Optuna 4.0.0 documentation</title>
 <link href="../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css?v=19f00094" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
-<link href="../../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/sg_gallery.css?v=61a4c737" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery.css?v=d2d258e8" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-binder.css?v=f4aeca0c" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" rel="stylesheet" type="text/css"/>
-<link href="../../_static/css/custom.css?v=3150ea5e" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/custom.css?v=d0d4e556" rel="stylesheet" type="text/css"/>
 <link href="../../_static/favicon.ico" rel="shortcut icon"/>
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
 <script src="../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=3b629b1b"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=6fa1bce2"></script>
 <script src="../../_static/doctools.js?v=888ff710"></script>
 <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -48,6 +47,9 @@
 <a class="header_link" href="https://optuna.org/#dashboard">Dashboard</a>
 </li>
 <li>
+<a class="header_link" href="https://optuna.org/#hub">OptunaHub</a>
+</li>
+<li>
 <a class="header_link" href="https://optuna.org/#blog">Blog</a>
 </li>
 <li>
@@ -55,9 +57,6 @@
 </li>
 <li>
 <a class="header_link" href="https://optuna.org/#paper">Paper</a>
-</li>
-<li>
-<a class="header_link" href="https://optuna.org/#community">Community</a>
 </li>
 </ul>
 </div>
@@ -70,7 +69,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.6.1
+                4.0.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -148,17 +147,19 @@
 <p>This pruner performs the Wilcoxon signed-rank test between the current trial and the current best trial,
 and stops whenever the pruner is sure up to a given p-value that the current trial is worse than the best one.</p>
 <p>This pruner is effective for optimizing the mean/median of some (costly-to-evaluate) performance scores over a set of problem instances.
-Example applications include the optimization of:
-- the mean performance of a heuristic method (simulated annealing, genetic algorithm, SAT solver, etc.) on a set of problem instances,
-- the k-fold cross-validation score of a machine learning model, and
-- the accuracy of outputs of a large language model (LLM) on a set of questions.</p>
+Example applications include the optimization of:</p>
+<ul class="simple">
+<li><p>the mean performance of a heuristic method (simulated annealing, genetic algorithm, SAT solver, etc.) on a set of problem instances,</p></li>
+<li><p>the k-fold cross-validation score of a machine learning model, and</p></li>
+<li><p>the accuracy of outputs of a large language model (LLM) on a set of questions.</p></li>
+</ul>
 <p>There can be “easy” or “hard” instances (the pruner handles correspondence of the instances between different trials).
 In each trial, it is recommended to shuffle the evaluation order, so that the optimization doesn’t overfit to the instances in the beginning.</p>
-<p>When you use this pruner, you must call <cite>Trial.report(value, step)</cite> function for each step (instance id) with
+<p>When you use this pruner, you must call <code class="docutils literal notranslate"><span class="pre">Trial.report(value,</span> <span class="pre">step)</span></code> method for each step (instance id) with
 the evaluated value. The instance id may not be in ascending order.
 This is different from other pruners in that the reported value need not converge
-to the real value. (To use pruners such as <cite>SuccessiveHalvingPruner</cite> in the same setting, you must provide e.g.,
-the historical average of the evaluated values.)</p>
+to the real value. To use pruners such as <a class="reference internal" href="optuna.pruners.SuccessiveHalvingPruner.html#optuna.pruners.SuccessiveHalvingPruner" title="optuna.pruners.SuccessiveHalvingPruner"><code class="xref py py-class docutils literal notranslate"><span class="pre">SuccessiveHalvingPruner</span></code></a>
+in the same setting, you must provide e.g., the historical average of the evaluated values.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <p>Please refer to <a class="reference internal" href="optuna.trial.Trial.html#optuna.trial.Trial.report" title="optuna.trial.Trial.report"><code class="xref py py-meth docutils literal notranslate"><span class="pre">report()</span></code></a>.</p>
@@ -216,12 +217,12 @@ Trials containing those values are never pruned.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If <cite>trial.should_prune()</cite> returns <cite>True</cite>, you can return an
+<p>If <a class="reference internal" href="optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial.should_prune" title="optuna.trial.FrozenTrial.should_prune"><code class="xref py py-func docutils literal notranslate"><span class="pre">should_prune()</span></code></a> returns <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, you can return an
 estimation of the final value (e.g., the average of all evaluated
-values) instead of <cite>raise optuna.TrialPruned()</cite>.
+values) instead of <code class="docutils literal notranslate"><span class="pre">raise</span> <span class="pre">optuna.TrialPruned()</span></code>.
 This is a workaround for the problem that currently there is no way
 to tell Optuna the predicted objective value for trials raising
-<cite>TrialPruned</cite>.</p>
+<a class="reference internal" href="optuna.TrialPruned.html#optuna.TrialPruned" title="optuna.TrialPruned"><code class="xref py py-class docutils literal notranslate"><span class="pre">optuna.TrialPruned</span></code></a>.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -241,7 +242,7 @@ please specify the Pocock-corrected p-value.</p>
 </div>
 </p></li>
 <li><p><strong>n_startup_steps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – The number of steps before which no trials are pruned.
-Pruning starts only after you have <cite>n_startup_steps</cite> steps of
+Pruning starts only after you have <code class="docutils literal notranslate"><span class="pre">n_startup_steps</span></code> steps of
 available observations for comparison between the current trial
 and the best trial.
 Defaults to 0 (pruning kicks in from the very first step).</p></li>

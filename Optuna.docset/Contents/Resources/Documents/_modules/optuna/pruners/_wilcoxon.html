@@ -3,16 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.pruners._wilcoxon &mdash; Optuna 3.6.1 documentation</title>
+  <title>optuna.pruners._wilcoxon &mdash; Optuna 4.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=61a4c737" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=3150ea5e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=d0d4e556" />
 
   
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
@@ -22,7 +21,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=3b629b1b"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6fa1bce2"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
         <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,6 +48,9 @@
                     <a href="https://optuna.org/#dashboard" class="header_link">Dashboard</a>
                 </li>
                 <li>
+                    <a href="https://optuna.org/#hub" class="header_link">OptunaHub</a>
+                </li>
+                <li>
                     <a href="https://optuna.org/#blog" class="header_link">Blog</a>
                 </li>
                 <li>
@@ -56,9 +58,6 @@
                 </li>
                 <li>
                     <a href="https://optuna.org/#paper" class="header_link">Paper</a>
-                </li>
-                <li>
-                    <a href="https://optuna.org/#community" class="header_link">Community</a>
                 </li>
             </ul>
         </div>
@@ -77,7 +76,7 @@
               <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.6.1
+                4.0.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -143,25 +142,26 @@
 
 <div class="viewcode-block" id="WilcoxonPruner"><a class="viewcode-back" href="../../../reference/generated/optuna.pruners.WilcoxonPruner.html#optuna.pruners.WilcoxonPruner">[docs]</a><span class="nd">@experimental_class</span><span class="p">(</span><span class="s2">&quot;3.6.0&quot;</span><span class="p">)</span>
 <span class="k">class</span> <span class="nc">WilcoxonPruner</span><span class="p">(</span><span class="n">BasePruner</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Pruner based on the `Wilcoxon signed-rank test &lt;https://en.wikipedia.org/w/index.php?title=Wilcoxon_signed-rank_test&amp;oldid=1195011212&gt;`_.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Pruner based on the `Wilcoxon signed-rank test &lt;https://en.wikipedia.org/w/index.php?title=Wilcoxon_signed-rank_test&amp;oldid=1195011212&gt;`__.</span>
 
 <span class="sd">    This pruner performs the Wilcoxon signed-rank test between the current trial and the current best trial,</span>
 <span class="sd">    and stops whenever the pruner is sure up to a given p-value that the current trial is worse than the best one.</span>
 
 <span class="sd">    This pruner is effective for optimizing the mean/median of some (costly-to-evaluate) performance scores over a set of problem instances.</span>
 <span class="sd">    Example applications include the optimization of:</span>
-<span class="sd">    - the mean performance of a heuristic method (simulated annealing, genetic algorithm, SAT solver, etc.) on a set of problem instances,</span>
-<span class="sd">    - the k-fold cross-validation score of a machine learning model, and</span>
-<span class="sd">    - the accuracy of outputs of a large language model (LLM) on a set of questions.</span>
+
+<span class="sd">    * the mean performance of a heuristic method (simulated annealing, genetic algorithm, SAT solver, etc.) on a set of problem instances,</span>
+<span class="sd">    * the k-fold cross-validation score of a machine learning model, and</span>
+<span class="sd">    * the accuracy of outputs of a large language model (LLM) on a set of questions.</span>
 
 <span class="sd">    There can be &quot;easy&quot; or &quot;hard&quot; instances (the pruner handles correspondence of the instances between different trials).</span>
 <span class="sd">    In each trial, it is recommended to shuffle the evaluation order, so that the optimization doesn&#39;t overfit to the instances in the beginning.</span>
 
-<span class="sd">    When you use this pruner, you must call `Trial.report(value, step)` function for each step (instance id) with</span>
+<span class="sd">    When you use this pruner, you must call ``Trial.report(value, step)`` method for each step (instance id) with</span>
 <span class="sd">    the evaluated value. The instance id may not be in ascending order.</span>
 <span class="sd">    This is different from other pruners in that the reported value need not converge</span>
-<span class="sd">    to the real value. (To use pruners such as `SuccessiveHalvingPruner` in the same setting, you must provide e.g.,</span>
-<span class="sd">    the historical average of the evaluated values.)</span>
+<span class="sd">    to the real value. To use pruners such as :class:`~optuna.pruners.SuccessiveHalvingPruner`</span>
+<span class="sd">    in the same setting, you must provide e.g., the historical average of the evaluated values.</span>
 
 <span class="sd">    .. seealso::</span>
 <span class="sd">        Please refer to :meth:`~optuna.trial.Trial.report`.</span>
@@ -221,12 +221,12 @@
 <span class="sd">        Trials containing those values are never pruned.</span>
 
 <span class="sd">    .. note::</span>
-<span class="sd">        If `trial.should_prune()` returns `True`, you can return an</span>
+<span class="sd">        If :func:`~optuna.trial.FrozenTrial.should_prune` returns :obj:`True`, you can return an</span>
 <span class="sd">        estimation of the final value (e.g., the average of all evaluated</span>
-<span class="sd">        values) instead of `raise optuna.TrialPruned()`.</span>
+<span class="sd">        values) instead of ``raise optuna.TrialPruned()``.</span>
 <span class="sd">        This is a workaround for the problem that currently there is no way</span>
 <span class="sd">        to tell Optuna the predicted objective value for trials raising</span>
-<span class="sd">        `TrialPruned`.</span>
+<span class="sd">        :class:`optuna.TrialPruned`.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        p_threshold:</span>
@@ -245,7 +245,7 @@
 
 <span class="sd">        n_startup_steps:</span>
 <span class="sd">            The number of steps before which no trials are pruned.</span>
-<span class="sd">            Pruning starts only after you have `n_startup_steps` steps of</span>
+<span class="sd">            Pruning starts only after you have ``n_startup_steps`` steps of</span>
 <span class="sd">            available observations for comparison between the current trial</span>
 <span class="sd">            and the best trial.</span>
 <span class="sd">            Defaults to 0 (pruning kicks in from the very first step).</span>

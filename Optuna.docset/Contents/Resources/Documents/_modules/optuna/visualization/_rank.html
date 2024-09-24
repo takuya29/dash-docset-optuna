@@ -3,16 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.visualization._rank &mdash; Optuna 3.6.1 documentation</title>
+  <title>optuna.visualization._rank &mdash; Optuna 4.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=61a4c737" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=3150ea5e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=d0d4e556" />
 
   
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
@@ -22,7 +21,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=3b629b1b"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6fa1bce2"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
         <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,6 +48,9 @@
                     <a href="https://optuna.org/#dashboard" class="header_link">Dashboard</a>
                 </li>
                 <li>
+                    <a href="https://optuna.org/#hub" class="header_link">OptunaHub</a>
+                </li>
+                <li>
                     <a href="https://optuna.org/#blog" class="header_link">Blog</a>
                 </li>
                 <li>
@@ -56,9 +58,6 @@
                 </li>
                 <li>
                     <a href="https://optuna.org/#paper" class="header_link">Paper</a>
-                </li>
-                <li>
-                    <a href="https://optuna.org/#community" class="header_link">Community</a>
                 </li>
             </ul>
         </div>
@@ -77,7 +76,7 @@
               <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.6.1
+                4.0.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -129,7 +128,6 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">optuna._experimental</span> <span class="kn">import</span> <span class="n">experimental_func</span>
 <span class="kn">from</span> <span class="nn">optuna.logging</span> <span class="kn">import</span> <span class="n">get_logger</span>
 <span class="kn">from</span> <span class="nn">optuna.samplers._base</span> <span class="kn">import</span> <span class="n">_CONSTRAINTS_KEY</span>
 <span class="kn">from</span> <span class="nn">optuna.study</span> <span class="kn">import</span> <span class="n">Study</span>
@@ -185,8 +183,7 @@
     <span class="n">has_custom_target</span><span class="p">:</span> <span class="nb">bool</span>
 
 
-<div class="viewcode-block" id="plot_rank"><a class="viewcode-back" href="../../../reference/visualization/generated/optuna.visualization.plot_rank.html#optuna.visualization.plot_rank">[docs]</a><span class="nd">@experimental_func</span><span class="p">(</span><span class="s2">&quot;3.2.0&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">plot_rank</span><span class="p">(</span>
+<div class="viewcode-block" id="plot_rank"><a class="viewcode-back" href="../../../reference/visualization/generated/optuna.visualization.plot_rank.html#optuna.visualization.plot_rank">[docs]</a><span class="k">def</span> <span class="nf">plot_rank</span><span class="p">(</span>
     <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span>
     <span class="n">params</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
@@ -196,36 +193,6 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot parameter relations as scatter plots with colors indicating ranks of target value.</span>
 
 <span class="sd">    Note that trials missing the specified parameters will not be plotted.</span>
-
-<span class="sd">    Example:</span>
-
-<span class="sd">        The following code snippet shows how to plot the parameter relationship as a rank plot.</span>
-
-<span class="sd">        .. plotly::</span>
-
-<span class="sd">            import optuna</span>
-
-
-<span class="sd">            def objective(trial):</span>
-<span class="sd">                x = trial.suggest_float(&quot;x&quot;, -100, 100)</span>
-<span class="sd">                y = trial.suggest_categorical(&quot;y&quot;, [-1, 0, 1])</span>
-
-<span class="sd">                c0 = 400 - (x + y)**2</span>
-<span class="sd">                trial.set_user_attr(&quot;constraint&quot;, [c0])</span>
-
-<span class="sd">                return x ** 2 + y</span>
-
-
-<span class="sd">            def constraints(trial):</span>
-<span class="sd">                return trial.user_attrs[&quot;constraint&quot;]</span>
-
-
-<span class="sd">            sampler = optuna.samplers.TPESampler(seed=10, constraints_func=constraints)</span>
-<span class="sd">            study = optuna.create_study(sampler=sampler)</span>
-<span class="sd">            study.optimize(objective, n_trials=30)</span>
-
-<span class="sd">            fig = optuna.visualization.plot_rank(study, params=[&quot;x&quot;, &quot;y&quot;])</span>
-<span class="sd">            fig.show()</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        study:</span>
@@ -334,22 +301,20 @@
     <span class="n">yaxis</span> <span class="o">=</span> <span class="n">_get_axis_info</span><span class="p">(</span><span class="n">trials</span><span class="p">,</span> <span class="n">y_param</span><span class="p">)</span>
 
     <span class="n">infeasible_trial_ids</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">trials</span><span class="p">)):</span>
-        <span class="n">constraints</span> <span class="o">=</span> <span class="n">trials</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">system_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_CONSTRAINTS_KEY</span><span class="p">)</span>
+    <span class="n">filtered_ids</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">trial</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">trials</span><span class="p">):</span>
+        <span class="n">constraints</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">system_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_CONSTRAINTS_KEY</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">constraints</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">any</span><span class="p">([</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mf">0.0</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">constraints</span><span class="p">]):</span>
-            <span class="n">infeasible_trial_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">infeasible_trial_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">x_param</span> <span class="ow">in</span> <span class="n">trial</span><span class="o">.</span><span class="n">params</span> <span class="ow">and</span> <span class="n">y_param</span> <span class="ow">in</span> <span class="n">trial</span><span class="o">.</span><span class="n">params</span><span class="p">:</span>
+            <span class="n">filtered_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
 
-    <span class="n">colors</span><span class="p">[</span><span class="n">infeasible_trial_ids</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">204</span><span class="p">,</span> <span class="mi">204</span><span class="p">,</span> <span class="mi">204</span><span class="p">)</span>  <span class="c1"># equal to &quot;#CCCCCC&quot;</span>
-
-    <span class="n">filtered_ids</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">i</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">trials</span><span class="p">))</span>
-        <span class="k">if</span> <span class="n">x_param</span> <span class="ow">in</span> <span class="n">trials</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">params</span> <span class="ow">and</span> <span class="n">y_param</span> <span class="ow">in</span> <span class="n">trials</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">params</span>
-    <span class="p">]</span>
     <span class="n">filtered_trials</span> <span class="o">=</span> <span class="p">[</span><span class="n">trials</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">filtered_ids</span><span class="p">]</span>
     <span class="n">xs</span> <span class="o">=</span> <span class="p">[</span><span class="n">trial</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">x_param</span><span class="p">]</span> <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">filtered_trials</span><span class="p">]</span>
     <span class="n">ys</span> <span class="o">=</span> <span class="p">[</span><span class="n">trial</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">y_param</span><span class="p">]</span> <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">filtered_trials</span><span class="p">]</span>
     <span class="n">zs</span> <span class="o">=</span> <span class="n">target_values</span><span class="p">[</span><span class="n">filtered_ids</span><span class="p">]</span>
+
+    <span class="n">colors</span><span class="p">[</span><span class="n">infeasible_trial_ids</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">204</span><span class="p">,</span> <span class="mi">204</span><span class="p">,</span> <span class="mi">204</span><span class="p">)</span>
     <span class="n">colors</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="n">filtered_ids</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">_RankSubplotInfo</span><span class="p">(</span>
         <span class="n">xaxis</span><span class="o">=</span><span class="n">xaxis</span><span class="p">,</span>
@@ -424,8 +389,8 @@
         <span class="k">return</span> <span class="s2">&quot;&lt;br&gt;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
 
     <span class="n">scatter</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Scatter</span><span class="p">(</span>
-        <span class="n">x</span><span class="o">=</span><span class="n">info</span><span class="o">.</span><span class="n">xs</span><span class="p">,</span>
-        <span class="n">y</span><span class="o">=</span><span class="n">info</span><span class="o">.</span><span class="n">ys</span><span class="p">,</span>
+        <span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">info</span><span class="o">.</span><span class="n">xs</span><span class="p">]</span> <span class="k">if</span> <span class="n">info</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">is_cat</span> <span class="k">else</span> <span class="n">info</span><span class="o">.</span><span class="n">xs</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">info</span><span class="o">.</span><span class="n">ys</span><span class="p">]</span> <span class="k">if</span> <span class="n">info</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">is_cat</span> <span class="k">else</span> <span class="n">info</span><span class="o">.</span><span class="n">ys</span><span class="p">,</span>
         <span class="n">marker</span><span class="o">=</span><span class="p">{</span>
             <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">plotly</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">label_rgb</span><span class="p">,</span> <span class="n">info</span><span class="o">.</span><span class="n">colors</span><span class="p">)),</span>
             <span class="s2">&quot;line&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;Grey&quot;</span><span class="p">},</span>

@@ -4,23 +4,22 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.samplers.nsgaii.BLXAlphaCrossover — Optuna 3.6.1 documentation</title>
+<title>optuna.samplers.nsgaii.BLXAlphaCrossover — Optuna 4.0.0 documentation</title>
 <link href="../../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/css/theme.css?v=19f00094" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sg_gallery.css?v=61a4c737" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/sg_gallery.css?v=d2d258e8" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/custom.css?v=3150ea5e" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/custom.css?v=d0d4e556" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/favicon.ico" rel="shortcut icon"/>
 <!--[if lt IE 9]>
     <script src="../../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
 <script src="../../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=3b629b1b"></script>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6fa1bce2"></script>
 <script src="../../../_static/doctools.js?v=888ff710"></script>
 <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -48,6 +47,9 @@
 <a class="header_link" href="https://optuna.org/#dashboard">Dashboard</a>
 </li>
 <li>
+<a class="header_link" href="https://optuna.org/#hub">OptunaHub</a>
+</li>
+<li>
 <a class="header_link" href="https://optuna.org/#blog">Blog</a>
 </li>
 <li>
@@ -55,9 +57,6 @@
 </li>
 <li>
 <a class="header_link" href="https://optuna.org/#paper">Paper</a>
-</li>
-<li>
-<a class="header_link" href="https://optuna.org/#community">Community</a>
 </li>
 </ul>
 </div>
@@ -70,7 +69,7 @@
 <img alt="Logo" class="logo" src="../../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.6.1
+                4.0.0
               </div>
 <div role="search">
 <form action="../../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -106,8 +105,6 @@
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.NSGAIIISampler.html">optuna.samplers.NSGAIIISampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.QMCSampler.html">optuna.samplers.QMCSampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.samplers.BruteForceSampler.html">optuna.samplers.BruteForceSampler</a></li>
-<li class="toctree-l3"><a class="reference internal" href="optuna.samplers.IntersectionSearchSpace.html">optuna.samplers.IntersectionSearchSpace</a></li>
-<li class="toctree-l3"><a class="reference internal" href="optuna.samplers.intersection_search_space.html">optuna.samplers.intersection_search_space</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../nsgaii.html">optuna.samplers.nsgaii</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="optuna.samplers.nsgaii.BaseCrossover.html">optuna.samplers.nsgaii.BaseCrossover</a></li>
 <li class="toctree-l4"><a class="reference internal" href="optuna.samplers.nsgaii.UniformCrossover.html">optuna.samplers.nsgaii.UniformCrossover</a></li>
@@ -198,12 +195,12 @@ without prior notice. See <a class="reference external" href="https://github.com
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>parents_params</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><em>ndarray</em></a>) – A <code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code> with dimensions <code class="docutils literal notranslate"><span class="pre">num_parents</span> <span class="pre">x</span> <span class="pre">num_parameters</span></code>.
+<li><p><strong>parents_params</strong> (<em>np.ndarray</em>) – A <code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code> with dimensions <code class="docutils literal notranslate"><span class="pre">num_parents</span> <span class="pre">x</span> <span class="pre">num_parameters</span></code>.
 Represents a parameter space for each parent individual. This space is
 continuous for numerical parameters.</p></li>
-<li><p><strong>rng</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="(in NumPy v1.26)"><em>RandomState</em></a>) – An instance of <code class="docutils literal notranslate"><span class="pre">numpy.random.RandomState</span></code>.</p></li>
-<li><p><strong>study</strong> (<a class="reference internal" href="../../generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.study.Study"><em>Study</em></a>) – Target study object.</p></li>
-<li><p><strong>search_space_bounds</strong> (<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><em>ndarray</em></a>) – A <code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code> with dimensions <code class="docutils literal notranslate"><span class="pre">len_search_space</span> <span class="pre">x</span> <span class="pre">2</span></code> representing
+<li><p><strong>rng</strong> (<em>np.random.RandomState</em>) – An instance of <code class="docutils literal notranslate"><span class="pre">numpy.random.RandomState</span></code>.</p></li>
+<li><p><strong>study</strong> (<a class="reference internal" href="../../generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><em>Study</em></a>) – Target study object.</p></li>
+<li><p><strong>search_space_bounds</strong> (<em>np.ndarray</em>) – A <code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code> with dimensions <code class="docutils literal notranslate"><span class="pre">len_search_space</span> <span class="pre">x</span> <span class="pre">2</span></code> representing
 numerical distribution bounds constructed from transformed search space.</p></li>
 </ul>
 </dd>
@@ -211,7 +208,7 @@ numerical distribution bounds constructed from transformed search space.</p></li
 <dd class="field-even"><p>A 1-dimensional <code class="docutils literal notranslate"><span class="pre">numpy.ndarray</span></code> containing new parameter combination.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.26)"><em>ndarray</em></a></p>
+<dd class="field-odd"><p>np.ndarray</p>
 </dd>
 </dl>
 </dd></dl>

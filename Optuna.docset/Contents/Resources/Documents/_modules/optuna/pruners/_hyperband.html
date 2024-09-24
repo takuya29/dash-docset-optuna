@@ -3,16 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.pruners._hyperband &mdash; Optuna 3.6.1 documentation</title>
+  <title>optuna.pruners._hyperband &mdash; Optuna 4.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=61a4c737" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=3150ea5e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=d0d4e556" />
 
   
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
@@ -22,7 +21,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=3b629b1b"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6fa1bce2"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
         <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,6 +48,9 @@
                     <a href="https://optuna.org/#dashboard" class="header_link">Dashboard</a>
                 </li>
                 <li>
+                    <a href="https://optuna.org/#hub" class="header_link">OptunaHub</a>
+                </li>
+                <li>
                     <a href="https://optuna.org/#blog" class="header_link">Blog</a>
                 </li>
                 <li>
@@ -56,9 +58,6 @@
                 </li>
                 <li>
                     <a href="https://optuna.org/#paper" class="header_link">Paper</a>
-                </li>
-                <li>
-                    <a href="https://optuna.org/#community" class="header_link">Community</a>
                 </li>
             </ul>
         </div>
@@ -77,7 +76,7 @@
               <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.6.1
+                4.0.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -119,12 +118,11 @@
            <div itemprop="articleBody">
              
   <h1>Source code for optuna.pruners._hyperband</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">binascii</span>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">binascii</span>
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Container</span>
 <span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Container</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">optuna</span>
 <span class="kn">from</span> <span class="nn">optuna</span> <span class="kn">import</span> <span class="n">logging</span>
@@ -143,7 +141,7 @@
 <span class="sd">    :math:`n` as its hyperparameter.  For a given finite budget :math:`B`,</span>
 <span class="sd">    all the configurations have the resources of :math:`B \\over n` on average.</span>
 <span class="sd">    As you can see, there will be a trade-off of :math:`B` and :math:`B \\over n`.</span>
-<span class="sd">    `Hyperband &lt;http://www.jmlr.org/papers/volume18/16-558/16-558.pdf&gt;`_ attacks this trade-off</span>
+<span class="sd">    `Hyperband &lt;http://www.jmlr.org/papers/volume18/16-558/16-558.pdf&gt;`__ attacks this trade-off</span>
 <span class="sd">    by trying different :math:`n` values for a fixed budget.</span>
 
 <span class="sd">    .. note::</span>
@@ -151,7 +149,7 @@
 <span class="sd">          is used.</span>
 <span class="sd">        * Optuna uses :class:`~optuna.samplers.TPESampler` by default.</span>
 <span class="sd">        * `The benchmark result</span>
-<span class="sd">          &lt;https://github.com/optuna/optuna/pull/828#issuecomment-575457360&gt;`_</span>
+<span class="sd">          &lt;https://github.com/optuna/optuna/pull/828#issuecomment-575457360&gt;`__</span>
 <span class="sd">          shows that :class:`optuna.pruners.HyperbandPruner` supports both samplers.</span>
 
 <span class="sd">    .. note::</span>
@@ -180,7 +178,7 @@
 <span class="sd">        (\\frac{\\texttt{max}\\_\\texttt{resource}}{\\texttt{min}\\_\\texttt{resource}})) + 1`.</span>
 <span class="sd">        Please set ``reduction_factor`` so that the number of brackets is not too large (about 4 –</span>
 <span class="sd">        6 in most use cases). Please see Section 3.6 of the `original paper</span>
-<span class="sd">        &lt;http://www.jmlr.org/papers/volume18/16-558/16-558.pdf&gt;`_ for the detail.</span>
+<span class="sd">        &lt;http://www.jmlr.org/papers/volume18/16-558/16-558.pdf&gt;`__ for the detail.</span>
 
 <span class="sd">    Example:</span>
 
@@ -260,18 +258,18 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">min_resource</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="n">max_resource</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+        <span class="n">max_resource</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span>
         <span class="n">reduction_factor</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
         <span class="n">bootstrap_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_min_resource</span> <span class="o">=</span> <span class="n">min_resource</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_max_resource</span> <span class="o">=</span> <span class="n">max_resource</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_reduction_factor</span> <span class="o">=</span> <span class="n">reduction_factor</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_pruners</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">SuccessiveHalvingPruner</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pruners</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">SuccessiveHalvingPruner</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_bootstrap_count</span> <span class="o">=</span> <span class="n">bootstrap_count</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_total_trial_allocation_budget</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_trial_allocation_budgets</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_n_brackets</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_trial_allocation_budgets</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n_brackets</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_max_resource</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_resource</span> <span class="o">!=</span> <span class="s2">&quot;auto&quot;</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -357,7 +355,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the index of bracket for a trial of ``trial_number``.</span>
 
 <span class="sd">        The index of a bracket is noted as :math:`s` in</span>
-<span class="sd">        `Hyperband paper &lt;http://www.jmlr.org/papers/volume18/16-558/16-558.pdf&gt;`_.</span>
+<span class="sd">        `Hyperband paper &lt;http://www.jmlr.org/papers/volume18/16-558/16-558.pdf&gt;`__.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pruners</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -417,8 +415,8 @@
             <span class="k">def</span> <span class="nf">get_trials</span><span class="p">(</span>
                 <span class="bp">self</span><span class="p">,</span>
                 <span class="n">deepcopy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-                <span class="n">states</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Container</span><span class="p">[</span><span class="n">TrialState</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="s2">&quot;optuna.trial.FrozenTrial&quot;</span><span class="p">]:</span>
+                <span class="n">states</span><span class="p">:</span> <span class="n">Container</span><span class="p">[</span><span class="n">TrialState</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="s2">&quot;optuna.trial.FrozenTrial&quot;</span><span class="p">]:</span>
                 <span class="n">trials</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_get_trials</span><span class="p">(</span><span class="n">deepcopy</span><span class="o">=</span><span class="n">deepcopy</span><span class="p">,</span> <span class="n">states</span><span class="o">=</span><span class="n">states</span><span class="p">)</span>
                 <span class="n">pruner</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pruner</span>
                 <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pruner</span><span class="p">,</span> <span class="n">HyperbandPruner</span><span class="p">)</span>

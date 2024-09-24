@@ -11,7 +11,7 @@
         :class: sphx-glr-download-link-note
 
         :ref:`Go to the end <sphx_glr_download_tutorial_20_recipes_008_specify_params.py>`
-        to download the full example code
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -45,7 +45,7 @@ evaluated them yet and decided to use Optuna to find better sets of hyperparamet
 Optuna has :func:`optuna.study.Study.enqueue_trial` which lets you pass those sets of
 hyperparameters to Optuna and Optuna will evaluate them.
 
-This section walks you through how to use this lit API with `LightGBM <https://lightgbm.readthedocs.io/en/latest/>`_.
+This section walks you through how to use this lit API with `LightGBM <https://lightgbm.readthedocs.io/en/stable/>`__.
 
 .. GENERATED FROM PYTHON SOURCE LINES 31-41
 
@@ -166,106 +166,106 @@ the default values.
 
  .. code-block:: none
 
-    Trial 0 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 1.0, 'bagging_freq': 0, 'min_child_samples': 20}. Best is trial 0 with value: 0.965034965034965.
-    Trial 1 finished with value: 0.9440559440559441 and parameters: {'bagging_fraction': 0.75, 'bagging_freq': 5, 'min_child_samples': 20}. Best is trial 0 with value: 0.965034965034965.
-    Trial 2 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.521662897844561, 'bagging_freq': 5, 'min_child_samples': 25}. Best is trial 0 with value: 0.965034965034965.
-    Trial 3 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.4692583648148283, 'bagging_freq': 4, 'min_child_samples': 42}. Best is trial 0 with value: 0.965034965034965.
-    Trial 4 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.7619694773867378, 'bagging_freq': 0, 'min_child_samples': 35}. Best is trial 4 with value: 0.9790209790209791.
-    Trial 5 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.7034030946120213, 'bagging_freq': 7, 'min_child_samples': 65}. Best is trial 4 with value: 0.9790209790209791.
-    Trial 6 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.959501158526652, 'bagging_freq': 6, 'min_child_samples': 59}. Best is trial 4 with value: 0.9790209790209791.
-    Trial 7 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.8133339278517043, 'bagging_freq': 5, 'min_child_samples': 30}. Best is trial 4 with value: 0.9790209790209791.
-    Trial 8 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.5847361684374868, 'bagging_freq': 3, 'min_child_samples': 9}. Best is trial 4 with value: 0.9790209790209791.
-    Trial 9 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.873643239624753, 'bagging_freq': 5, 'min_child_samples': 95}. Best is trial 4 with value: 0.9790209790209791.
-    Trial 10 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.6166444274969892, 'bagging_freq': 0, 'min_child_samples': 76}. Best is trial 10 with value: 0.986013986013986.
-    Trial 11 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.6185751788066496, 'bagging_freq': 0, 'min_child_samples': 81}. Best is trial 10 with value: 0.986013986013986.
-    Trial 12 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.6401673170084718, 'bagging_freq': 2, 'min_child_samples': 72}. Best is trial 10 with value: 0.986013986013986.
-    Trial 13 finished with value: 0.9440559440559441 and parameters: {'bagging_fraction': 0.41747416657403297, 'bagging_freq': 1, 'min_child_samples': 50}. Best is trial 10 with value: 0.986013986013986.
-    Trial 14 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.8208190631746154, 'bagging_freq': 1, 'min_child_samples': 89}. Best is trial 10 with value: 0.986013986013986.
-    Trial 15 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.8315428745622782, 'bagging_freq': 2, 'min_child_samples': 100}. Best is trial 10 with value: 0.986013986013986.
-    Trial 16 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.9112184493541959, 'bagging_freq': 1, 'min_child_samples': 84}. Best is trial 10 with value: 0.986013986013986.
-    Trial 17 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.5510623593530606, 'bagging_freq': 2, 'min_child_samples': 82}. Best is trial 10 with value: 0.986013986013986.
-    Trial 18 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.6745854840082595, 'bagging_freq': 1, 'min_child_samples': 72}. Best is trial 10 with value: 0.986013986013986.
-    Trial 19 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.7512923649377385, 'bagging_freq': 3, 'min_child_samples': 92}. Best is trial 10 with value: 0.986013986013986.
-    Trial 20 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.6852627606570916, 'bagging_freq': 1, 'min_child_samples': 72}. Best is trial 10 with value: 0.986013986013986.
-    Trial 21 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.5544738997807603, 'bagging_freq': 2, 'min_child_samples': 86}. Best is trial 10 with value: 0.986013986013986.
-    Trial 22 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.5098270128813837, 'bagging_freq': 2, 'min_child_samples': 80}. Best is trial 10 with value: 0.986013986013986.
-    Trial 23 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.4452951719582054, 'bagging_freq': 0, 'min_child_samples': 62}. Best is trial 10 with value: 0.986013986013986.
-    Trial 24 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.600074669024003, 'bagging_freq': 1, 'min_child_samples': 90}. Best is trial 10 with value: 0.986013986013986.
-    Trial 25 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.548444510736423, 'bagging_freq': 3, 'min_child_samples': 77}. Best is trial 10 with value: 0.986013986013986.
-    Trial 26 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.6488523648765506, 'bagging_freq': 2, 'min_child_samples': 53}. Best is trial 10 with value: 0.986013986013986.
-    Trial 27 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.8018571036535318, 'bagging_freq': 0, 'min_child_samples': 100}. Best is trial 10 with value: 0.986013986013986.
-    Trial 28 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.49095656541777727, 'bagging_freq': 1, 'min_child_samples': 67}. Best is trial 10 with value: 0.986013986013986.
-    Trial 29 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.7167843913290037, 'bagging_freq': 0, 'min_child_samples': 89}. Best is trial 10 with value: 0.986013986013986.
-    Trial 30 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.8951401234873546, 'bagging_freq': 4, 'min_child_samples': 53}. Best is trial 10 with value: 0.986013986013986.
-    Trial 31 finished with value: 0.9440559440559441 and parameters: {'bagging_fraction': 0.7699435834118764, 'bagging_freq': 0, 'min_child_samples': 37}. Best is trial 10 with value: 0.986013986013986.
-    Trial 32 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.8633813363146116, 'bagging_freq': 0, 'min_child_samples': 11}. Best is trial 10 with value: 0.986013986013986.
-    Trial 33 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.7293916713987778, 'bagging_freq': 1, 'min_child_samples': 42}. Best is trial 10 with value: 0.986013986013986.
-    Trial 34 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.7737976331180162, 'bagging_freq': 0, 'min_child_samples': 18}. Best is trial 10 with value: 0.986013986013986.
-    Trial 35 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.5794595748806485, 'bagging_freq': 1, 'min_child_samples': 33}. Best is trial 10 with value: 0.986013986013986.
-    Trial 36 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.9834008788928846, 'bagging_freq': 2, 'min_child_samples': 76}. Best is trial 10 with value: 0.986013986013986.
-    Trial 37 finished with value: 0.993006993006993 and parameters: {'bagging_fraction': 0.6597437850632358, 'bagging_freq': 0, 'min_child_samples': 45}. Best is trial 37 with value: 0.993006993006993.
-    Trial 38 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.6607196229905493, 'bagging_freq': 0, 'min_child_samples': 59}. Best is trial 37 with value: 0.993006993006993.
-    Trial 39 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.5448544539262656, 'bagging_freq': 3, 'min_child_samples': 46}. Best is trial 37 with value: 0.993006993006993.
-    Trial 40 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.6223769301896823, 'bagging_freq': 7, 'min_child_samples': 96}. Best is trial 37 with value: 0.993006993006993.
-    Trial 41 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.8306225235031991, 'bagging_freq': 0, 'min_child_samples': 23}. Best is trial 37 with value: 0.993006993006993.
-    Trial 42 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.7041856386185114, 'bagging_freq': 1, 'min_child_samples': 37}. Best is trial 37 with value: 0.993006993006993.
-    Trial 43 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.7944818926038412, 'bagging_freq': 0, 'min_child_samples': 27}. Best is trial 37 with value: 0.993006993006993.
-    Trial 44 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.7369449120734077, 'bagging_freq': 1, 'min_child_samples': 45}. Best is trial 37 with value: 0.993006993006993.
-    Trial 45 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.6228740492161078, 'bagging_freq': 0, 'min_child_samples': 68}. Best is trial 37 with value: 0.993006993006993.
-    Trial 46 finished with value: 0.9440559440559441 and parameters: {'bagging_fraction': 0.5843475450128478, 'bagging_freq': 2, 'min_child_samples': 85}. Best is trial 37 with value: 0.993006993006993.
-    Trial 47 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.6942888725999878, 'bagging_freq': 4, 'min_child_samples': 36}. Best is trial 37 with value: 0.993006993006993.
-    Trial 48 finished with value: 0.9440559440559441 and parameters: {'bagging_fraction': 0.8529120051798312, 'bagging_freq': 1, 'min_child_samples': 49}. Best is trial 37 with value: 0.993006993006993.
-    Trial 49 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.9314686752078764, 'bagging_freq': 0, 'min_child_samples': 95}. Best is trial 37 with value: 0.993006993006993.
-    Trial 50 finished with value: 0.9440559440559441 and parameters: {'bagging_fraction': 0.7626751322666083, 'bagging_freq': 1, 'min_child_samples': 81}. Best is trial 37 with value: 0.993006993006993.
-    Trial 51 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.6690121097871703, 'bagging_freq': 6, 'min_child_samples': 61}. Best is trial 37 with value: 0.993006993006993.
-    Trial 52 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.6116968826300225, 'bagging_freq': 7, 'min_child_samples': 67}. Best is trial 37 with value: 0.993006993006993.
-    Trial 53 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.7172992875976398, 'bagging_freq': 5, 'min_child_samples': 75}. Best is trial 37 with value: 0.993006993006993.
-    Trial 54 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.6429308559557968, 'bagging_freq': 6, 'min_child_samples': 79}. Best is trial 37 with value: 0.993006993006993.
-    Trial 55 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.5257010662084435, 'bagging_freq': 2, 'min_child_samples': 57}. Best is trial 37 with value: 0.993006993006993.
-    Trial 56 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.5701705221594288, 'bagging_freq': 1, 'min_child_samples': 70}. Best is trial 37 with value: 0.993006993006993.
-    Trial 57 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.7837599431630081, 'bagging_freq': 0, 'min_child_samples': 63}. Best is trial 37 with value: 0.993006993006993.
-    Trial 58 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.8154573840689658, 'bagging_freq': 3, 'min_child_samples': 82}. Best is trial 37 with value: 0.993006993006993.
-    Trial 59 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.7401658189057521, 'bagging_freq': 4, 'min_child_samples': 86}. Best is trial 37 with value: 0.993006993006993.
-    Trial 60 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.48176993740467133, 'bagging_freq': 5, 'min_child_samples': 89}. Best is trial 37 with value: 0.993006993006993.
-    Trial 61 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.8828761039147197, 'bagging_freq': 7, 'min_child_samples': 96}. Best is trial 37 with value: 0.993006993006993.
-    Trial 62 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.8553394525260644, 'bagging_freq': 6, 'min_child_samples': 91}. Best is trial 37 with value: 0.993006993006993.
-    Trial 63 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.6837181629184549, 'bagging_freq': 6, 'min_child_samples': 73}. Best is trial 37 with value: 0.993006993006993.
-    Trial 64 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.9321415785948907, 'bagging_freq': 5, 'min_child_samples': 93}. Best is trial 37 with value: 0.993006993006993.
-    Trial 65 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.8308870475849924, 'bagging_freq': 0, 'min_child_samples': 40}. Best is trial 37 with value: 0.993006993006993.
-    Trial 66 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.5962026296698794, 'bagging_freq': 0, 'min_child_samples': 100}. Best is trial 37 with value: 0.993006993006993.
-    Trial 67 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.7563140503594595, 'bagging_freq': 4, 'min_child_samples': 86}. Best is trial 37 with value: 0.993006993006993.
-    Trial 68 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.6618611955678976, 'bagging_freq': 1, 'min_child_samples': 77}. Best is trial 37 with value: 0.993006993006993.
-    Trial 69 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.6349865160483545, 'bagging_freq': 1, 'min_child_samples': 83}. Best is trial 37 with value: 0.993006993006993.
-    Trial 70 finished with value: 0.9440559440559441 and parameters: {'bagging_fraction': 0.873954143726653, 'bagging_freq': 2, 'min_child_samples': 31}. Best is trial 37 with value: 0.993006993006993.
-    Trial 71 finished with value: 0.9440559440559441 and parameters: {'bagging_fraction': 0.7032480039203909, 'bagging_freq': 3, 'min_child_samples': 73}. Best is trial 37 with value: 0.993006993006993.
-    Trial 72 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.7200921371103879, 'bagging_freq': 1, 'min_child_samples': 79}. Best is trial 37 with value: 0.993006993006993.
-    Trial 73 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.8077950996175598, 'bagging_freq': 0, 'min_child_samples': 65}. Best is trial 37 with value: 0.993006993006993.
-    Trial 74 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.6890669245245924, 'bagging_freq': 0, 'min_child_samples': 88}. Best is trial 37 with value: 0.993006993006993.
-    Trial 75 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.6537838831400257, 'bagging_freq': 2, 'min_child_samples': 55}. Best is trial 37 with value: 0.993006993006993.
-    Trial 76 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.6783082145838469, 'bagging_freq': 1, 'min_child_samples': 46}. Best is trial 37 with value: 0.993006993006993.
-    Trial 77 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.4106369698960076, 'bagging_freq': 0, 'min_child_samples': 43}. Best is trial 37 with value: 0.993006993006993.
-    Trial 78 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.9060786832328005, 'bagging_freq': 2, 'min_child_samples': 71}. Best is trial 37 with value: 0.993006993006993.
-    Trial 79 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.9170836026383715, 'bagging_freq': 3, 'min_child_samples': 70}. Best is trial 37 with value: 0.993006993006993.
-    Trial 80 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.9698044752960319, 'bagging_freq': 2, 'min_child_samples': 50}. Best is trial 37 with value: 0.993006993006993.
-    Trial 81 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.9049473620424243, 'bagging_freq': 1, 'min_child_samples': 75}. Best is trial 37 with value: 0.993006993006993.
-    Trial 82 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.9065570109933899, 'bagging_freq': 2, 'min_child_samples': 76}. Best is trial 37 with value: 0.993006993006993.
-    Trial 83 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.9392383005207758, 'bagging_freq': 1, 'min_child_samples': 79}. Best is trial 37 with value: 0.993006993006993.
-    Trial 84 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.8920057168767712, 'bagging_freq': 7, 'min_child_samples': 97}. Best is trial 37 with value: 0.993006993006993.
-    Trial 85 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.8452937702780674, 'bagging_freq': 0, 'min_child_samples': 69}. Best is trial 37 with value: 0.993006993006993.
-    Trial 86 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.9517202913408701, 'bagging_freq': 2, 'min_child_samples': 64}. Best is trial 37 with value: 0.993006993006993.
-    Trial 87 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.7857374254525509, 'bagging_freq': 1, 'min_child_samples': 84}. Best is trial 37 with value: 0.993006993006993.
-    Trial 88 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.8668249274277747, 'bagging_freq': 0, 'min_child_samples': 59}. Best is trial 37 with value: 0.993006993006993.
-    Trial 89 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.5304545724500538, 'bagging_freq': 1, 'min_child_samples': 88}. Best is trial 37 with value: 0.993006993006993.
-    Trial 90 finished with value: 0.9440559440559441 and parameters: {'bagging_fraction': 0.503298248581275, 'bagging_freq': 3, 'min_child_samples': 74}. Best is trial 37 with value: 0.993006993006993.
-    Trial 91 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.45604680892185734, 'bagging_freq': 1, 'min_child_samples': 71}. Best is trial 37 with value: 0.993006993006993.
-    Trial 92 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.635022659722306, 'bagging_freq': 1, 'min_child_samples': 93}. Best is trial 37 with value: 0.993006993006993.
-    Trial 93 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.8186092978172282, 'bagging_freq': 0, 'min_child_samples': 77}. Best is trial 37 with value: 0.993006993006993.
-    Trial 94 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.9113028166598075, 'bagging_freq': 0, 'min_child_samples': 18}. Best is trial 37 with value: 0.993006993006993.
-    Trial 95 finished with value: 0.9370629370629371 and parameters: {'bagging_fraction': 0.5647591849145175, 'bagging_freq': 2, 'min_child_samples': 66}. Best is trial 37 with value: 0.993006993006993.
-    Trial 96 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.8388978453038087, 'bagging_freq': 1, 'min_child_samples': 39}. Best is trial 37 with value: 0.993006993006993.
-    Trial 97 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.6006043029476666, 'bagging_freq': 5, 'min_child_samples': 80}. Best is trial 37 with value: 0.993006993006993.
-    Trial 98 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.7312421348706325, 'bagging_freq': 0, 'min_child_samples': 26}. Best is trial 37 with value: 0.993006993006993.
-    Trial 99 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.8961426651497256, 'bagging_freq': 4, 'min_child_samples': 98}. Best is trial 37 with value: 0.993006993006993.
+    Trial 0 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 1.0, 'bagging_freq': 0, 'min_child_samples': 20}. Best is trial 0 with value: 0.986013986013986.
+    Trial 1 finished with value: 1.0 and parameters: {'bagging_fraction': 0.75, 'bagging_freq': 5, 'min_child_samples': 20}. Best is trial 1 with value: 1.0.
+    Trial 2 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.5795537846243477, 'bagging_freq': 7, 'min_child_samples': 22}. Best is trial 1 with value: 1.0.
+    Trial 3 finished with value: 0.9440559440559441 and parameters: {'bagging_fraction': 0.6588265771660113, 'bagging_freq': 2, 'min_child_samples': 21}. Best is trial 1 with value: 1.0.
+    Trial 4 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.8482940516877908, 'bagging_freq': 2, 'min_child_samples': 83}. Best is trial 1 with value: 1.0.
+    Trial 5 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.4578181239811862, 'bagging_freq': 3, 'min_child_samples': 12}. Best is trial 1 with value: 1.0.
+    Trial 6 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.40564209586862393, 'bagging_freq': 4, 'min_child_samples': 55}. Best is trial 1 with value: 1.0.
+    Trial 7 finished with value: 0.9440559440559441 and parameters: {'bagging_fraction': 0.9684544970012936, 'bagging_freq': 4, 'min_child_samples': 69}. Best is trial 1 with value: 1.0.
+    Trial 8 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.7014623858988636, 'bagging_freq': 7, 'min_child_samples': 54}. Best is trial 1 with value: 1.0.
+    Trial 9 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.5027311631399072, 'bagging_freq': 7, 'min_child_samples': 8}. Best is trial 1 with value: 1.0.
+    Trial 10 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.7804427179897951, 'bagging_freq': 5, 'min_child_samples': 38}. Best is trial 1 with value: 1.0.
+    Trial 11 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.9963454426839338, 'bagging_freq': 0, 'min_child_samples': 34}. Best is trial 1 with value: 1.0.
+    Trial 12 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.8648489831034162, 'bagging_freq': 1, 'min_child_samples': 38}. Best is trial 1 with value: 1.0.
+    Trial 13 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.8937169352700829, 'bagging_freq': 5, 'min_child_samples': 27}. Best is trial 1 with value: 1.0.
+    Trial 14 finished with value: 0.9440559440559441 and parameters: {'bagging_fraction': 0.7582154165779689, 'bagging_freq': 0, 'min_child_samples': 5}. Best is trial 1 with value: 1.0.
+    Trial 15 finished with value: 0.9440559440559441 and parameters: {'bagging_fraction': 0.607859777245514, 'bagging_freq': 5, 'min_child_samples': 93}. Best is trial 1 with value: 1.0.
+    Trial 16 finished with value: 0.9440559440559441 and parameters: {'bagging_fraction': 0.9146140294240394, 'bagging_freq': 6, 'min_child_samples': 46}. Best is trial 1 with value: 1.0.
+    Trial 17 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.769579756227402, 'bagging_freq': 3, 'min_child_samples': 17}. Best is trial 1 with value: 1.0.
+    Trial 18 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.8228958470240306, 'bagging_freq': 1, 'min_child_samples': 70}. Best is trial 1 with value: 1.0.
+    Trial 19 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.9402880766464692, 'bagging_freq': 6, 'min_child_samples': 28}. Best is trial 1 with value: 1.0.
+    Trial 20 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.5444561707325226, 'bagging_freq': 2, 'min_child_samples': 49}. Best is trial 1 with value: 1.0.
+    Trial 21 finished with value: 0.9300699300699301 and parameters: {'bagging_fraction': 0.9478000637013948, 'bagging_freq': 6, 'min_child_samples': 29}. Best is trial 1 with value: 1.0.
+    Trial 22 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.991235066561877, 'bagging_freq': 6, 'min_child_samples': 17}. Best is trial 1 with value: 1.0.
+    Trial 23 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.9262667205207087, 'bagging_freq': 5, 'min_child_samples': 32}. Best is trial 1 with value: 1.0.
+    Trial 24 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.7066790998130328, 'bagging_freq': 4, 'min_child_samples': 43}. Best is trial 1 with value: 1.0.
+    Trial 25 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.8091276648555378, 'bagging_freq': 6, 'min_child_samples': 25}. Best is trial 1 with value: 1.0.
+    Trial 26 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.885360541614153, 'bagging_freq': 3, 'min_child_samples': 15}. Best is trial 1 with value: 1.0.
+    Trial 27 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.9446183193324617, 'bagging_freq': 5, 'min_child_samples': 60}. Best is trial 1 with value: 1.0.
+    Trial 28 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.7245852870362522, 'bagging_freq': 6, 'min_child_samples': 11}. Best is trial 1 with value: 1.0.
+    Trial 29 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.6289598700872061, 'bagging_freq': 7, 'min_child_samples': 23}. Best is trial 1 with value: 1.0.
+    Trial 30 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.8491429862255234, 'bagging_freq': 1, 'min_child_samples': 37}. Best is trial 1 with value: 1.0.
+    Trial 31 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.8884167234865606, 'bagging_freq': 4, 'min_child_samples': 16}. Best is trial 1 with value: 1.0.
+    Trial 32 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.9655744358759567, 'bagging_freq': 3, 'min_child_samples': 19}. Best is trial 1 with value: 1.0.
+    Trial 33 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.8919883034886491, 'bagging_freq': 2, 'min_child_samples': 13}. Best is trial 1 with value: 1.0.
+    Trial 34 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.8118827356509514, 'bagging_freq': 0, 'min_child_samples': 23}. Best is trial 1 with value: 1.0.
+    Trial 35 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.6548604737765644, 'bagging_freq': 3, 'min_child_samples': 7}. Best is trial 1 with value: 1.0.
+    Trial 36 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.9963445328012971, 'bagging_freq': 4, 'min_child_samples': 21}. Best is trial 1 with value: 1.0.
+    Trial 37 finished with value: 1.0 and parameters: {'bagging_fraction': 0.9319082204825165, 'bagging_freq': 1, 'min_child_samples': 28}. Best is trial 1 with value: 1.0.
+    Trial 38 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.9366157537214842, 'bagging_freq': 1, 'min_child_samples': 30}. Best is trial 1 with value: 1.0.
+    Trial 39 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.9667717913145211, 'bagging_freq': 2, 'min_child_samples': 42}. Best is trial 1 with value: 1.0.
+    Trial 40 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.8447524853149204, 'bagging_freq': 0, 'min_child_samples': 34}. Best is trial 1 with value: 1.0.
+    Trial 41 finished with value: 0.9440559440559441 and parameters: {'bagging_fraction': 0.9123434038225127, 'bagging_freq': 1, 'min_child_samples': 13}. Best is trial 1 with value: 1.0.
+    Trial 42 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.8768905382344889, 'bagging_freq': 0, 'min_child_samples': 10}. Best is trial 1 with value: 1.0.
+    Trial 43 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.9124864623641991, 'bagging_freq': 3, 'min_child_samples': 25}. Best is trial 1 with value: 1.0.
+    Trial 44 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.7393298550284854, 'bagging_freq': 7, 'min_child_samples': 20}. Best is trial 1 with value: 1.0.
+    Trial 45 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.9681402184047075, 'bagging_freq': 1, 'min_child_samples': 28}. Best is trial 1 with value: 1.0.
+    Trial 46 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.8618972624935645, 'bagging_freq': 0, 'min_child_samples': 63}. Best is trial 1 with value: 1.0.
+    Trial 47 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.7824527820824123, 'bagging_freq': 5, 'min_child_samples': 5}. Best is trial 1 with value: 1.0.
+    Trial 48 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.9976506157945386, 'bagging_freq': 2, 'min_child_samples': 78}. Best is trial 1 with value: 1.0.
+    Trial 49 finished with value: 0.9300699300699301 and parameters: {'bagging_fraction': 0.6785393106671476, 'bagging_freq': 5, 'min_child_samples': 99}. Best is trial 1 with value: 1.0.
+    Trial 50 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.4605899563429342, 'bagging_freq': 2, 'min_child_samples': 15}. Best is trial 1 with value: 1.0.
+    Trial 51 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.7323664005511276, 'bagging_freq': 6, 'min_child_samples': 10}. Best is trial 1 with value: 1.0.
+    Trial 52 finished with value: 0.9370629370629371 and parameters: {'bagging_fraction': 0.7227837514812032, 'bagging_freq': 6, 'min_child_samples': 11}. Best is trial 1 with value: 1.0.
+    Trial 53 finished with value: 0.9440559440559441 and parameters: {'bagging_fraction': 0.6738099524582445, 'bagging_freq': 7, 'min_child_samples': 19}. Best is trial 1 with value: 1.0.
+    Trial 54 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.8274845990168774, 'bagging_freq': 6, 'min_child_samples': 34}. Best is trial 1 with value: 1.0.
+    Trial 55 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.578014076279989, 'bagging_freq': 5, 'min_child_samples': 26}. Best is trial 1 with value: 1.0.
+    Trial 56 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.7901119229894566, 'bagging_freq': 4, 'min_child_samples': 13}. Best is trial 1 with value: 1.0.
+    Trial 57 finished with value: 0.9440559440559441 and parameters: {'bagging_fraction': 0.756919813997083, 'bagging_freq': 7, 'min_child_samples': 8}. Best is trial 1 with value: 1.0.
+    Trial 58 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.9570372668187767, 'bagging_freq': 6, 'min_child_samples': 31}. Best is trial 1 with value: 1.0.
+    Trial 59 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.9233647139998603, 'bagging_freq': 6, 'min_child_samples': 22}. Best is trial 1 with value: 1.0.
+    Trial 60 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.9097431141129714, 'bagging_freq': 1, 'min_child_samples': 16}. Best is trial 1 with value: 1.0.
+    Trial 61 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.8439695483817335, 'bagging_freq': 1, 'min_child_samples': 41}. Best is trial 1 with value: 1.0.
+    Trial 62 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.9781344967198795, 'bagging_freq': 0, 'min_child_samples': 49}. Best is trial 1 with value: 1.0.
+    Trial 63 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.9455292224683841, 'bagging_freq': 1, 'min_child_samples': 39}. Best is trial 1 with value: 1.0.
+    Trial 64 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.8658418941177752, 'bagging_freq': 0, 'min_child_samples': 25}. Best is trial 1 with value: 1.0.
+    Trial 65 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.8965450844485823, 'bagging_freq': 3, 'min_child_samples': 33}. Best is trial 1 with value: 1.0.
+    Trial 66 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.9329577235184596, 'bagging_freq': 2, 'min_child_samples': 37}. Best is trial 1 with value: 1.0.
+    Trial 67 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.8018613611005284, 'bagging_freq': 4, 'min_child_samples': 28}. Best is trial 1 with value: 1.0.
+    Trial 68 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.7565621706248279, 'bagging_freq': 5, 'min_child_samples': 18}. Best is trial 1 with value: 1.0.
+    Trial 69 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.6917875409802166, 'bagging_freq': 1, 'min_child_samples': 15}. Best is trial 1 with value: 1.0.
+    Trial 70 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.6344724762823344, 'bagging_freq': 6, 'min_child_samples': 24}. Best is trial 1 with value: 1.0.
+    Trial 71 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.8677735156165209, 'bagging_freq': 0, 'min_child_samples': 60}. Best is trial 1 with value: 1.0.
+    Trial 72 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.8509919559967317, 'bagging_freq': 0, 'min_child_samples': 46}. Best is trial 1 with value: 1.0.
+    Trial 73 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.8325347046663464, 'bagging_freq': 0, 'min_child_samples': 66}. Best is trial 1 with value: 1.0.
+    Trial 74 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.8878060316759534, 'bagging_freq': 0, 'min_child_samples': 59}. Best is trial 1 with value: 1.0.
+    Trial 75 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.9791643414003092, 'bagging_freq': 1, 'min_child_samples': 69}. Best is trial 1 with value: 1.0.
+    Trial 76 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.7135734984644313, 'bagging_freq': 1, 'min_child_samples': 56}. Best is trial 1 with value: 1.0.
+    Trial 77 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.9008522095690276, 'bagging_freq': 0, 'min_child_samples': 76}. Best is trial 1 with value: 1.0.
+    Trial 78 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.9522951379219744, 'bagging_freq': 7, 'min_child_samples': 36}. Best is trial 1 with value: 1.0.
+    Trial 79 finished with value: 0.916083916083916 and parameters: {'bagging_fraction': 0.9271841827233743, 'bagging_freq': 3, 'min_child_samples': 22}. Best is trial 1 with value: 1.0.
+    Trial 80 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.8734098612850474, 'bagging_freq': 0, 'min_child_samples': 65}. Best is trial 1 with value: 1.0.
+    Trial 81 finished with value: 0.9300699300699301 and parameters: {'bagging_fraction': 0.8865645833920194, 'bagging_freq': 3, 'min_child_samples': 31}. Best is trial 1 with value: 1.0.
+    Trial 82 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.8555912209062344, 'bagging_freq': 3, 'min_child_samples': 27}. Best is trial 1 with value: 1.0.
+    Trial 83 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.9021092703413032, 'bagging_freq': 2, 'min_child_samples': 34}. Best is trial 1 with value: 1.0.
+    Trial 84 finished with value: 0.9230769230769231 and parameters: {'bagging_fraction': 0.7737474358981222, 'bagging_freq': 3, 'min_child_samples': 20}. Best is trial 1 with value: 1.0.
+    Trial 85 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.8189837865757078, 'bagging_freq': 2, 'min_child_samples': 29}. Best is trial 1 with value: 1.0.
+    Trial 86 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.984101673355571, 'bagging_freq': 5, 'min_child_samples': 7}. Best is trial 1 with value: 1.0.
+    Trial 87 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.9373127779809634, 'bagging_freq': 4, 'min_child_samples': 13}. Best is trial 1 with value: 1.0.
+    Trial 88 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.7937231317749195, 'bagging_freq': 6, 'min_child_samples': 33}. Best is trial 1 with value: 1.0.
+    Trial 89 finished with value: 0.993006993006993 and parameters: {'bagging_fraction': 0.8799621950090585, 'bagging_freq': 5, 'min_child_samples': 52}. Best is trial 1 with value: 1.0.
+    Trial 90 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.7470132591523523, 'bagging_freq': 5, 'min_child_samples': 52}. Best is trial 1 with value: 1.0.
+    Trial 91 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.8374451647431187, 'bagging_freq': 4, 'min_child_samples': 46}. Best is trial 1 with value: 1.0.
+    Trial 92 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.8809032204270395, 'bagging_freq': 5, 'min_child_samples': 63}. Best is trial 1 with value: 1.0.
+    Trial 93 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.8606384464101852, 'bagging_freq': 6, 'min_child_samples': 18}. Best is trial 1 with value: 1.0.
+    Trial 94 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.9054650283192665, 'bagging_freq': 3, 'min_child_samples': 23}. Best is trial 1 with value: 1.0.
+    Trial 95 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.9257518379993908, 'bagging_freq': 4, 'min_child_samples': 9}. Best is trial 1 with value: 1.0.
+    Trial 96 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.9602217064067038, 'bagging_freq': 6, 'min_child_samples': 76}. Best is trial 1 with value: 1.0.
+    Trial 97 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.8975099567887262, 'bagging_freq': 1, 'min_child_samples': 40}. Best is trial 1 with value: 1.0.
+    Trial 98 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.9201470317016717, 'bagging_freq': 0, 'min_child_samples': 44}. Best is trial 1 with value: 1.0.
+    Trial 99 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.9422390985014122, 'bagging_freq': 5, 'min_child_samples': 15}. Best is trial 1 with value: 1.0.
 
 
 
@@ -332,107 +332,107 @@ In this section,  the ``objective`` is the same as the first scenario.
 
  .. code-block:: none
 
-    A new study created in memory with name: no-name-4d661c6b-cf72-462c-982e-4e1f02d0ed13
-    Trial 2 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.7515821178304589, 'bagging_freq': 4, 'min_child_samples': 78}. Best is trial 2 with value: 0.958041958041958.
-    Trial 3 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.6536341113034179, 'bagging_freq': 7, 'min_child_samples': 51}. Best is trial 3 with value: 0.9790209790209791.
-    Trial 4 finished with value: 0.9440559440559441 and parameters: {'bagging_fraction': 0.9464775051826579, 'bagging_freq': 3, 'min_child_samples': 91}. Best is trial 3 with value: 0.9790209790209791.
-    Trial 5 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.40817749494747846, 'bagging_freq': 5, 'min_child_samples': 26}. Best is trial 3 with value: 0.9790209790209791.
-    Trial 6 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.9731787380915389, 'bagging_freq': 2, 'min_child_samples': 68}. Best is trial 3 with value: 0.9790209790209791.
-    Trial 7 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.6044977387178303, 'bagging_freq': 1, 'min_child_samples': 86}. Best is trial 3 with value: 0.9790209790209791.
-    Trial 8 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.9607460293031307, 'bagging_freq': 0, 'min_child_samples': 81}. Best is trial 3 with value: 0.9790209790209791.
-    Trial 9 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.5356319808620347, 'bagging_freq': 3, 'min_child_samples': 75}. Best is trial 3 with value: 0.9790209790209791.
-    Trial 10 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.8238016687506822, 'bagging_freq': 7, 'min_child_samples': 46}. Best is trial 3 with value: 0.9790209790209791.
-    Trial 11 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.6105604657180062, 'bagging_freq': 7, 'min_child_samples': 50}. Best is trial 3 with value: 0.9790209790209791.
-    Trial 12 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.6158485579721614, 'bagging_freq': 1, 'min_child_samples': 97}. Best is trial 3 with value: 0.9790209790209791.
-    Trial 13 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.5153080123972787, 'bagging_freq': 6, 'min_child_samples': 38}. Best is trial 3 with value: 0.9790209790209791.
-    Trial 14 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.6654318872843955, 'bagging_freq': 2, 'min_child_samples': 67}. Best is trial 3 with value: 0.9790209790209791.
-    Trial 15 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.5172103828236652, 'bagging_freq': 1, 'min_child_samples': 60}. Best is trial 3 with value: 0.9790209790209791.
-    Trial 16 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.8498204982787119, 'bagging_freq': 4, 'min_child_samples': 35}. Best is trial 3 with value: 0.9790209790209791.
-    Trial 17 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.406347789430454, 'bagging_freq': 6, 'min_child_samples': 8}. Best is trial 3 with value: 0.9790209790209791.
-    Trial 18 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.6036837127806235, 'bagging_freq': 2, 'min_child_samples': 59}. Best is trial 3 with value: 0.9790209790209791.
-    Trial 19 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.7189767874874328, 'bagging_freq': 1, 'min_child_samples': 92}. Best is trial 3 with value: 0.9790209790209791.
-    Trial 20 finished with value: 0.9440559440559441 and parameters: {'bagging_fraction': 0.6632396732138174, 'bagging_freq': 5, 'min_child_samples': 42}. Best is trial 3 with value: 0.9790209790209791.
-    Trial 21 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.5968944864161096, 'bagging_freq': 7, 'min_child_samples': 52}. Best is trial 21 with value: 0.986013986013986.
-    Trial 22 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.5650545645507995, 'bagging_freq': 6, 'min_child_samples': 57}. Best is trial 21 with value: 0.986013986013986.
-    Trial 23 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.48497468957701273, 'bagging_freq': 7, 'min_child_samples': 52}. Best is trial 21 with value: 0.986013986013986.
-    Trial 24 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.6629050083601403, 'bagging_freq': 6, 'min_child_samples': 67}. Best is trial 21 with value: 0.986013986013986.
-    Trial 25 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.6805555879463062, 'bagging_freq': 7, 'min_child_samples': 70}. Best is trial 21 with value: 0.986013986013986.
-    Trial 26 finished with value: 0.9300699300699301 and parameters: {'bagging_fraction': 0.8109105381934748, 'bagging_freq': 6, 'min_child_samples': 31}. Best is trial 21 with value: 0.986013986013986.
-    Trial 27 finished with value: 0.9440559440559441 and parameters: {'bagging_fraction': 0.7336558432011835, 'bagging_freq': 7, 'min_child_samples': 62}. Best is trial 21 with value: 0.986013986013986.
-    Trial 28 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.6512194820109716, 'bagging_freq': 6, 'min_child_samples': 52}. Best is trial 21 with value: 0.986013986013986.
-    Trial 29 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.47133152333516304, 'bagging_freq': 5, 'min_child_samples': 45}. Best is trial 21 with value: 0.986013986013986.
-    Trial 30 finished with value: 0.9440559440559441 and parameters: {'bagging_fraction': 0.5743504481354117, 'bagging_freq': 7, 'min_child_samples': 7}. Best is trial 21 with value: 0.986013986013986.
-    Trial 31 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.6448333427969725, 'bagging_freq': 6, 'min_child_samples': 89}. Best is trial 21 with value: 0.986013986013986.
-    Trial 32 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.7019018015565847, 'bagging_freq': 0, 'min_child_samples': 76}. Best is trial 21 with value: 0.986013986013986.
-    Trial 33 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.5723625537160292, 'bagging_freq': 5, 'min_child_samples': 85}. Best is trial 21 with value: 0.986013986013986.
-    Trial 34 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.7731694530045411, 'bagging_freq': 4, 'min_child_samples': 99}. Best is trial 21 with value: 0.986013986013986.
-    Trial 35 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.6301219218660069, 'bagging_freq': 7, 'min_child_samples': 65}. Best is trial 21 with value: 0.986013986013986.
-    Trial 36 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.5791583495754495, 'bagging_freq': 3, 'min_child_samples': 71}. Best is trial 21 with value: 0.986013986013986.
-    Trial 37 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.886095347793107, 'bagging_freq': 6, 'min_child_samples': 82}. Best is trial 21 with value: 0.986013986013986.
-    Trial 38 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.6906407637630674, 'bagging_freq': 5, 'min_child_samples': 56}. Best is trial 21 with value: 0.986013986013986.
-    Trial 39 finished with value: 0.9230769230769231 and parameters: {'bagging_fraction': 0.7695618159338842, 'bagging_freq': 4, 'min_child_samples': 73}. Best is trial 21 with value: 0.986013986013986.
-    Trial 40 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.470386884751248, 'bagging_freq': 3, 'min_child_samples': 47}. Best is trial 21 with value: 0.986013986013986.
-    Trial 41 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.613299781281293, 'bagging_freq': 7, 'min_child_samples': 49}. Best is trial 21 with value: 0.986013986013986.
-    Trial 42 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.5478606992824929, 'bagging_freq': 7, 'min_child_samples': 41}. Best is trial 21 with value: 0.986013986013986.
-    Trial 43 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.6154979244589829, 'bagging_freq': 7, 'min_child_samples': 54}. Best is trial 21 with value: 0.986013986013986.
-    Trial 44 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.5946199728696345, 'bagging_freq': 6, 'min_child_samples': 25}. Best is trial 21 with value: 0.986013986013986.
-    Trial 45 finished with value: 0.9440559440559441 and parameters: {'bagging_fraction': 0.6345744952382917, 'bagging_freq': 7, 'min_child_samples': 64}. Best is trial 21 with value: 0.986013986013986.
-    Trial 46 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.5325688014044162, 'bagging_freq': 6, 'min_child_samples': 35}. Best is trial 21 with value: 0.986013986013986.
-    Trial 47 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.6986850670192586, 'bagging_freq': 7, 'min_child_samples': 79}. Best is trial 21 with value: 0.986013986013986.
-    Trial 48 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.6706364430213982, 'bagging_freq': 1, 'min_child_samples': 43}. Best is trial 21 with value: 0.986013986013986.
-    Trial 49 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.5039505413737236, 'bagging_freq': 0, 'min_child_samples': 49}. Best is trial 21 with value: 0.986013986013986.
-    Trial 50 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.719162139843667, 'bagging_freq': 2, 'min_child_samples': 16}. Best is trial 21 with value: 0.986013986013986.
-    Trial 51 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.5977148024998418, 'bagging_freq': 1, 'min_child_samples': 100}. Best is trial 21 with value: 0.986013986013986.
-    Trial 52 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.6269315179888395, 'bagging_freq': 1, 'min_child_samples': 94}. Best is trial 21 with value: 0.986013986013986.
-    Trial 53 finished with value: 0.9300699300699301 and parameters: {'bagging_fraction': 0.540036742233568, 'bagging_freq': 2, 'min_child_samples': 90}. Best is trial 21 with value: 0.986013986013986.
-    Trial 54 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.6491711297798372, 'bagging_freq': 0, 'min_child_samples': 95}. Best is trial 21 with value: 0.986013986013986.
-    Trial 55 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.5982135805716051, 'bagging_freq': 1, 'min_child_samples': 87}. Best is trial 21 with value: 0.986013986013986.
-    Trial 56 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.6739921184431504, 'bagging_freq': 6, 'min_child_samples': 58}. Best is trial 21 with value: 0.986013986013986.
-    Trial 57 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.432699509256132, 'bagging_freq': 2, 'min_child_samples': 39}. Best is trial 21 with value: 0.986013986013986.
-    Trial 58 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.5616161783515755, 'bagging_freq': 7, 'min_child_samples': 83}. Best is trial 21 with value: 0.986013986013986.
-    Trial 59 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.7280786739412952, 'bagging_freq': 5, 'min_child_samples': 68}. Best is trial 21 with value: 0.986013986013986.
-    Trial 60 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.6602276997772465, 'bagging_freq': 7, 'min_child_samples': 62}. Best is trial 21 with value: 0.986013986013986.
-    Trial 61 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.5197023939807874, 'bagging_freq': 6, 'min_child_samples': 34}. Best is trial 21 with value: 0.986013986013986.
-    Trial 62 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.5850205256533157, 'bagging_freq': 6, 'min_child_samples': 51}. Best is trial 21 with value: 0.986013986013986.
-    Trial 63 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.5556354802504705, 'bagging_freq': 7, 'min_child_samples': 29}. Best is trial 21 with value: 0.986013986013986.
-    Trial 64 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.49363049235159323, 'bagging_freq': 5, 'min_child_samples': 38}. Best is trial 21 with value: 0.986013986013986.
-    Trial 65 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.6158432225852677, 'bagging_freq': 6, 'min_child_samples': 97}. Best is trial 21 with value: 0.986013986013986.
-    Trial 66 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.6347889907403278, 'bagging_freq': 7, 'min_child_samples': 54}. Best is trial 21 with value: 0.986013986013986.
-    Trial 67 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.44469011343572945, 'bagging_freq': 4, 'min_child_samples': 48}. Best is trial 21 with value: 0.986013986013986.
-    Trial 68 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.6837630341774565, 'bagging_freq': 6, 'min_child_samples': 44}. Best is trial 21 with value: 0.986013986013986.
-    Trial 69 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.7541379907564476, 'bagging_freq': 7, 'min_child_samples': 77}. Best is trial 21 with value: 0.986013986013986.
-    Trial 70 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.5806304311614553, 'bagging_freq': 0, 'min_child_samples': 60}. Best is trial 21 with value: 0.986013986013986.
-    Trial 71 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.7027177551810212, 'bagging_freq': 2, 'min_child_samples': 55}. Best is trial 21 with value: 0.986013986013986.
-    Trial 72 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.6563069620842754, 'bagging_freq': 1, 'min_child_samples': 73}. Best is trial 21 with value: 0.986013986013986.
-    Trial 73 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.6197113815002777, 'bagging_freq': 3, 'min_child_samples': 66}. Best is trial 21 with value: 0.986013986013986.
-    Trial 74 finished with value: 0.993006993006993 and parameters: {'bagging_fraction': 0.6117727831296595, 'bagging_freq': 3, 'min_child_samples': 51}. Best is trial 74 with value: 0.993006993006993.
-    Trial 75 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.6147094552970623, 'bagging_freq': 4, 'min_child_samples': 66}. Best is trial 74 with value: 0.993006993006993.
-    Trial 76 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.6410471245685726, 'bagging_freq': 3, 'min_child_samples': 51}. Best is trial 74 with value: 0.993006993006993.
-    Trial 77 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.9952995792084007, 'bagging_freq': 3, 'min_child_samples': 50}. Best is trial 74 with value: 0.993006993006993.
-    Trial 78 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.6402990720098644, 'bagging_freq': 3, 'min_child_samples': 57}. Best is trial 74 with value: 0.993006993006993.
-    Trial 79 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.6027648391863488, 'bagging_freq': 3, 'min_child_samples': 62}. Best is trial 74 with value: 0.993006993006993.
-    Trial 80 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.6261788540837682, 'bagging_freq': 3, 'min_child_samples': 63}. Best is trial 74 with value: 0.993006993006993.
-    Trial 81 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.5968967308746627, 'bagging_freq': 3, 'min_child_samples': 62}. Best is trial 74 with value: 0.993006993006993.
-    Trial 82 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.6270159638766766, 'bagging_freq': 3, 'min_child_samples': 69}. Best is trial 74 with value: 0.993006993006993.
-    Trial 83 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.6497989777460661, 'bagging_freq': 3, 'min_child_samples': 53}. Best is trial 74 with value: 0.993006993006993.
-    Trial 84 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.5661025083760044, 'bagging_freq': 3, 'min_child_samples': 60}. Best is trial 74 with value: 0.993006993006993.
-    Trial 85 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.5863265930255721, 'bagging_freq': 4, 'min_child_samples': 46}. Best is trial 74 with value: 0.993006993006993.
-    Trial 86 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.6059298893449917, 'bagging_freq': 3, 'min_child_samples': 64}. Best is trial 74 with value: 0.993006993006993.
-    Trial 87 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.6676685349277861, 'bagging_freq': 2, 'min_child_samples': 72}. Best is trial 74 with value: 0.993006993006993.
-    Trial 88 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.6222869057099013, 'bagging_freq': 4, 'min_child_samples': 56}. Best is trial 74 with value: 0.993006993006993.
-    Trial 89 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.6921422837880241, 'bagging_freq': 3, 'min_child_samples': 52}. Best is trial 74 with value: 0.993006993006993.
-    Trial 90 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.7098093941442818, 'bagging_freq': 2, 'min_child_samples': 59}. Best is trial 74 with value: 0.993006993006993.
-    Trial 91 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.6375920420163003, 'bagging_freq': 3, 'min_child_samples': 48}. Best is trial 74 with value: 0.993006993006993.
-    Trial 92 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.9262702815296932, 'bagging_freq': 3, 'min_child_samples': 66}. Best is trial 74 with value: 0.993006993006993.
-    Trial 93 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.6044691410162798, 'bagging_freq': 4, 'min_child_samples': 41}. Best is trial 74 with value: 0.993006993006993.
-    Trial 94 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.5503132276417524, 'bagging_freq': 3, 'min_child_samples': 62}. Best is trial 74 with value: 0.993006993006993.
-    Trial 95 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.5727587584976126, 'bagging_freq': 2, 'min_child_samples': 46}. Best is trial 74 with value: 0.993006993006993.
-    Trial 96 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.6576739428516393, 'bagging_freq': 2, 'min_child_samples': 79}. Best is trial 74 with value: 0.993006993006993.
-    Trial 97 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.6774907033083922, 'bagging_freq': 7, 'min_child_samples': 50}. Best is trial 74 with value: 0.993006993006993.
-    Trial 98 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.6435411800071692, 'bagging_freq': 7, 'min_child_samples': 75}. Best is trial 74 with value: 0.993006993006993.
-    Trial 99 finished with value: 0.993006993006993 and parameters: {'bagging_fraction': 0.6795203170649509, 'bagging_freq': 3, 'min_child_samples': 51}. Best is trial 74 with value: 0.993006993006993.
-    Trial 100 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.676409838528019, 'bagging_freq': 3, 'min_child_samples': 51}. Best is trial 74 with value: 0.993006993006993.
-    Trial 101 finished with value: 0.9440559440559441 and parameters: {'bagging_fraction': 0.68043501347553, 'bagging_freq': 3, 'min_child_samples': 54}. Best is trial 74 with value: 0.993006993006993.
+    A new study created in memory with name: no-name-09a94c71-0739-46d7-8eb7-0825fa80d6d3
+    Trial 2 finished with value: 0.9300699300699301 and parameters: {'bagging_fraction': 0.9425905668029461, 'bagging_freq': 2, 'min_child_samples': 97}. Best is trial 1 with value: 0.95.
+    Trial 3 finished with value: 0.9440559440559441 and parameters: {'bagging_fraction': 0.6970164330174861, 'bagging_freq': 4, 'min_child_samples': 46}. Best is trial 1 with value: 0.95.
+    Trial 4 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.9346055631524584, 'bagging_freq': 7, 'min_child_samples': 77}. Best is trial 4 with value: 0.972027972027972.
+    Trial 5 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.5567587688920103, 'bagging_freq': 5, 'min_child_samples': 40}. Best is trial 4 with value: 0.972027972027972.
+    Trial 6 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.8564826427423647, 'bagging_freq': 3, 'min_child_samples': 56}. Best is trial 4 with value: 0.972027972027972.
+    Trial 7 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.534835763912408, 'bagging_freq': 4, 'min_child_samples': 66}. Best is trial 4 with value: 0.972027972027972.
+    Trial 8 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.8920340570936407, 'bagging_freq': 2, 'min_child_samples': 50}. Best is trial 4 with value: 0.972027972027972.
+    Trial 9 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.886370575103731, 'bagging_freq': 3, 'min_child_samples': 55}. Best is trial 4 with value: 0.972027972027972.
+    Trial 10 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.40000585503581243, 'bagging_freq': 7, 'min_child_samples': 86}. Best is trial 4 with value: 0.972027972027972.
+    Trial 11 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.6297126930878101, 'bagging_freq': 7, 'min_child_samples': 77}. Best is trial 4 with value: 0.972027972027972.
+    Trial 12 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.4806975482687497, 'bagging_freq': 6, 'min_child_samples': 36}. Best is trial 4 with value: 0.972027972027972.
+    Trial 13 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.4008003234127158, 'bagging_freq': 6, 'min_child_samples': 35}. Best is trial 4 with value: 0.972027972027972.
+    Trial 14 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.7726364218907247, 'bagging_freq': 6, 'min_child_samples': 11}. Best is trial 14 with value: 0.9790209790209791.
+    Trial 15 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.7790067421797743, 'bagging_freq': 7, 'min_child_samples': 12}. Best is trial 14 with value: 0.9790209790209791.
+    Trial 16 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.8090256109117011, 'bagging_freq': 6, 'min_child_samples': 71}. Best is trial 14 with value: 0.9790209790209791.
+    Trial 17 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.6787278167786476, 'bagging_freq': 5, 'min_child_samples': 100}. Best is trial 14 with value: 0.9790209790209791.
+    Trial 18 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.9975570144699832, 'bagging_freq': 6, 'min_child_samples': 5}. Best is trial 14 with value: 0.9790209790209791.
+    Trial 19 finished with value: 0.9440559440559441 and parameters: {'bagging_fraction': 0.8322005199783409, 'bagging_freq': 0, 'min_child_samples': 84}. Best is trial 14 with value: 0.9790209790209791.
+    Trial 20 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.9241631426283781, 'bagging_freq': 7, 'min_child_samples': 62}. Best is trial 14 with value: 0.9790209790209791.
+    Trial 21 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.5304202729482519, 'bagging_freq': 6, 'min_child_samples': 30}. Best is trial 14 with value: 0.9790209790209791.
+    Trial 22 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.6137722441194199, 'bagging_freq': 5, 'min_child_samples': 28}. Best is trial 14 with value: 0.9790209790209791.
+    Trial 23 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.7255414689866886, 'bagging_freq': 6, 'min_child_samples': 24}. Best is trial 14 with value: 0.9790209790209791.
+    Trial 24 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.7517447895295908, 'bagging_freq': 6, 'min_child_samples': 20}. Best is trial 14 with value: 0.9790209790209791.
+    Trial 25 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.6395733424187773, 'bagging_freq': 4, 'min_child_samples': 5}. Best is trial 14 with value: 0.9790209790209791.
+    Trial 26 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.7256530272376424, 'bagging_freq': 5, 'min_child_samples': 28}. Best is trial 14 with value: 0.9790209790209791.
+    Trial 27 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.5560553308986801, 'bagging_freq': 6, 'min_child_samples': 12}. Best is trial 14 with value: 0.9790209790209791.
+    Trial 28 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.47439364771510534, 'bagging_freq': 1, 'min_child_samples': 28}. Best is trial 14 with value: 0.9790209790209791.
+    Trial 29 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.7868587295858578, 'bagging_freq': 4, 'min_child_samples': 15}. Best is trial 14 with value: 0.9790209790209791.
+    Trial 30 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.6524693926980244, 'bagging_freq': 5, 'min_child_samples': 22}. Best is trial 14 with value: 0.9790209790209791.
+    Trial 31 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.7324253692222074, 'bagging_freq': 5, 'min_child_samples': 30}. Best is trial 14 with value: 0.9790209790209791.
+    Trial 32 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.7356383917660447, 'bagging_freq': 6, 'min_child_samples': 23}. Best is trial 14 with value: 0.9790209790209791.
+    Trial 33 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.7110034627647304, 'bagging_freq': 5, 'min_child_samples': 42}. Best is trial 14 with value: 0.9790209790209791.
+    Trial 34 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.6037026061358274, 'bagging_freq': 6, 'min_child_samples': 15}. Best is trial 34 with value: 0.986013986013986.
+    Trial 35 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.6017095449215861, 'bagging_freq': 7, 'min_child_samples': 16}. Best is trial 34 with value: 0.986013986013986.
+    Trial 36 finished with value: 0.993006993006993 and parameters: {'bagging_fraction': 0.5894145463830207, 'bagging_freq': 6, 'min_child_samples': 13}. Best is trial 36 with value: 0.993006993006993.
+    Trial 37 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.5789718088319702, 'bagging_freq': 7, 'min_child_samples': 7}. Best is trial 36 with value: 0.993006993006993.
+    Trial 38 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.5904031950854174, 'bagging_freq': 7, 'min_child_samples': 10}. Best is trial 36 with value: 0.993006993006993.
+    Trial 39 finished with value: 0.9440559440559441 and parameters: {'bagging_fraction': 0.680523453587185, 'bagging_freq': 7, 'min_child_samples': 9}. Best is trial 36 with value: 0.993006993006993.
+    Trial 40 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.4917854227917663, 'bagging_freq': 4, 'min_child_samples': 18}. Best is trial 36 with value: 0.993006993006993.
+    Trial 41 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.5148983096972511, 'bagging_freq': 6, 'min_child_samples': 8}. Best is trial 36 with value: 0.993006993006993.
+    Trial 42 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.5720933194260268, 'bagging_freq': 7, 'min_child_samples': 15}. Best is trial 36 with value: 0.993006993006993.
+    Trial 43 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.5262977287043682, 'bagging_freq': 6, 'min_child_samples': 5}. Best is trial 36 with value: 0.993006993006993.
+    Trial 44 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.5773485520629691, 'bagging_freq': 3, 'min_child_samples': 34}. Best is trial 36 with value: 0.993006993006993.
+    Trial 45 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.6628793419986824, 'bagging_freq': 3, 'min_child_samples': 17}. Best is trial 36 with value: 0.993006993006993.
+    Trial 46 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.565677179742818, 'bagging_freq': 2, 'min_child_samples': 35}. Best is trial 36 with value: 0.993006993006993.
+    Trial 47 finished with value: 0.993006993006993 and parameters: {'bagging_fraction': 0.4341139752127614, 'bagging_freq': 3, 'min_child_samples': 13}. Best is trial 36 with value: 0.993006993006993.
+    Trial 48 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.4477610132661987, 'bagging_freq': 3, 'min_child_samples': 42}. Best is trial 36 with value: 0.993006993006993.
+    Trial 49 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.44040347300389715, 'bagging_freq': 2, 'min_child_samples': 23}. Best is trial 36 with value: 0.993006993006993.
+    Trial 50 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.6240991726522916, 'bagging_freq': 3, 'min_child_samples': 47}. Best is trial 36 with value: 0.993006993006993.
+    Trial 51 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.5832439633634382, 'bagging_freq': 3, 'min_child_samples': 13}. Best is trial 36 with value: 0.993006993006993.
+    Trial 52 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.42930332392736353, 'bagging_freq': 1, 'min_child_samples': 10}. Best is trial 36 with value: 0.993006993006993.
+    Trial 53 finished with value: 0.9370629370629371 and parameters: {'bagging_fraction': 0.5496913279199377, 'bagging_freq': 4, 'min_child_samples': 20}. Best is trial 36 with value: 0.993006993006993.
+    Trial 54 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.6926224826966704, 'bagging_freq': 2, 'min_child_samples': 8}. Best is trial 36 with value: 0.993006993006993.
+    Trial 55 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.5005058689442607, 'bagging_freq': 3, 'min_child_samples': 13}. Best is trial 36 with value: 0.993006993006993.
+    Trial 56 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.7658718241000961, 'bagging_freq': 7, 'min_child_samples': 25}. Best is trial 36 with value: 0.993006993006993.
+    Trial 57 finished with value: 0.9370629370629371 and parameters: {'bagging_fraction': 0.46736825167933965, 'bagging_freq': 4, 'min_child_samples': 32}. Best is trial 36 with value: 0.993006993006993.
+    Trial 58 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.8483803056569095, 'bagging_freq': 7, 'min_child_samples': 19}. Best is trial 36 with value: 0.993006993006993.
+    Trial 59 finished with value: 0.993006993006993 and parameters: {'bagging_fraction': 0.6071373259137537, 'bagging_freq': 3, 'min_child_samples': 54}. Best is trial 36 with value: 0.993006993006993.
+    Trial 60 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.6033510690544623, 'bagging_freq': 3, 'min_child_samples': 53}. Best is trial 36 with value: 0.993006993006993.
+    Trial 61 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.642553646295899, 'bagging_freq': 2, 'min_child_samples': 59}. Best is trial 36 with value: 0.993006993006993.
+    Trial 62 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.5369445532917405, 'bagging_freq': 3, 'min_child_samples': 67}. Best is trial 36 with value: 0.993006993006993.
+    Trial 63 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.617880881495163, 'bagging_freq': 4, 'min_child_samples': 49}. Best is trial 36 with value: 0.993006993006993.
+    Trial 64 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.8043614125568952, 'bagging_freq': 2, 'min_child_samples': 7}. Best is trial 36 with value: 0.993006993006993.
+    Trial 65 finished with value: 0.9440559440559441 and parameters: {'bagging_fraction': 0.6680514798506869, 'bagging_freq': 6, 'min_child_samples': 58}. Best is trial 36 with value: 0.993006993006993.
+    Trial 66 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.5448236778827175, 'bagging_freq': 5, 'min_child_samples': 13}. Best is trial 36 with value: 0.993006993006993.
+    Trial 67 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.5848312838951574, 'bagging_freq': 6, 'min_child_samples': 40}. Best is trial 36 with value: 0.993006993006993.
+    Trial 68 finished with value: 0.9300699300699301 and parameters: {'bagging_fraction': 0.5169046082760366, 'bagging_freq': 3, 'min_child_samples': 26}. Best is trial 36 with value: 0.993006993006993.
+    Trial 69 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.7036886394534971, 'bagging_freq': 5, 'min_child_samples': 11}. Best is trial 36 with value: 0.993006993006993.
+    Trial 70 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.6316048610128064, 'bagging_freq': 6, 'min_child_samples': 91}. Best is trial 36 with value: 0.993006993006993.
+    Trial 71 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.5695220348073415, 'bagging_freq': 6, 'min_child_samples': 16}. Best is trial 36 with value: 0.993006993006993.
+    Trial 72 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.5958355805399751, 'bagging_freq': 6, 'min_child_samples': 31}. Best is trial 36 with value: 0.993006993006993.
+    Trial 73 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.6081065725699576, 'bagging_freq': 7, 'min_child_samples': 38}. Best is trial 36 with value: 0.993006993006993.
+    Trial 74 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.5292015145773958, 'bagging_freq': 4, 'min_child_samples': 5}. Best is trial 36 with value: 0.993006993006993.
+    Trial 75 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.5022702644834616, 'bagging_freq': 6, 'min_child_samples': 21}. Best is trial 36 with value: 0.993006993006993.
+    Trial 76 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.5579143198961914, 'bagging_freq': 7, 'min_child_samples': 45}. Best is trial 36 with value: 0.993006993006993.
+    Trial 77 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.6498982626467955, 'bagging_freq': 3, 'min_child_samples': 52}. Best is trial 36 with value: 0.993006993006993.
+    Trial 78 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.4141735416852666, 'bagging_freq': 5, 'min_child_samples': 15}. Best is trial 36 with value: 0.993006993006993.
+    Trial 79 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.8861098809761966, 'bagging_freq': 1, 'min_child_samples': 63}. Best is trial 36 with value: 0.993006993006993.
+    Trial 80 finished with value: 0.9230769230769231 and parameters: {'bagging_fraction': 0.5798180188291776, 'bagging_freq': 7, 'min_child_samples': 33}. Best is trial 36 with value: 0.993006993006993.
+    Trial 81 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.7177593873581932, 'bagging_freq': 6, 'min_child_samples': 24}. Best is trial 36 with value: 0.993006993006993.
+    Trial 82 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.7487237582871162, 'bagging_freq': 6, 'min_child_samples': 28}. Best is trial 36 with value: 0.993006993006993.
+    Trial 83 finished with value: 0.986013986013986 and parameters: {'bagging_fraction': 0.7847317330869861, 'bagging_freq': 5, 'min_child_samples': 17}. Best is trial 36 with value: 0.993006993006993.
+    Trial 84 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.8037230432738901, 'bagging_freq': 5, 'min_child_samples': 18}. Best is trial 36 with value: 0.993006993006993.
+    Trial 85 finished with value: 0.9440559440559441 and parameters: {'bagging_fraction': 0.7666967358675896, 'bagging_freq': 4, 'min_child_samples': 7}. Best is trial 36 with value: 0.993006993006993.
+    Trial 86 finished with value: 0.9440559440559441 and parameters: {'bagging_fraction': 0.8328747426775553, 'bagging_freq': 5, 'min_child_samples': 11}. Best is trial 36 with value: 0.993006993006993.
+    Trial 87 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.462168115339283, 'bagging_freq': 6, 'min_child_samples': 14}. Best is trial 36 with value: 0.993006993006993.
+    Trial 88 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.48944385824842995, 'bagging_freq': 3, 'min_child_samples': 17}. Best is trial 36 with value: 0.993006993006993.
+    Trial 89 finished with value: 0.9440559440559441 and parameters: {'bagging_fraction': 0.6176256185686816, 'bagging_freq': 7, 'min_child_samples': 21}. Best is trial 36 with value: 0.993006993006993.
+    Trial 90 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.5618396158927488, 'bagging_freq': 5, 'min_child_samples': 10}. Best is trial 36 with value: 0.993006993006993.
+    Trial 91 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.7822641490862197, 'bagging_freq': 6, 'min_child_samples': 27}. Best is trial 36 with value: 0.993006993006993.
+    Trial 92 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.7443748778324705, 'bagging_freq': 6, 'min_child_samples': 19}. Best is trial 36 with value: 0.993006993006993.
+    Trial 93 finished with value: 0.9790209790209791 and parameters: {'bagging_fraction': 0.7656244052148645, 'bagging_freq': 6, 'min_child_samples': 23}. Best is trial 36 with value: 0.993006993006993.
+    Trial 94 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.68661816147357, 'bagging_freq': 3, 'min_child_samples': 8}. Best is trial 36 with value: 0.993006993006993.
+    Trial 95 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.5929757806375924, 'bagging_freq': 7, 'min_child_samples': 30}. Best is trial 36 with value: 0.993006993006993.
+    Trial 96 finished with value: 0.972027972027972 and parameters: {'bagging_fraction': 0.819641850159741, 'bagging_freq': 6, 'min_child_samples': 12}. Best is trial 36 with value: 0.993006993006993.
+    Trial 97 finished with value: 0.9370629370629371 and parameters: {'bagging_fraction': 0.541534375776806, 'bagging_freq': 2, 'min_child_samples': 16}. Best is trial 36 with value: 0.993006993006993.
+    Trial 98 finished with value: 0.958041958041958 and parameters: {'bagging_fraction': 0.6625267066788493, 'bagging_freq': 3, 'min_child_samples': 25}. Best is trial 36 with value: 0.993006993006993.
+    Trial 99 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.638294442769015, 'bagging_freq': 6, 'min_child_samples': 34}. Best is trial 36 with value: 0.993006993006993.
+    Trial 100 finished with value: 0.951048951048951 and parameters: {'bagging_fraction': 0.7961365729566454, 'bagging_freq': 5, 'min_child_samples': 37}. Best is trial 36 with value: 0.993006993006993.
+    Trial 101 finished with value: 0.965034965034965 and parameters: {'bagging_fraction': 0.7205187801670128, 'bagging_freq': 5, 'min_child_samples': 29}. Best is trial 36 with value: 0.993006993006993.
 
 
 
@@ -440,7 +440,7 @@ In this section,  the ``objective`` is the same as the first scenario.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 6.896 seconds)
+   **Total running time of the script:** (0 minutes 10.324 seconds)
 
 
 .. _sphx_glr_download_tutorial_20_recipes_008_specify_params.py:
@@ -456,6 +456,10 @@ In this section,  the ``objective`` is the same as the first scenario.
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: 008_specify_params.py <008_specify_params.py>`
+
+    .. container:: sphx-glr-download sphx-glr-download-zip
+
+      :download:`Download zipped: 008_specify_params.zip <008_specify_params.zip>`
 
 
 .. only:: html

@@ -4,23 +4,22 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.storages.RetryFailedTrialCallback — Optuna 3.6.1 documentation</title>
+<title>optuna.storages.RetryFailedTrialCallback — Optuna 4.0.0 documentation</title>
 <link href="../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css?v=19f00094" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
-<link href="../../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/sg_gallery.css?v=61a4c737" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery.css?v=d2d258e8" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-binder.css?v=f4aeca0c" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" rel="stylesheet" type="text/css"/>
-<link href="../../_static/css/custom.css?v=3150ea5e" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/custom.css?v=d0d4e556" rel="stylesheet" type="text/css"/>
 <link href="../../_static/favicon.ico" rel="shortcut icon"/>
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
 <script src="../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=3b629b1b"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=6fa1bce2"></script>
 <script src="../../_static/doctools.js?v=888ff710"></script>
 <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -48,6 +47,9 @@
 <a class="header_link" href="https://optuna.org/#dashboard">Dashboard</a>
 </li>
 <li>
+<a class="header_link" href="https://optuna.org/#hub">OptunaHub</a>
+</li>
+<li>
 <a class="header_link" href="https://optuna.org/#blog">Blog</a>
 </li>
 <li>
@@ -55,9 +57,6 @@
 </li>
 <li>
 <a class="header_link" href="https://optuna.org/#paper">Paper</a>
-</li>
-<li>
-<a class="header_link" href="https://optuna.org/#community">Community</a>
 </li>
 </ul>
 </div>
@@ -70,7 +69,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.6.1
+                4.0.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -104,10 +103,8 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.storages.fail_stale_trials.html">optuna.storages.fail_stale_trials</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.storages.JournalStorage.html">optuna.storages.JournalStorage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="optuna.storages.JournalFileStorage.html">optuna.storages.JournalFileStorage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="optuna.storages.JournalFileSymlinkLock.html">optuna.storages.JournalFileSymlinkLock</a></li>
-<li class="toctree-l3"><a class="reference internal" href="optuna.storages.JournalFileOpenLock.html">optuna.storages.JournalFileOpenLock</a></li>
-<li class="toctree-l3"><a class="reference internal" href="optuna.storages.JournalRedisStorage.html">optuna.storages.JournalRedisStorage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../storages.html#optuna-storages-journal">optuna.storages.journal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../storages.html#deprecated-modules">Deprecated Modules</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../study.html">optuna.study</a></li>
@@ -142,7 +139,7 @@
 <h1>optuna.storages.RetryFailedTrialCallback<a class="headerlink" href="#optuna-storages-retryfailedtrialcallback" title="Permalink to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="optuna.storages.RetryFailedTrialCallback">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.storages.</span></span><span class="sig-name descname"><span class="pre">RetryFailedTrialCallback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_retry</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inherit_intermediate_values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/_callbacks.html#RetryFailedTrialCallback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna._callbacks.RetryFailedTrialCallback"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.storages.RetryFailedTrialCallback"></a><a class="headerlink" href="#optuna.storages.RetryFailedTrialCallback" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.storages.</span></span><span class="sig-name descname"><span class="pre">RetryFailedTrialCallback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_retry</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inherit_intermediate_values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_callbacks.html#RetryFailedTrialCallback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.storages.RetryFailedTrialCallback"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.storages._callbacks.RetryFailedTrialCallback"></a><a class="headerlink" href="#optuna.storages.RetryFailedTrialCallback" title="Permalink to this definition"></a></dt>
 <dd><p>Retry a failed trial up to a maximum number of times.</p>
 <p>When a trial fails, this callback can be used with a class in <a class="reference internal" href="../storages.html#module-optuna.storages" title="optuna.storages"><code class="xref py py-mod docutils literal notranslate"><span class="pre">optuna.storages</span></code></a> to
 recreate the trial in <code class="docutils literal notranslate"><span class="pre">TrialState.WAITING</span></code> to queue up the trial to be run again.</p>
@@ -205,11 +202,11 @@ without prior notice. See <a class="reference external" href="https://github.com
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="optuna.storages.RetryFailedTrialCallback.retried_trial_number">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">retried_trial_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/_callbacks.html#RetryFailedTrialCallback.retried_trial_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RetryFailedTrialCallback.retried_trial_number"></a><a class="headerlink" href="#optuna.storages.RetryFailedTrialCallback.retried_trial_number" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">retried_trial_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_callbacks.html#RetryFailedTrialCallback.retried_trial_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RetryFailedTrialCallback.retried_trial_number"></a><a class="headerlink" href="#optuna.storages.RetryFailedTrialCallback.retried_trial_number" title="Permalink to this definition"></a></dt>
 <dd><p>Return the number of the original trial being retried.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>trial</strong> (<a class="reference internal" href="optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial._frozen.FrozenTrial"><em>FrozenTrial</em></a>) – The trial object.</p>
+<dd class="field-odd"><p><strong>trial</strong> (<a class="reference internal" href="optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><em>FrozenTrial</em></a>) – The trial object.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The number of the first failed trial. If not retry of a previous trial,
@@ -227,11 +224,11 @@ without prior notice. See <a class="reference external" href="https://github.com
 </dd></dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="optuna.storages.RetryFailedTrialCallback.retry_history">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">retry_history</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/_callbacks.html#RetryFailedTrialCallback.retry_history"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RetryFailedTrialCallback.retry_history"></a><a class="headerlink" href="#optuna.storages.RetryFailedTrialCallback.retry_history" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">retry_history</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_callbacks.html#RetryFailedTrialCallback.retry_history"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.RetryFailedTrialCallback.retry_history"></a><a class="headerlink" href="#optuna.storages.RetryFailedTrialCallback.retry_history" title="Permalink to this definition"></a></dt>
 <dd><p>Return the list of retried trial numbers with respect to the specified trial.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>trial</strong> (<a class="reference internal" href="optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial._frozen.FrozenTrial"><em>FrozenTrial</em></a>) – The trial object.</p>
+<dd class="field-odd"><p><strong>trial</strong> (<a class="reference internal" href="optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><em>FrozenTrial</em></a>) – The trial object.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A list of trial numbers in ascending order of the series of retried trials.
@@ -241,7 +238,7 @@ and the last item is the one right before the specified trial in the retry serie
 If the specified trial is not a retry of any trial, returns an empty list.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.12)"><em>List</em></a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)">int</a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)">int</a>]</p>
 </dd>
 </dl>
 <div class="admonition note">

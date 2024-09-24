@@ -3,16 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.visualization._pareto_front &mdash; Optuna 3.6.1 documentation</title>
+  <title>optuna.visualization._pareto_front &mdash; Optuna 4.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=61a4c737" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=3150ea5e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=d0d4e556" />
 
   
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
@@ -22,7 +21,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=3b629b1b"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6fa1bce2"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
         <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,6 +48,9 @@
                     <a href="https://optuna.org/#dashboard" class="header_link">Dashboard</a>
                 </li>
                 <li>
+                    <a href="https://optuna.org/#hub" class="header_link">OptunaHub</a>
+                </li>
+                <li>
                     <a href="https://optuna.org/#blog" class="header_link">Blog</a>
                 </li>
                 <li>
@@ -56,9 +58,6 @@
                 </li>
                 <li>
                     <a href="https://optuna.org/#paper" class="header_link">Paper</a>
-                </li>
-                <li>
-                    <a href="https://optuna.org/#community" class="header_link">Community</a>
                 </li>
             </ul>
         </div>
@@ -77,7 +76,7 @@
               <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.6.1
+                4.0.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -128,7 +127,8 @@
 <span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">import</span> <span class="nn">optuna</span>
-<span class="kn">from</span> <span class="nn">optuna.exceptions</span> <span class="kn">import</span> <span class="n">ExperimentalWarning</span>
+<span class="kn">from</span> <span class="nn">optuna</span> <span class="kn">import</span> <span class="n">_deprecated</span>
+<span class="kn">from</span> <span class="nn">optuna.samplers._base</span> <span class="kn">import</span> <span class="n">_CONSTRAINTS_KEY</span>
 <span class="kn">from</span> <span class="nn">optuna.study</span> <span class="kn">import</span> <span class="n">Study</span>
 <span class="kn">from</span> <span class="nn">optuna.study._multi_objective</span> <span class="kn">import</span> <span class="n">_get_pareto_front_trials_by_trials</span>
 <span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">FrozenTrial</span>
@@ -151,7 +151,7 @@
     <span class="n">infeasible_trials_with_values</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]]</span>
     <span class="n">axis_order</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
     <span class="n">include_dominated_trials</span><span class="p">:</span> <span class="nb">bool</span>
-    <span class="n">has_constraints_func</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="n">has_constraints</span><span class="p">:</span> <span class="nb">bool</span>
 
 
 <div class="viewcode-block" id="plot_pareto_front"><a class="viewcode-back" href="../../../reference/visualization/generated/optuna.visualization.plot_pareto_front.html#optuna.visualization.plot_pareto_front">[docs]</a><span class="k">def</span> <span class="nf">plot_pareto_front</span><span class="p">(</span>
@@ -167,62 +167,6 @@
 
 <span class="sd">    .. seealso::</span>
 <span class="sd">        Please refer to :ref:`multi_objective` for the tutorial of the Pareto front visualization.</span>
-
-<span class="sd">    Example:</span>
-
-<span class="sd">        The following code snippet shows how to plot the Pareto front of a study.</span>
-
-<span class="sd">        .. plotly::</span>
-
-<span class="sd">            import optuna</span>
-
-
-<span class="sd">            def objective(trial):</span>
-<span class="sd">                x = trial.suggest_float(&quot;x&quot;, 0, 5)</span>
-<span class="sd">                y = trial.suggest_float(&quot;y&quot;, 0, 3)</span>
-
-<span class="sd">                v0 = 4 * x ** 2 + 4 * y ** 2</span>
-<span class="sd">                v1 = (x - 5) ** 2 + (y - 5) ** 2</span>
-<span class="sd">                return v0, v1</span>
-
-
-<span class="sd">            study = optuna.create_study(directions=[&quot;minimize&quot;, &quot;minimize&quot;])</span>
-<span class="sd">            study.optimize(objective, n_trials=50)</span>
-
-<span class="sd">            fig = optuna.visualization.plot_pareto_front(study)</span>
-<span class="sd">            fig.show()</span>
-
-<span class="sd">    Example:</span>
-
-<span class="sd">        The following code snippet shows how to plot a 2-dimensional Pareto front</span>
-<span class="sd">        of a 3-dimensional study.</span>
-<span class="sd">        This example is scalable, e.g., for plotting a 2- or 3-dimensional Pareto front</span>
-<span class="sd">        of a 4-dimensional study and so on.</span>
-
-<span class="sd">        .. plotly::</span>
-
-<span class="sd">            import optuna</span>
-
-<span class="sd">            def objective(trial):</span>
-<span class="sd">                x = trial.suggest_float(&quot;x&quot;, 0, 5)</span>
-<span class="sd">                y = trial.suggest_float(&quot;y&quot;, 0, 3)</span>
-<span class="sd">                v0 = 5 * x ** 2 + 3 * y ** 2</span>
-<span class="sd">                v1 = (x - 10) ** 2 + (y - 10) ** 2</span>
-<span class="sd">                v2 = x + y</span>
-
-<span class="sd">                return v0, v1, v2</span>
-
-<span class="sd">            study = optuna.create_study(directions=[&quot;minimize&quot;, &quot;minimize&quot;, &quot;minimize&quot;])</span>
-
-<span class="sd">            study.optimize(objective, n_trials=100)</span>
-
-<span class="sd">            fig = optuna.visualization.plot_pareto_front(</span>
-<span class="sd">                study,</span>
-<span class="sd">                targets=lambda t: (t.values[0], t.values[1]),</span>
-<span class="sd">                target_names=[&quot;Objective 0&quot;, &quot;Objective 1&quot;],</span>
-<span class="sd">            )</span>
-
-<span class="sd">            fig.show()</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        study:</span>
@@ -255,10 +199,10 @@
 <span class="sd">            non-best, and infeasible. Categories are shown in different colors. Here, whether a</span>
 <span class="sd">            trial is best (on Pareto front) or not is determined ignoring all infeasible trials.</span>
 
-<span class="sd">            .. note::</span>
-<span class="sd">                Added in v3.0.0 as an experimental feature. The interface may change in newer</span>
-<span class="sd">                versions without prior notice.</span>
-<span class="sd">                See https://github.com/optuna/optuna/releases/tag/v3.0.0.</span>
+<span class="sd">            .. warning::</span>
+<span class="sd">                Deprecated in v4.0.0. This feature will be removed in the future. The removal of</span>
+<span class="sd">                this feature is currently scheduled for v6.0.0, but this schedule is subject to</span>
+<span class="sd">                change. See https://github.com/optuna/optuna/releases/tag/v4.0.0.</span>
 <span class="sd">        targets:</span>
 <span class="sd">            A function that returns targets values to display.</span>
 <span class="sd">            The argument to this function is :class:`~optuna.trial.FrozenTrial`.</span>
@@ -284,8 +228,8 @@
 
 <span class="k">def</span> <span class="nf">_get_pareto_front_plot</span><span class="p">(</span><span class="n">info</span><span class="p">:</span> <span class="n">_ParetoFrontInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;go.Figure&quot;</span><span class="p">:</span>
     <span class="n">include_dominated_trials</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">include_dominated_trials</span>
-    <span class="n">has_constraints_func</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">has_constraints_func</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">has_constraints_func</span><span class="p">:</span>
+    <span class="n">has_constraints</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">has_constraints</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">has_constraints</span><span class="p">:</span>
         <span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">_make_scatter_object</span><span class="p">(</span>
                 <span class="n">info</span><span class="o">.</span><span class="n">n_targets</span><span class="p">,</span>
@@ -359,12 +303,16 @@
     <span class="n">targets</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">FrozenTrial</span><span class="p">],</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_ParetoFrontInfo</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">axis_order</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-            <span class="s2">&quot;`axis_order` has been deprecated in v3.0.0. &quot;</span>
-            <span class="s2">&quot;This feature will be removed in v5.0.0. &quot;</span>
-            <span class="s2">&quot;See https://github.com/optuna/optuna/releases/tag/v3.0.0.&quot;</span><span class="p">,</span>
-            <span class="ne">FutureWarning</span><span class="p">,</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">_deprecated</span><span class="o">.</span><span class="n">_DEPRECATION_WARNING_TEMPLATE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;`axis_order`&quot;</span><span class="p">,</span> <span class="n">d_ver</span><span class="o">=</span><span class="s2">&quot;3.0.0&quot;</span><span class="p">,</span> <span class="n">r_ver</span><span class="o">=</span><span class="s2">&quot;5.0.0&quot;</span>
         <span class="p">)</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="ne">FutureWarning</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">constraints_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="n">_deprecated</span><span class="o">.</span><span class="n">_DEPRECATION_WARNING_TEMPLATE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;`constraints_func`&quot;</span><span class="p">,</span> <span class="n">d_ver</span><span class="o">=</span><span class="s2">&quot;4.0.0&quot;</span><span class="p">,</span> <span class="n">r_ver</span><span class="o">=</span><span class="s2">&quot;6.0.0&quot;</span>
+        <span class="p">)</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="ne">FutureWarning</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">targets</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">axis_order</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -372,38 +320,35 @@
             <span class="s2">&quot;Use either `targets` or `axis_order`.&quot;</span>
         <span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">constraints_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-            <span class="s2">&quot;``constraints_func`` argument is an experimental feature.&quot;</span>
-            <span class="s2">&quot; The interface can change in the future.&quot;</span><span class="p">,</span>
-            <span class="n">ExperimentalWarning</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="n">feasible_trials</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">infeasible_trials</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">study</span><span class="o">.</span><span class="n">get_trials</span><span class="p">(</span><span class="n">deepcopy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">states</span><span class="o">=</span><span class="p">(</span><span class="n">TrialState</span><span class="o">.</span><span class="n">COMPLETE</span><span class="p">,)):</span>
+    <span class="n">feasible_trials</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">infeasible_trials</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">has_constraints</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">study</span><span class="o">.</span><span class="n">get_trials</span><span class="p">(</span><span class="n">deepcopy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">states</span><span class="o">=</span><span class="p">(</span><span class="n">TrialState</span><span class="o">.</span><span class="n">COMPLETE</span><span class="p">,)):</span>
+        <span class="k">if</span> <span class="n">constraints_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># NOTE(nabenabe0928): This part is deprecated.</span>
+            <span class="n">has_constraints</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">constraints_func</span><span class="p">(</span><span class="n">trial</span><span class="p">))):</span>
                 <span class="n">feasible_trials</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trial</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">infeasible_trials</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trial</span><span class="p">)</span>
-        <span class="n">best_trials</span> <span class="o">=</span> <span class="n">_get_pareto_front_trials_by_trials</span><span class="p">(</span><span class="n">feasible_trials</span><span class="p">,</span> <span class="n">study</span><span class="o">.</span><span class="n">directions</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">include_dominated_trials</span><span class="p">:</span>
-            <span class="n">non_best_trials</span> <span class="o">=</span> <span class="n">_get_non_pareto_front_trials</span><span class="p">(</span><span class="n">feasible_trials</span><span class="p">,</span> <span class="n">best_trials</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">non_best_trials</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">continue</span>
 
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">best_trials</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Your study does not have any completed and feasible trials.&quot;</span><span class="p">)</span>
+        <span class="n">constraints</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">system_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_CONSTRAINTS_KEY</span><span class="p">)</span>
+        <span class="n">has_constraints</span> <span class="o">|=</span> <span class="n">constraints</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">constraints</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">all</span><span class="p">(</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="mf">0.0</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">constraints</span><span class="p">):</span>
+            <span class="n">feasible_trials</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trial</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">infeasible_trials</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trial</span><span class="p">)</span>
+
+    <span class="n">best_trials</span> <span class="o">=</span> <span class="n">_get_pareto_front_trials_by_trials</span><span class="p">(</span><span class="n">feasible_trials</span><span class="p">,</span> <span class="n">study</span><span class="o">.</span><span class="n">directions</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">include_dominated_trials</span><span class="p">:</span>
+        <span class="n">non_best_trials</span> <span class="o">=</span> <span class="n">_get_non_pareto_front_trials</span><span class="p">(</span><span class="n">feasible_trials</span><span class="p">,</span> <span class="n">best_trials</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">all_trials</span> <span class="o">=</span> <span class="n">study</span><span class="o">.</span><span class="n">get_trials</span><span class="p">(</span><span class="n">deepcopy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">states</span><span class="o">=</span><span class="p">(</span><span class="n">TrialState</span><span class="o">.</span><span class="n">COMPLETE</span><span class="p">,))</span>
-        <span class="n">best_trials</span> <span class="o">=</span> <span class="n">_get_pareto_front_trials_by_trials</span><span class="p">(</span><span class="n">all_trials</span><span class="p">,</span> <span class="n">study</span><span class="o">.</span><span class="n">directions</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">best_trials</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Your study does not have any completed trials.&quot;</span><span class="p">)</span>
+        <span class="n">non_best_trials</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="k">if</span> <span class="n">include_dominated_trials</span><span class="p">:</span>
-            <span class="n">non_best_trials</span> <span class="o">=</span> <span class="n">_get_non_pareto_front_trials</span><span class="p">(</span><span class="n">all_trials</span><span class="p">,</span> <span class="n">best_trials</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">non_best_trials</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">infeasible_trials</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">best_trials</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">what_trial</span> <span class="o">=</span> <span class="s2">&quot;completed&quot;</span> <span class="k">if</span> <span class="n">has_constraints</span> <span class="k">else</span> <span class="s2">&quot;completed and feasible&quot;</span>
+        <span class="n">_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Your study does not have any </span><span class="si">{</span><span class="n">what_trial</span><span class="si">}</span><span class="s2"> trials. &quot;</span><span class="p">)</span>
 
     <span class="n">_targets</span> <span class="o">=</span> <span class="n">targets</span>
     <span class="k">if</span> <span class="n">_targets</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -499,7 +444,7 @@
         <span class="n">infeasible_trials_with_values</span><span class="o">=</span><span class="n">infeasible_trials_with_values</span><span class="p">,</span>
         <span class="n">axis_order</span><span class="o">=</span><span class="n">axis_order</span><span class="p">,</span>
         <span class="n">include_dominated_trials</span><span class="o">=</span><span class="n">include_dominated_trials</span><span class="p">,</span>
-        <span class="n">has_constraints_func</span><span class="o">=</span><span class="n">constraints_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">has_constraints</span><span class="o">=</span><span class="n">has_constraints</span><span class="p">,</span>
     <span class="p">)</span>
 
 

@@ -4,23 +4,22 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.integration — Optuna 3.6.1 documentation</title>
+<title>optuna.integration — Optuna 4.0.0 documentation</title>
 <link href="../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
 <link href="../_static/css/theme.css?v=19f00094" rel="stylesheet" type="text/css"/>
 <link href="../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
-<link href="../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
-<link href="../_static/sg_gallery.css?v=61a4c737" rel="stylesheet" type="text/css"/>
+<link href="../_static/sg_gallery.css?v=d2d258e8" rel="stylesheet" type="text/css"/>
 <link href="../_static/sg_gallery-binder.css?v=f4aeca0c" rel="stylesheet" type="text/css"/>
 <link href="../_static/sg_gallery-dataframe.css?v=2082cf3c" rel="stylesheet" type="text/css"/>
 <link href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" rel="stylesheet" type="text/css"/>
-<link href="../_static/css/custom.css?v=3150ea5e" rel="stylesheet" type="text/css"/>
+<link href="../_static/css/custom.css?v=d0d4e556" rel="stylesheet" type="text/css"/>
 <link href="../_static/favicon.ico" rel="shortcut icon"/>
 <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
 <script src="../_static/jquery.js?v=5d32c60e"></script>
 <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=3b629b1b"></script>
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=6fa1bce2"></script>
 <script src="../_static/doctools.js?v=888ff710"></script>
 <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -48,6 +47,9 @@
 <a class="header_link" href="https://optuna.org/#dashboard">Dashboard</a>
 </li>
 <li>
+<a class="header_link" href="https://optuna.org/#hub">OptunaHub</a>
+</li>
+<li>
 <a class="header_link" href="https://optuna.org/#blog">Blog</a>
 </li>
 <li>
@@ -55,9 +57,6 @@
 </li>
 <li>
 <a class="header_link" href="https://optuna.org/#paper">Paper</a>
-</li>
-<li>
-<a class="header_link" href="https://optuna.org/#community">Community</a>
 </li>
 </ul>
 </div>
@@ -70,7 +69,7 @@
 <img alt="Logo" class="logo" src="../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.6.1
+                4.0.0
               </div>
 <div role="search">
 <form action="../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -134,7 +133,7 @@
 <p class="admonition-title">Note</p>
 <p>Optuna’s integration modules for third-party libraries have started migrating from Optuna itself to a package called
 <cite>optuna-integration</cite>. Please check the <a class="reference external" href="https://github.com/optuna/optuna-integration">repository</a> and
-the <a class="reference external" href="https://optuna-integration.readthedocs.io/en/latest/index.html">documentation</a>.</p>
+the <a class="reference external" href="https://optuna-integration.readthedocs.io/en/stable/index.html">documentation</a>.</p>
 </div>
 <p>For most of the ML frameworks supported by Optuna, the corresponding Optuna integration class serves only to implement a callback object and functions, compliant with the framework’s specific callback API, to be called with each intermediate step in the model training. The functionality implemented in these callbacks across the different ML frameworks includes:</p>
 <ol class="arabic simple">
@@ -159,59 +158,53 @@ the <a class="reference external" href="https://optuna-integration.readthedocs.i
 <tr class="row-odd"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/botorch.py">BoTorch</a></p></td>
 <td><p>botorch, gpytorch, torch</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/catalyst.py">Catalyst</a></p></td>
-<td><p>catalyst</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/catboost.py">CatBoost</a></p></td>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/catboost.py">CatBoost</a></p></td>
 <td><p>catboost</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/chainermn.py">ChainerMN</a></p></td>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/chainermn.py">ChainerMN</a></p></td>
 <td><p>chainermn</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/chainer.py">Chainer</a></p></td>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/chainer.py">Chainer</a></p></td>
 <td><p>chainer</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/cma.py">pycma</a></p></td>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/cma.py">pycma</a></p></td>
 <td><p>cma</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/dask.py">Dask</a></p></td>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/dask.py">Dask</a></p></td>
 <td><p>distributed</p></td>
 </tr>
-<tr class="row-even"><td><p>FastAI (<a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/fastaiv1.py">v1</a>, <a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/fastaiv2.py">v2</a>)</p></td>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/fastaiv2.py">FastAI</a></p></td>
 <td><p>fastai</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/keras.py">Keras</a></p></td>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/keras.py">Keras</a></p></td>
 <td><p>keras</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/lightgbm.py">LightGBMTuner</a></p></td>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/lightgbm.py">LightGBMTuner</a></p></td>
 <td><p>lightgbm, scikit-learn</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/lightgbm.py">LightGBMPruningCallback</a></p></td>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/lightgbm.py">LightGBMPruningCallback</a></p></td>
 <td><p>lightgbm</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/mlflow.py">MLflow</a></p></td>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/mlflow.py">MLflow</a></p></td>
 <td><p>mlflow</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/mxnet.py">MXNet</a></p></td>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/mxnet.py">MXNet</a></p></td>
 <td><p>mxnet</p></td>
 </tr>
-<tr class="row-even"><td><p>PyTorch <a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/pytorch_distributed.py">Distributed</a></p></td>
+<tr class="row-odd"><td><p>PyTorch <a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/pytorch_distributed.py">Distributed</a></p></td>
 <td><p>torch</p></td>
 </tr>
-<tr class="row-odd"><td><p>PyTorch (<a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/pytorch_ignite.py">Ignite</a>)</p></td>
+<tr class="row-even"><td><p>PyTorch (<a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/pytorch_ignite.py">Ignite</a>)</p></td>
 <td><p>pytorch-ignite</p></td>
 </tr>
-<tr class="row-even"><td><p>PyTorch (<a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/pytorch_lightning.py">Lightning</a>)</p></td>
+<tr class="row-odd"><td><p>PyTorch (<a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/pytorch_lightning.py">Lightning</a>)</p></td>
 <td><p>pytorch-lightning</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/shap.py">SHAP</a></p></td>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/shap.py">SHAP</a></p></td>
 <td><p>scikit-learn, shap</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/sklearn.py">Scikit-learn</a></p></td>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/sklearn.py">Scikit-learn</a></p></td>
 <td><p>pandas, scipy, scikit-learn</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/skopt.py">Scikit-optimize</a></p></td>
-<td><p>scikit-optimize</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference external" href="https://github.com/optuna/optuna/blob/master/optuna/integration/skorch.py">SKorch</a></p></td>
 <td><p>skorch</p></td>

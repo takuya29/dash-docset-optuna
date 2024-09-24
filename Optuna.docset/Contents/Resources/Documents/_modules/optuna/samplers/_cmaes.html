@@ -3,16 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.samplers._cmaes &mdash; Optuna 3.6.1 documentation</title>
+  <title>optuna.samplers._cmaes &mdash; Optuna 4.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=61a4c737" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=3150ea5e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=d0d4e556" />
 
   
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
@@ -22,7 +21,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=3b629b1b"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6fa1bce2"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
         <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,6 +48,9 @@
                     <a href="https://optuna.org/#dashboard" class="header_link">Dashboard</a>
                 </li>
                 <li>
+                    <a href="https://optuna.org/#hub" class="header_link">OptunaHub</a>
+                </li>
+                <li>
                     <a href="https://optuna.org/#blog" class="header_link">Blog</a>
                 </li>
                 <li>
@@ -56,9 +58,6 @@
                 </li>
                 <li>
                     <a href="https://optuna.org/#paper" class="header_link">Paper</a>
-                </li>
-                <li>
-                    <a href="https://optuna.org/#community" class="header_link">Community</a>
                 </li>
             </ul>
         </div>
@@ -77,7 +76,7 @@
               <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.6.1
+                4.0.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -121,32 +120,27 @@
   <h1>Source code for optuna.samplers._cmaes</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Sequence</span>
 <span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">pickle</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">cast</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NamedTuple</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">import</span> <span class="nn">optuna</span>
 <span class="kn">from</span> <span class="nn">optuna</span> <span class="kn">import</span> <span class="n">logging</span>
+<span class="kn">from</span> <span class="nn">optuna._experimental</span> <span class="kn">import</span> <span class="n">warn_experimental_argument</span>
 <span class="kn">from</span> <span class="nn">optuna._imports</span> <span class="kn">import</span> <span class="n">_LazyImport</span>
 <span class="kn">from</span> <span class="nn">optuna._transform</span> <span class="kn">import</span> <span class="n">_SearchSpaceTransform</span>
 <span class="kn">from</span> <span class="nn">optuna.distributions</span> <span class="kn">import</span> <span class="n">BaseDistribution</span>
 <span class="kn">from</span> <span class="nn">optuna.distributions</span> <span class="kn">import</span> <span class="n">FloatDistribution</span>
 <span class="kn">from</span> <span class="nn">optuna.distributions</span> <span class="kn">import</span> <span class="n">IntDistribution</span>
-<span class="kn">from</span> <span class="nn">optuna.exceptions</span> <span class="kn">import</span> <span class="n">ExperimentalWarning</span>
 <span class="kn">from</span> <span class="nn">optuna.samplers</span> <span class="kn">import</span> <span class="n">BaseSampler</span>
 <span class="kn">from</span> <span class="nn">optuna.samplers._lazy_random_state</span> <span class="kn">import</span> <span class="n">LazyRandomState</span>
 <span class="kn">from</span> <span class="nn">optuna.search_space</span> <span class="kn">import</span> <span class="n">IntersectionSearchSpace</span>
@@ -181,11 +175,15 @@
 
 
 <div class="viewcode-block" id="CmaEsSampler"><a class="viewcode-back" href="../../../reference/samplers/generated/optuna.samplers.CmaEsSampler.html#optuna.samplers.CmaEsSampler">[docs]</a><span class="k">class</span> <span class="nc">CmaEsSampler</span><span class="p">(</span><span class="n">BaseSampler</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A sampler using `cmaes &lt;https://github.com/CyberAgentAILab/cmaes&gt;`_ as the backend.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A sampler using `cmaes &lt;https://github.com/CyberAgentAILab/cmaes&gt;`__ as the backend.</span>
 
 <span class="sd">    Example:</span>
 
 <span class="sd">        Optimize a simple quadratic function by using :class:`~optuna.samplers.CmaEsSampler`.</span>
+
+<span class="sd">        .. code-block:: console</span>
+
+<span class="sd">           $ pip install cmaes</span>
 
 <span class="sd">        .. testcode::</span>
 
@@ -217,27 +215,27 @@
 <span class="sd">    For further information about CMA-ES algorithm, please refer to the following papers:</span>
 
 <span class="sd">    - `N. Hansen, The CMA Evolution Strategy: A Tutorial. arXiv:1604.00772, 2016.</span>
-<span class="sd">      &lt;https://arxiv.org/abs/1604.00772&gt;`_</span>
+<span class="sd">      &lt;https://arxiv.org/abs/1604.00772&gt;`__</span>
 <span class="sd">    - `A. Auger and N. Hansen. A restart CMA evolution strategy with increasing population</span>
 <span class="sd">      size. In Proceedings of the IEEE Congress on Evolutionary Computation (CEC 2005),</span>
-<span class="sd">      pages 1769–1776. IEEE Press, 2005. &lt;https://doi.org/10.1109/CEC.2005.1554902&gt;`_</span>
+<span class="sd">      pages 1769–1776. IEEE Press, 2005. &lt;https://doi.org/10.1109/CEC.2005.1554902&gt;`__</span>
 <span class="sd">    - `N. Hansen. Benchmarking a BI-Population CMA-ES on the BBOB-2009 Function Testbed.</span>
-<span class="sd">      GECCO Workshop, 2009. &lt;https://doi.org/10.1145/1570256.1570333&gt;`_</span>
+<span class="sd">      GECCO Workshop, 2009. &lt;https://doi.org/10.1145/1570256.1570333&gt;`__</span>
 <span class="sd">    - `Raymond Ros, Nikolaus Hansen. A Simple Modification in CMA-ES Achieving Linear Time and</span>
 <span class="sd">      Space Complexity. 10th International Conference on Parallel Problem Solving From Nature,</span>
-<span class="sd">      Sep 2008, Dortmund, Germany. inria-00287367. &lt;https://doi.org/10.1007/978-3-540-87700-4_30&gt;`_</span>
+<span class="sd">      Sep 2008, Dortmund, Germany. inria-00287367. &lt;https://doi.org/10.1007/978-3-540-87700-4_30&gt;`__</span>
 <span class="sd">    - `Masahiro Nomura, Shuhei Watanabe, Youhei Akimoto, Yoshihiko Ozaki, Masaki Onishi.</span>
 <span class="sd">      Warm Starting CMA-ES for Hyperparameter Optimization, AAAI. 2021.</span>
-<span class="sd">      &lt;https://doi.org/10.1609/aaai.v35i10.17109&gt;`_</span>
+<span class="sd">      &lt;https://doi.org/10.1609/aaai.v35i10.17109&gt;`__</span>
 <span class="sd">    - `R. Hamano, S. Saito, M. Nomura, S. Shirakawa. CMA-ES with Margin: Lower-Bounding Marginal</span>
 <span class="sd">      Probability for Mixed-Integer Black-Box Optimization, GECCO. 2022.</span>
-<span class="sd">      &lt;https://doi.org/10.1145/3512290.3528827&gt;`_</span>
+<span class="sd">      &lt;https://doi.org/10.1145/3512290.3528827&gt;`__</span>
 <span class="sd">    - `M. Nomura, Y. Akimoto, I. Ono. CMA-ES with Learning Rate Adaptation: Can CMA-ES with</span>
 <span class="sd">      Default Population Size Solve Multimodal and Noisy Problems?, GECCO. 2023.</span>
-<span class="sd">      &lt;https://doi.org/10.1145/3583131.3590358&gt;`_</span>
+<span class="sd">      &lt;https://doi.org/10.1145/3583131.3590358&gt;`__</span>
 
 <span class="sd">    .. seealso::</span>
-<span class="sd">        You can also use `optuna_integration.PyCmaSampler &lt;https://optuna-integration.readthedocs.io/en/stable/reference/generated/optuna_integration.PyCmaSampler.html#optuna_integration.PyCmaSampler&gt;`_ which is a sampler using cma</span>
+<span class="sd">        You can also use `optuna_integration.PyCmaSampler &lt;https://optuna-integration.readthedocs.io/en/stable/reference/generated/optuna_integration.PyCmaSampler.html#optuna_integration.PyCmaSampler&gt;`__ which is a sampler using cma</span>
 <span class="sd">        library as the backend.</span>
 
 <span class="sd">    Args:</span>
@@ -318,7 +316,7 @@
 <span class="sd">                :class:`~optuna.pruners.MedianPruner` is used. On the other hand, it is suggested</span>
 <span class="sd">                to set this flag :obj:`True` when the :class:`~optuna.pruners.HyperbandPruner` is</span>
 <span class="sd">                used. Please see `the benchmark result</span>
-<span class="sd">                &lt;https://github.com/optuna/optuna/pull/1229&gt;`_ for the details.</span>
+<span class="sd">                &lt;https://github.com/optuna/optuna/pull/1229&gt;`__ for the details.</span>
 
 <span class="sd">        use_separable_cma:</span>
 <span class="sd">            If this is :obj:`True`, the covariance matrix is constrained to be diagonal.</span>
@@ -370,21 +368,21 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">x0</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">sigma0</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x0</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">sigma0</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">n_startup_trials</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="n">independent_sampler</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BaseSampler</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">independent_sampler</span><span class="p">:</span> <span class="n">BaseSampler</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">warn_independent_sampling</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="n">seed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">*</span><span class="p">,</span>
         <span class="n">consider_pruned_trials</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">restart_strategy</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">popsize</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">restart_strategy</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">popsize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">inc_popsize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
         <span class="n">use_separable_cma</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">with_margin</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">lr_adapt</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">source_trials</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">source_trials</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_x0</span> <span class="o">=</span> <span class="n">x0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_sigma0</span> <span class="o">=</span> <span class="n">sigma0</span>
@@ -403,46 +401,22 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_source_trials</span> <span class="o">=</span> <span class="n">source_trials</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_restart_strategy</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;`restart_strategy` option is an experimental feature.&quot;</span>
-                <span class="s2">&quot; The interface can change in the future.&quot;</span><span class="p">,</span>
-                <span class="n">ExperimentalWarning</span><span class="p">,</span>
-            <span class="p">)</span>
+            <span class="n">warn_experimental_argument</span><span class="p">(</span><span class="s2">&quot;restart_strategy&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_consider_pruned_trials</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;`consider_pruned_trials` option is an experimental feature.&quot;</span>
-                <span class="s2">&quot; The interface can change in the future.&quot;</span><span class="p">,</span>
-                <span class="n">ExperimentalWarning</span><span class="p">,</span>
-            <span class="p">)</span>
+            <span class="n">warn_experimental_argument</span><span class="p">(</span><span class="s2">&quot;consider_pruned_trials&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_use_separable_cma</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;`use_separable_cma` option is an experimental feature.&quot;</span>
-                <span class="s2">&quot; The interface can change in the future.&quot;</span><span class="p">,</span>
-                <span class="n">ExperimentalWarning</span><span class="p">,</span>
-            <span class="p">)</span>
+            <span class="n">warn_experimental_argument</span><span class="p">(</span><span class="s2">&quot;use_separable_cma&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_source_trials</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;`source_trials` option is an experimental feature.&quot;</span>
-                <span class="s2">&quot; The interface can change in the future.&quot;</span><span class="p">,</span>
-                <span class="n">ExperimentalWarning</span><span class="p">,</span>
-            <span class="p">)</span>
+            <span class="n">warn_experimental_argument</span><span class="p">(</span><span class="s2">&quot;source_trials&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_with_margin</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;`with_margin` option is an experimental feature.&quot;</span>
-                <span class="s2">&quot; The interface can change in the future.&quot;</span><span class="p">,</span>
-                <span class="n">ExperimentalWarning</span><span class="p">,</span>
-            <span class="p">)</span>
+            <span class="n">warn_experimental_argument</span><span class="p">(</span><span class="s2">&quot;with_margin&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lr_adapt</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s2">&quot;`lr_adapt` option is an experimental feature.&quot;</span>
-                <span class="s2">&quot; The interface can change in the future.&quot;</span><span class="p">,</span>
-                <span class="n">ExperimentalWarning</span><span class="p">,</span>
-            <span class="p">)</span>
+            <span class="n">warn_experimental_argument</span><span class="p">(</span><span class="s2">&quot;lr_adapt&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">source_trials</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span><span class="n">x0</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">sigma0</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -484,8 +458,8 @@
 
 <div class="viewcode-block" id="CmaEsSampler.infer_relative_search_space"><a class="viewcode-back" href="../../../reference/samplers/generated/optuna.samplers.CmaEsSampler.html#optuna.samplers.CmaEsSampler.infer_relative_search_space">[docs]</a>    <span class="k">def</span> <span class="nf">infer_relative_search_space</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="s2">&quot;optuna.Study&quot;</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="s2">&quot;optuna.trial.FrozenTrial&quot;</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">]:</span>
-        <span class="n">search_space</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">]:</span>
+        <span class="n">search_space</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">distribution</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_search_space</span><span class="o">.</span><span class="n">calculate</span><span class="p">(</span><span class="n">study</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">distribution</span><span class="o">.</span><span class="n">single</span><span class="p">():</span>
                 <span class="c1"># `cma` cannot handle distributions that contain just a single value, so we skip</span>
@@ -504,8 +478,8 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">study</span><span class="p">:</span> <span class="s2">&quot;optuna.Study&quot;</span><span class="p">,</span>
         <span class="n">trial</span><span class="p">:</span> <span class="s2">&quot;optuna.trial.FrozenTrial&quot;</span><span class="p">,</span>
-        <span class="n">search_space</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">],</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="n">search_space</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_raise_error_if_multi_objective</span><span class="p">(</span><span class="n">study</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">search_space</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -582,7 +556,7 @@
         <span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">solution_trials</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">popsize</span><span class="p">:</span>
-            <span class="n">solutions</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">solutions</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">solution_trials</span><span class="p">[:</span><span class="n">popsize</span><span class="p">]:</span>
                 <span class="k">assert</span> <span class="n">t</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;completed trials must have a value&quot;</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">cmaes</span><span class="o">.</span><span class="n">CMAwM</span><span class="p">):</span>
@@ -714,13 +688,13 @@
             <span class="n">attr_prefix</span> <span class="o">+</span> <span class="s2">&quot;large_n_eval&quot;</span><span class="p">,</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_concat_optimizer_attrs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimizer_attrs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">n_restarts</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_concat_optimizer_attrs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimizer_attrs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">n_restarts</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
             <span class="n">optimizer_attrs</span><span class="p">[</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">:</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_attr_keys</span><span class="o">.</span><span class="n">optimizer</span><span class="p">(</span><span class="n">n_restarts</span><span class="p">),</span> <span class="n">i</span><span class="p">)]</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">optimizer_attrs</span><span class="p">))</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_split_optimizer_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimizer_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">n_restarts</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">_split_optimizer_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">optimizer_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">n_restarts</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
         <span class="n">optimizer_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">optimizer_str</span><span class="p">)</span>
         <span class="n">attrs</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">optimizer_len</span> <span class="o">/</span> <span class="n">_SYSTEM_ATTR_MAX_LENGTH</span><span class="p">)):</span>
@@ -733,9 +707,9 @@
 
     <span class="k">def</span> <span class="nf">_restore_optimizer</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">completed_trials</span><span class="p">:</span> <span class="s2">&quot;List[optuna.trial.FrozenTrial]&quot;</span><span class="p">,</span>
+        <span class="n">completed_trials</span><span class="p">:</span> <span class="s2">&quot;list[optuna.trial.FrozenTrial]&quot;</span><span class="p">,</span>
         <span class="n">n_restarts</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;CmaClass&quot;</span><span class="p">]:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CmaClass&quot;</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># Restore a previous CMA object.</span>
         <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">completed_trials</span><span class="p">):</span>
             <span class="n">optimizer_attrs</span> <span class="o">=</span> <span class="p">{</span>
@@ -754,7 +728,7 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">trans</span><span class="p">:</span> <span class="n">_SearchSpaceTransform</span><span class="p">,</span>
         <span class="n">direction</span><span class="p">:</span> <span class="n">StudyDirection</span><span class="p">,</span>
-        <span class="n">population_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">population_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">randomize_start_point</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CmaClass&quot;</span><span class="p">:</span>
         <span class="n">lower_bounds</span> <span class="o">=</span> <span class="n">trans</span><span class="o">.</span><span class="n">bounds</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
@@ -875,7 +849,7 @@
             <span class="p">)</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_get_trials</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="s2">&quot;optuna.Study&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">_get_trials</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="s2">&quot;optuna.Study&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]:</span>
         <span class="n">complete_trials</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">study</span><span class="o">.</span><span class="n">_get_trials</span><span class="p">(</span><span class="n">deepcopy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">use_cache</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">COMPLETE</span><span class="p">:</span>
@@ -895,8 +869,8 @@
         <span class="k">return</span> <span class="n">complete_trials</span>
 
     <span class="k">def</span> <span class="nf">_get_solution_trials</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">trials</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">],</span> <span class="n">generation</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n_restarts</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]:</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">trials</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">],</span> <span class="n">generation</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n_restarts</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]:</span>
         <span class="n">generation_attr_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attr_keys</span><span class="o">.</span><span class="n">generation</span><span class="p">(</span><span class="n">n_restarts</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">trials</span> <span class="k">if</span> <span class="n">generation</span> <span class="o">==</span> <span class="n">t</span><span class="o">.</span><span class="n">system_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">generation_attr_key</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)]</span>
 
@@ -908,13 +882,13 @@
         <span class="n">study</span><span class="p">:</span> <span class="s2">&quot;optuna.Study&quot;</span><span class="p">,</span>
         <span class="n">trial</span><span class="p">:</span> <span class="s2">&quot;optuna.trial.FrozenTrial&quot;</span><span class="p">,</span>
         <span class="n">state</span><span class="p">:</span> <span class="n">TrialState</span><span class="p">,</span>
-        <span class="n">values</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+        <span class="n">values</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_independent_sampler</span><span class="o">.</span><span class="n">after_trial</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="n">trial</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span></div></div>
 
 
 <span class="k">def</span> <span class="nf">_is_compatible_search_space</span><span class="p">(</span>
-    <span class="n">trans</span><span class="p">:</span> <span class="n">_SearchSpaceTransform</span><span class="p">,</span> <span class="n">search_space</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">]</span>
+    <span class="n">trans</span><span class="p">:</span> <span class="n">_SearchSpaceTransform</span><span class="p">,</span> <span class="n">search_space</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="n">intersection_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">trans</span><span class="o">.</span><span class="n">_search_space</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">search_space</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
     <span class="k">return</span> <span class="n">intersection_size</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">trans</span><span class="o">.</span><span class="n">_search_space</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">search_space</span><span class="p">)</span>

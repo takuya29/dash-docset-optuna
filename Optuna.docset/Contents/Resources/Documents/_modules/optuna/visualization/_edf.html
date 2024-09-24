@@ -3,16 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.visualization._edf &mdash; Optuna 3.6.1 documentation</title>
+  <title>optuna.visualization._edf &mdash; Optuna 4.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/plot_directive.css" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=61a4c737" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=3150ea5e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=d0d4e556" />
 
   
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
@@ -22,7 +21,7 @@
   
         <script src="../../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=3b629b1b"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6fa1bce2"></script>
         <script src="../../../_static/doctools.js?v=888ff710"></script>
         <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
         <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -49,6 +48,9 @@
                     <a href="https://optuna.org/#dashboard" class="header_link">Dashboard</a>
                 </li>
                 <li>
+                    <a href="https://optuna.org/#hub" class="header_link">OptunaHub</a>
+                </li>
+                <li>
                     <a href="https://optuna.org/#blog" class="header_link">Blog</a>
                 </li>
                 <li>
@@ -56,9 +58,6 @@
                 </li>
                 <li>
                     <a href="https://optuna.org/#paper" class="header_link">Paper</a>
-                </li>
-                <li>
-                    <a href="https://optuna.org/#community" class="header_link">Community</a>
                 </li>
             </ul>
         </div>
@@ -77,7 +76,7 @@
               <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                3.6.1
+                4.0.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -171,52 +170,12 @@
 <span class="sd">        EDF is useful to analyze and improve search spaces.</span>
 <span class="sd">        For instance, you can see a practical use case of EDF in the paper</span>
 <span class="sd">        `Designing Network Design Spaces</span>
-<span class="sd">        &lt;https://doi.ieeecomputersociety.org/10.1109/CVPR42600.2020.01044&gt;`_.</span>
+<span class="sd">        &lt;https://doi.ieeecomputersociety.org/10.1109/CVPR42600.2020.01044&gt;`__.</span>
 
 <span class="sd">    .. note::</span>
 
 <span class="sd">        The plotted EDF assumes that the value of the objective function is in</span>
 <span class="sd">        accordance with the uniform distribution over the objective space.</span>
-
-<span class="sd">    Example:</span>
-
-<span class="sd">        The following code snippet shows how to plot EDF.</span>
-
-<span class="sd">        .. plotly::</span>
-
-<span class="sd">            import math</span>
-
-<span class="sd">            import optuna</span>
-
-
-<span class="sd">            def ackley(x, y):</span>
-<span class="sd">                a = 20 * math.exp(-0.2 * math.sqrt(0.5 * (x ** 2 + y ** 2)))</span>
-<span class="sd">                b = math.exp(0.5 * (math.cos(2 * math.pi * x) + math.cos(2 * math.pi * y)))</span>
-<span class="sd">                return -a - b + math.e + 20</span>
-
-
-<span class="sd">            def objective(trial, low, high):</span>
-<span class="sd">                x = trial.suggest_float(&quot;x&quot;, low, high)</span>
-<span class="sd">                y = trial.suggest_float(&quot;y&quot;, low, high)</span>
-<span class="sd">                return ackley(x, y)</span>
-
-
-<span class="sd">            sampler = optuna.samplers.RandomSampler(seed=10)</span>
-
-<span class="sd">            # Widest search space.</span>
-<span class="sd">            study0 = optuna.create_study(study_name=&quot;x=[0,5), y=[0,5)&quot;, sampler=sampler)</span>
-<span class="sd">            study0.optimize(lambda t: objective(t, 0, 5), n_trials=500)</span>
-
-<span class="sd">            # Narrower search space.</span>
-<span class="sd">            study1 = optuna.create_study(study_name=&quot;x=[0,4), y=[0,4)&quot;, sampler=sampler)</span>
-<span class="sd">            study1.optimize(lambda t: objective(t, 0, 4), n_trials=500)</span>
-
-<span class="sd">            # Narrowest search space but it doesn&#39;t include the global optimum point.</span>
-<span class="sd">            study2 = optuna.create_study(study_name=&quot;x=[1,3), y=[1,3)&quot;, sampler=sampler)</span>
-<span class="sd">            study2.optimize(lambda t: objective(t, 1, 3), n_trials=500)</span>
-
-<span class="sd">            fig = optuna.visualization.plot_edf([study0, study1, study2])</span>
-<span class="sd">            fig.show()</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        study:</span>

@@ -4,23 +4,22 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.samplers.nsgaii — Optuna 3.6.1 documentation</title>
+<title>optuna.samplers.nsgaii — Optuna 4.0.0 documentation</title>
 <link href="../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css?v=19f00094" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
-<link href="../../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/sg_gallery.css?v=61a4c737" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery.css?v=d2d258e8" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-binder.css?v=f4aeca0c" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" rel="stylesheet" type="text/css"/>
-<link href="../../_static/css/custom.css?v=3150ea5e" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/custom.css?v=d0d4e556" rel="stylesheet" type="text/css"/>
 <link href="../../_static/favicon.ico" rel="shortcut icon"/>
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
 <script src="../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=3b629b1b"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=6fa1bce2"></script>
 <script src="../../_static/doctools.js?v=888ff710"></script>
 <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -29,7 +28,7 @@
 <link href="../../genindex.html" rel="index" title="Index"/>
 <link href="../../search.html" rel="search" title="Search"/>
 <link href="generated/optuna.samplers.nsgaii.BaseCrossover.html" rel="next" title="optuna.samplers.nsgaii.BaseCrossover"/>
-<link href="generated/optuna.samplers.intersection_search_space.html" rel="prev" title="optuna.samplers.intersection_search_space"/>
+<link href="generated/optuna.samplers.BruteForceSampler.html" rel="prev" title="optuna.samplers.BruteForceSampler"/>
 </head>
 <body class="wy-body-for-nav">
 <div class="navbar">
@@ -48,6 +47,9 @@
 <a class="header_link" href="https://optuna.org/#dashboard">Dashboard</a>
 </li>
 <li>
+<a class="header_link" href="https://optuna.org/#hub">OptunaHub</a>
+</li>
+<li>
 <a class="header_link" href="https://optuna.org/#blog">Blog</a>
 </li>
 <li>
@@ -55,9 +57,6 @@
 </li>
 <li>
 <a class="header_link" href="https://optuna.org/#paper">Paper</a>
-</li>
-<li>
-<a class="header_link" href="https://optuna.org/#community">Community</a>
 </li>
 </ul>
 </div>
@@ -70,7 +69,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.6.1
+                4.0.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -106,8 +105,6 @@
 <li class="toctree-l3"><a class="reference internal" href="generated/optuna.samplers.NSGAIIISampler.html">optuna.samplers.NSGAIIISampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/optuna.samplers.QMCSampler.html">optuna.samplers.QMCSampler</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/optuna.samplers.BruteForceSampler.html">optuna.samplers.BruteForceSampler</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/optuna.samplers.IntersectionSearchSpace.html">optuna.samplers.IntersectionSearchSpace</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/optuna.samplers.intersection_search_space.html">optuna.samplers.intersection_search_space</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">optuna.samplers.nsgaii</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="generated/optuna.samplers.nsgaii.BaseCrossover.html">optuna.samplers.nsgaii.BaseCrossover</a></li>
 <li class="toctree-l4"><a class="reference internal" href="generated/optuna.samplers.nsgaii.UniformCrossover.html">optuna.samplers.nsgaii.UniformCrossover</a></li>
@@ -182,7 +179,7 @@
 </div>
 </div>
 <footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
-<a accesskey="p" class="btn btn-neutral float-left" href="generated/optuna.samplers.intersection_search_space.html" rel="prev" title="optuna.samplers.intersection_search_space"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="p" class="btn btn-neutral float-left" href="generated/optuna.samplers.BruteForceSampler.html" rel="prev" title="optuna.samplers.BruteForceSampler"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
 <a accesskey="n" class="btn btn-neutral float-right" href="generated/optuna.samplers.nsgaii.BaseCrossover.html" rel="next" title="optuna.samplers.nsgaii.BaseCrossover">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
 </div>
 <hr/>

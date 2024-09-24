@@ -11,7 +11,7 @@
         :class: sphx-glr-download-link-note
 
         :ref:`Go to the end <sphx_glr_download_tutorial_20_recipes_005_user_defined_sampler.py>`
-        to download the full example code
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -27,7 +27,7 @@ Thanks to user-defined samplers, you can:
 
 - experiment your own sampling algorithms,
 - implement task-specific algorithms to refine the optimization performance, or
-- wrap other optimization libraries to integrate them into Optuna pipelines (e.g., `BoTorchSampler <https://optuna-integration.readthedocs.io/en/stable/reference/generated/optuna_integration.BoTorchSampler.html>`_).
+- wrap other optimization libraries to integrate them into Optuna pipelines (e.g., `BoTorchSampler <https://optuna-integration.readthedocs.io/en/stable/reference/generated/optuna_integration.BoTorchSampler.html>`__).
 
 This section describes the internal behavior of sampler classes and shows an example of implementing a user-defined sampler.
 
@@ -56,7 +56,7 @@ An Example: Implementing SimulatedAnnealingSampler
 --------------------------------------------------
 
 For example, the following code defines a sampler based on
-`Simulated Annealing (SA) <https://en.wikipedia.org/wiki/Simulated_annealing>`_:
+`Simulated Annealing (SA) <https://en.wikipedia.org/wiki/Simulated_annealing>`__:
 
 .. GENERATED FROM PYTHON SOURCE LINES 42-105
 
@@ -138,7 +138,7 @@ For example, the following code defines a sampler based on
    In favor of code simplicity, the above implementation doesn't support some features (e.g., maximization).
    If you're interested in how to support those features, please see
    `examples/samplers/simulated_annealing.py
-   <https://github.com/optuna/optuna-examples/blob/main/samplers/simulated_annealing_sampler.py>`_.
+   <https://github.com/optuna/optuna-examples/blob/main/samplers/simulated_annealing_sampler.py>`__.
 
 
 You can use ``SimulatedAnnealingSampler`` in the same way as built-in samplers as follows:
@@ -172,8 +172,8 @@ You can use ``SimulatedAnnealingSampler`` in the same way as built-in samplers a
 
  .. code-block:: none
 
-    Best value:  -1.7610706715404019
-    Parameters that achieve the best value:  {'x': 0.5627780674800009, 'y': -2.0777898247769264}
+    Best value:  -4.0608496902089035
+    Parameters that achieve the best value:  {'x': 0.06547021481780524, 'y': -4.065136039237193}
 
 
 
@@ -209,6 +209,10 @@ In this optimization, the values of ``x`` and ``y`` parameters are sampled by us
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: 005_user_defined_sampler.py <005_user_defined_sampler.py>`
+
+    .. container:: sphx-glr-download sphx-glr-download-zip
+
+      :download:`Download zipped: 005_user_defined_sampler.zip <005_user_defined_sampler.zip>`
 
 
 .. only:: html

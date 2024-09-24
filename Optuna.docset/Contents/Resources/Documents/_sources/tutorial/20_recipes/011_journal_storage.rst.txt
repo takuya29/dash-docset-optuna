@@ -11,7 +11,7 @@
         :class: sphx-glr-download-link-note
 
         :ref:`Go to the end <sphx_glr_download_tutorial_20_recipes_011_journal_storage.py>`
-        to download the full example code
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -27,7 +27,7 @@ Optuna provides :class:`~optuna.storages.JournalStorage`. With this feature, you
 distributed optimization over network using NFS as the shared storage, without need for setting up
 RDB or Redis.
 
-.. GENERATED FROM PYTHON SOURCE LINES 12-36
+.. GENERATED FROM PYTHON SOURCE LINES 12-37
 
 .. code-block:: Python
 
@@ -41,8 +41,9 @@ RDB or Redis.
     # Add stream handler of stdout to show the messages
     optuna.logging.get_logger("optuna").addHandler(logging.StreamHandler(sys.stdout))
     study_name = "example-study"  # Unique identifier of the study.
+    file_path = "./optuna_journal_storage.log"
     storage = optuna.storages.JournalStorage(
-        optuna.storages.JournalFileStorage("./journal.log"),  # NFS path for distributed optimization
+        optuna.storages.journal.JournalFileBackend(file_path),  # NFS path for distributed optimization
     )
 
     study = optuna.create_study(study_name=study_name, storage=storage)
@@ -63,30 +64,26 @@ RDB or Redis.
 
  .. code-block:: none
 
-    /home/runner/work/dash-docset-optuna/dash-docset-optuna/optuna/tutorial/20_recipes/011_journal_storage.py:22: ExperimentalWarning:
-
-    JournalStorage is experimental (supported from v3.1.0). The interface can change in the future.
-
     A new study created in Journal with name: example-study
-    Trial 0 finished with value: 19.5221782263349 and parameters: {'x': 6.418390909181181}. Best is trial 0 with value: 19.5221782263349.
-    Trial 1 finished with value: 9.466858983358504 and parameters: {'x': 5.076826121729745}. Best is trial 1 with value: 9.466858983358504.
-    Trial 2 finished with value: 0.03929607916194411 and parameters: {'x': 2.1982323867634754}. Best is trial 2 with value: 0.03929607916194411.
+    Trial 0 finished with value: 0.01741512984991897 and parameters: {'x': 1.8680336033305487}. Best is trial 0 with value: 0.01741512984991897.
+    Trial 1 finished with value: 84.78441818572622 and parameters: {'x': -7.207845469257519}. Best is trial 0 with value: 0.01741512984991897.
+    Trial 2 finished with value: 31.637097454471338 and parameters: {'x': -3.6246864316574428}. Best is trial 0 with value: 0.01741512984991897.
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 37-40
+.. GENERATED FROM PYTHON SOURCE LINES 38-41
 
 Although the optimization in this example is too short to run in parallel, you can extend this
 example to write a optimization script which can be run in parallel.
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-47
+.. GENERATED FROM PYTHON SOURCE LINES 43-48
 
 .. note::
     In a Windows environment, an error message "A required privilege is not held by the client"
     may appear. In this case, you can solve the problem with creating storage by specifying
-    :class:`~optuna.storages.JournalFileOpenLock`. See the reference of
+    :class:`~optuna.storages.journal.JournalFileOpenLock`. See the reference of
     :class:`~optuna.storages.JournalStorage` for any details.
 
 
@@ -108,6 +105,10 @@ example to write a optimization script which can be run in parallel.
     .. container:: sphx-glr-download sphx-glr-download-python
 
       :download:`Download Python source code: 011_journal_storage.py <011_journal_storage.py>`
+
+    .. container:: sphx-glr-download sphx-glr-download-zip
+
+      :download:`Download zipped: 011_journal_storage.zip <011_journal_storage.zip>`
 
 
 .. only:: html

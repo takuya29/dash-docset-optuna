@@ -4,23 +4,22 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Callback for Study.optimize — Optuna 3.6.1 documentation</title>
+<title>Callback for Study.optimize — Optuna 4.0.0 documentation</title>
 <link href="../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css?v=19f00094" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
-<link href="../../_static/plot_directive.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/sg_gallery.css?v=61a4c737" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sg_gallery.css?v=d2d258e8" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-binder.css?v=f4aeca0c" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" rel="stylesheet" type="text/css"/>
-<link href="../../_static/css/custom.css?v=3150ea5e" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/custom.css?v=d0d4e556" rel="stylesheet" type="text/css"/>
 <link href="../../_static/favicon.ico" rel="shortcut icon"/>
 <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
 <script src="../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=3b629b1b"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=6fa1bce2"></script>
 <script src="../../_static/doctools.js?v=888ff710"></script>
 <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -46,6 +45,9 @@
 <a class="header_link" href="https://optuna.org/#dashboard">Dashboard</a>
 </li>
 <li>
+<a class="header_link" href="https://optuna.org/#hub">OptunaHub</a>
+</li>
+<li>
 <a class="header_link" href="https://optuna.org/#blog">Blog</a>
 </li>
 <li>
@@ -53,9 +55,6 @@
 </li>
 <li>
 <a class="header_link" href="https://optuna.org/#paper">Paper</a>
-</li>
-<li>
-<a class="header_link" href="https://optuna.org/#community">Community</a>
 </li>
 </ul>
 </div>
@@ -68,7 +67,7 @@
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
 <div class="version">
-                3.6.1
+                4.0.0
               </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
@@ -106,7 +105,7 @@
 <div class="sphx-glr-download-link-note admonition note">
 <p class="admonition-title">Note</p>
 <p><a class="reference internal" href="#sphx-glr-download-tutorial-20-recipes-007-optuna-callback-py"><span class="std std-ref">Go to the end</span></a>
-to download the full example code</p>
+to download the full example code.</p>
 </div>
 <section class="sphx-glr-example-title" id="callback-for-study-optimize">
 <a class="dashAnchor" name="//apple_ref/cpp/Section/Callback for Study.optimize"></a><span id="optuna-callback"></span><a class="dashAnchor" name="//apple_ref/cpp/Section/Callback for Study.optimize"></a><span id="sphx-glr-tutorial-20-recipes-007-optuna-callback-py"></span><h1>Callback for Study.optimize<a class="headerlink" href="#callback-for-study-optimize" title="Permalink to this heading"></a></h1>
@@ -158,12 +157,12 @@ So, we expect this study to stop after 7 trials.</p>
 <span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">study_stop_cb</span><span class="p">])</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>A new study created in memory with name: no-name-8ad02dda-384c-4ee7-b4b8-17e9a8ff2bfc
-Trial 0 finished with value: 0.15877960453934303 and parameters: {'x': 0.15877960453934303}. Best is trial 0 with value: 0.15877960453934303.
-Trial 1 finished with value: 0.04218008674824669 and parameters: {'x': 0.04218008674824669}. Best is trial 1 with value: 0.04218008674824669.
-Trial 2 finished with value: 0.5786703486028981 and parameters: {'x': 0.5786703486028981}. Best is trial 1 with value: 0.04218008674824669.
-Trial 3 finished with value: 0.6250928777596263 and parameters: {'x': 0.6250928777596263}. Best is trial 1 with value: 0.04218008674824669.
-Trial 4 finished with value: 0.004487774501280795 and parameters: {'x': 0.004487774501280795}. Best is trial 4 with value: 0.004487774501280795.
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>A new study created in memory with name: no-name-e7d9b1db-5de2-4cac-b3b5-53e347d5a1e9
+Trial 0 finished with value: 0.009102958197871103 and parameters: {'x': 0.009102958197871103}. Best is trial 0 with value: 0.009102958197871103.
+Trial 1 finished with value: 0.7296403311967617 and parameters: {'x': 0.7296403311967617}. Best is trial 0 with value: 0.009102958197871103.
+Trial 2 finished with value: 0.22005918564514426 and parameters: {'x': 0.22005918564514426}. Best is trial 0 with value: 0.009102958197871103.
+Trial 3 finished with value: 0.09838097267482948 and parameters: {'x': 0.09838097267482948}. Best is trial 0 with value: 0.009102958197871103.
+Trial 4 finished with value: 0.8702295317427343 and parameters: {'x': 0.8702295317427343}. Best is trial 0 with value: 0.009102958197871103.
 Trial 5 pruned.
 Trial 6 pruned.
 </pre></div>
@@ -176,6 +175,9 @@ Trial 6 pruned.
 </div>
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/69c9a8896808997c60d5d1879065fad2/007_optuna_callback.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">007_optuna_callback.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/a4b5b50f3625a46e93ec9d6547bb65f1/007_optuna_callback.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">007_optuna_callback.zip</span></code></a></p>
 </div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
