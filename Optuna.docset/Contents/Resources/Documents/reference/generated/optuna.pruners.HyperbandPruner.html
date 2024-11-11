@@ -1,12 +1,13 @@
+
 <!DOCTYPE html>
 
 <html class="writer-html5" lang="en">
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.pruners.HyperbandPruner — Optuna 4.0.0 documentation</title>
+<title>optuna.pruners.HyperbandPruner — Optuna 4.1.0 documentation</title>
 <link href="../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
-<link href="../../_static/css/theme.css?v=19f00094" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/theme.css?v=e59714d7" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery.css?v=d2d258e8" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-binder.css?v=f4aeca0c" rel="stylesheet" type="text/css"/>
@@ -14,12 +15,9 @@
 <link href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/custom.css?v=d0d4e556" rel="stylesheet" type="text/css"/>
 <link href="../../_static/favicon.ico" rel="shortcut icon"/>
-<!--[if lt IE 9]>
-    <script src="../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
 <script src="../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=6fa1bce2"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=0b6e6ca6"></script>
 <script src="../../_static/doctools.js?v=888ff710"></script>
 <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -69,9 +67,6 @@
 <a href="../../index.html">
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
-<div class="version">
-                4.0.0
-              </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
 <input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
@@ -231,11 +226,11 @@ Please set <code class="docutils literal notranslate"><span class="pre">reductio
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>min_resource</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – A parameter for specifying the minimum resource allocated to a trial noted as <span class="math notranslate nohighlight">\(r\)</span>
+<li><p><strong>min_resource</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – A parameter for specifying the minimum resource allocated to a trial noted as <span class="math notranslate nohighlight">\(r\)</span>
 in the paper. A smaller <span class="math notranslate nohighlight">\(r\)</span> will give a result faster, but a larger
 <span class="math notranslate nohighlight">\(r\)</span> will give a better guarantee of successful judging between configurations.
 See the details for <a class="reference internal" href="optuna.pruners.SuccessiveHalvingPruner.html#optuna.pruners.SuccessiveHalvingPruner" title="optuna.pruners.SuccessiveHalvingPruner"><code class="xref py py-class docutils literal notranslate"><span class="pre">SuccessiveHalvingPruner</span></code></a>.</p></li>
-<li><p><strong>max_resource</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – <p>A parameter for specifying the maximum resource allocated to a trial. <span class="math notranslate nohighlight">\(R\)</span> in the
+<li><p><strong>max_resource</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – <p>A parameter for specifying the maximum resource allocated to a trial. <span class="math notranslate nohighlight">\(R\)</span> in the
 paper corresponds to <code class="docutils literal notranslate"><span class="pre">max_resource</span> <span class="pre">/</span> <span class="pre">min_resource</span></code>. This value represents and should
 match the maximum iteration steps (e.g., the number of epochs for neural networks).
 When this argument is “auto”, the maximum resource is estimated according to the
@@ -253,10 +248,10 @@ determined.</p>
 manually specify the maximum possible step to <code class="docutils literal notranslate"><span class="pre">max_resource</span></code>.</p>
 </div>
 </p></li>
-<li><p><strong>reduction_factor</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – A parameter for specifying reduction factor of promotable trials noted as
+<li><p><strong>reduction_factor</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – A parameter for specifying reduction factor of promotable trials noted as
 <span class="math notranslate nohighlight">\(\eta\)</span> in the paper.
 See the details for <a class="reference internal" href="optuna.pruners.SuccessiveHalvingPruner.html#optuna.pruners.SuccessiveHalvingPruner" title="optuna.pruners.SuccessiveHalvingPruner"><code class="xref py py-class docutils literal notranslate"><span class="pre">SuccessiveHalvingPruner</span></code></a>.</p></li>
-<li><p><strong>bootstrap_count</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – Parameter specifying the number of trials required in a rung before any trial can be
+<li><p><strong>bootstrap_count</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Parameter specifying the number of trials required in a rung before any trial can be
 promoted. Incompatible with <code class="docutils literal notranslate"><span class="pre">max_resource</span></code> is <code class="docutils literal notranslate"><span class="pre">"auto"</span></code>.
 See the details for <a class="reference internal" href="optuna.pruners.SuccessiveHalvingPruner.html#optuna.pruners.SuccessiveHalvingPruner" title="optuna.pruners.SuccessiveHalvingPruner"><code class="xref py py-class docutils literal notranslate"><span class="pre">SuccessiveHalvingPruner</span></code></a>.</p></li>
 </ul>
@@ -289,7 +284,7 @@ Take a copy before modifying this object.</p></li>
 <dd class="field-even"><p>A boolean value representing whether the trial should be pruned.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)">bool</a></p>
 </dd>
 </dl>
 </dd></dl>

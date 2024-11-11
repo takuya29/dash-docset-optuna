@@ -1,12 +1,13 @@
+
 <!DOCTYPE html>
 
 <html class="writer-html5" lang="en">
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>plot_param_importances — Optuna 4.0.0 documentation</title>
+<title>plot_param_importances — Optuna 4.1.0 documentation</title>
 <link href="../../../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
-<link href="../../../../_static/css/theme.css?v=19f00094" rel="stylesheet" type="text/css"/>
+<link href="../../../../_static/css/theme.css?v=e59714d7" rel="stylesheet" type="text/css"/>
 <link href="../../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
 <link href="../../../../_static/sg_gallery.css?v=d2d258e8" rel="stylesheet" type="text/css"/>
 <link href="../../../../_static/sg_gallery-binder.css?v=f4aeca0c" rel="stylesheet" type="text/css"/>
@@ -14,12 +15,9 @@
 <link href="../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" rel="stylesheet" type="text/css"/>
 <link href="../../../../_static/css/custom.css?v=d0d4e556" rel="stylesheet" type="text/css"/>
 <link href="../../../../_static/favicon.ico" rel="shortcut icon"/>
-<!--[if lt IE 9]>
-    <script src="../../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
 <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=6fa1bce2"></script>
+<script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=0b6e6ca6"></script>
 <script src="../../../../_static/doctools.js?v=888ff710"></script>
 <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -68,9 +66,6 @@
 <a href="../../../../index.html">
 <img alt="Logo" class="logo" src="../../../../_static/optuna-logo.png"/>
 </a>
-<div class="version">
-                4.0.0
-              </div>
 <div role="search">
 <form action="../../../../search.html" class="wy-form" id="rtd-search-form" method="get">
 <input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
@@ -177,13 +172,13 @@ to download the full example code.</p>
 assessment on.
 Defaults to
 <a class="reference internal" href="../../../generated/optuna.importance.FanovaImportanceEvaluator.html#optuna.importance.FanovaImportanceEvaluator" title="optuna.importance.FanovaImportanceEvaluator"><code class="xref py py-class docutils literal notranslate"><span class="pre">FanovaImportanceEvaluator</span></code></a>.</p></li>
-<li><p><strong>params</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>] </em><em>| </em><em>None</em>) – A list of names of parameters to assess.
-If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, all parameters that are present in all of the completed trials are
+<li><p><strong>params</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>] </em><em>| </em><em>None</em>) – A list of names of parameters to assess.
+If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, all parameters that are present in all of the completed trials are
 assessed.</p></li>
-<li><p><strong>target</strong> (<em>Callable</em><em>[</em><em>[</em><a class="reference internal" href="../../../generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><em>FrozenTrial</em></a><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a><em>] </em><em>| </em><em>None</em>) – <p>A function to specify the value to display. If it is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> and <code class="docutils literal notranslate"><span class="pre">study</span></code> is being
+<li><p><strong>target</strong> (<em>Callable</em><em>[</em><em>[</em><a class="reference internal" href="../../../generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><em>FrozenTrial</em></a><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>] </em><em>| </em><em>None</em>) – <p>A function to specify the value to display. If it is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> and <code class="docutils literal notranslate"><span class="pre">study</span></code> is being
 used for single-objective optimization, the objective values are plotted.
 For multi-objective optimization, all objectives will be plotted if <code class="docutils literal notranslate"><span class="pre">target</span></code>
-is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</p>
+is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This argument can be used to specify which objective to plot if <code class="docutils literal notranslate"><span class="pre">study</span></code> is being
@@ -192,8 +187,8 @@ importance of the first objective, use <code class="docutils literal notranslate
 target parameter.</p>
 </div>
 </p></li>
-<li><p><strong>target_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – Target’s name to display on the axis label. Names set via
-<a class="reference internal" href="../../../generated/optuna.study.Study.html#optuna.study.Study.set_metric_names" title="optuna.study.Study.set_metric_names"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_metric_names()</span></code></a> will be used if <code class="docutils literal notranslate"><span class="pre">target</span></code> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>,
+<li><p><strong>target_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Target’s name to display on the axis label. Names set via
+<a class="reference internal" href="../../../generated/optuna.study.Study.html#optuna.study.Study.set_metric_names" title="optuna.study.Study.set_metric_names"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_metric_names()</span></code></a> will be used if <code class="docutils literal notranslate"><span class="pre">target</span></code> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>,
 overriding this argument.</p></li>
 </ul>
 </dd>
@@ -239,7 +234,7 @@ plot_param_importances is experimental (supported from v2.2.0). The interface ca
 <span class="n">optuna</span><span class="o">.</span><span class="n">visualization</span><span class="o">.</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">plot_param_importances</span><span class="p">(</span><span class="n">study</span><span class="p">)</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 1.322 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 1.353 seconds)</p>
 <a class="dashAnchor" name="//apple_ref/cpp/Section/sphx_glr_download_reference_visualization_matplotlib_generated_optuna.visualization.matplotlib.param_importances.py"></a><div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-reference-visualization-matplotlib-generated-optuna-visualization-matplotlib-param-importances-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../../../_downloads/beb9d5b6c47d98ec14ff995c87624810/optuna.visualization.matplotlib.param_importances.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">optuna.visualization.matplotlib.param_importances.ipynb</span></code></a></p>

@@ -1,12 +1,13 @@
+
 <!DOCTYPE html>
 
 <html class="writer-html5" lang="en">
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.importance.get_param_importances — Optuna 4.0.0 documentation</title>
+<title>optuna.importance.get_param_importances — Optuna 4.1.0 documentation</title>
 <link href="../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
-<link href="../../_static/css/theme.css?v=19f00094" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/theme.css?v=e59714d7" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery.css?v=d2d258e8" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-binder.css?v=f4aeca0c" rel="stylesheet" type="text/css"/>
@@ -14,12 +15,9 @@
 <link href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/custom.css?v=d0d4e556" rel="stylesheet" type="text/css"/>
 <link href="../../_static/favicon.ico" rel="shortcut icon"/>
-<!--[if lt IE 9]>
-    <script src="../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
 <script src="../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=6fa1bce2"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=0b6e6ca6"></script>
 <script src="../../_static/doctools.js?v=888ff710"></script>
 <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -68,9 +66,6 @@
 <a href="../../index.html">
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
-<div class="version">
-                4.0.0
-              </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
 <input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
@@ -145,10 +140,10 @@ The importances are represented by non-negative floating point numbers, where hi
 mean that the parameters are more important.
 The returned dictionary is ordered by its values in a descending order.
 By default, the sum of the importance values are normalized to 1.0.</p>
-<p>If <code class="docutils literal notranslate"><span class="pre">params</span></code> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, all parameter that are present in all of the completed trials are
+<p>If <code class="docutils literal notranslate"><span class="pre">params</span></code> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, all parameter that are present in all of the completed trials are
 assessed.
 This implies that conditional parameters will be excluded from the evaluation.
-To assess the importances of conditional parameters, a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code></a> of parameter names can be
+To assess the importances of conditional parameters, a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code></a> of parameter names can be
 specified via <code class="docutils literal notranslate"><span class="pre">params</span></code>.
 If specified, only completed trials that contain all of the parameters will be considered.
 If no such trials are found, an error will be raised.</p>
@@ -181,11 +176,11 @@ a minute, so you can use <a class="reference internal" href="optuna.importance.P
 instead, enabling the evaluation to finish in a second.</p>
 </div>
 </p></li>
-<li><p><strong>params</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>] </em><em>| </em><em>None</em>) – A list of names of parameters to assess.
-If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, all parameters that are present in all of the completed trials are
+<li><p><strong>params</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>] </em><em>| </em><em>None</em>) – A list of names of parameters to assess.
+If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, all parameters that are present in all of the completed trials are
 assessed.</p></li>
-<li><p><strong>target</strong> (<em>Callable</em><em>[</em><em>[</em><a class="reference internal" href="optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><em>FrozenTrial</em></a><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a><em>] </em><em>| </em><em>None</em>) – <p>A function to specify the value to evaluate importances.
-If it is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> and <code class="docutils literal notranslate"><span class="pre">study</span></code> is being used for single-objective optimization,
+<li><p><strong>target</strong> (<em>Callable</em><em>[</em><em>[</em><a class="reference internal" href="optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><em>FrozenTrial</em></a><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>] </em><em>| </em><em>None</em>) – <p>A function to specify the value to evaluate importances.
+If it is <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> and <code class="docutils literal notranslate"><span class="pre">study</span></code> is being used for single-objective optimization,
 the objective values are used. <code class="docutils literal notranslate"><span class="pre">target</span></code> must be specified if <code class="docutils literal notranslate"><span class="pre">study</span></code> is being
 used for multi-objective optimization.</p>
 <div class="admonition note">
@@ -195,9 +190,9 @@ optimization. For example, to get the hyperparameter importance of the first
 objective, use <code class="docutils literal notranslate"><span class="pre">target=lambda</span> <span class="pre">t:</span> <span class="pre">t.values[0]</span></code> for the target parameter.</p>
 </div>
 </p></li>
-<li><p><strong>normalize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – <p>A boolean option to specify whether the sum of the importance values should be
+<li><p><strong>normalize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – <p>A boolean option to specify whether the sum of the importance values should be
 normalized to 1.0.
-Defaults to <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>.</p>
+Defaults to <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Added in v3.0.0 as an experimental feature. The interface may change in newer
@@ -208,10 +203,10 @@ versions without prior notice. See
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code></a> where the keys are parameter names and the values are assessed importances.</p>
+<dd class="field-even"><p>A <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dict</span></code></a> where the keys are parameter names and the values are assessed importances.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)">float</a>]</p>
 </dd>
 </dl>
 </dd></dl>

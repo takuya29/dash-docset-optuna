@@ -1,11 +1,13 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.terminator.improvement.emmr &mdash; Optuna 4.0.0 documentation</title>
+  <title>optuna.terminator.improvement.emmr &mdash; Optuna 4.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery.css?v=d2d258e8" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
@@ -15,17 +17,13 @@
 
   
     <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
-  <!--[if lt IE 9]>
-    <script src="../../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=6fa1bce2"></script>
-        <script src="../../../../_static/doctools.js?v=888ff710"></script>
-        <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
-        <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
-        <script src="../../../../_static/copybutton.js?v=a56c686a"></script>
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=0b6e6ca6"></script>
+      <script src="../../../../_static/doctools.js?v=888ff710"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../_static/copybutton.js?v=a56c686a"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -75,9 +73,6 @@
             
               <img src="../../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
-              <div class="version">
-                4.0.0
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -174,6 +169,12 @@
 <span class="sd">    - `A stopping criterion for Bayesian optimization by the gap of expected minimum simple</span>
 <span class="sd">      regrets &lt;https://proceedings.mlr.press/v206/ishibashi23a.html&gt;`__</span>
 
+<span class="sd">    Also, there is our blog post explaining this evaluator:</span>
+
+<span class="sd">    - `Introducing A New Terminator: Early Termination of Black-box Optimization Based on</span>
+<span class="sd">      Expected Minimum Model Regret</span>
+<span class="sd">      &lt;https://medium.com/optuna/introducing-a-new-terminator-early-termination-of-black-box-optimization-based-on-expected-9a660774fcdb&gt;`__</span>
+
 <span class="sd">    Args:</span>
 <span class="sd">        deterministic_objective:</span>
 <span class="sd">            A boolean value which indicates whether the objective function is deterministic.</span>
@@ -197,10 +198,10 @@
 
 <span class="sd">            sampler = optuna.samplers.TPESampler(seed=0)</span>
 <span class="sd">            study = optuna.create_study(sampler=sampler, direction=&quot;minimize&quot;)</span>
-<span class="sd">            emmr_improvement_valuator = EMMREvaluator()</span>
-<span class="sd">            median_error_evaluator = MedianErrorEvaluator(emmr_improvement_valuator)</span>
+<span class="sd">            emmr_improvement_evaluator = EMMREvaluator()</span>
+<span class="sd">            median_error_evaluator = MedianErrorEvaluator(emmr_improvement_evaluator)</span>
 <span class="sd">            terminator = Terminator(</span>
-<span class="sd">                improvement_evaluator=emmr_improvement_valuator,</span>
+<span class="sd">                improvement_evaluator=emmr_improvement_evaluator,</span>
 <span class="sd">                error_evaluator=median_error_evaluator,</span>
 <span class="sd">            )</span>
 

@@ -1,12 +1,13 @@
+
 <!DOCTYPE html>
 
 <html class="writer-html5" lang="en">
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.samplers.BruteForceSampler — Optuna 4.0.0 documentation</title>
+<title>optuna.samplers.BruteForceSampler — Optuna 4.1.0 documentation</title>
 <link href="../../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/theme.css?v=19f00094" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/theme.css?v=e59714d7" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/sg_gallery.css?v=d2d258e8" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" rel="stylesheet" type="text/css"/>
@@ -14,12 +15,9 @@
 <link href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/css/custom.css?v=d0d4e556" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/favicon.ico" rel="shortcut icon"/>
-<!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
 <script src="../../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6fa1bce2"></script>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=0b6e6ca6"></script>
 <script src="../../../_static/doctools.js?v=888ff710"></script>
 <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -68,9 +66,6 @@
 <a href="../../../index.html">
 <img alt="Logo" class="logo" src="../../../_static/optuna-logo.png"/>
 </a>
-<div class="version">
-                4.0.0
-              </div>
 <div role="search">
 <form action="../../../search.html" class="wy-form" id="rtd-search-form" method="get">
 <input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
@@ -179,7 +174,7 @@ parameters are changed in the same <a class="reference internal" href="../../gen
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em> | </em><em>None</em>) – A seed to fix the order of trials as the search order randomly shuffled. Please note
+<dd class="field-odd"><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em> | </em><em>None</em>) – A seed to fix the order of trials as the search order randomly shuffled. Please note
 that it is not recommended using this option in distributed optimization settings since
 this option cannot ensure the order of trials and may increase the number of duplicate
 suggestions during distributed optimization.</p>
@@ -231,7 +226,7 @@ without prior notice. See <a class="reference external" href="https://github.com
 <li><p><strong>trial</strong> (<a class="reference internal" href="../../generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><em>FrozenTrial</em></a>) – Target trial object.
 Take a copy before modifying this object.</p></li>
 <li><p><strong>state</strong> (<a class="reference internal" href="../../generated/optuna.trial.TrialState.html#optuna.trial.TrialState" title="optuna.trial.TrialState"><em>TrialState</em></a>) – Resulting trial state.</p></li>
-<li><p><strong>values</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a><em>] </em><em>| </em><em>None</em>) – Resulting trial values. Guaranteed to not be <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if trial succeeded.</p></li>
+<li><p><strong>values</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>] </em><em>| </em><em>None</em>) – Resulting trial values. Guaranteed to not be <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if trial succeeded.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -285,7 +280,7 @@ Take a copy before modifying this object.</p></li>
 <dd class="field-even"><p>A dictionary containing the parameter names and parameter’s distributions.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a>, BaseDistribution]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, BaseDistribution]</p>
 </dd>
 </dl>
 <div class="admonition seealso">
@@ -329,7 +324,7 @@ perspective.</p>
 <li><p><strong>study</strong> (<a class="reference internal" href="../../generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><em>Study</em></a>) – Target study object.</p></li>
 <li><p><strong>trial</strong> (<a class="reference internal" href="../../generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><em>FrozenTrial</em></a>) – Target trial object.
 Take a copy before modifying this object.</p></li>
-<li><p><strong>param_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – Name of the sampled parameter.</p></li>
+<li><p><strong>param_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Name of the sampled parameter.</p></li>
 <li><p><strong>param_distribution</strong> (<em>BaseDistribution</em>) – Distribution object that specifies a prior and/or scale of the sampling algorithm.</p></li>
 </ul>
 </dd>
@@ -360,7 +355,7 @@ perspective.</p>
 <li><p><strong>study</strong> (<a class="reference internal" href="../../generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><em>Study</em></a>) – Target study object.</p></li>
 <li><p><strong>trial</strong> (<a class="reference internal" href="../../generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><em>FrozenTrial</em></a>) – Target trial object.
 Take a copy before modifying this object.</p></li>
-<li><p><strong>search_space</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>BaseDistribution</em><em>]</em>) – The search space returned by
+<li><p><strong>search_space</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>BaseDistribution</em><em>]</em>) – The search space returned by
 <a class="reference internal" href="optuna.samplers.BaseSampler.html#optuna.samplers.BaseSampler.infer_relative_search_space" title="optuna.samplers.BaseSampler.infer_relative_search_space"><code class="xref py py-func docutils literal notranslate"><span class="pre">infer_relative_search_space()</span></code></a>.</p></li>
 </ul>
 </dd>
@@ -368,7 +363,7 @@ Take a copy before modifying this object.</p></li>
 <dd class="field-even"><p>A dictionary containing the parameter names and the values.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a>, Any]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, Any]</p>
 </dd>
 </dl>
 </dd></dl>

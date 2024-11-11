@@ -1,12 +1,13 @@
+
 <!DOCTYPE html>
 
 <html class="writer-html5" lang="en">
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Callback for Study.optimize — Optuna 4.0.0 documentation</title>
+<title>Callback for Study.optimize — Optuna 4.1.0 documentation</title>
 <link href="../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
-<link href="../../_static/css/theme.css?v=19f00094" rel="stylesheet" type="text/css"/>
+<link href="../../_static/css/theme.css?v=e59714d7" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery.css?v=d2d258e8" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery-binder.css?v=f4aeca0c" rel="stylesheet" type="text/css"/>
@@ -14,12 +15,9 @@
 <link href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/custom.css?v=d0d4e556" rel="stylesheet" type="text/css"/>
 <link href="../../_static/favicon.ico" rel="shortcut icon"/>
-<!--[if lt IE 9]>
-    <script src="../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
 <script src="../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=6fa1bce2"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=0b6e6ca6"></script>
 <script src="../../_static/doctools.js?v=888ff710"></script>
 <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -66,9 +64,6 @@
 <a href="../../index.html">
 <img alt="Logo" class="logo" src="../../_static/optuna-logo.png"/>
 </a>
-<div class="version">
-                4.0.0
-              </div>
 <div role="search">
 <form action="../../search.html" class="wy-form" id="rtd-search-form" method="get">
 <input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
@@ -157,12 +152,12 @@ So, we expect this study to stop after 7 trials.</p>
 <span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">study_stop_cb</span><span class="p">])</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>A new study created in memory with name: no-name-e7d9b1db-5de2-4cac-b3b5-53e347d5a1e9
-Trial 0 finished with value: 0.009102958197871103 and parameters: {'x': 0.009102958197871103}. Best is trial 0 with value: 0.009102958197871103.
-Trial 1 finished with value: 0.7296403311967617 and parameters: {'x': 0.7296403311967617}. Best is trial 0 with value: 0.009102958197871103.
-Trial 2 finished with value: 0.22005918564514426 and parameters: {'x': 0.22005918564514426}. Best is trial 0 with value: 0.009102958197871103.
-Trial 3 finished with value: 0.09838097267482948 and parameters: {'x': 0.09838097267482948}. Best is trial 0 with value: 0.009102958197871103.
-Trial 4 finished with value: 0.8702295317427343 and parameters: {'x': 0.8702295317427343}. Best is trial 0 with value: 0.009102958197871103.
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>A new study created in memory with name: no-name-44546b37-488a-4de7-b8d8-036f5dfe2f05
+Trial 0 finished with value: 0.0839544215526562 and parameters: {'x': 0.0839544215526562}. Best is trial 0 with value: 0.0839544215526562.
+Trial 1 finished with value: 0.47224725510801935 and parameters: {'x': 0.47224725510801935}. Best is trial 0 with value: 0.0839544215526562.
+Trial 2 finished with value: 0.7765607507133236 and parameters: {'x': 0.7765607507133236}. Best is trial 0 with value: 0.0839544215526562.
+Trial 3 finished with value: 0.22248140689501317 and parameters: {'x': 0.22248140689501317}. Best is trial 0 with value: 0.0839544215526562.
+Trial 4 finished with value: 0.9711319547310876 and parameters: {'x': 0.9711319547310876}. Best is trial 0 with value: 0.0839544215526562.
 Trial 5 pruned.
 Trial 6 pruned.
 </pre></div>

@@ -1,11 +1,13 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.storages._rdb.storage &mdash; Optuna 4.0.0 documentation</title>
+  <title>optuna.storages._rdb.storage &mdash; Optuna 4.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery.css?v=d2d258e8" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
@@ -15,17 +17,13 @@
 
   
     <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
-  <!--[if lt IE 9]>
-    <script src="../../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=6fa1bce2"></script>
-        <script src="../../../../_static/doctools.js?v=888ff710"></script>
-        <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
-        <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
-        <script src="../../../../_static/copybutton.js?v=a56c686a"></script>
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=0b6e6ca6"></script>
+      <script src="../../../../_static/doctools.js?v=888ff710"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../_static/copybutton.js?v=a56c686a"></script>
     <script src="../../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
@@ -75,9 +73,6 @@
             
               <img src="../../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
-              <div class="version">
-                4.0.0
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -129,6 +124,7 @@
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">sqlite3</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
@@ -163,6 +159,8 @@
     <span class="kn">import</span> <span class="nn">alembic.migration</span> <span class="k">as</span> <span class="nn">alembic_migration</span>
     <span class="kn">import</span> <span class="nn">alembic.script</span> <span class="k">as</span> <span class="nn">alembic_script</span>
     <span class="kn">import</span> <span class="nn">sqlalchemy</span>
+    <span class="kn">import</span> <span class="nn">sqlalchemy.dialects.mysql</span> <span class="k">as</span> <span class="nn">sqlalchemy_dialects_mysql</span>
+    <span class="kn">import</span> <span class="nn">sqlalchemy.dialects.sqlite</span> <span class="k">as</span> <span class="nn">sqlalchemy_dialects_sqlite</span>
     <span class="kn">import</span> <span class="nn">sqlalchemy.exc</span> <span class="k">as</span> <span class="nn">sqlalchemy_exc</span>
     <span class="kn">import</span> <span class="nn">sqlalchemy.orm</span> <span class="k">as</span> <span class="nn">sqlalchemy_orm</span>
     <span class="kn">import</span> <span class="nn">sqlalchemy.sql.functions</span> <span class="k">as</span> <span class="nn">sqlalchemy_sql_functions</span>
@@ -175,6 +173,8 @@
     <span class="n">alembic_script</span> <span class="o">=</span> <span class="n">_LazyImport</span><span class="p">(</span><span class="s2">&quot;alembic.script&quot;</span><span class="p">)</span>
 
     <span class="n">sqlalchemy</span> <span class="o">=</span> <span class="n">_LazyImport</span><span class="p">(</span><span class="s2">&quot;sqlalchemy&quot;</span><span class="p">)</span>
+    <span class="n">sqlalchemy_dialects_mysql</span> <span class="o">=</span> <span class="n">_LazyImport</span><span class="p">(</span><span class="s2">&quot;sqlalchemy.dialects.mysql&quot;</span><span class="p">)</span>
+    <span class="n">sqlalchemy_dialects_sqlite</span> <span class="o">=</span> <span class="n">_LazyImport</span><span class="p">(</span><span class="s2">&quot;sqlalchemy.dialects.sqlite&quot;</span><span class="p">)</span>
     <span class="n">sqlalchemy_exc</span> <span class="o">=</span> <span class="n">_LazyImport</span><span class="p">(</span><span class="s2">&quot;sqlalchemy.exc&quot;</span><span class="p">)</span>
     <span class="n">sqlalchemy_orm</span> <span class="o">=</span> <span class="n">_LazyImport</span><span class="p">(</span><span class="s2">&quot;sqlalchemy.orm&quot;</span><span class="p">)</span>
     <span class="n">sqlalchemy_sql_functions</span> <span class="o">=</span> <span class="n">_LazyImport</span><span class="p">(</span><span class="s2">&quot;sqlalchemy.sql.functions&quot;</span><span class="p">)</span>
@@ -668,10 +668,14 @@
                 <span class="p">)</span>
 
             <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">template_trial</span><span class="o">.</span><span class="n">user_attrs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_set_trial_user_attr_without_commit</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">trial</span><span class="o">.</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_set_trial_attr_without_commit</span><span class="p">(</span>
+                    <span class="n">session</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">TrialUserAttributeModel</span><span class="p">,</span> <span class="n">trial</span><span class="o">.</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span>
+                <span class="p">)</span>
 
             <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">template_trial</span><span class="o">.</span><span class="n">system_attrs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_set_trial_system_attr_without_commit</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">trial</span><span class="o">.</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_set_trial_attr_without_commit</span><span class="p">(</span>
+                    <span class="n">session</span><span class="p">,</span> <span class="n">models</span><span class="o">.</span><span class="n">TrialSystemAttributeModel</span><span class="p">,</span> <span class="n">trial</span><span class="o">.</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span>
+                <span class="p">)</span>
 
             <span class="k">for</span> <span class="n">step</span><span class="p">,</span> <span class="n">intermediate_value</span> <span class="ow">in</span> <span class="n">template_trial</span><span class="o">.</span><span class="n">intermediate_values</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_set_trial_intermediate_value_without_commit</span><span class="p">(</span>
@@ -708,27 +712,14 @@
         <span class="n">trial</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">find_or_raise_by_id</span><span class="p">(</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_trial_is_updatable</span><span class="p">(</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">trial</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
 
-        <span class="n">trial_param</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TrialParamModel</span><span class="o">.</span><span class="n">find_by_trial_and_param_name</span><span class="p">(</span>
-            <span class="n">trial</span><span class="p">,</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">session</span>
+        <span class="n">trial_param</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TrialParamModel</span><span class="p">(</span>
+            <span class="n">trial_id</span><span class="o">=</span><span class="n">trial_id</span><span class="p">,</span>
+            <span class="n">param_name</span><span class="o">=</span><span class="n">param_name</span><span class="p">,</span>
+            <span class="n">param_value</span><span class="o">=</span><span class="n">param_value_internal</span><span class="p">,</span>
+            <span class="n">distribution_json</span><span class="o">=</span><span class="n">distributions</span><span class="o">.</span><span class="n">distribution_to_json</span><span class="p">(</span><span class="n">distribution</span><span class="p">),</span>
         <span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">trial_param</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="c1"># Raise error in case distribution is incompatible.</span>
-            <span class="n">distributions</span><span class="o">.</span><span class="n">check_distribution_compatibility</span><span class="p">(</span>
-                <span class="n">distributions</span><span class="o">.</span><span class="n">json_to_distribution</span><span class="p">(</span><span class="n">trial_param</span><span class="o">.</span><span class="n">distribution_json</span><span class="p">),</span> <span class="n">distribution</span>
-            <span class="p">)</span>
-
-            <span class="n">trial_param</span><span class="o">.</span><span class="n">param_value</span> <span class="o">=</span> <span class="n">param_value_internal</span>
-            <span class="n">trial_param</span><span class="o">.</span><span class="n">distribution_json</span> <span class="o">=</span> <span class="n">distributions</span><span class="o">.</span><span class="n">distribution_to_json</span><span class="p">(</span><span class="n">distribution</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">trial_param</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TrialParamModel</span><span class="p">(</span>
-                <span class="n">trial_id</span><span class="o">=</span><span class="n">trial_id</span><span class="p">,</span>
-                <span class="n">param_name</span><span class="o">=</span><span class="n">param_name</span><span class="p">,</span>
-                <span class="n">param_value</span><span class="o">=</span><span class="n">param_value_internal</span><span class="p">,</span>
-                <span class="n">distribution_json</span><span class="o">=</span><span class="n">distributions</span><span class="o">.</span><span class="n">distribution_to_json</span><span class="p">(</span><span class="n">distribution</span><span class="p">),</span>
-            <span class="p">)</span>
-
-            <span class="n">trial_param</span><span class="o">.</span><span class="n">check_and_add</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+        <span class="n">trial_param</span><span class="o">.</span><span class="n">check_and_add</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">trial</span><span class="o">.</span><span class="n">study_id</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_check_and_set_param_distribution</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -749,7 +740,7 @@
                 <span class="n">param_name</span><span class="o">=</span><span class="n">param_name</span><span class="p">,</span>
                 <span class="n">param_value</span><span class="o">=</span><span class="n">param_value_internal</span><span class="p">,</span>
                 <span class="n">distribution_json</span><span class="o">=</span><span class="n">distributions</span><span class="o">.</span><span class="n">distribution_to_json</span><span class="p">(</span><span class="n">distribution</span><span class="p">),</span>
-            <span class="p">)</span><span class="o">.</span><span class="n">check_and_add</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">check_and_add</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">study_id</span><span class="p">)</span>
 
 <div class="viewcode-block" id="RDBStorage.get_trial_param"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.get_trial_param">[docs]</a>    <span class="k">def</span> <span class="nf">get_trial_param</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">param_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
@@ -845,41 +836,60 @@
 
 <div class="viewcode-block" id="RDBStorage.set_trial_user_attr"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.set_trial_user_attr">[docs]</a>    <span class="k">def</span> <span class="nf">set_trial_user_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_set_trial_user_attr_without_commit</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">trial_id</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
-
-    <span class="k">def</span> <span class="nf">_set_trial_user_attr_without_commit</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">session</span><span class="p">:</span> <span class="s2">&quot;sqlalchemy_orm.Session&quot;</span><span class="p">,</span> <span class="n">trial_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">trial</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">find_or_raise_by_id</span><span class="p">(</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">check_trial_is_updatable</span><span class="p">(</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">trial</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
-
-        <span class="n">attribute</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TrialUserAttributeModel</span><span class="o">.</span><span class="n">find_by_trial_and_key</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">attribute</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">attribute</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TrialUserAttributeModel</span><span class="p">(</span>
-                <span class="n">trial_id</span><span class="o">=</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">value_json</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-            <span class="p">)</span>
-            <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">attribute</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">attribute</span><span class="o">.</span><span class="n">value_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_set_trial_attr_without_commit</span><span class="p">(</span>
+                <span class="n">session</span><span class="p">,</span>
+                <span class="n">models</span><span class="o">.</span><span class="n">TrialUserAttributeModel</span><span class="p">,</span>
+                <span class="n">trial_id</span><span class="p">,</span>
+                <span class="n">key</span><span class="p">,</span>
+                <span class="n">value</span><span class="p">,</span>
+            <span class="p">)</span></div>
 
 <div class="viewcode-block" id="RDBStorage.set_trial_system_attr"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.set_trial_system_attr">[docs]</a>    <span class="k">def</span> <span class="nf">set_trial_system_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">JSONSerializable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_set_trial_system_attr_without_commit</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">trial_id</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_set_trial_attr_without_commit</span><span class="p">(</span>
+                <span class="n">session</span><span class="p">,</span>
+                <span class="n">models</span><span class="o">.</span><span class="n">TrialSystemAttributeModel</span><span class="p">,</span>
+                <span class="n">trial_id</span><span class="p">,</span>
+                <span class="n">key</span><span class="p">,</span>
+                <span class="n">value</span><span class="p">,</span>
+            <span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">_set_trial_system_attr_without_commit</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">session</span><span class="p">:</span> <span class="s2">&quot;sqlalchemy_orm.Session&quot;</span><span class="p">,</span> <span class="n">trial_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">JSONSerializable</span>
+    <span class="k">def</span> <span class="nf">_set_trial_attr_without_commit</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">session</span><span class="p">:</span> <span class="s2">&quot;sqlalchemy_orm.Session&quot;</span><span class="p">,</span>
+        <span class="n">model_cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">models</span><span class="o">.</span><span class="n">TrialUserAttributeModel</span> <span class="o">|</span> <span class="n">models</span><span class="o">.</span><span class="n">TrialSystemAttributeModel</span><span class="p">],</span>
+        <span class="n">trial_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">trial</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">find_or_raise_by_id</span><span class="p">(</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_trial_is_updatable</span><span class="p">(</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">trial</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
 
-        <span class="n">attribute</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TrialSystemAttributeModel</span><span class="o">.</span><span class="n">find_by_trial_and_key</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">attribute</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">attribute</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TrialSystemAttributeModel</span><span class="p">(</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;mysql&quot;</span><span class="p">:</span>
+            <span class="n">mysql_insert_stmt</span> <span class="o">=</span> <span class="n">sqlalchemy_dialects_mysql</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">model_cls</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">(</span>
                 <span class="n">trial_id</span><span class="o">=</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">value_json</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
             <span class="p">)</span>
-            <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">attribute</span><span class="p">)</span>
+            <span class="n">mysql_upsert_stmt</span> <span class="o">=</span> <span class="n">mysql_insert_stmt</span><span class="o">.</span><span class="n">on_duplicate_key_update</span><span class="p">(</span>
+                <span class="n">value_json</span><span class="o">=</span><span class="n">mysql_insert_stmt</span><span class="o">.</span><span class="n">inserted</span><span class="o">.</span><span class="n">value_json</span>
+            <span class="p">)</span>
+            <span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">mysql_upsert_stmt</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;sqlite&quot;</span> <span class="ow">and</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">sqlite_version_info</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">sqlite_insert_stmt</span> <span class="o">=</span> <span class="n">sqlalchemy_dialects_sqlite</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">model_cls</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">(</span>
+                <span class="n">trial_id</span><span class="o">=</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">value_json</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">sqlite_upsert_stmt</span> <span class="o">=</span> <span class="n">sqlite_insert_stmt</span><span class="o">.</span><span class="n">on_conflict_do_update</span><span class="p">(</span>
+                <span class="n">index_elements</span><span class="o">=</span><span class="p">[</span><span class="n">model_cls</span><span class="o">.</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">model_cls</span><span class="o">.</span><span class="n">key</span><span class="p">],</span>
+                <span class="n">set_</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">value_json</span><span class="o">=</span><span class="n">sqlite_insert_stmt</span><span class="o">.</span><span class="n">excluded</span><span class="o">.</span><span class="n">value_json</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sqlite_upsert_stmt</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">attribute</span><span class="o">.</span><span class="n">value_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="c1"># TODO(porink0424): Add support for other databases, e.g., PostgreSQL.</span>
+            <span class="n">attribute</span> <span class="o">=</span> <span class="n">model_cls</span><span class="o">.</span><span class="n">find_by_trial_and_key</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">attribute</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">attribute</span> <span class="o">=</span> <span class="n">model_cls</span><span class="p">(</span><span class="n">trial_id</span><span class="o">=</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">value_json</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+                <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">attribute</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">attribute</span><span class="o">.</span><span class="n">value_json</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
 <div class="viewcode-block" id="RDBStorage.get_trial_id_from_study_id_trial_number"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.get_trial_id_from_study_id_trial_number">[docs]</a>    <span class="k">def</span> <span class="nf">get_trial_id_from_study_id_trial_number</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">trial_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
@@ -912,7 +922,7 @@
         <span class="n">deepcopy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">states</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Container</span><span class="p">[</span><span class="n">TrialState</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]:</span>
-        <span class="n">trials</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_trials</span><span class="p">(</span><span class="n">study_id</span><span class="p">,</span> <span class="n">states</span><span class="p">,</span> <span class="nb">set</span><span class="p">())</span>
+        <span class="n">trials</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_trials</span><span class="p">(</span><span class="n">study_id</span><span class="p">,</span> <span class="n">states</span><span class="p">,</span> <span class="nb">set</span><span class="p">(),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">trials</span><span class="p">)</span> <span class="k">if</span> <span class="n">deepcopy</span> <span class="k">else</span> <span class="n">trials</span></div>
 
@@ -920,13 +930,26 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">study_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">states</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Container</span><span class="p">[</span><span class="n">TrialState</span><span class="p">]],</span>
-        <span class="n">excluded_trial_ids</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+        <span class="n">included_trial_ids</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+        <span class="n">trial_id_greater_than</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]:</span>
+        <span class="n">included_trial_ids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span>
+            <span class="n">trial_id</span> <span class="k">for</span> <span class="n">trial_id</span> <span class="ow">in</span> <span class="n">included_trial_ids</span> <span class="k">if</span> <span class="n">trial_id</span> <span class="o">&lt;=</span> <span class="n">trial_id_greater_than</span>
+        <span class="p">)</span>
+
         <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
             <span class="c1"># Ensure that the study exists.</span>
             <span class="n">models</span><span class="o">.</span><span class="n">StudyModel</span><span class="o">.</span><span class="n">find_or_raise_by_id</span><span class="p">(</span><span class="n">study_id</span><span class="p">,</span> <span class="n">session</span><span class="p">)</span>
-            <span class="n">query</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">trial_id</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
-                <span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">study_id</span> <span class="o">==</span> <span class="n">study_id</span>
+            <span class="n">query</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">sqlalchemy_orm</span><span class="o">.</span><span class="n">selectinload</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">params</span><span class="p">))</span>
+                <span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">sqlalchemy_orm</span><span class="o">.</span><span class="n">selectinload</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
+                <span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">sqlalchemy_orm</span><span class="o">.</span><span class="n">selectinload</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">user_attributes</span><span class="p">))</span>
+                <span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">sqlalchemy_orm</span><span class="o">.</span><span class="n">selectinload</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">system_attributes</span><span class="p">))</span>
+                <span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">sqlalchemy_orm</span><span class="o">.</span><span class="n">selectinload</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">intermediate_values</span><span class="p">))</span>
+                <span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                    <span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">study_id</span> <span class="o">==</span> <span class="n">study_id</span><span class="p">,</span>
+                <span class="p">)</span>
             <span class="p">)</span>
 
             <span class="k">if</span> <span class="n">states</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -935,28 +958,19 @@
                 <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">states</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">)</span>
                 <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">states</span><span class="p">))</span>
 
-            <span class="n">trial_ids</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
-
-            <span class="n">trial_ids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span>
-                <span class="n">trial_id_tuple</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                <span class="k">for</span> <span class="n">trial_id_tuple</span> <span class="ow">in</span> <span class="n">trial_ids</span>
-                <span class="k">if</span> <span class="n">trial_id_tuple</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">excluded_trial_ids</span>
-            <span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">trial_models</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="p">)</span>
-                    <span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">sqlalchemy_orm</span><span class="o">.</span><span class="n">selectinload</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">params</span><span class="p">))</span>
-                    <span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">sqlalchemy_orm</span><span class="o">.</span><span class="n">selectinload</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
-                    <span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">sqlalchemy_orm</span><span class="o">.</span><span class="n">selectinload</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">user_attributes</span><span class="p">))</span>
-                    <span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">sqlalchemy_orm</span><span class="o">.</span><span class="n">selectinload</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">system_attributes</span><span class="p">))</span>
-                    <span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">sqlalchemy_orm</span><span class="o">.</span><span class="n">selectinload</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">intermediate_values</span><span class="p">))</span>
-                    <span class="o">.</span><span class="n">filter</span><span class="p">(</span>
-                        <span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">trial_id</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">trial_ids</span><span class="p">),</span>
-                        <span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">study_id</span> <span class="o">==</span> <span class="n">study_id</span><span class="p">,</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">included_trial_ids</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">trial_id_greater_than</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="n">_query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                        <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">or_</span><span class="p">(</span>
+                            <span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">trial_id</span><span class="o">.</span><span class="n">in_</span><span class="p">(</span><span class="n">included_trial_ids</span><span class="p">),</span>
+                            <span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">trial_id</span> <span class="o">&gt;</span> <span class="n">trial_id_greater_than</span><span class="p">,</span>
+                        <span class="p">)</span>
                     <span class="p">)</span>
-                    <span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">trial_id</span><span class="p">)</span>
-                    <span class="o">.</span><span class="n">all</span><span class="p">()</span>
-                <span class="p">)</span>
+                <span class="k">elif</span> <span class="n">trial_id_greater_than</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="n">_query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">trial_id</span> <span class="o">&gt;</span> <span class="n">trial_id_greater_than</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">_query</span> <span class="o">=</span> <span class="n">query</span>
+                <span class="n">trial_models</span> <span class="o">=</span> <span class="n">_query</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">trial_id</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
             <span class="k">except</span> <span class="n">sqlalchemy_exc</span><span class="o">.</span><span class="n">OperationalError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                 <span class="c1"># Likely exceeding the number of maximum allowed variables using IN.</span>
                 <span class="c1"># This number differ between database dialects. For SQLite for instance, see</span>
@@ -968,18 +982,12 @@
                     <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
                 <span class="p">)</span>
 
-                <span class="n">trial_models</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="p">)</span>
-                    <span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">sqlalchemy_orm</span><span class="o">.</span><span class="n">selectinload</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">params</span><span class="p">))</span>
-                    <span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">sqlalchemy_orm</span><span class="o">.</span><span class="n">selectinload</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
-                    <span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">sqlalchemy_orm</span><span class="o">.</span><span class="n">selectinload</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">user_attributes</span><span class="p">))</span>
-                    <span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">sqlalchemy_orm</span><span class="o">.</span><span class="n">selectinload</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">system_attributes</span><span class="p">))</span>
-                    <span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">sqlalchemy_orm</span><span class="o">.</span><span class="n">selectinload</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">intermediate_values</span><span class="p">))</span>
-                    <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">study_id</span> <span class="o">==</span> <span class="n">study_id</span><span class="p">)</span>
-                    <span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">trial_id</span><span class="p">)</span>
-                    <span class="o">.</span><span class="n">all</span><span class="p">()</span>
-                <span class="p">)</span>
-                <span class="n">trial_models</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">trial_models</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">trial_id</span> <span class="ow">in</span> <span class="n">trial_ids</span><span class="p">]</span>
+                <span class="n">trial_models</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">TrialModel</span><span class="o">.</span><span class="n">trial_id</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+                <span class="n">trial_models</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">t</span>
+                    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">trial_models</span>
+                    <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">trial_id</span> <span class="ow">in</span> <span class="n">included_trial_ids</span> <span class="ow">or</span> <span class="n">t</span><span class="o">.</span><span class="n">trial_id</span> <span class="o">&gt;</span> <span class="n">trial_id_greater_than</span>
+                <span class="p">]</span>
 
             <span class="n">trials</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_build_frozen_trial_from_trial_model</span><span class="p">(</span><span class="n">trial</span><span class="p">)</span> <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">trial_models</span><span class="p">]</span>
 

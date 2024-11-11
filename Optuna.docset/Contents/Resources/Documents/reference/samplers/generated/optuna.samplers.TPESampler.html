@@ -1,12 +1,13 @@
+
 <!DOCTYPE html>
 
 <html class="writer-html5" lang="en">
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.samplers.TPESampler — Optuna 4.0.0 documentation</title>
+<title>optuna.samplers.TPESampler — Optuna 4.1.0 documentation</title>
 <link href="../../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/css/theme.css?v=19f00094" rel="stylesheet" type="text/css"/>
+<link href="../../../_static/css/theme.css?v=e59714d7" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/sg_gallery.css?v=d2d258e8" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" rel="stylesheet" type="text/css"/>
@@ -14,12 +15,9 @@
 <link href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/css/custom.css?v=d0d4e556" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/favicon.ico" rel="shortcut icon"/>
-<!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
 <script src="../../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6fa1bce2"></script>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=0b6e6ca6"></script>
 <script src="../../../_static/doctools.js?v=888ff710"></script>
 <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -68,9 +66,6 @@
 <a href="../../../index.html">
 <img alt="Logo" class="logo" src="../../../_static/optuna-logo.png"/>
 </a>
-<div class="version">
-                4.0.0
-              </div>
 <div role="search">
 <form action="../../../search.html" class="wy-form" id="rtd-search-form" method="get">
 <input aria-label="Search docs" name="q" placeholder="Search docs" type="text"/>
@@ -197,26 +192,26 @@ explicitly specified when study is created.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>consider_prior</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – Enhance the stability of Parzen estimator by imposing a Gaussian prior when
-<a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>. The prior is only effective if the sampling distribution is
+<li><p><strong>consider_prior</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Enhance the stability of Parzen estimator by imposing a Gaussian prior when
+<a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>. The prior is only effective if the sampling distribution is
 either <a class="reference internal" href="../../generated/optuna.distributions.FloatDistribution.html#optuna.distributions.FloatDistribution" title="optuna.distributions.FloatDistribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">FloatDistribution</span></code></a>,
 or <a class="reference internal" href="../../generated/optuna.distributions.IntDistribution.html#optuna.distributions.IntDistribution" title="optuna.distributions.IntDistribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntDistribution</span></code></a>.</p></li>
-<li><p><strong>prior_weight</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – The weight of the prior. This argument is used in
+<li><p><strong>prior_weight</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – The weight of the prior. This argument is used in
 <a class="reference internal" href="../../generated/optuna.distributions.FloatDistribution.html#optuna.distributions.FloatDistribution" title="optuna.distributions.FloatDistribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">FloatDistribution</span></code></a>,
 <a class="reference internal" href="../../generated/optuna.distributions.IntDistribution.html#optuna.distributions.IntDistribution" title="optuna.distributions.IntDistribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntDistribution</span></code></a>, and
 <a class="reference internal" href="../../generated/optuna.distributions.CategoricalDistribution.html#optuna.distributions.CategoricalDistribution" title="optuna.distributions.CategoricalDistribution"><code class="xref py py-class docutils literal notranslate"><span class="pre">CategoricalDistribution</span></code></a>.</p></li>
-<li><p><strong>consider_magic_clip</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – Enable a heuristic to limit the smallest variances of Gaussians used in
+<li><p><strong>consider_magic_clip</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Enable a heuristic to limit the smallest variances of Gaussians used in
 the Parzen estimator.</p></li>
-<li><p><strong>consider_endpoints</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – Take endpoints of domains into account when calculating variances of Gaussians
+<li><p><strong>consider_endpoints</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Take endpoints of domains into account when calculating variances of Gaussians
 in Parzen estimator. See the original paper for details on the heuristics
 to calculate the variances.</p></li>
-<li><p><strong>n_startup_trials</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – The random sampling is used instead of the TPE algorithm until the given number
+<li><p><strong>n_startup_trials</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – The random sampling is used instead of the TPE algorithm until the given number
 of trials finish in the same study.</p></li>
-<li><p><strong>n_ei_candidates</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – Number of candidate samples used to calculate the expected improvement.</p></li>
-<li><p><strong>gamma</strong> (<em>Callable</em><em>[</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>]</em>) – A function that takes the number of finished trials and returns the number
+<li><p><strong>n_ei_candidates</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Number of candidate samples used to calculate the expected improvement.</p></li>
+<li><p><strong>gamma</strong> (<em>Callable</em><em>[</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>]</em>) – A function that takes the number of finished trials and returns the number
 of trials to form a density function for samples with low grains.
 See the original paper for more details.</p></li>
-<li><p><strong>weights</strong> (<em>Callable</em><em>[</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>]</em><em>, </em><em>np.ndarray</em><em>]</em>) – <p>A function that takes the number of finished trials and returns a weight for them.
+<li><p><strong>weights</strong> (<em>Callable</em><em>[</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em>]</em><em>, </em><em>np.ndarray</em><em>]</em>) – <p>A function that takes the number of finished trials and returns a weight for them.
 See <a class="reference external" href="http://proceedings.mlr.press/v28/bergstra13.pdf">Making a Science of Model Search: Hyperparameter Optimization in Hundreds of
 Dimensions for Vision Architectures</a> for more details.</p>
 <div class="admonition note">
@@ -227,8 +222,8 @@ bad trials, i.e., trials to construct <cite>g(x)</cite> in the <a class="referen
 rule based on the hypervolume contribution proposed in the <a class="reference external" href="https://doi.org/10.1613/jair.1.13188">paper of MOTPE</a>.</p>
 </div>
 </p></li>
-<li><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em> | </em><em>None</em>) – Seed for random number generator.</p></li>
-<li><p><strong>multivariate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – <p>If this is <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, the multivariate TPE is used when suggesting parameters.
+<li><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em> | </em><em>None</em>) – Seed for random number generator.</p></li>
+<li><p><strong>multivariate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – <p>If this is <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, the multivariate TPE is used when suggesting parameters.
 The multivariate TPE is reported to outperform the independent TPE. See <a class="reference external" href="http://proceedings.mlr.press/v80/falkner18a.html">BOHB: Robust
 and Efficient Hyperparameter Optimization at Scale</a> and <a class="reference external" href="https://medium.com/optuna/multivariate-tpe-makes-optuna-even-more-powerful-63c4bfbaebe2">our article</a>
 for more details.</p>
@@ -239,7 +234,7 @@ versions without prior notice. See
 <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v2.2.0">https://github.com/optuna/optuna/releases/tag/v2.2.0</a>.</p>
 </div>
 </p></li>
-<li><p><strong>group</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – <p>If this and <code class="docutils literal notranslate"><span class="pre">multivariate</span></code> are <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, the multivariate TPE with the group
+<li><p><strong>group</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – <p>If this and <code class="docutils literal notranslate"><span class="pre">multivariate</span></code> are <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, the multivariate TPE with the group
 decomposed search space is used when suggesting parameters.
 The sampling algorithm decomposes the search space based on past trials and samples
 from the joint distribution in each decomposed subspace.
@@ -248,7 +243,7 @@ is a maximal subset of the whole search space, which satisfies the following:
 for a trial in completed trials, the intersection of the subspace and the search space
 of the trial becomes subspace itself or an empty set.
 Sampling from the joint distribution on the subspace is realized by multivariate TPE.
-If <code class="docutils literal notranslate"><span class="pre">group</span></code> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, <code class="docutils literal notranslate"><span class="pre">multivariate</span></code> must be <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> as well.</p>
+If <code class="docutils literal notranslate"><span class="pre">group</span></code> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, <code class="docutils literal notranslate"><span class="pre">multivariate</span></code> must be <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> as well.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Added in v2.8.0 as an experimental feature. The interface may change in newer
@@ -273,10 +268,10 @@ versions without prior notice. See
 </pre></div>
 </div>
 </p></li>
-<li><p><strong>warn_independent_sampling</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – If this is <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> and <code class="docutils literal notranslate"><span class="pre">multivariate=True</span></code>, a warning message is emitted when
+<li><p><strong>warn_independent_sampling</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – If this is <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> and <code class="docutils literal notranslate"><span class="pre">multivariate=True</span></code>, a warning message is emitted when
 the value of a parameter is sampled by using an independent sampler.
 If <code class="docutils literal notranslate"><span class="pre">multivariate=False</span></code>, this flag has no effect.</p></li>
-<li><p><strong>constant_liar</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – <p>If <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, penalize running trials to avoid suggesting parameter configurations
+<li><p><strong>constant_liar</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – <p>If <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, penalize running trials to avoid suggesting parameter configurations
 nearby.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -290,7 +285,7 @@ When using an <a class="reference internal" href="../../generated/optuna.storage
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>It is recommended to set this value to <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> during distributed
+<p>It is recommended to set this value to <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> during distributed
 optimization to avoid having multiple workers evaluating similar parameter
 configurations. In particular, if each objective function evaluation is costly
 and the durations of the running states are significant, and/or the number of
@@ -303,9 +298,9 @@ versions without prior notice. See
 <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v2.8.0">https://github.com/optuna/optuna/releases/tag/v2.8.0</a>.</p>
 </div>
 </p></li>
-<li><p><strong>constraints_func</strong> (<em>Callable</em><em>[</em><em>[</em><a class="reference internal" href="../../generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><em>FrozenTrial</em></a><em>]</em><em>, </em><em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a><em>]</em><em>] </em><em>| </em><em>None</em>) – <p>An optional function that computes the objective constraints. It must take a
+<li><p><strong>constraints_func</strong> (<em>Callable</em><em>[</em><em>[</em><a class="reference internal" href="../../generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><em>FrozenTrial</em></a><em>]</em><em>, </em><em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>]</em><em>] </em><em>| </em><em>None</em>) – <p>An optional function that computes the objective constraints. It must take a
 <a class="reference internal" href="../../generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrozenTrial</span></code></a> and return the constraints. The return value must
-be a sequence of <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a> s. A value strictly larger than 0 means that a
+be a sequence of <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a> s. A value strictly larger than 0 means that a
 constraints is violated. A value equal to or smaller than 0 is considered feasible.
 If <code class="docutils literal notranslate"><span class="pre">constraints_func</span></code> returns more than one value for a trial, that trial is
 considered feasible if and only if all values are equal to 0 or smaller.</p>
@@ -319,9 +314,9 @@ versions without prior notice.
 See <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v3.0.0">https://github.com/optuna/optuna/releases/tag/v3.0.0</a>.</p>
 </div>
 </p></li>
-<li><p><strong>categorical_distance_func</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>Callable</em><em>[</em><em>[</em><em>CategoricalChoiceType</em><em>, </em><em>CategoricalChoiceType</em><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a><em>]</em><em>] </em><em>| </em><em>None</em>) – <p>A dictionary of distance functions for categorical parameters. The key is the name of
+<li><p><strong>categorical_distance_func</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>Callable</em><em>[</em><em>[</em><em>CategoricalChoiceType</em><em>, </em><em>CategoricalChoiceType</em><em>]</em><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>]</em><em>] </em><em>| </em><em>None</em>) – <p>A dictionary of distance functions for categorical parameters. The key is the name of
 the categorical parameter and the value is a distance function that takes two
-<code class="xref py py-class docutils literal notranslate"><span class="pre">CategoricalChoiceType</span></code> s and returns a <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a>
+<code class="xref py py-class docutils literal notranslate"><span class="pre">CategoricalChoiceType</span></code> s and returns a <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a>
 value. The distance function must return a non-negative value.</p>
 <p>While categorical choices are handled equally by default, this option allows users to
 specify prior knowledge on the structure of categorical parameters. When specified,
@@ -380,7 +375,7 @@ without prior notice. See <a class="reference external" href="https://github.com
 <li><p><strong>trial</strong> (<a class="reference internal" href="../../generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><em>FrozenTrial</em></a>) – Target trial object.
 Take a copy before modifying this object.</p></li>
 <li><p><strong>state</strong> (<a class="reference internal" href="../../generated/optuna.trial.TrialState.html#optuna.trial.TrialState" title="optuna.trial.TrialState"><em>TrialState</em></a>) – Resulting trial state.</p></li>
-<li><p><strong>values</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a><em>] </em><em>| </em><em>None</em>) – Resulting trial values. Guaranteed to not be <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if trial succeeded.</p></li>
+<li><p><strong>values</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>] </em><em>| </em><em>None</em>) – Resulting trial values. Guaranteed to not be <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if trial succeeded.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -442,7 +437,7 @@ parameters of <a class="reference external" href="https://github.com/hyperopt/hy
 <dd class="field-odd"><p>A dictionary containing the default parameters of hyperopt.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a>, Any]</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, Any]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -466,7 +461,7 @@ Take a copy before modifying this object.</p></li>
 <dd class="field-even"><p>A dictionary containing the parameter names and parameter’s distributions.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a>, BaseDistribution]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, BaseDistribution]</p>
 </dd>
 </dl>
 <div class="admonition seealso">
@@ -510,7 +505,7 @@ perspective.</p>
 <li><p><strong>study</strong> (<a class="reference internal" href="../../generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><em>Study</em></a>) – Target study object.</p></li>
 <li><p><strong>trial</strong> (<a class="reference internal" href="../../generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><em>FrozenTrial</em></a>) – Target trial object.
 Take a copy before modifying this object.</p></li>
-<li><p><strong>param_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – Name of the sampled parameter.</p></li>
+<li><p><strong>param_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – Name of the sampled parameter.</p></li>
 <li><p><strong>param_distribution</strong> (<em>BaseDistribution</em>) – Distribution object that specifies a prior and/or scale of the sampling algorithm.</p></li>
 </ul>
 </dd>
@@ -541,7 +536,7 @@ perspective.</p>
 <li><p><strong>study</strong> (<a class="reference internal" href="../../generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><em>Study</em></a>) – Target study object.</p></li>
 <li><p><strong>trial</strong> (<a class="reference internal" href="../../generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><em>FrozenTrial</em></a>) – Target trial object.
 Take a copy before modifying this object.</p></li>
-<li><p><strong>search_space</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>BaseDistribution</em><em>]</em>) – The search space returned by
+<li><p><strong>search_space</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><em>dict</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>BaseDistribution</em><em>]</em>) – The search space returned by
 <a class="reference internal" href="optuna.samplers.BaseSampler.html#optuna.samplers.BaseSampler.infer_relative_search_space" title="optuna.samplers.BaseSampler.infer_relative_search_space"><code class="xref py py-func docutils literal notranslate"><span class="pre">infer_relative_search_space()</span></code></a>.</p></li>
 </ul>
 </dd>
@@ -549,7 +544,7 @@ Take a copy before modifying this object.</p></li>
 <dd class="field-even"><p>A dictionary containing the parameter names and the values.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a>, Any]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, Any]</p>
 </dd>
 </dl>
 </dd></dl>

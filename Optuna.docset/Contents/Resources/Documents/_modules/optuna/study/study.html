@@ -1,11 +1,13 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.study.study &mdash; Optuna 4.0.0 documentation</title>
+  <title>optuna.study.study &mdash; Optuna 4.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
@@ -15,17 +17,13 @@
 
   
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6fa1bce2"></script>
-        <script src="../../../_static/doctools.js?v=888ff710"></script>
-        <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
-        <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
-        <script src="../../../_static/copybutton.js?v=a56c686a"></script>
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=0b6e6ca6"></script>
+      <script src="../../../_static/doctools.js?v=888ff710"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=a56c686a"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -75,9 +73,6 @@
             
               <img src="../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
           </a>
-              <div class="version">
-                4.0.0
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -1211,7 +1206,7 @@
                     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">param_value</span><span class="p">,</span> <span class="n">Real</span><span class="p">)</span>
                     <span class="k">else</span> <span class="n">param_value</span> <span class="o">==</span> <span class="n">existing_param</span>
                 <span class="p">)</span>
-                <span class="n">repeated_params</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">is_repeated</span><span class="p">)</span>
+                <span class="n">repeated_params</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="n">is_repeated</span><span class="p">))</span>
 
             <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">repeated_params</span><span class="p">):</span>
                 <span class="k">return</span> <span class="kc">True</span>
@@ -1296,7 +1291,8 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        storage:</span>
-<span class="sd">            Database URL. If this argument is set to None, in-memory storage is used, and the</span>
+<span class="sd">            Database URL. If this argument is set to None,</span>
+<span class="sd">            :class:`~optuna.storages.InMemoryStorage` is used, and the</span>
 <span class="sd">            :class:`~optuna.study.Study` will not be persistent.</span>
 
 <span class="sd">            .. note::</span>
