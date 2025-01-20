@@ -5,8 +5,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.visualization._optimization_history &mdash; Optuna 4.1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+  <title>optuna.visualization._optimization_history &mdash; Optuna 4.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=0b6e6ca6"></script>
+      <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=a63e1c6a"></script>
       <script src="../../../_static/doctools.js?v=888ff710"></script>
       <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -113,53 +113,53 @@
            <div itemprop="articleBody">
              
   <h1>Source code for optuna.visualization._optimization_history</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Callable</span>
-<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Sequence</span>
-<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
-<span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">cast</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NamedTuple</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">cast</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">NamedTuple</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">optuna.logging</span> <span class="kn">import</span> <span class="n">get_logger</span>
-<span class="kn">from</span> <span class="nn">optuna.samplers._base</span> <span class="kn">import</span> <span class="n">_CONSTRAINTS_KEY</span>
-<span class="kn">from</span> <span class="nn">optuna.study</span> <span class="kn">import</span> <span class="n">Study</span>
-<span class="kn">from</span> <span class="nn">optuna.study._study_direction</span> <span class="kn">import</span> <span class="n">StudyDirection</span>
-<span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">FrozenTrial</span>
-<span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">TrialState</span>
-<span class="kn">from</span> <span class="nn">optuna.visualization._plotly_imports</span> <span class="kn">import</span> <span class="n">_imports</span>
-<span class="kn">from</span> <span class="nn">optuna.visualization._utils</span> <span class="kn">import</span> <span class="n">_check_plot_args</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.logging</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_logger</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.samplers._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">_CONSTRAINTS_KEY</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.study</span><span class="w"> </span><span class="kn">import</span> <span class="n">Study</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.study._study_direction</span><span class="w"> </span><span class="kn">import</span> <span class="n">StudyDirection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.trial</span><span class="w"> </span><span class="kn">import</span> <span class="n">FrozenTrial</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.trial</span><span class="w"> </span><span class="kn">import</span> <span class="n">TrialState</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.visualization._plotly_imports</span><span class="w"> </span><span class="kn">import</span> <span class="n">_imports</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.visualization._utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">_check_plot_args</span>
 
 
 <span class="k">if</span> <span class="n">_imports</span><span class="o">.</span><span class="n">is_successful</span><span class="p">():</span>
-    <span class="kn">from</span> <span class="nn">optuna.visualization._plotly_imports</span> <span class="kn">import</span> <span class="n">go</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">optuna.visualization._plotly_imports</span><span class="w"> </span><span class="kn">import</span> <span class="n">go</span>
 
 <span class="n">_logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<span class="k">class</span> <span class="nc">_ValueState</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">_ValueState</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
     <span class="n">Feasible</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">Infeasible</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">Incomplete</span> <span class="o">=</span> <span class="mi">2</span>
 
 
-<span class="k">class</span> <span class="nc">_ValuesInfo</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">_ValuesInfo</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
     <span class="n">values</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
     <span class="n">stds</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span>
     <span class="n">label_name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">states</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">_ValueState</span><span class="p">]</span>
 
 
-<span class="k">class</span> <span class="nc">_OptimizationHistoryInfo</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">_OptimizationHistoryInfo</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
     <span class="n">trial_numbers</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
     <span class="n">values_info</span><span class="p">:</span> <span class="n">_ValuesInfo</span>
     <span class="n">best_values_info</span><span class="p">:</span> <span class="n">_ValuesInfo</span> <span class="o">|</span> <span class="kc">None</span>
 
 
-<span class="k">def</span> <span class="nf">_get_optimization_history_info_list</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_optimization_history_info_list</span><span class="p">(</span>
     <span class="n">study</span><span class="p">:</span> <span class="n">Study</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Study</span><span class="p">],</span>
     <span class="n">target</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">FrozenTrial</span><span class="p">],</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">target_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -247,7 +247,7 @@
     <span class="n">all_trial_numbers</span> <span class="o">=</span> <span class="p">[</span><span class="n">number</span> <span class="k">for</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">info_list</span> <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="n">info</span><span class="o">.</span><span class="n">trial_numbers</span><span class="p">]</span>
     <span class="n">max_num_trial</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">all_trial_numbers</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
 
-    <span class="k">def</span> <span class="nf">_aggregate</span><span class="p">(</span><span class="n">label_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">use_best_value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">_ValuesInfo</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_aggregate</span><span class="p">(</span><span class="n">label_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">use_best_value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">_ValuesInfo</span><span class="p">]:</span>
         <span class="c1"># Calculate mean and std of values for each trial number.</span>
         <span class="n">values</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_num_trial</span><span class="p">)]</span>
         <span class="n">states</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">_ValueState</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_num_trial</span><span class="p">)]</span>
@@ -284,7 +284,7 @@
     <span class="k">return</span> <span class="p">[</span><span class="n">_OptimizationHistoryInfo</span><span class="p">(</span><span class="n">eb_trial_numbers</span><span class="p">,</span> <span class="n">eb_values_info</span><span class="p">,</span> <span class="n">eb_best_values_info</span><span class="p">)]</span>
 
 
-<div class="viewcode-block" id="plot_optimization_history"><a class="viewcode-back" href="../../../reference/visualization/generated/optuna.visualization.plot_optimization_history.html#optuna.visualization.plot_optimization_history">[docs]</a><span class="k">def</span> <span class="nf">plot_optimization_history</span><span class="p">(</span>
+<div class="viewcode-block" id="plot_optimization_history"><a class="viewcode-back" href="../../../reference/visualization/generated/optuna.visualization.plot_optimization_history.html#optuna.visualization.plot_optimization_history">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_optimization_history</span><span class="p">(</span>
     <span class="n">study</span><span class="p">:</span> <span class="n">Study</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">Study</span><span class="p">],</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">target</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">FrozenTrial</span><span class="p">],</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -318,7 +318,7 @@
     <span class="k">return</span> <span class="n">_get_optimization_history_plot</span><span class="p">(</span><span class="n">info_list</span><span class="p">,</span> <span class="n">target_name</span><span class="p">)</span></div>
 
 
-<span class="k">def</span> <span class="nf">_get_optimization_history_plot</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_optimization_history_plot</span><span class="p">(</span>
     <span class="n">info_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">_OptimizationHistoryInfo</span><span class="p">],</span>
     <span class="n">target_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;go.Figure&quot;</span><span class="p">:</span>

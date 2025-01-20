@@ -5,8 +5,8 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>(File-based) Journal Storage — Optuna 4.1.0 documentation</title>
-<link href="../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
+<title>(File-based) Journal Storage — Optuna 4.2.0 documentation</title>
+<link href="../../_static/pygments.css?v=03e43079" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css?v=e59714d7" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery.css?v=d2d258e8" rel="stylesheet" type="text/css"/>
@@ -17,7 +17,7 @@
 <link href="../../_static/favicon.ico" rel="shortcut icon"/>
 <script src="../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=0b6e6ca6"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=a63e1c6a"></script>
 <script src="../../_static/doctools.js?v=888ff710"></script>
 <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -107,10 +107,10 @@ to download the full example code.</p>
 <p>Optuna provides <a class="reference internal" href="../../reference/generated/optuna.storages.JournalStorage.html#optuna.storages.JournalStorage" title="optuna.storages.JournalStorage"><code class="xref py py-class docutils literal notranslate"><span class="pre">JournalStorage</span></code></a>. With this feature, you can easily run a
 distributed optimization over network using NFS as the shared storage, without need for setting up
 RDB or Redis.</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">sys</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 
-<span class="kn">import</span> <span class="nn">optuna</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">optuna</span>
 
 
 <span class="c1"># Add stream handler of stdout to show the messages</span>
@@ -124,7 +124,7 @@ RDB or Redis.</p>
 <span class="n">study</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">create_study</span><span class="p">(</span><a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str"><span class="n">study_name</span></a><span class="o">=</span><a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str"><span class="n">study_name</span></a><span class="p">,</span> <span class="n">storage</span><span class="o">=</span><span class="n">storage</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
 
@@ -133,9 +133,9 @@ RDB or Redis.</p>
 </pre></div>
 </div>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>A new study created in Journal with name: example-study
-Trial 0 finished with value: 19.66725542678325 and parameters: {'x': -2.4347779456003487}. Best is trial 0 with value: 19.66725542678325.
-Trial 1 finished with value: 71.33544643979275 and parameters: {'x': -6.446031401776384}. Best is trial 0 with value: 19.66725542678325.
-Trial 2 finished with value: 0.01985943776783048 and parameters: {'x': 2.140923517440598}. Best is trial 2 with value: 0.01985943776783048.
+Trial 0 finished with value: 5.117561835410462 and parameters: {'x': -0.2622028722929475}. Best is trial 0 with value: 5.117561835410462.
+Trial 1 finished with value: 6.218814999554359 and parameters: {'x': -0.49375520040647913}. Best is trial 0 with value: 5.117561835410462.
+Trial 2 finished with value: 2.6732638122398797 and parameters: {'x': 0.3649881308565739}. Best is trial 2 with value: 2.6732638122398797.
 </pre></div>
 </div>
 <p>Although the optimization in this example is too short to run in parallel, you can extend this
@@ -147,7 +147,7 @@ may appear. In this case, you can solve the problem with creating storage by spe
 <a class="reference internal" href="../../reference/generated/optuna.storages.journal.JournalFileOpenLock.html#optuna.storages.journal.JournalFileOpenLock" title="optuna.storages.journal.JournalFileOpenLock"><code class="xref py py-class docutils literal notranslate"><span class="pre">JournalFileOpenLock</span></code></a>. See the reference of
 <a class="reference internal" href="../../reference/generated/optuna.storages.JournalStorage.html#optuna.storages.JournalStorage" title="optuna.storages.JournalStorage"><code class="xref py py-class docutils literal notranslate"><span class="pre">JournalStorage</span></code></a> for any details.</p>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.011 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.015 seconds)</p>
 <a class="dashAnchor" name="//apple_ref/cpp/Section/sphx_glr_download_tutorial_20_recipes_011_journal_storage.py"></a><div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorial-20-recipes-011-journal-storage-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/f72a41939bafec49754af4ac5e1dcdfc/011_journal_storage.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">011_journal_storage.ipynb</span></code></a></p>

@@ -5,8 +5,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.visualization.matplotlib._slice &mdash; Optuna 4.1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
+  <title>optuna.visualization.matplotlib._slice &mdash; Optuna 4.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery.css?v=d2d258e8" />
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=0b6e6ca6"></script>
+      <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=a63e1c6a"></script>
       <script src="../../../../_static/doctools.js?v=888ff710"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -113,33 +113,33 @@
            <div itemprop="articleBody">
              
   <h1>Source code for optuna.visualization.matplotlib._slice</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
-<span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
 
-<span class="kn">from</span> <span class="nn">optuna._experimental</span> <span class="kn">import</span> <span class="n">experimental_func</span>
-<span class="kn">from</span> <span class="nn">optuna.study</span> <span class="kn">import</span> <span class="n">Study</span>
-<span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">FrozenTrial</span>
-<span class="kn">from</span> <span class="nn">optuna.visualization._slice</span> <span class="kn">import</span> <span class="n">_get_slice_plot_info</span>
-<span class="kn">from</span> <span class="nn">optuna.visualization._slice</span> <span class="kn">import</span> <span class="n">_PlotValues</span>
-<span class="kn">from</span> <span class="nn">optuna.visualization._slice</span> <span class="kn">import</span> <span class="n">_SlicePlotInfo</span>
-<span class="kn">from</span> <span class="nn">optuna.visualization._slice</span> <span class="kn">import</span> <span class="n">_SliceSubplotInfo</span>
-<span class="kn">from</span> <span class="nn">optuna.visualization.matplotlib._matplotlib_imports</span> <span class="kn">import</span> <span class="n">_imports</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna._experimental</span><span class="w"> </span><span class="kn">import</span> <span class="n">experimental_func</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.study</span><span class="w"> </span><span class="kn">import</span> <span class="n">Study</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.trial</span><span class="w"> </span><span class="kn">import</span> <span class="n">FrozenTrial</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.visualization._slice</span><span class="w"> </span><span class="kn">import</span> <span class="n">_get_slice_plot_info</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.visualization._slice</span><span class="w"> </span><span class="kn">import</span> <span class="n">_PlotValues</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.visualization._slice</span><span class="w"> </span><span class="kn">import</span> <span class="n">_SlicePlotInfo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.visualization._slice</span><span class="w"> </span><span class="kn">import</span> <span class="n">_SliceSubplotInfo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.visualization.matplotlib._matplotlib_imports</span><span class="w"> </span><span class="kn">import</span> <span class="n">_imports</span>
 
 
 <span class="k">if</span> <span class="n">_imports</span><span class="o">.</span><span class="n">is_successful</span><span class="p">():</span>
-    <span class="kn">from</span> <span class="nn">optuna.visualization.matplotlib._matplotlib_imports</span> <span class="kn">import</span> <span class="n">Axes</span>
-    <span class="kn">from</span> <span class="nn">optuna.visualization.matplotlib._matplotlib_imports</span> <span class="kn">import</span> <span class="n">Colormap</span>
-    <span class="kn">from</span> <span class="nn">optuna.visualization.matplotlib._matplotlib_imports</span> <span class="kn">import</span> <span class="n">matplotlib</span>
-    <span class="kn">from</span> <span class="nn">optuna.visualization.matplotlib._matplotlib_imports</span> <span class="kn">import</span> <span class="n">PathCollection</span>
-    <span class="kn">from</span> <span class="nn">optuna.visualization.matplotlib._matplotlib_imports</span> <span class="kn">import</span> <span class="n">plt</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">optuna.visualization.matplotlib._matplotlib_imports</span><span class="w"> </span><span class="kn">import</span> <span class="n">Axes</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">optuna.visualization.matplotlib._matplotlib_imports</span><span class="w"> </span><span class="kn">import</span> <span class="n">Colormap</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">optuna.visualization.matplotlib._matplotlib_imports</span><span class="w"> </span><span class="kn">import</span> <span class="n">matplotlib</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">optuna.visualization.matplotlib._matplotlib_imports</span><span class="w"> </span><span class="kn">import</span> <span class="n">PathCollection</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">optuna.visualization.matplotlib._matplotlib_imports</span><span class="w"> </span><span class="kn">import</span> <span class="n">plt</span>
 
 
 <div class="viewcode-block" id="plot_slice"><a class="viewcode-back" href="../../../../reference/visualization/matplotlib/generated/optuna.visualization.matplotlib.slice.html#optuna.visualization.matplotlib.plot_slice">[docs]</a><span class="nd">@experimental_func</span><span class="p">(</span><span class="s2">&quot;2.2.0&quot;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">plot_slice</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_slice</span><span class="p">(</span>
     <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span>
     <span class="n">params</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
@@ -174,7 +174,7 @@
     <span class="k">return</span> <span class="n">_get_slice_plot</span><span class="p">(</span><span class="n">_get_slice_plot_info</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">target_name</span><span class="p">))</span></div>
 
 
-<span class="k">def</span> <span class="nf">_get_slice_plot</span><span class="p">(</span><span class="n">info</span><span class="p">:</span> <span class="n">_SlicePlotInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Axes&quot;</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_slice_plot</span><span class="p">(</span><span class="n">info</span><span class="p">:</span> <span class="n">_SlicePlotInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Axes&quot;</span><span class="p">:</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">subplots</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">_</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">ax</span>
@@ -215,7 +215,7 @@
     <span class="k">return</span> <span class="n">axs</span>
 
 
-<span class="k">def</span> <span class="nf">_generate_slice_subplot</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_generate_slice_subplot</span><span class="p">(</span>
     <span class="n">subplot_info</span><span class="p">:</span> <span class="n">_SliceSubplotInfo</span><span class="p">,</span>
     <span class="n">ax</span><span class="p">:</span> <span class="s2">&quot;Axes&quot;</span><span class="p">,</span>
     <span class="n">cmap</span><span class="p">:</span> <span class="s2">&quot;Colormap&quot;</span><span class="p">,</span>
@@ -261,7 +261,7 @@
     <span class="k">return</span> <span class="n">sc</span>
 
 
-<span class="k">def</span> <span class="nf">_get_categorical_plot_values</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_categorical_plot_values</span><span class="p">(</span>
     <span class="n">subplot_info</span><span class="p">:</span> <span class="n">_SliceSubplotInfo</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">_PlotValues</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
     <span class="k">assert</span> <span class="n">subplot_info</span><span class="o">.</span><span class="n">x_labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
@@ -279,7 +279,7 @@
     <span class="k">return</span> <span class="n">value_x</span><span class="p">,</span> <span class="n">value_y</span><span class="p">,</span> <span class="n">value_c</span>
 
 
-<span class="k">def</span> <span class="nf">_calc_lim_with_padding</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_calc_lim_with_padding</span><span class="p">(</span>
     <span class="n">values</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">padding_ratio</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">scale</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
     <span class="n">value_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>

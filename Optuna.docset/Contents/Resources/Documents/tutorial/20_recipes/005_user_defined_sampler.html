@@ -5,8 +5,8 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>User-Defined Sampler — Optuna 4.1.0 documentation</title>
-<link href="../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
+<title>User-Defined Sampler — Optuna 4.2.0 documentation</title>
+<link href="../../_static/pygments.css?v=03e43079" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css?v=e59714d7" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery.css?v=d2d258e8" rel="stylesheet" type="text/css"/>
@@ -17,7 +17,7 @@
 <link href="../../_static/favicon.ico" rel="shortcut icon"/>
 <script src="../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=0b6e6ca6"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=a63e1c6a"></script>
 <script src="../../_static/doctools.js?v=888ff710"></script>
 <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -131,17 +131,17 @@ The base class has three abstract methods;
 <h2>An Example: Implementing SimulatedAnnealingSampler<a class="headerlink" href="#an-example-implementing-simulatedannealingsampler" title="Permalink to this heading"></a></h2>
 <p>For example, the following code defines a sampler based on
 <a class="reference external" href="https://en.wikipedia.org/wiki/Simulated_annealing">Simulated Annealing (SA)</a>:</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">optuna</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">optuna</span>
 
 
-<span class="k">class</span> <span class="nc">SimulatedAnnealingSampler</span><span class="p">(</span><a class="sphx-glr-backref-module-abc sphx-glr-backref-type-py-class" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="abc.ABC"><span class="n">optuna</span><span class="o">.</span><span class="n">samplers</span><span class="o">.</span><span class="n">BaseSampler</span></a><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SimulatedAnnealingSampler</span><span class="p">(</span><a class="sphx-glr-backref-module-abc sphx-glr-backref-type-py-class" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="abc.ABC"><span class="n">optuna</span><span class="o">.</span><span class="n">samplers</span><span class="o">.</span><span class="n">BaseSampler</span></a><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">temperature</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span> <span class="o">=</span> <a class="sphx-glr-backref-module-numpy-random sphx-glr-backref-type-py-class" href="https://numpy.org/doc/stable/reference/random/legacy.html#numpy.random.RandomState" title="numpy.random.RandomState"><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span></a><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_temperature</span> <span class="o">=</span> <span class="n">temperature</span>  <span class="c1"># Current temperature.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_current_trial</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Current state.</span>
 
-    <span class="k">def</span> <span class="nf">sample_relative</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">,</span> <span class="n">trial</span><span class="p">,</span> <span class="n">search_space</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sample_relative</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">,</span> <span class="n">trial</span><span class="p">,</span> <span class="n">search_space</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">search_space</span> <span class="o">==</span> <span class="p">{}:</span>
             <span class="k">return</span> <span class="p">{}</span>
 
@@ -185,10 +185,10 @@ The base class has three abstract methods;
         <span class="k">return</span> <span class="n">params</span>
 
     <span class="c1"># The rest are unrelated to SA algorithm: boilerplate</span>
-    <span class="k">def</span> <span class="nf">infer_relative_search_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">,</span> <span class="n">trial</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">infer_relative_search_space</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">,</span> <span class="n">trial</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">optuna</span><span class="o">.</span><span class="n">search_space</span><span class="o">.</span><span class="n">intersection_search_space</span><span class="p">(</span><span class="n">study</span><span class="o">.</span><span class="n">get_trials</span><span class="p">(</span><span class="n">deepcopy</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">sample_independent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">,</span> <span class="n">trial</span><span class="p">,</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">param_distribution</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sample_independent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">,</span> <span class="n">trial</span><span class="p">,</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">param_distribution</span><span class="p">):</span>
         <span class="n">independent_sampler</span> <span class="o">=</span> <a class="sphx-glr-backref-module-abc sphx-glr-backref-type-py-class" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="abc.ABC"><span class="n">optuna</span><span class="o">.</span><span class="n">samplers</span><span class="o">.</span><span class="n">RandomSampler</span></a><span class="p">()</span>
         <span class="k">return</span> <span class="n">independent_sampler</span><span class="o">.</span><span class="n">sample_independent</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="n">trial</span><span class="p">,</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">param_distribution</span><span class="p">)</span>
 </pre></div>
@@ -200,7 +200,7 @@ If you’re interested in how to support those features, please see
 <a class="reference external" href="https://github.com/optuna/optuna-examples/blob/main/samplers/simulated_annealing_sampler.py">examples/samplers/simulated_annealing.py</a>.</p>
 </div>
 <p>You can use <code class="docutils literal notranslate"><span class="pre">SimulatedAnnealingSampler</span></code> in the same way as built-in samplers as follows:</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"y"</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span>
@@ -215,8 +215,8 @@ If you’re interested in how to support those features, please see
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Parameters that achieve the best value: "</span><span class="p">,</span> <span class="n">best_trial</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Best value:  -4.884762951663842
-Parameters that achieve the best value:  {'x': 0.09533861227384621, 'y': -4.893852402654145}
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Best value:  -4.796553987620041
+Parameters that achieve the best value:  {'x': 0.32167660107241813, 'y': -4.900029823297545}
 </pre></div>
 </div>
 <p>In this optimization, the values of <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> parameters are sampled by using

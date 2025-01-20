@@ -5,8 +5,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.terminator.improvement.emmr &mdash; Optuna 4.1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
+  <title>optuna.terminator.improvement.emmr &mdash; Optuna 4.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery.css?v=d2d258e8" />
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=0b6e6ca6"></script>
+      <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=a63e1c6a"></script>
       <script src="../../../../_static/doctools.js?v=888ff710"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -113,36 +113,36 @@
            <div itemprop="articleBody">
              
   <h1>Source code for optuna.terminator.improvement.emmr</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">cast</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">cast</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">optuna._experimental</span> <span class="kn">import</span> <span class="n">experimental_class</span>
-<span class="kn">from</span> <span class="nn">optuna.samplers._lazy_random_state</span> <span class="kn">import</span> <span class="n">LazyRandomState</span>
-<span class="kn">from</span> <span class="nn">optuna.search_space</span> <span class="kn">import</span> <span class="n">intersection_search_space</span>
-<span class="kn">from</span> <span class="nn">optuna.study</span> <span class="kn">import</span> <span class="n">StudyDirection</span>
-<span class="kn">from</span> <span class="nn">optuna.terminator.improvement.evaluator</span> <span class="kn">import</span> <span class="n">_compute_standardized_regret_bound</span>
-<span class="kn">from</span> <span class="nn">optuna.terminator.improvement.evaluator</span> <span class="kn">import</span> <span class="n">BaseImprovementEvaluator</span>
-<span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">FrozenTrial</span>
-<span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">TrialState</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna._experimental</span><span class="w"> </span><span class="kn">import</span> <span class="n">experimental_class</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.samplers._lazy_random_state</span><span class="w"> </span><span class="kn">import</span> <span class="n">LazyRandomState</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.search_space</span><span class="w"> </span><span class="kn">import</span> <span class="n">intersection_search_space</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.study</span><span class="w"> </span><span class="kn">import</span> <span class="n">StudyDirection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.terminator.improvement.evaluator</span><span class="w"> </span><span class="kn">import</span> <span class="n">_compute_standardized_regret_bound</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.terminator.improvement.evaluator</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseImprovementEvaluator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.trial</span><span class="w"> </span><span class="kn">import</span> <span class="n">FrozenTrial</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.trial</span><span class="w"> </span><span class="kn">import</span> <span class="n">TrialState</span>
 
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
-    <span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">scipy_stats</span>
-    <span class="kn">import</span> <span class="nn">torch</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">scipy_stats</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 
-    <span class="kn">from</span> <span class="nn">optuna._gp</span> <span class="kn">import</span> <span class="n">acqf</span>
-    <span class="kn">from</span> <span class="nn">optuna._gp</span> <span class="kn">import</span> <span class="n">gp</span>
-    <span class="kn">from</span> <span class="nn">optuna._gp</span> <span class="kn">import</span> <span class="n">prior</span>
-    <span class="kn">from</span> <span class="nn">optuna._gp</span> <span class="kn">import</span> <span class="n">search_space</span> <span class="k">as</span> <span class="n">gp_search_space</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">optuna._gp</span><span class="w"> </span><span class="kn">import</span> <span class="n">acqf</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">optuna._gp</span><span class="w"> </span><span class="kn">import</span> <span class="n">gp</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">optuna._gp</span><span class="w"> </span><span class="kn">import</span> <span class="n">prior</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">optuna._gp</span><span class="w"> </span><span class="kn">import</span> <span class="n">search_space</span> <span class="k">as</span> <span class="n">gp_search_space</span>
 <span class="k">else</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">optuna._imports</span> <span class="kn">import</span> <span class="n">_LazyImport</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">optuna._imports</span><span class="w"> </span><span class="kn">import</span> <span class="n">_LazyImport</span>
 
     <span class="n">torch</span> <span class="o">=</span> <span class="n">_LazyImport</span><span class="p">(</span><span class="s2">&quot;torch&quot;</span><span class="p">)</span>
     <span class="n">gp</span> <span class="o">=</span> <span class="n">_LazyImport</span><span class="p">(</span><span class="s2">&quot;optuna._gp.gp&quot;</span><span class="p">)</span>
@@ -155,7 +155,7 @@
 
 
 <div class="viewcode-block" id="EMMREvaluator"><a class="viewcode-back" href="../../../../reference/generated/optuna.terminator.EMMREvaluator.html#optuna.terminator.EMMREvaluator">[docs]</a><span class="nd">@experimental_class</span><span class="p">(</span><span class="s2">&quot;4.0.0&quot;</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">EMMREvaluator</span><span class="p">(</span><span class="n">BaseImprovementEvaluator</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">EMMREvaluator</span><span class="p">(</span><span class="n">BaseImprovementEvaluator</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Evaluates a kind of regrets, called the Expected Minimum Model Regret(EMMR).</span>
 
 <span class="sd">    EMMR is an upper bound of &quot;expected minimum simple regret&quot; in the optimization process.</span>
@@ -220,7 +220,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">deterministic_objective</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">delta</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
@@ -235,7 +235,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">min_n_trials</span> <span class="o">=</span> <span class="n">min_n_trials</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span> <span class="o">=</span> <span class="n">LazyRandomState</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trials</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">],</span> <span class="n">study_direction</span><span class="p">:</span> <span class="n">StudyDirection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trials</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">],</span> <span class="n">study_direction</span><span class="p">:</span> <span class="n">StudyDirection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 
         <span class="n">optuna_search_space</span> <span class="o">=</span> <span class="n">intersection_search_space</span><span class="p">(</span><span class="n">trials</span><span class="p">)</span>
         <span class="n">complete_trials</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">trials</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">COMPLETE</span><span class="p">]</span>
@@ -399,7 +399,7 @@
         <span class="p">)</span></div>
 
 
-<span class="k">def</span> <span class="nf">_compute_gp_posterior</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_compute_gp_posterior</span><span class="p">(</span>
     <span class="n">search_space</span><span class="p">:</span> <span class="n">gp_search_space</span><span class="o">.</span><span class="n">SearchSpace</span><span class="p">,</span>
     <span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">Y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
@@ -414,7 +414,7 @@
         <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="p">,</span>  <span class="c1"># normalized_params[..., :-1, :],</span>
         <span class="n">Y</span><span class="o">=</span><span class="n">Y</span><span class="p">,</span>  <span class="c1"># standarized_score_vals[:-1],</span>
     <span class="p">)</span>
-    <span class="n">mean</span><span class="p">,</span> <span class="n">var</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">posterior</span><span class="p">(</span>
+    <span class="n">mean_tensor</span><span class="p">,</span> <span class="n">var_tensor</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">posterior</span><span class="p">(</span>
         <span class="n">acqf_params</span><span class="o">.</span><span class="n">kernel_params</span><span class="p">,</span>
         <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">acqf_params</span><span class="o">.</span><span class="n">X</span><span class="p">),</span>
         <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span>
@@ -424,13 +424,13 @@
         <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">acqf_params</span><span class="o">.</span><span class="n">cov_Y_Y_inv_Y</span><span class="p">),</span>
         <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">x_params</span><span class="p">),</span>  <span class="c1"># best_params or normalized_params[..., -1, :]),</span>
     <span class="p">)</span>
-    <span class="n">mean</span> <span class="o">=</span> <span class="n">mean</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-    <span class="n">var</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">mean</span> <span class="o">=</span> <span class="n">mean_tensor</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">var</span> <span class="o">=</span> <span class="n">var_tensor</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">mean</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">var</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">mean</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">float</span><span class="p">(</span><span class="n">var</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
 
-<span class="k">def</span> <span class="nf">_posterior_of_batched_theta</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_posterior_of_batched_theta</span><span class="p">(</span>
     <span class="n">kernel_params</span><span class="p">:</span> <span class="n">gp</span><span class="o">.</span><span class="n">KernelParamsTensor</span><span class="p">,</span>
     <span class="n">X</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>  <span class="c1"># [len(trials), len(params)]</span>
     <span class="n">is_categorical</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>  <span class="c1"># bool[len(params)]</span>
@@ -467,7 +467,7 @@
     <span class="k">return</span> <span class="n">mean</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_compute_gp_posterior_cov_two_thetas</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_compute_gp_posterior_cov_two_thetas</span><span class="p">(</span>
     <span class="n">search_space</span><span class="p">:</span> <span class="n">gp_search_space</span><span class="o">.</span><span class="n">SearchSpace</span><span class="p">,</span>
     <span class="n">normalized_params</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">standarized_score_vals</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>

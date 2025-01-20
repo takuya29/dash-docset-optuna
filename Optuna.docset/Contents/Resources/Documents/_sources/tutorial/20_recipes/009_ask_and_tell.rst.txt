@@ -310,7 +310,7 @@ Thus, the number of trials is :math:`30`.
 Note that you need to store either ``trial_numbers`` or ``trial`` to call
 :func:`optuna.study.Study.tell` method after the batched evaluations.
 
-.. GENERATED FROM PYTHON SOURCE LINES 214-237
+.. GENERATED FROM PYTHON SOURCE LINES 214-238
 
 .. code-block:: Python
 
@@ -345,9 +345,29 @@ Note that you need to store either ``trial_numbers`` or ``trial`` to call
 
 
 
+.. GENERATED FROM PYTHON SOURCE LINES 239-246
+
+.. tip::
+
+    :class:`optuna.samplers.TPESampler` class can take a boolean parameter ``constant_liar``. It
+    is recommended to set this value to ``True`` during batched optimization to avoid having
+    multiple workers evaluating similar parameter configurations. In particular, if each
+    objective function evaluation is costly and the durations of the running states are
+    significant, and/or the number of workers is high.
+
+.. GENERATED FROM PYTHON SOURCE LINES 248-254
+
+.. tip::
+
+    :class:`optuna.samplers.CmaEsSampler` class can take a ``popsize`` attribute parameter
+    used as the initial population size for the CMA-ES algorithm. In the context of batched
+    optimization, it can  be set equal to a multiple of the batch size in order to benefit from
+    parallelizable operations.
+
+
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.112 seconds)
+   **Total running time of the script:** (0 minutes 0.114 seconds)
 
 
 .. _sphx_glr_download_tutorial_20_recipes_009_ask_and_tell.py:

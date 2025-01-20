@@ -5,8 +5,8 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.distributions.CategoricalDistribution — Optuna 4.1.0 documentation</title>
-<link href="../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
+<title>optuna.distributions.CategoricalDistribution — Optuna 4.2.0 documentation</title>
+<link href="../../_static/pygments.css?v=03e43079" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css?v=e59714d7" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery.css?v=d2d258e8" rel="stylesheet" type="text/css"/>
@@ -17,7 +17,7 @@
 <link href="../../_static/favicon.ico" rel="shortcut icon"/>
 <script src="../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=0b6e6ca6"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=a63e1c6a"></script>
 <script src="../../_static/doctools.js?v=888ff710"></script>
 <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -26,7 +26,7 @@
 <link href="../../genindex.html" rel="index" title="Index"/>
 <link href="../../search.html" rel="search" title="Search"/>
 <link href="optuna.distributions.distribution_to_json.html" rel="next" title="optuna.distributions.distribution_to_json"/>
-<link href="optuna.distributions.IntLogUniformDistribution.html" rel="prev" title="optuna.distributions.IntLogUniformDistribution"/>
+<link href="optuna.distributions.IntDistribution.html" rel="prev" title="optuna.distributions.IntDistribution"/>
 </head>
 <body class="wy-body-for-nav">
 <div class="navbar">
@@ -85,11 +85,6 @@
 <li class="toctree-l2 current"><a class="reference internal" href="../distributions.html">optuna.distributions</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="optuna.distributions.FloatDistribution.html">optuna.distributions.FloatDistribution</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.distributions.IntDistribution.html">optuna.distributions.IntDistribution</a></li>
-<li class="toctree-l3"><a class="reference internal" href="optuna.distributions.UniformDistribution.html">optuna.distributions.UniformDistribution</a></li>
-<li class="toctree-l3"><a class="reference internal" href="optuna.distributions.LogUniformDistribution.html">optuna.distributions.LogUniformDistribution</a></li>
-<li class="toctree-l3"><a class="reference internal" href="optuna.distributions.DiscreteUniformDistribution.html">optuna.distributions.DiscreteUniformDistribution</a></li>
-<li class="toctree-l3"><a class="reference internal" href="optuna.distributions.IntUniformDistribution.html">optuna.distributions.IntUniformDistribution</a></li>
-<li class="toctree-l3"><a class="reference internal" href="optuna.distributions.IntLogUniformDistribution.html">optuna.distributions.IntLogUniformDistribution</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">optuna.distributions.CategoricalDistribution</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#optuna.distributions.CategoricalDistribution"><code class="docutils literal notranslate"><span class="pre">CategoricalDistribution</span></code></a></li>
 </ul>
@@ -97,6 +92,11 @@
 <li class="toctree-l3"><a class="reference internal" href="optuna.distributions.distribution_to_json.html">optuna.distributions.distribution_to_json</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.distributions.json_to_distribution.html">optuna.distributions.json_to_distribution</a></li>
 <li class="toctree-l3"><a class="reference internal" href="optuna.distributions.check_distribution_compatibility.html">optuna.distributions.check_distribution_compatibility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.distributions.UniformDistribution.html">optuna.distributions.UniformDistribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.distributions.LogUniformDistribution.html">optuna.distributions.LogUniformDistribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.distributions.DiscreteUniformDistribution.html">optuna.distributions.DiscreteUniformDistribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.distributions.IntUniformDistribution.html">optuna.distributions.IntUniformDistribution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.distributions.IntLogUniformDistribution.html">optuna.distributions.IntLogUniformDistribution</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../exceptions.html">optuna.exceptions</a></li>
@@ -145,7 +145,7 @@
 passed to <a class="reference internal" href="../samplers/index.html#module-optuna.samplers" title="optuna.samplers"><code class="xref py py-mod docutils literal notranslate"><span class="pre">samplers</span></code></a> in general.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>choices</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.13)"><em>Sequence</em></a><em>[</em><em>None</em><em> | </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>]</em>) – Parameter value candidates. <code class="docutils literal notranslate"><span class="pre">choices</span></code> must have one element at least.</p>
+<dd class="field-odd"><p><strong>choices</strong> (<em>Sequence</em><em>[</em><em>CategoricalChoiceType</em><em>]</em>) – Parameter value candidates. <code class="docutils literal notranslate"><span class="pre">choices</span></code> must have one element at least.</p>
 </dd>
 </dl>
 <div class="admonition note">
@@ -224,7 +224,7 @@ otherwise <a class="reference external" href="https://docs.python.org/3/library/
 </div>
 </div>
 <footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
-<a accesskey="p" class="btn btn-neutral float-left" href="optuna.distributions.IntLogUniformDistribution.html" rel="prev" title="optuna.distributions.IntLogUniformDistribution"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="p" class="btn btn-neutral float-left" href="optuna.distributions.IntDistribution.html" rel="prev" title="optuna.distributions.IntDistribution"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
 <a accesskey="n" class="btn btn-neutral float-right" href="optuna.distributions.distribution_to_json.html" rel="next" title="optuna.distributions.distribution_to_json">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
 </div>
 <hr/>

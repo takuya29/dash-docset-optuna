@@ -1,0 +1,631 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>optuna.storages._grpc.server &mdash; Optuna 4.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/custom.css?v=d0d4e556" />
+
+  
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=a63e1c6a"></script>
+      <script src="../../../../_static/doctools.js?v=888ff710"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../_static/copybutton.js?v=a56c686a"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+    <div class="navbar">
+        <div class="navbar ml-auto">
+            <ul class="navbar-nav">
+                <li>
+                    <a href="https://optuna.org/#key_features" class="header_link">Key Features</a>
+                </li>
+                <li>
+                    <a href="https://optuna.org/#code_examples" class="header_link">Code Examples</a>
+                </li>
+                <li>
+                    <a href="https://optuna.org/#installation" class="header_link">Installation</a>
+                </li>
+                <li>
+                    <a href="https://optuna.org/#dashboard" class="header_link">Dashboard</a>
+                </li>
+                <li>
+                    <a href="https://optuna.org/#hub" class="header_link">OptunaHub</a>
+                </li>
+                <li>
+                    <a href="https://optuna.org/#blog" class="header_link">Blog</a>
+                </li>
+                <li>
+                    <a href="https://optuna.org/#video" class="header_link">Videos</a>
+                </li>
+                <li>
+                    <a href="https://optuna.org/#paper" class="header_link">Paper</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+     
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html">
+            
+              <img src="../../../../_static/optuna-logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/index.html">Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../reference/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../faq.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Optuna</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <!-- This file is necessary to remove "Edit on Github" button from readthedocs by following https://docs.readthedocs.io/en/stable/guides/remove-edit-buttons.html#remove-links-from-top-right-corner --><div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">optuna.storages._grpc.server</li>
+
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for optuna.storages._grpc.server</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">concurrent.futures</span><span class="w"> </span><span class="kn">import</span> <span class="n">ThreadPoolExecutor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna</span><span class="w"> </span><span class="kn">import</span> <span class="n">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna._experimental</span><span class="w"> </span><span class="kn">import</span> <span class="n">experimental_func</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.distributions</span><span class="w"> </span><span class="kn">import</span> <span class="n">distribution_to_json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.distributions</span><span class="w"> </span><span class="kn">import</span> <span class="n">json_to_distribution</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">DuplicatedStudyError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.storages</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseStorage</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.storages._grpc.grpc_imports</span><span class="w"> </span><span class="kn">import</span> <span class="n">_imports</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.study._study_direction</span><span class="w"> </span><span class="kn">import</span> <span class="n">StudyDirection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.trial._frozen</span><span class="w"> </span><span class="kn">import</span> <span class="n">FrozenTrial</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.trial._state</span><span class="w"> </span><span class="kn">import</span> <span class="n">TrialState</span>
+
+
+<span class="k">if</span> <span class="n">_imports</span><span class="o">.</span><span class="n">is_successful</span><span class="p">():</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">optuna.storages._grpc.grpc_imports</span><span class="w"> </span><span class="kn">import</span> <span class="n">api_pb2</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">optuna.storages._grpc.grpc_imports</span><span class="w"> </span><span class="kn">import</span> <span class="n">api_pb2_grpc</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">optuna.storages._grpc.grpc_imports</span><span class="w"> </span><span class="kn">import</span> <span class="n">grpc</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">optuna.storages._grpc.grpc_imports</span><span class="w"> </span><span class="kn">import</span> <span class="n">StorageServiceServicer</span>
+<span class="k">else</span><span class="p">:</span>
+
+    <span class="k">class</span><span class="w"> </span><span class="nc">StorageServiceServicer</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
+        <span class="k">pass</span>
+
+
+<span class="n">_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">DATETIME_FORMAT</span> <span class="o">=</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">OptunaStorageProxyService</span><span class="p">(</span><span class="n">StorageServiceServicer</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">:</span> <span class="n">BaseStorage</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">_imports</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span> <span class="o">=</span> <span class="n">storage</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">CreateNewStudy</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">request</span><span class="p">:</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">CreateNewStudyRequest</span><span class="p">,</span>
+        <span class="n">context</span><span class="p">:</span> <span class="n">grpc</span><span class="o">.</span><span class="n">ServicerContext</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">CreateNewStudyReply</span><span class="p">:</span>
+        <span class="n">directions</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">StudyDirection</span><span class="o">.</span><span class="n">MINIMIZE</span> <span class="k">if</span> <span class="n">d</span> <span class="o">==</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">MINIMIZE</span> <span class="k">else</span> <span class="n">StudyDirection</span><span class="o">.</span><span class="n">MAXIMIZE</span>
+            <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">directions</span>
+        <span class="p">]</span>
+        <span class="n">study_name</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">study_name</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">study_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">create_new_study</span><span class="p">(</span><span class="n">directions</span><span class="o">=</span><span class="n">directions</span><span class="p">,</span> <span class="n">study_name</span><span class="o">=</span><span class="n">study_name</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">DuplicatedStudyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">context</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">ALREADY_EXISTS</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">CreateNewStudyReply</span><span class="p">(</span><span class="n">study_id</span><span class="o">=</span><span class="n">study_id</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">DeleteStudy</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">request</span><span class="p">:</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">DeleteStudyRequest</span><span class="p">,</span>
+        <span class="n">context</span><span class="p">:</span> <span class="n">grpc</span><span class="o">.</span><span class="n">ServicerContext</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">DeleteStudyReply</span><span class="p">:</span>
+        <span class="n">study_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">study_id</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">delete_study</span><span class="p">(</span><span class="n">study_id</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">context</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">NOT_FOUND</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">DeleteStudyReply</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">SetStudyUserAttribute</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">request</span><span class="p">:</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">SetStudyUserAttributeRequest</span><span class="p">,</span>
+        <span class="n">context</span><span class="p">:</span> <span class="n">grpc</span><span class="o">.</span><span class="n">ServicerContext</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">SetStudyUserAttributeReply</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">set_study_user_attr</span><span class="p">(</span>
+                <span class="n">request</span><span class="o">.</span><span class="n">study_id</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">context</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">NOT_FOUND</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">SetStudyUserAttributeReply</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">SetStudySystemAttribute</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">request</span><span class="p">:</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">SetStudySystemAttributeRequest</span><span class="p">,</span>
+        <span class="n">context</span><span class="p">:</span> <span class="n">grpc</span><span class="o">.</span><span class="n">ServicerContext</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">SetStudySystemAttributeReply</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">set_study_system_attr</span><span class="p">(</span>
+                <span class="n">request</span><span class="o">.</span><span class="n">study_id</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">context</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">NOT_FOUND</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">SetStudySystemAttributeReply</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">GetStudyIdFromName</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">request</span><span class="p">:</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">GetStudyIdFromNameRequest</span><span class="p">,</span>
+        <span class="n">context</span><span class="p">:</span> <span class="n">grpc</span><span class="o">.</span><span class="n">ServicerContext</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">GetStudyIdFromNameReply</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">study_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">get_study_id_from_name</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">study_name</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">context</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">NOT_FOUND</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">GetStudyIdFromNameReply</span><span class="p">(</span><span class="n">study_id</span><span class="o">=</span><span class="n">study_id</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">GetStudyNameFromId</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">request</span><span class="p">:</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">GetStudyNameFromIdRequest</span><span class="p">,</span>
+        <span class="n">context</span><span class="p">:</span> <span class="n">grpc</span><span class="o">.</span><span class="n">ServicerContext</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">GetStudyNameFromIdReply</span><span class="p">:</span>
+        <span class="n">study_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">study_id</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">get_study_name_from_id</span><span class="p">(</span><span class="n">study_id</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">context</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">NOT_FOUND</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="k">assert</span> <span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">GetStudyNameFromIdReply</span><span class="p">(</span><span class="n">study_name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">GetStudyDirections</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">request</span><span class="p">:</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">GetStudyDirectionsRequest</span><span class="p">,</span>
+        <span class="n">context</span><span class="p">:</span> <span class="n">grpc</span><span class="o">.</span><span class="n">ServicerContext</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">GetStudyDirectionsReply</span><span class="p">:</span>
+        <span class="n">study_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">study_id</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">directions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">get_study_directions</span><span class="p">(</span><span class="n">study_id</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">context</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">NOT_FOUND</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+        <span class="k">assert</span> <span class="n">directions</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">GetStudyDirectionsReply</span><span class="p">(</span>
+            <span class="n">directions</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">api_pb2</span><span class="o">.</span><span class="n">MINIMIZE</span> <span class="k">if</span> <span class="n">d</span> <span class="o">==</span> <span class="n">StudyDirection</span><span class="o">.</span><span class="n">MINIMIZE</span> <span class="k">else</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">MAXIMIZE</span>
+                <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">directions</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">GetStudyUserAttributes</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">request</span><span class="p">:</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">GetStudyUserAttributesRequest</span><span class="p">,</span>
+        <span class="n">context</span><span class="p">:</span> <span class="n">grpc</span><span class="o">.</span><span class="n">ServicerContext</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">GetStudyUserAttributesReply</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">attributes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">get_study_user_attrs</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">study_id</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">context</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">NOT_FOUND</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">GetStudyUserAttributesReply</span><span class="p">(</span>
+            <span class="n">user_attributes</span><span class="o">=</span><span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">attributes</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">GetStudySystemAttributes</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">request</span><span class="p">:</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">GetStudySystemAttributesRequest</span><span class="p">,</span>
+        <span class="n">context</span><span class="p">:</span> <span class="n">grpc</span><span class="o">.</span><span class="n">ServicerContext</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">GetStudySystemAttributesReply</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">attributes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">get_study_system_attrs</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">study_id</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">context</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">NOT_FOUND</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">GetStudySystemAttributesReply</span><span class="p">(</span>
+            <span class="n">system_attributes</span><span class="o">=</span><span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">attributes</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">GetAllStudies</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">request</span><span class="p">:</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">GetAllStudiesRequest</span><span class="p">,</span>
+        <span class="n">context</span><span class="p">:</span> <span class="n">grpc</span><span class="o">.</span><span class="n">ServicerContext</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">GetAllStudiesReply</span><span class="p">:</span>
+        <span class="n">studies</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">get_all_studies</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">GetAllStudiesReply</span><span class="p">(</span>
+            <span class="n">studies</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">api_pb2</span><span class="o">.</span><span class="n">Study</span><span class="p">(</span>
+                    <span class="n">study_id</span><span class="o">=</span><span class="n">study</span><span class="o">.</span><span class="n">_study_id</span><span class="p">,</span>
+                    <span class="n">study_name</span><span class="o">=</span><span class="n">study</span><span class="o">.</span><span class="n">study_name</span><span class="p">,</span>
+                    <span class="n">directions</span><span class="o">=</span><span class="p">[</span>
+                        <span class="n">api_pb2</span><span class="o">.</span><span class="n">MINIMIZE</span> <span class="k">if</span> <span class="n">d</span> <span class="o">==</span> <span class="n">StudyDirection</span><span class="o">.</span><span class="n">MINIMIZE</span> <span class="k">else</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">MAXIMIZE</span>
+                        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">study</span><span class="o">.</span><span class="n">directions</span>
+                    <span class="p">],</span>
+                    <span class="n">user_attributes</span><span class="o">=</span><span class="p">{</span>
+                        <span class="n">key</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">study</span><span class="o">.</span><span class="n">user_attrs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                    <span class="p">},</span>
+                    <span class="n">system_attributes</span><span class="o">=</span><span class="p">{</span>
+                        <span class="n">key</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">study</span><span class="o">.</span><span class="n">system_attrs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                    <span class="p">},</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">study</span> <span class="ow">in</span> <span class="n">studies</span>
+            <span class="p">]</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">CreateNewTrial</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">request</span><span class="p">:</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">CreateNewTrialRequest</span><span class="p">,</span>
+        <span class="n">context</span><span class="p">:</span> <span class="n">grpc</span><span class="o">.</span><span class="n">ServicerContext</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">CreateNewTrialReply</span><span class="p">:</span>
+        <span class="n">study_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">study_id</span>
+
+        <span class="n">template_trial</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">request</span><span class="o">.</span><span class="n">template_trial_is_none</span><span class="p">:</span>
+            <span class="n">template_trial</span> <span class="o">=</span> <span class="n">_from_proto_trial</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">template_trial</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">trial_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">create_new_trial</span><span class="p">(</span><span class="n">study_id</span><span class="p">,</span> <span class="n">template_trial</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">context</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">NOT_FOUND</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">CreateNewTrialReply</span><span class="p">(</span><span class="n">trial_id</span><span class="o">=</span><span class="n">trial_id</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">SetTrialParameter</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">request</span><span class="p">:</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">SetTrialParameterRequest</span><span class="p">,</span>
+        <span class="n">context</span><span class="p">:</span> <span class="n">grpc</span><span class="o">.</span><span class="n">ServicerContext</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">SetTrialParameterReply</span><span class="p">:</span>
+        <span class="n">trial_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">trial_id</span>
+        <span class="n">param_name</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">param_name</span>
+        <span class="n">param_value_internal</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">param_value_internal</span>
+        <span class="n">distribution</span> <span class="o">=</span> <span class="n">json_to_distribution</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">distribution</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">set_trial_param</span><span class="p">(</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">param_value_internal</span><span class="p">,</span> <span class="n">distribution</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">context</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">NOT_FOUND</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">context</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">FAILED_PRECONDITION</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">context</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">INVALID_ARGUMENT</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">SetTrialParameterReply</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">GetTrialIdFromStudyIdTrialNumber</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">request</span><span class="p">:</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">GetTrialIdFromStudyIdTrialNumberRequest</span><span class="p">,</span>
+        <span class="n">context</span><span class="p">:</span> <span class="n">grpc</span><span class="o">.</span><span class="n">ServicerContext</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">GetTrialIdFromStudyIdTrialNumberReply</span><span class="p">:</span>
+        <span class="n">study_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">study_id</span>
+        <span class="n">trial_number</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">trial_number</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">trial_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">get_trial_id_from_study_id_trial_number</span><span class="p">(</span>
+                <span class="n">study_id</span><span class="p">,</span> <span class="n">trial_number</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">context</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">NOT_FOUND</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">GetTrialIdFromStudyIdTrialNumberReply</span><span class="p">(</span><span class="n">trial_id</span><span class="o">=</span><span class="n">trial_id</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">SetTrialStateValues</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">request</span><span class="p">:</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">SetTrialStateValuesRequest</span><span class="p">,</span>
+        <span class="n">context</span><span class="p">:</span> <span class="n">grpc</span><span class="o">.</span><span class="n">ServicerContext</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">SetTrialStateValuesReply</span><span class="p">:</span>
+        <span class="n">trial_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">trial_id</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">state</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">values</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">trial_updated</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">set_trial_state_values</span><span class="p">(</span>
+                <span class="n">trial_id</span><span class="p">,</span> <span class="n">_from_proto_trial_state</span><span class="p">(</span><span class="n">state</span><span class="p">),</span> <span class="n">values</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">context</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">NOT_FOUND</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">context</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">FAILED_PRECONDITION</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">SetTrialStateValuesReply</span><span class="p">(</span><span class="n">trial_updated</span><span class="o">=</span><span class="n">trial_updated</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">SetTrialIntermediateValue</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">request</span><span class="p">:</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">SetTrialIntermediateValueRequest</span><span class="p">,</span>
+        <span class="n">context</span><span class="p">:</span> <span class="n">grpc</span><span class="o">.</span><span class="n">ServicerContext</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">SetTrialIntermediateValueReply</span><span class="p">:</span>
+        <span class="n">trial_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">trial_id</span>
+        <span class="n">step</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">step</span>
+        <span class="n">intermediate_value</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">intermediate_value</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">set_trial_intermediate_value</span><span class="p">(</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">intermediate_value</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">context</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">NOT_FOUND</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">context</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">FAILED_PRECONDITION</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">SetTrialIntermediateValueReply</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">SetTrialUserAttribute</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">request</span><span class="p">:</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">SetTrialUserAttributeRequest</span><span class="p">,</span>
+        <span class="n">context</span><span class="p">:</span> <span class="n">grpc</span><span class="o">.</span><span class="n">ServicerContext</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">SetTrialUserAttributeReply</span><span class="p">:</span>
+        <span class="n">trial_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">trial_id</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">key</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">set_trial_user_attr</span><span class="p">(</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">context</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">NOT_FOUND</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">context</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">FAILED_PRECONDITION</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">SetTrialUserAttributeReply</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">SetTrialSystemAttribute</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">request</span><span class="p">:</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">SetTrialSystemAttributeRequest</span><span class="p">,</span>
+        <span class="n">context</span><span class="p">:</span> <span class="n">grpc</span><span class="o">.</span><span class="n">ServicerContext</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">SetTrialSystemAttributeReply</span><span class="p">:</span>
+        <span class="n">trial_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">trial_id</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">key</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">set_trial_system_attr</span><span class="p">(</span><span class="n">trial_id</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">context</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">NOT_FOUND</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">context</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">FAILED_PRECONDITION</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">SetTrialSystemAttributeReply</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">GetTrial</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">request</span><span class="p">:</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">GetTrialRequest</span><span class="p">,</span>
+        <span class="n">context</span><span class="p">:</span> <span class="n">grpc</span><span class="o">.</span><span class="n">ServicerContext</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">GetTrialReply</span><span class="p">:</span>
+        <span class="n">trial_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">trial_id</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">trial</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">get_trial</span><span class="p">(</span><span class="n">trial_id</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">context</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">NOT_FOUND</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">GetTrialReply</span><span class="p">(</span><span class="n">trial</span><span class="o">=</span><span class="n">_to_proto_trial</span><span class="p">(</span><span class="n">trial</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">GetTrials</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">request</span><span class="p">:</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">GetTrialsRequest</span><span class="p">,</span>
+        <span class="n">context</span><span class="p">:</span> <span class="n">grpc</span><span class="o">.</span><span class="n">ServicerContext</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">GetTrialsReply</span><span class="p">:</span>
+        <span class="n">study_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">study_id</span>
+        <span class="n">included_trial_ids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">included_trial_ids</span><span class="p">)</span>
+        <span class="n">trial_id_greater_than</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">trial_id_greater_than</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">trials</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backend</span><span class="o">.</span><span class="n">get_all_trials</span><span class="p">(</span><span class="n">study_id</span><span class="p">,</span> <span class="n">deepcopy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">context</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">grpc</span><span class="o">.</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">NOT_FOUND</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+        <span class="n">filtered_trials</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">_to_proto_trial</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">trials</span>
+            <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">_trial_id</span> <span class="o">&gt;</span> <span class="n">trial_id_greater_than</span> <span class="ow">or</span> <span class="n">t</span><span class="o">.</span><span class="n">_trial_id</span> <span class="ow">in</span> <span class="n">included_trial_ids</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">GetTrialsReply</span><span class="p">(</span><span class="n">trials</span><span class="o">=</span><span class="n">filtered_trials</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_to_proto_trial_state</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">TrialState</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">TrialState</span><span class="o">.</span><span class="n">ValueType</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">RUNNING</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">RUNNING</span>
+    <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">COMPLETE</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">COMPLETE</span>
+    <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">PRUNED</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">PRUNED</span>
+    <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">FAIL</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">FAIL</span>
+    <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">WAITING</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">WAITING</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown TrialState: </span><span class="si">{</span><span class="n">state</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_from_proto_trial_state</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">TrialState</span><span class="o">.</span><span class="n">ValueType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TrialState</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">RUNNING</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">RUNNING</span>
+    <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">COMPLETE</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">COMPLETE</span>
+    <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">PRUNED</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">PRUNED</span>
+    <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">FAIL</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">FAIL</span>
+    <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">WAITING</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">WAITING</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown api_pb2.TrialState: </span><span class="si">{</span><span class="n">state</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_to_proto_trial</span><span class="p">(</span><span class="n">trial</span><span class="p">:</span> <span class="n">FrozenTrial</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">Trial</span><span class="p">:</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">trial</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">params</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">distributions</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">to_internal_repr</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">Trial</span><span class="p">(</span>
+        <span class="n">trial_id</span><span class="o">=</span><span class="n">trial</span><span class="o">.</span><span class="n">_trial_id</span><span class="p">,</span>
+        <span class="n">number</span><span class="o">=</span><span class="n">trial</span><span class="o">.</span><span class="n">number</span><span class="p">,</span>
+        <span class="n">state</span><span class="o">=</span><span class="n">_to_proto_trial_state</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">state</span><span class="p">),</span>
+        <span class="n">values</span><span class="o">=</span><span class="n">trial</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+        <span class="n">datetime_start</span><span class="o">=</span><span class="p">(</span>
+            <span class="n">trial</span><span class="o">.</span><span class="n">datetime_start</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DATETIME_FORMAT</span><span class="p">)</span> <span class="k">if</span> <span class="n">trial</span><span class="o">.</span><span class="n">datetime_start</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="p">),</span>
+        <span class="n">datetime_complete</span><span class="o">=</span><span class="p">(</span>
+            <span class="n">trial</span><span class="o">.</span><span class="n">datetime_complete</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DATETIME_FORMAT</span><span class="p">)</span> <span class="k">if</span> <span class="n">trial</span><span class="o">.</span><span class="n">datetime_complete</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="p">),</span>
+        <span class="n">distributions</span><span class="o">=</span><span class="p">{</span>
+            <span class="n">key</span><span class="p">:</span> <span class="n">distribution_to_json</span><span class="p">(</span><span class="n">distribution</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">distribution</span> <span class="ow">in</span> <span class="n">trial</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">},</span>
+        <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+        <span class="n">user_attributes</span><span class="o">=</span><span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">trial</span><span class="o">.</span><span class="n">user_attrs</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
+        <span class="n">system_attributes</span><span class="o">=</span><span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">trial</span><span class="o">.</span><span class="n">system_attrs</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
+        <span class="n">intermediate_values</span><span class="o">=</span><span class="p">{</span><span class="n">step</span><span class="p">:</span> <span class="n">value</span> <span class="k">for</span> <span class="n">step</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">trial</span><span class="o">.</span><span class="n">intermediate_values</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_from_proto_trial</span><span class="p">(</span><span class="n">trial</span><span class="p">:</span> <span class="n">api_pb2</span><span class="o">.</span><span class="n">Trial</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FrozenTrial</span><span class="p">:</span>
+    <span class="n">datetime_start</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">datetime_start</span><span class="p">,</span> <span class="n">DATETIME_FORMAT</span><span class="p">)</span> <span class="k">if</span> <span class="n">trial</span><span class="o">.</span><span class="n">datetime_start</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="p">)</span>
+    <span class="n">datetime_complete</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">datetime_complete</span><span class="p">,</span> <span class="n">DATETIME_FORMAT</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">trial</span><span class="o">.</span><span class="n">datetime_complete</span>
+        <span class="k">else</span> <span class="kc">None</span>
+    <span class="p">)</span>
+    <span class="n">distributions</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">key</span><span class="p">:</span> <span class="n">json_to_distribution</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">trial</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+    <span class="p">}</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">trial</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">params</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">distributions</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">to_external_repr</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">FrozenTrial</span><span class="p">(</span>
+        <span class="n">trial_id</span><span class="o">=</span><span class="n">trial</span><span class="o">.</span><span class="n">trial_id</span><span class="p">,</span>
+        <span class="n">number</span><span class="o">=</span><span class="n">trial</span><span class="o">.</span><span class="n">number</span><span class="p">,</span>
+        <span class="n">state</span><span class="o">=</span><span class="n">_from_proto_trial_state</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">state</span><span class="p">),</span>
+        <span class="n">value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">values</span><span class="o">=</span><span class="n">trial</span><span class="o">.</span><span class="n">values</span> <span class="k">if</span> <span class="n">trial</span><span class="o">.</span><span class="n">values</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">datetime_start</span><span class="o">=</span><span class="n">datetime_start</span><span class="p">,</span>
+        <span class="n">datetime_complete</span><span class="o">=</span><span class="n">datetime_complete</span><span class="p">,</span>
+        <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+        <span class="n">distributions</span><span class="o">=</span><span class="n">distributions</span><span class="p">,</span>
+        <span class="n">user_attrs</span><span class="o">=</span><span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">trial</span><span class="o">.</span><span class="n">user_attributes</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
+        <span class="n">system_attrs</span><span class="o">=</span><span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">trial</span><span class="o">.</span><span class="n">system_attributes</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
+        <span class="n">intermediate_values</span><span class="o">=</span><span class="p">{</span><span class="n">step</span><span class="p">:</span> <span class="n">value</span> <span class="k">for</span> <span class="n">step</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">trial</span><span class="o">.</span><span class="n">intermediate_values</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">make_server</span><span class="p">(</span>
+    <span class="n">storage</span><span class="p">:</span> <span class="n">BaseStorage</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">thread_pool</span><span class="p">:</span> <span class="n">ThreadPoolExecutor</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">grpc</span><span class="o">.</span><span class="n">Server</span><span class="p">:</span>
+    <span class="n">server</span> <span class="o">=</span> <span class="n">grpc</span><span class="o">.</span><span class="n">server</span><span class="p">(</span><span class="n">thread_pool</span> <span class="ow">or</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+    <span class="n">api_pb2_grpc</span><span class="o">.</span><span class="n">add_StorageServiceServicer_to_server</span><span class="p">(</span>
+        <span class="n">OptunaStorageProxyService</span><span class="p">(</span><span class="n">storage</span><span class="p">),</span> <span class="n">server</span>
+    <span class="p">)</span>  <span class="c1"># type: ignore</span>
+    <span class="n">server</span><span class="o">.</span><span class="n">add_insecure_port</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">server</span>
+
+
+<div class="viewcode-block" id="run_grpc_proxy_server"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.run_grpc_proxy_server.html#optuna.storages.run_grpc_proxy_server">[docs]</a><span class="nd">@experimental_func</span><span class="p">(</span><span class="s2">&quot;4.2.0&quot;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_grpc_proxy_server</span><span class="p">(</span>
+    <span class="n">storage</span><span class="p">:</span> <span class="n">BaseStorage</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">host</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;localhost&quot;</span><span class="p">,</span>
+    <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">13000</span><span class="p">,</span>
+    <span class="n">thread_pool</span><span class="p">:</span> <span class="n">ThreadPoolExecutor</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run a gRPC server for the given storage URL, host, and port.</span>
+
+<span class="sd">    Example:</span>
+
+<span class="sd">        Run this server with the following way:</span>
+
+<span class="sd">        .. code::</span>
+
+<span class="sd">            from optuna.storages import run_grpc_proxy_server</span>
+<span class="sd">            from optuna.storages import get_storage</span>
+
+<span class="sd">            storage = get_storage(&quot;mysql+pymysql://&lt;user&gt;:&lt;pass&gt;@&lt;host&gt;/&lt;dbname&gt;[?&lt;options&gt;]&quot;)</span>
+<span class="sd">            run_grpc_proxy_server(storage, host=&quot;localhost&quot;, port=13000)</span>
+
+<span class="sd">        Please refer to the client class :class:`~optuna.storages.GrpcStorageProxy` for</span>
+<span class="sd">        the client usage. Please use :func:`~optuna.storages.get_storage` instead of</span>
+<span class="sd">        :class:`~optuna.storages.RDBStorage` since ``RDBStorage`` by itself does not use cache in</span>
+<span class="sd">        process and it may cause significant slowdown.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        storage: A storage object to proxy.</span>
+<span class="sd">        host: Hostname to listen on.</span>
+<span class="sd">        port: Port to listen on.</span>
+<span class="sd">        thread_pool:</span>
+<span class="sd">            Thread pool to use for the server. If :obj:`None`, a default thread pool</span>
+<span class="sd">            with 10 workers will be used.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">server</span> <span class="o">=</span> <span class="n">make_server</span><span class="p">(</span><span class="n">storage</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">thread_pool</span><span class="p">)</span>
+    <span class="n">server</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+    <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Server started at </span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">_logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Listening...&quot;</span><span class="p">)</span>
+    <span class="n">server</span><span class="o">.</span><span class="n">wait_for_termination</span><span class="p">()</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018, Optuna Contributors.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+    <a href="../../../../privacy.html">Privacy Policy</a>.
+     
+
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

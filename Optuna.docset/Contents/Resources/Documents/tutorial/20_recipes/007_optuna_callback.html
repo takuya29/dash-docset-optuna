@@ -5,8 +5,8 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Callback for Study.optimize — Optuna 4.1.0 documentation</title>
-<link href="../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
+<title>Callback for Study.optimize — Optuna 4.2.0 documentation</title>
+<link href="../../_static/pygments.css?v=03e43079" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css?v=e59714d7" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery.css?v=d2d258e8" rel="stylesheet" type="text/css"/>
@@ -17,7 +17,7 @@
 <link href="../../_static/favicon.ico" rel="shortcut icon"/>
 <script src="../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=0b6e6ca6"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=a63e1c6a"></script>
 <script src="../../_static/doctools.js?v=888ff710"></script>
 <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -113,15 +113,15 @@ it takes <a class="reference internal" href="../../reference/generated/optuna.st
 <p>This example implements a stateful callback which stops the optimization
 if a certain number of trials are pruned in a row.
 The number of trials pruned in a row is specified by <code class="docutils literal notranslate"><span class="pre">threshold</span></code>.</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optuna</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">optuna</span>
 
 
-<span class="k">class</span> <span class="nc">StopWhenTrialKeepBeingPrunedCallback</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">StopWhenTrialKeepBeingPrunedCallback</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">threshold</span> <span class="o">=</span> <span class="n">threshold</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_consequtive_pruned_count</span> <span class="o">=</span> <span class="mi">0</span>
 
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="n">optuna</span><span class="o">.</span><span class="n">study</span><span class="o">.</span><span class="n">Study</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <a class="sphx-glr-backref-module-abc sphx-glr-backref-type-py-class" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="abc.ABC"><span class="n">optuna</span><span class="o">.</span><span class="n">trial</span><span class="o">.</span><span class="n">FrozenTrial</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="n">optuna</span><span class="o">.</span><span class="n">study</span><span class="o">.</span><span class="n">Study</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <a class="sphx-glr-backref-module-abc sphx-glr-backref-type-py-class" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="abc.ABC"><span class="n">optuna</span><span class="o">.</span><span class="n">trial</span><span class="o">.</span><span class="n">FrozenTrial</span></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">trial</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">optuna</span><span class="o">.</span><span class="n">trial</span><span class="o">.</span><span class="n">TrialState</span><span class="o">.</span><span class="n">PRUNED</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_consequtive_pruned_count</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">else</span><span class="p">:</span>
@@ -132,7 +132,7 @@ The number of trials pruned in a row is specified by <code class="docutils liter
 </pre></div>
 </div>
 <p>This objective prunes all the trials except for the first 5 trials (<code class="docutils literal notranslate"><span class="pre">trial.number</span></code> starts with 0).</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">trial</span><span class="o">.</span><span class="n">number</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="p">:</span>
         <span class="k">raise</span> <a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-exception" href="https://docs.python.org/3/library/exceptions.html#Exception" title="builtins.Exception"><span class="n">optuna</span><span class="o">.</span><span class="n">TrialPruned</span></a>
 
@@ -141,8 +141,8 @@ The number of trials pruned in a row is specified by <code class="docutils liter
 </div>
 <p>Here, we set the threshold to <code class="docutils literal notranslate"><span class="pre">2</span></code>: optimization finishes once two trials are pruned in a row.
 So, we expect this study to stop after 7 trials.</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">sys</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 
 <span class="c1"># Add stream handler of stdout to show the messages</span>
 <span class="n">optuna</span><span class="o">.</span><span class="n">logging</span><span class="o">.</span><span class="n">get_logger</span><span class="p">(</span><span class="s2">"optuna"</span><span class="p">)</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><a class="sphx-glr-backref-module-logging sphx-glr-backref-type-py-class" href="https://docs.python.org/3/library/logging.handlers.html#logging.StreamHandler" title="logging.StreamHandler"><span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span></a><span class="p">(</span><a class="sphx-glr-backref-module-io sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/io.html#io.TextIOWrapper" title="io.TextIOWrapper"><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span></a><span class="p">))</span>
@@ -152,12 +152,12 @@ So, we expect this study to stop after 7 trials.</p>
 <span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">study_stop_cb</span><span class="p">])</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>A new study created in memory with name: no-name-44546b37-488a-4de7-b8d8-036f5dfe2f05
-Trial 0 finished with value: 0.0839544215526562 and parameters: {'x': 0.0839544215526562}. Best is trial 0 with value: 0.0839544215526562.
-Trial 1 finished with value: 0.47224725510801935 and parameters: {'x': 0.47224725510801935}. Best is trial 0 with value: 0.0839544215526562.
-Trial 2 finished with value: 0.7765607507133236 and parameters: {'x': 0.7765607507133236}. Best is trial 0 with value: 0.0839544215526562.
-Trial 3 finished with value: 0.22248140689501317 and parameters: {'x': 0.22248140689501317}. Best is trial 0 with value: 0.0839544215526562.
-Trial 4 finished with value: 0.9711319547310876 and parameters: {'x': 0.9711319547310876}. Best is trial 0 with value: 0.0839544215526562.
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>A new study created in memory with name: no-name-7e911419-702d-4b67-912b-035d2b536d75
+Trial 0 finished with value: 0.19403953396916362 and parameters: {'x': 0.19403953396916362}. Best is trial 0 with value: 0.19403953396916362.
+Trial 1 finished with value: 0.9390844755133307 and parameters: {'x': 0.9390844755133307}. Best is trial 0 with value: 0.19403953396916362.
+Trial 2 finished with value: 0.18867832124814987 and parameters: {'x': 0.18867832124814987}. Best is trial 2 with value: 0.18867832124814987.
+Trial 3 finished with value: 0.3145085459517327 and parameters: {'x': 0.3145085459517327}. Best is trial 2 with value: 0.18867832124814987.
+Trial 4 finished with value: 0.13642653285830597 and parameters: {'x': 0.13642653285830597}. Best is trial 4 with value: 0.13642653285830597.
 Trial 5 pruned.
 Trial 6 pruned.
 </pre></div>

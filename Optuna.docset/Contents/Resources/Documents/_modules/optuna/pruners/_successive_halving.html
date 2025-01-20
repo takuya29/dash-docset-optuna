@@ -5,8 +5,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.pruners._successive_halving &mdash; Optuna 4.1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+  <title>optuna.pruners._successive_halving &mdash; Optuna 4.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=0b6e6ca6"></script>
+      <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=a63e1c6a"></script>
       <script src="../../../_static/doctools.js?v=888ff710"></script>
       <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -113,17 +113,17 @@
            <div itemprop="articleBody">
              
   <h1>Source code for optuna.pruners._successive_halving</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 
-<span class="kn">import</span> <span class="nn">optuna</span>
-<span class="kn">from</span> <span class="nn">optuna.pruners._base</span> <span class="kn">import</span> <span class="n">BasePruner</span>
-<span class="kn">from</span> <span class="nn">optuna.study._study_direction</span> <span class="kn">import</span> <span class="n">StudyDirection</span>
-<span class="kn">from</span> <span class="nn">optuna.trial._state</span> <span class="kn">import</span> <span class="n">TrialState</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">optuna</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.pruners._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BasePruner</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.study._study_direction</span><span class="w"> </span><span class="kn">import</span> <span class="n">StudyDirection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.trial._state</span><span class="w"> </span><span class="kn">import</span> <span class="n">TrialState</span>
 
 
-<div class="viewcode-block" id="SuccessiveHalvingPruner"><a class="viewcode-back" href="../../../reference/generated/optuna.pruners.SuccessiveHalvingPruner.html#optuna.pruners.SuccessiveHalvingPruner">[docs]</a><span class="k">class</span> <span class="nc">SuccessiveHalvingPruner</span><span class="p">(</span><span class="n">BasePruner</span><span class="p">):</span>
+<div class="viewcode-block" id="SuccessiveHalvingPruner"><a class="viewcode-back" href="../../../reference/generated/optuna.pruners.SuccessiveHalvingPruner.html#optuna.pruners.SuccessiveHalvingPruner">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">SuccessiveHalvingPruner</span><span class="p">(</span><span class="n">BasePruner</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Pruner using Asynchronous Successive Halving Algorithm.</span>
 
 <span class="sd">    `Successive Halving &lt;https://proceedings.mlr.press/v51/jamieson16.html&gt;`__ is a bandit-based</span>
@@ -227,7 +227,7 @@
 <span class="sd">            is considered for promotion into the next rung.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">min_resource</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span>
         <span class="n">reduction_factor</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
@@ -277,7 +277,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_min_early_stopping_rate</span> <span class="o">=</span> <span class="n">min_early_stopping_rate</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_bootstrap_count</span> <span class="o">=</span> <span class="n">bootstrap_count</span>
 
-<div class="viewcode-block" id="SuccessiveHalvingPruner.prune"><a class="viewcode-back" href="../../../reference/generated/optuna.pruners.SuccessiveHalvingPruner.html#optuna.pruners.SuccessiveHalvingPruner.prune">[docs]</a>    <span class="k">def</span> <span class="nf">prune</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="s2">&quot;optuna.study.Study&quot;</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="s2">&quot;optuna.trial.FrozenTrial&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="SuccessiveHalvingPruner.prune"><a class="viewcode-back" href="../../../reference/generated/optuna.pruners.SuccessiveHalvingPruner.html#optuna.pruners.SuccessiveHalvingPruner.prune">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">prune</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="s2">&quot;optuna.study.Study&quot;</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="s2">&quot;optuna.trial.FrozenTrial&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="n">step</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">last_step</span>
         <span class="k">if</span> <span class="n">step</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
@@ -329,7 +329,7 @@
             <span class="n">rung</span> <span class="o">+=</span> <span class="mi">1</span></div></div>
 
 
-<span class="k">def</span> <span class="nf">_estimate_min_resource</span><span class="p">(</span><span class="n">trials</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="s2">&quot;optuna.trial.FrozenTrial&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_estimate_min_resource</span><span class="p">(</span><span class="n">trials</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="s2">&quot;optuna.trial.FrozenTrial&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">n_steps</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">t</span><span class="o">.</span><span class="n">last_step</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">trials</span> <span class="k">if</span> <span class="n">t</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">TrialState</span><span class="o">.</span><span class="n">COMPLETE</span> <span class="ow">and</span> <span class="n">t</span><span class="o">.</span><span class="n">last_step</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
     <span class="p">]</span>
@@ -342,7 +342,7 @@
     <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">last_step</span> <span class="o">//</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_get_current_rung</span><span class="p">(</span><span class="n">trial</span><span class="p">:</span> <span class="s2">&quot;optuna.trial.FrozenTrial&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_current_rung</span><span class="p">(</span><span class="n">trial</span><span class="p">:</span> <span class="s2">&quot;optuna.trial.FrozenTrial&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="c1"># The following loop takes `O(log step)` iterations.</span>
     <span class="n">rung</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">while</span> <span class="n">_completed_rung_key</span><span class="p">(</span><span class="n">rung</span><span class="p">)</span> <span class="ow">in</span> <span class="n">trial</span><span class="o">.</span><span class="n">system_attrs</span><span class="p">:</span>
@@ -350,11 +350,11 @@
     <span class="k">return</span> <span class="n">rung</span>
 
 
-<span class="k">def</span> <span class="nf">_completed_rung_key</span><span class="p">(</span><span class="n">rung</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_completed_rung_key</span><span class="p">(</span><span class="n">rung</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="k">return</span> <span class="s2">&quot;completed_rung_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rung</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_get_competing_values</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_competing_values</span><span class="p">(</span>
     <span class="n">trials</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="s2">&quot;optuna.trial.FrozenTrial&quot;</span><span class="p">],</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">rung_key</span><span class="p">:</span> <span class="nb">str</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
     <span class="n">competing_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">system_attrs</span><span class="p">[</span><span class="n">rung_key</span><span class="p">]</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">trials</span> <span class="k">if</span> <span class="n">rung_key</span> <span class="ow">in</span> <span class="n">t</span><span class="o">.</span><span class="n">system_attrs</span><span class="p">]</span>
@@ -362,7 +362,7 @@
     <span class="k">return</span> <span class="n">competing_values</span>
 
 
-<span class="k">def</span> <span class="nf">_is_trial_promotable_to_next_rung</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_is_trial_promotable_to_next_rung</span><span class="p">(</span>
     <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">competing_values</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
     <span class="n">reduction_factor</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>

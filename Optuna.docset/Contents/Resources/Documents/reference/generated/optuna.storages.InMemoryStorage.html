@@ -5,8 +5,8 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.storages.InMemoryStorage — Optuna 4.1.0 documentation</title>
-<link href="../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
+<title>optuna.storages.InMemoryStorage — Optuna 4.2.0 documentation</title>
+<link href="../../_static/pygments.css?v=03e43079" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css?v=e59714d7" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
 <link href="../../_static/sg_gallery.css?v=d2d258e8" rel="stylesheet" type="text/css"/>
@@ -17,7 +17,7 @@
 <link href="../../_static/favicon.ico" rel="shortcut icon"/>
 <script src="../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=0b6e6ca6"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=a63e1c6a"></script>
 <script src="../../_static/doctools.js?v=888ff710"></script>
 <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -25,7 +25,7 @@
 <script src="../../_static/js/theme.js"></script>
 <link href="../../genindex.html" rel="index" title="Index"/>
 <link href="../../search.html" rel="search" title="Search"/>
-<link href="optuna.storages.journal.JournalFileBackend.html" rel="next" title="optuna.storages.journal.JournalFileBackend"/>
+<link href="optuna.storages.run_grpc_proxy_server.html" rel="next" title="optuna.storages.run_grpc_proxy_server"/>
 <link href="optuna.storages.JournalStorage.html" rel="prev" title="optuna.storages.JournalStorage"/>
 </head>
 <body class="wy-body-for-nav">
@@ -99,6 +99,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#optuna.storages.InMemoryStorage"><code class="docutils literal notranslate"><span class="pre">InMemoryStorage</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.storages.run_grpc_proxy_server.html">optuna.storages.run_grpc_proxy_server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.storages.GrpcStorageProxy.html">optuna.storages.GrpcStorageProxy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../storages.html#optuna-storages-journal">optuna.storages.journal</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../storages.html#deprecated-modules">Deprecated Modules</a></li>
 </ul>
@@ -139,10 +141,10 @@
 <dd><p>Storage class that stores data in memory of the Python process.</p>
 <p class="rubric">Example</p>
 <p>Create an <a class="reference internal" href="#optuna.storages.InMemoryStorage" title="optuna.storages.InMemoryStorage"><code class="xref py py-class docutils literal notranslate"><span class="pre">InMemoryStorage</span></code></a> instance.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optuna</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">optuna</span>
 
 
-<span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>
 
@@ -604,7 +606,7 @@ Set to <a class="reference external" href="https://docs.python.org/3/library/con
 <dd class="field-odd"><p><strong>trial_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – ID of the trial.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Dictionary of a parameters. Keys are parameter names and values are internal
+<dd class="field-even"><p>Dictionary of a parameters. Keys are parameter names and values are external
 representations of the parameter values.</p>
 </dd>
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
@@ -839,7 +841,7 @@ The latter happens when this method tries to update the state of
 </div>
 <footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
 <a accesskey="p" class="btn btn-neutral float-left" href="optuna.storages.JournalStorage.html" rel="prev" title="optuna.storages.JournalStorage"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
-<a accesskey="n" class="btn btn-neutral float-right" href="optuna.storages.journal.JournalFileBackend.html" rel="next" title="optuna.storages.journal.JournalFileBackend">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+<a accesskey="n" class="btn btn-neutral float-right" href="optuna.storages.run_grpc_proxy_server.html" rel="next" title="optuna.storages.run_grpc_proxy_server">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
 </div>
 <hr/>
 <div role="contentinfo">

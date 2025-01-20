@@ -5,8 +5,8 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.artifacts — Optuna 4.1.0 documentation</title>
-<link href="../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
+<title>optuna.artifacts — Optuna 4.2.0 documentation</title>
+<link href="../_static/pygments.css?v=03e43079" rel="stylesheet" type="text/css"/>
 <link href="../_static/css/theme.css?v=e59714d7" rel="stylesheet" type="text/css"/>
 <link href="../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
 <link href="../_static/sg_gallery.css?v=d2d258e8" rel="stylesheet" type="text/css"/>
@@ -17,7 +17,7 @@
 <link href="../_static/favicon.ico" rel="shortcut icon"/>
 <script src="../_static/jquery.js?v=5d32c60e"></script>
 <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=0b6e6ca6"></script>
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=a63e1c6a"></script>
 <script src="../_static/doctools.js?v=888ff710"></script>
 <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -169,11 +169,11 @@ The storages covered by <a class="reference internal" href="#module-optuna.artif
 </dd>
 </dl>
 <p class="rubric">Example</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
-<span class="kn">import</span> <span class="nn">optuna</span>
-<span class="kn">from</span> <span class="nn">optuna.artifacts</span> <span class="kn">import</span> <span class="n">FileSystemArtifactStore</span>
-<span class="kn">from</span> <span class="nn">optuna.artifacts</span> <span class="kn">import</span> <span class="n">upload_artifact</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">optuna</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.artifacts</span><span class="w"> </span><span class="kn">import</span> <span class="n">FileSystemArtifactStore</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.artifacts</span><span class="w"> </span><span class="kn">import</span> <span class="n">upload_artifact</span>
 
 
 <span class="n">base_path</span> <span class="o">=</span> <span class="s2">"./artifacts"</span>
@@ -181,7 +181,7 @@ The storages covered by <a class="reference internal" href="#module-optuna.artif
 <span class="n">artifact_store</span> <span class="o">=</span> <span class="n">FileSystemArtifactStore</span><span class="p">(</span><span class="n">base_path</span><span class="o">=</span><span class="n">base_path</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">:</span> <span class="n">optuna</span><span class="o">.</span><span class="n">Trial</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">:</span> <span class="n">optuna</span><span class="o">.</span><span class="n">Trial</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="o">...</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
     <span class="n">file_path</span> <span class="o">=</span> <span class="n">generate_example</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
     <span class="n">upload_artifact</span><span class="p">(</span>
@@ -210,15 +210,15 @@ before uploading it to S3 ins. This is default to False because using
 </dd>
 </dl>
 <p class="rubric">Example</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optuna</span>
-<span class="kn">from</span> <span class="nn">optuna.artifacts</span> <span class="kn">import</span> <span class="n">upload_artifact</span>
-<span class="kn">from</span> <span class="nn">optuna.artifacts</span> <span class="kn">import</span> <span class="n">Boto3ArtifactStore</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">optuna</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.artifacts</span><span class="w"> </span><span class="kn">import</span> <span class="n">upload_artifact</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.artifacts</span><span class="w"> </span><span class="kn">import</span> <span class="n">Boto3ArtifactStore</span>
 
 
 <span class="n">artifact_store</span> <span class="o">=</span> <span class="n">Boto3ArtifactStore</span><span class="p">(</span><span class="s2">"my-bucket"</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">:</span> <span class="n">optuna</span><span class="o">.</span><span class="n">Trial</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">:</span> <span class="n">optuna</span><span class="o">.</span><span class="n">Trial</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="o">...</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
     <span class="n">file_path</span> <span class="o">=</span> <span class="n">generate_example</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
     <span class="n">upload_artifact</span><span class="p">(</span>
@@ -244,14 +244,14 @@ new client will be created with default settings.</p></li>
 </dd>
 </dl>
 <p class="rubric">Example</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optuna</span>
-<span class="kn">from</span> <span class="nn">optuna.artifacts</span> <span class="kn">import</span> <span class="n">GCSArtifactStore</span><span class="p">,</span> <span class="n">upload_artifact</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">optuna</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.artifacts</span><span class="w"> </span><span class="kn">import</span> <span class="n">GCSArtifactStore</span><span class="p">,</span> <span class="n">upload_artifact</span>
 
 
 <span class="n">artifact_backend</span> <span class="o">=</span> <span class="n">GCSArtifactStore</span><span class="p">(</span><span class="s2">"my-bucket"</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">:</span> <span class="n">optuna</span><span class="o">.</span><span class="n">Trial</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">:</span> <span class="n">optuna</span><span class="o">.</span><span class="n">Trial</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="o">...</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
     <span class="n">file_path</span> <span class="o">=</span> <span class="n">generate_example</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
     <span class="n">upload_artifact</span><span class="p">(</span>
@@ -278,16 +278,16 @@ without prior notice. See <a class="reference external" href="https://github.com
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.artifacts.</span></span><span class="sig-name descname"><span class="pre">Backoff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">backend</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_retries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multiplier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_delay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/optuna/artifacts/_backoff.html#Backoff"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.artifacts.Backoff"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.artifacts._backoff.Backoff"></a><a class="headerlink" href="#optuna.artifacts.Backoff" title="Permalink to this definition"></a></dt>
 <dd><p>An artifact store’s middleware for exponential backoff.</p>
 <p class="rubric">Example</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">optuna</span>
-<span class="kn">from</span> <span class="nn">optuna.artifacts</span> <span class="kn">import</span> <span class="n">upload_artifact</span>
-<span class="kn">from</span> <span class="nn">optuna.artifacts</span> <span class="kn">import</span> <span class="n">Boto3ArtifactStore</span>
-<span class="kn">from</span> <span class="nn">optuna.artifacts</span> <span class="kn">import</span> <span class="n">Backoff</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">optuna</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.artifacts</span><span class="w"> </span><span class="kn">import</span> <span class="n">upload_artifact</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.artifacts</span><span class="w"> </span><span class="kn">import</span> <span class="n">Boto3ArtifactStore</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.artifacts</span><span class="w"> </span><span class="kn">import</span> <span class="n">Backoff</span>
 
 
 <span class="n">artifact_store</span> <span class="o">=</span> <span class="n">Backoff</span><span class="p">(</span><span class="n">Boto3ArtifactStore</span><span class="p">(</span><span class="s2">"my-bucket"</span><span class="p">))</span>
 
 
-<span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">:</span> <span class="n">optuna</span><span class="o">.</span><span class="n">Trial</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">:</span> <span class="n">optuna</span><span class="o">.</span><span class="n">Trial</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="o">...</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
     <span class="n">file_path</span> <span class="o">=</span> <span class="n">generate_example</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
     <span class="n">upload_artifact</span><span class="p">(</span>
@@ -379,9 +379,9 @@ a <a class="reference internal" href="generated/optuna.study.Study.html#optuna.s
 </dl>
 <p class="rubric">Example</p>
 <p>An example where this function is useful:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
-<span class="kn">import</span> <span class="nn">optuna</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">optuna</span>
 
 
 <span class="c1"># Get the storage that contains the study of interest.</span>

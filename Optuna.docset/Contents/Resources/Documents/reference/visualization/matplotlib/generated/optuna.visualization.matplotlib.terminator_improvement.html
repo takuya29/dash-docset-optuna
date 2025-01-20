@@ -5,8 +5,8 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>plot_terminator_improvement — Optuna 4.1.0 documentation</title>
-<link href="../../../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
+<title>plot_terminator_improvement — Optuna 4.2.0 documentation</title>
+<link href="../../../../_static/pygments.css?v=03e43079" rel="stylesheet" type="text/css"/>
 <link href="../../../../_static/css/theme.css?v=e59714d7" rel="stylesheet" type="text/css"/>
 <link href="../../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
 <link href="../../../../_static/sg_gallery.css?v=d2d258e8" rel="stylesheet" type="text/css"/>
@@ -17,7 +17,7 @@
 <link href="../../../../_static/favicon.ico" rel="shortcut icon"/>
 <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=0b6e6ca6"></script>
+<script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=a63e1c6a"></script>
 <script src="../../../../_static/doctools.js?v=888ff710"></script>
 <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -188,7 +188,7 @@ shown in a lighter color. Defaults to <code class="docutils literal notranslate"
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A <a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="(in Matplotlib v3.9.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code></a> object.</p>
+<dd class="field-even"><p>A <a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="(in Matplotlib v3.10.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code></a> object.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Axes</p>
@@ -216,15 +216,13 @@ CrossValidationErrorEvaluator is experimental (supported from v3.2.0). The inter
 
 
   0%|          | 0/30 [00:00&lt;?, ?it/s]
- 13%|█▎        | 4/30 [00:00&lt;00:01, 21.01it/s]
- 30%|███       | 9/30 [00:00&lt;00:00, 32.26it/s]
- 43%|████▎     | 13/30 [00:00&lt;00:00, 33.51it/s]
- 57%|█████▋    | 17/30 [00:00&lt;00:00, 17.20it/s]
- 67%|██████▋   | 20/30 [00:00&lt;00:00, 17.43it/s]
- 77%|███████▋  | 23/30 [00:01&lt;00:00, 16.17it/s]
- 83%|████████▎ | 25/30 [00:01&lt;00:00, 15.99it/s]
- 97%|█████████▋| 29/30 [00:01&lt;00:00, 16.89it/s]
-100%|██████████| 30/30 [00:01&lt;00:00, 17.65it/s]
+ 20%|██        | 6/30 [00:00&lt;00:00, 48.56it/s]
+ 37%|███▋      | 11/30 [00:00&lt;00:00, 28.77it/s]
+ 53%|█████▎    | 16/30 [00:00&lt;00:00, 32.14it/s]
+ 67%|██████▋   | 20/30 [00:00&lt;00:00, 26.78it/s]
+ 80%|████████  | 24/30 [00:00&lt;00:00, 29.32it/s]
+ 93%|█████████▎| 28/30 [00:00&lt;00:00, 27.91it/s]
+100%|██████████| 30/30 [00:01&lt;00:00, 28.70it/s]
 
 &lt;Axes: title={'center': 'Terminator Improvement Plot'}, xlabel='Trial', ylabel='Terminator Improvement'&gt;
 </pre></div>
@@ -232,16 +230,16 @@ CrossValidationErrorEvaluator is experimental (supported from v3.2.0). The inter
 <div class="line-block">
 <div class="line"><br/></div>
 </div>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">lightgbm</span> <span class="kn">import</span> <a class="sphx-glr-backref-module-lightgbm sphx-glr-backref-type-py-class" href="https://lightgbm.readthedocs.io/en/stable/pythonapi/lightgbm.LGBMClassifier.html#lightgbm.LGBMClassifier" title="lightgbm.LGBMClassifier"><span class="n">LGBMClassifier</span></a>
-<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <a class="sphx-glr-backref-module-sklearn-datasets sphx-glr-backref-type-py-function" href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_wine.html#sklearn.datasets.load_wine" title="sklearn.datasets.load_wine"><span class="n">load_wine</span></a>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <a class="sphx-glr-backref-module-sklearn-model_selection sphx-glr-backref-type-py-function" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_score.html#sklearn.model_selection.cross_val_score" title="sklearn.model_selection.cross_val_score"><span class="n">cross_val_score</span></a>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <a class="sphx-glr-backref-module-sklearn-model_selection sphx-glr-backref-type-py-class" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.KFold.html#sklearn.model_selection.KFold" title="sklearn.model_selection.KFold"><span class="n">KFold</span></a>
-<span class="kn">import</span> <span class="nn">optuna</span>
-<span class="kn">from</span> <span class="nn">optuna.terminator</span> <span class="kn">import</span> <span class="n">report_cross_validation_scores</span>
-<span class="kn">from</span> <span class="nn">optuna.visualization.matplotlib</span> <span class="kn">import</span> <span class="n">plot_terminator_improvement</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">lightgbm</span><span class="w"> </span><span class="kn">import</span> <a class="sphx-glr-backref-module-lightgbm sphx-glr-backref-type-py-class" href="https://lightgbm.readthedocs.io/en/stable/pythonapi/lightgbm.LGBMClassifier.html#lightgbm.LGBMClassifier" title="lightgbm.LGBMClassifier"><span class="n">LGBMClassifier</span></a>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <a class="sphx-glr-backref-module-sklearn-datasets sphx-glr-backref-type-py-function" href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_wine.html#sklearn.datasets.load_wine" title="sklearn.datasets.load_wine"><span class="n">load_wine</span></a>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <a class="sphx-glr-backref-module-sklearn-model_selection sphx-glr-backref-type-py-function" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_score.html#sklearn.model_selection.cross_val_score" title="sklearn.model_selection.cross_val_score"><span class="n">cross_val_score</span></a>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <a class="sphx-glr-backref-module-sklearn-model_selection sphx-glr-backref-type-py-class" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.KFold.html#sklearn.model_selection.KFold" title="sklearn.model_selection.KFold"><span class="n">KFold</span></a>
+<span class="kn">import</span><span class="w"> </span><span class="nn">optuna</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.terminator</span><span class="w"> </span><span class="kn">import</span> <span class="n">report_cross_validation_scores</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.visualization.matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_terminator_improvement</span>
 
 
-<span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">):</span>
     <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <a class="sphx-glr-backref-module-sklearn-datasets sphx-glr-backref-type-py-function" href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_wine.html#sklearn.datasets.load_wine" title="sklearn.datasets.load_wine"><span class="n">load_wine</span></a><span class="p">(</span><span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">clf</span> <span class="o">=</span> <a class="sphx-glr-backref-module-lightgbm sphx-glr-backref-type-py-class" href="https://lightgbm.readthedocs.io/en/stable/pythonapi/lightgbm.LGBMClassifier.html#lightgbm.LGBMClassifier" title="lightgbm.LGBMClassifier"><span class="n">LGBMClassifier</span></a><span class="p">(</span>
         <span class="n">reg_alpha</span><span class="o">=</span><span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"reg_alpha"</span><span class="p">,</span> <span class="mf">1e-8</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
@@ -263,7 +261,7 @@ CrossValidationErrorEvaluator is experimental (supported from v3.2.0). The inter
 <span class="n">plot_terminator_improvement</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="n">plot_error</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 3.856 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 2.916 seconds)</p>
 <a class="dashAnchor" name="//apple_ref/cpp/Section/sphx_glr_download_reference_visualization_matplotlib_generated_optuna.visualization.matplotlib.terminator_improvement.py"></a><div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-reference-visualization-matplotlib-generated-optuna-visualization-matplotlib-terminator-improvement-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../../../_downloads/89092041ab7c331a79a62e426f7e5bb8/optuna.visualization.matplotlib.terminator_improvement.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">optuna.visualization.matplotlib.terminator_improvement.ipynb</span></code></a></p>

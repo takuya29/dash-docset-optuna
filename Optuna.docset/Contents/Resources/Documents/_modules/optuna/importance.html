@@ -5,8 +5,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.importance &mdash; Optuna 4.1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+  <title>optuna.importance &mdash; Optuna 4.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=0b6e6ca6"></script>
+      <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=a63e1c6a"></script>
       <script src="../../_static/doctools.js?v=888ff710"></script>
       <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -113,17 +113,17 @@
            <div itemprop="articleBody">
              
   <h1>Source code for optuna.importance</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
 
-<span class="kn">from</span> <span class="nn">optuna._experimental</span> <span class="kn">import</span> <span class="n">warn_experimental_argument</span>
-<span class="kn">from</span> <span class="nn">optuna.importance._base</span> <span class="kn">import</span> <span class="n">BaseImportanceEvaluator</span>
-<span class="kn">from</span> <span class="nn">optuna.importance._fanova</span> <span class="kn">import</span> <span class="n">FanovaImportanceEvaluator</span>
-<span class="kn">from</span> <span class="nn">optuna.importance._mean_decrease_impurity</span> <span class="kn">import</span> <span class="n">MeanDecreaseImpurityImportanceEvaluator</span>
-<span class="kn">from</span> <span class="nn">optuna.importance._ped_anova</span> <span class="kn">import</span> <span class="n">PedAnovaImportanceEvaluator</span>
-<span class="kn">from</span> <span class="nn">optuna.study</span> <span class="kn">import</span> <span class="n">Study</span>
-<span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">FrozenTrial</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna._experimental</span><span class="w"> </span><span class="kn">import</span> <span class="n">warn_experimental_argument</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.importance._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseImportanceEvaluator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.importance._fanova</span><span class="w"> </span><span class="kn">import</span> <span class="n">FanovaImportanceEvaluator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.importance._mean_decrease_impurity</span><span class="w"> </span><span class="kn">import</span> <span class="n">MeanDecreaseImpurityImportanceEvaluator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.importance._ped_anova</span><span class="w"> </span><span class="kn">import</span> <span class="n">PedAnovaImportanceEvaluator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.study</span><span class="w"> </span><span class="kn">import</span> <span class="n">Study</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.trial</span><span class="w"> </span><span class="kn">import</span> <span class="n">FrozenTrial</span>
 
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
@@ -135,7 +135,7 @@
 <span class="p">]</span>
 
 
-<div class="viewcode-block" id="get_param_importances"><a class="viewcode-back" href="../../reference/generated/optuna.importance.get_param_importances.html#optuna.importance.get_param_importances">[docs]</a><span class="k">def</span> <span class="nf">get_param_importances</span><span class="p">(</span>
+<div class="viewcode-block" id="get_param_importances"><a class="viewcode-back" href="../../reference/generated/optuna.importance.get_param_importances.html#optuna.importance.get_param_importances">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_param_importances</span><span class="p">(</span>
     <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">evaluator</span><span class="p">:</span> <span class="n">BaseImportanceEvaluator</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>

@@ -5,8 +5,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.exceptions &mdash; Optuna 4.1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+  <title>optuna.exceptions &mdash; Optuna 4.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=0b6e6ca6"></script>
+      <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=a63e1c6a"></script>
       <script src="../../_static/doctools.js?v=888ff710"></script>
       <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -113,13 +113,13 @@
            <div itemprop="articleBody">
              
   <h1>Source code for optuna.exceptions</h1><div class="highlight"><pre>
-<div class="viewcode-block" id="OptunaError"><a class="viewcode-back" href="../../reference/generated/optuna.exceptions.OptunaError.html#optuna.OptunaError">[docs]</a><span></span><span class="k">class</span> <span class="nc">OptunaError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<div class="viewcode-block" id="OptunaError"><a class="viewcode-back" href="../../reference/generated/optuna.exceptions.OptunaError.html#optuna.OptunaError">[docs]</a><span></span><span class="k">class</span><span class="w"> </span><span class="nc">OptunaError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for Optuna specific errors.&quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="TrialPruned"><a class="viewcode-back" href="../../reference/generated/optuna.exceptions.TrialPruned.html#optuna.TrialPruned">[docs]</a><span class="k">class</span> <span class="nc">TrialPruned</span><span class="p">(</span><span class="n">OptunaError</span><span class="p">):</span>
+<div class="viewcode-block" id="TrialPruned"><a class="viewcode-back" href="../../reference/generated/optuna.exceptions.TrialPruned.html#optuna.TrialPruned">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">TrialPruned</span><span class="p">(</span><span class="n">OptunaError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception for pruned trials.</span>
 
 <span class="sd">    This error tells a trainer that the current :class:`~optuna.trial.Trial` was pruned. It is</span>
@@ -169,7 +169,7 @@
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="CLIUsageError"><a class="viewcode-back" href="../../reference/generated/optuna.exceptions.CLIUsageError.html#optuna.CLIUsageError">[docs]</a><span class="k">class</span> <span class="nc">CLIUsageError</span><span class="p">(</span><span class="n">OptunaError</span><span class="p">):</span>
+<div class="viewcode-block" id="CLIUsageError"><a class="viewcode-back" href="../../reference/generated/optuna.exceptions.CLIUsageError.html#optuna.CLIUsageError">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">CLIUsageError</span><span class="p">(</span><span class="n">OptunaError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception for CLI.</span>
 
 <span class="sd">    CLI raises this exception when it receives invalid configuration.</span>
@@ -178,7 +178,7 @@
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="StorageInternalError"><a class="viewcode-back" href="../../reference/generated/optuna.exceptions.StorageInternalError.html#optuna.StorageInternalError">[docs]</a><span class="k">class</span> <span class="nc">StorageInternalError</span><span class="p">(</span><span class="n">OptunaError</span><span class="p">):</span>
+<div class="viewcode-block" id="StorageInternalError"><a class="viewcode-back" href="../../reference/generated/optuna.exceptions.StorageInternalError.html#optuna.StorageInternalError">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">StorageInternalError</span><span class="p">(</span><span class="n">OptunaError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception for storage operation.</span>
 
 <span class="sd">    This error is raised when an operation failed in backend DB of storage.</span>
@@ -187,7 +187,7 @@
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="DuplicatedStudyError"><a class="viewcode-back" href="../../reference/generated/optuna.exceptions.DuplicatedStudyError.html#optuna.DuplicatedStudyError">[docs]</a><span class="k">class</span> <span class="nc">DuplicatedStudyError</span><span class="p">(</span><span class="n">OptunaError</span><span class="p">):</span>
+<div class="viewcode-block" id="DuplicatedStudyError"><a class="viewcode-back" href="../../reference/generated/optuna.exceptions.DuplicatedStudyError.html#optuna.DuplicatedStudyError">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">DuplicatedStudyError</span><span class="p">(</span><span class="n">OptunaError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Exception for a duplicated study name.</span>
 
 <span class="sd">    This error is raised when a specified study name already exists in the storage.</span>
@@ -196,7 +196,7 @@
     <span class="k">pass</span></div>
 
 
-<span class="k">class</span> <span class="nc">ExperimentalWarning</span><span class="p">(</span><span class="ne">Warning</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ExperimentalWarning</span><span class="p">(</span><span class="ne">Warning</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Experimental Warning class.</span>
 
 <span class="sd">    This implementation exists here because the policy of `FutureWarning` has been changed</span>

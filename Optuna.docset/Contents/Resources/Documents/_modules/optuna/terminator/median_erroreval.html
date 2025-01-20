@@ -5,8 +5,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.terminator.median_erroreval &mdash; Optuna 4.1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+  <title>optuna.terminator.median_erroreval &mdash; Optuna 4.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=0b6e6ca6"></script>
+      <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=a63e1c6a"></script>
       <script src="../../../_static/doctools.js?v=888ff710"></script>
       <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -113,22 +113,22 @@
            <div itemprop="articleBody">
              
   <h1>Source code for optuna.terminator.median_erroreval</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">optuna._experimental</span> <span class="kn">import</span> <span class="n">experimental_class</span>
-<span class="kn">from</span> <span class="nn">optuna.study</span> <span class="kn">import</span> <span class="n">StudyDirection</span>
-<span class="kn">from</span> <span class="nn">optuna.terminator.erroreval</span> <span class="kn">import</span> <span class="n">BaseErrorEvaluator</span>
-<span class="kn">from</span> <span class="nn">optuna.terminator.improvement.evaluator</span> <span class="kn">import</span> <span class="n">BaseImprovementEvaluator</span>
-<span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">FrozenTrial</span>
-<span class="kn">from</span> <span class="nn">optuna.trial._state</span> <span class="kn">import</span> <span class="n">TrialState</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna._experimental</span><span class="w"> </span><span class="kn">import</span> <span class="n">experimental_class</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.study</span><span class="w"> </span><span class="kn">import</span> <span class="n">StudyDirection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.terminator.erroreval</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseErrorEvaluator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.terminator.improvement.evaluator</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseImprovementEvaluator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.trial</span><span class="w"> </span><span class="kn">import</span> <span class="n">FrozenTrial</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.trial._state</span><span class="w"> </span><span class="kn">import</span> <span class="n">TrialState</span>
 
 
 <div class="viewcode-block" id="MedianErrorEvaluator"><a class="viewcode-back" href="../../../reference/generated/optuna.terminator.MedianErrorEvaluator.html#optuna.terminator.MedianErrorEvaluator">[docs]</a><span class="nd">@experimental_class</span><span class="p">(</span><span class="s2">&quot;4.0.0&quot;</span><span class="p">)</span>
-<span class="k">class</span> <span class="nc">MedianErrorEvaluator</span><span class="p">(</span><span class="n">BaseErrorEvaluator</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MedianErrorEvaluator</span><span class="p">(</span><span class="n">BaseErrorEvaluator</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;An error evaluator that returns the ratio to initial median.</span>
 
 <span class="sd">    This error evaluator is introduced as a heuristics in the following paper:</span>
@@ -152,7 +152,7 @@
 <span class="sd">            Default to 0.01.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">paired_improvement_evaluator</span><span class="p">:</span> <span class="n">BaseImprovementEvaluator</span><span class="p">,</span>
         <span class="n">warm_up_trials</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
@@ -172,7 +172,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_threshold_ratio</span> <span class="o">=</span> <span class="n">threshold_ratio</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">evaluate</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">trials</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">],</span>
         <span class="n">study_direction</span><span class="p">:</span> <span class="n">StudyDirection</span><span class="p">,</span>

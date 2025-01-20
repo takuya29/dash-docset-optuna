@@ -5,8 +5,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.visualization._timeline &mdash; Optuna 4.1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+  <title>optuna.visualization._timeline &mdash; Optuna 4.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=0b6e6ca6"></script>
+      <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=a63e1c6a"></script>
       <script src="../../../_static/doctools.js?v=888ff710"></script>
       <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -113,26 +113,26 @@
            <div itemprop="articleBody">
              
   <h1>Source code for optuna.visualization._timeline</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">import</span> <span class="nn">datetime</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NamedTuple</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">NamedTuple</span>
 
-<span class="kn">from</span> <span class="nn">optuna.logging</span> <span class="kn">import</span> <span class="n">get_logger</span>
-<span class="kn">from</span> <span class="nn">optuna.samplers._base</span> <span class="kn">import</span> <span class="n">_CONSTRAINTS_KEY</span>
-<span class="kn">from</span> <span class="nn">optuna.study</span> <span class="kn">import</span> <span class="n">Study</span>
-<span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">TrialState</span>
-<span class="kn">from</span> <span class="nn">optuna.visualization._plotly_imports</span> <span class="kn">import</span> <span class="n">_imports</span>
-<span class="kn">from</span> <span class="nn">optuna.visualization._utils</span> <span class="kn">import</span> <span class="n">_make_hovertext</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.logging</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_logger</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.samplers._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">_CONSTRAINTS_KEY</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.study</span><span class="w"> </span><span class="kn">import</span> <span class="n">Study</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.trial</span><span class="w"> </span><span class="kn">import</span> <span class="n">TrialState</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.visualization._plotly_imports</span><span class="w"> </span><span class="kn">import</span> <span class="n">_imports</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.visualization._utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">_make_hovertext</span>
 
 
 <span class="k">if</span> <span class="n">_imports</span><span class="o">.</span><span class="n">is_successful</span><span class="p">():</span>
-    <span class="kn">from</span> <span class="nn">optuna.visualization._plotly_imports</span> <span class="kn">import</span> <span class="n">go</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">optuna.visualization._plotly_imports</span><span class="w"> </span><span class="kn">import</span> <span class="n">go</span>
 
 <span class="n">_logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<span class="k">class</span> <span class="nc">_TimelineBarInfo</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">_TimelineBarInfo</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
     <span class="n">number</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">start</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span>
     <span class="n">complete</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span>
@@ -141,11 +141,11 @@
     <span class="n">infeasible</span><span class="p">:</span> <span class="nb">bool</span>
 
 
-<span class="k">class</span> <span class="nc">_TimelineInfo</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">_TimelineInfo</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
     <span class="n">bars</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">_TimelineBarInfo</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="plot_timeline"><a class="viewcode-back" href="../../../reference/visualization/generated/optuna.visualization.plot_timeline.html#optuna.visualization.plot_timeline">[docs]</a><span class="k">def</span> <span class="nf">plot_timeline</span><span class="p">(</span><span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;go.Figure&quot;</span><span class="p">:</span>
+<div class="viewcode-block" id="plot_timeline"><a class="viewcode-back" href="../../../reference/visualization/generated/optuna.visualization.plot_timeline.html#optuna.visualization.plot_timeline">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_timeline</span><span class="p">(</span><span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;go.Figure&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the timeline of a study.</span>
 
 <span class="sd">    Args:</span>
@@ -161,7 +161,7 @@
     <span class="k">return</span> <span class="n">_get_timeline_plot</span><span class="p">(</span><span class="n">info</span><span class="p">)</span></div>
 
 
-<span class="k">def</span> <span class="nf">_get_max_datetime_complete</span><span class="p">(</span><span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_max_datetime_complete</span><span class="p">(</span><span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">:</span>
     <span class="n">max_run_duration</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
         <span class="p">[</span>
             <span class="n">t</span><span class="o">.</span><span class="n">datetime_complete</span> <span class="o">-</span> <span class="n">t</span><span class="o">.</span><span class="n">datetime_start</span>
@@ -179,7 +179,7 @@
     <span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_is_running_trials_in_study</span><span class="p">(</span><span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span> <span class="n">max_run_duration</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_is_running_trials_in_study</span><span class="p">(</span><span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span> <span class="n">max_run_duration</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="n">running_trials</span> <span class="o">=</span> <span class="n">study</span><span class="o">.</span><span class="n">get_trials</span><span class="p">(</span><span class="n">states</span><span class="o">=</span><span class="p">(</span><span class="n">TrialState</span><span class="o">.</span><span class="n">RUNNING</span><span class="p">,),</span> <span class="n">deepcopy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">max_run_duration</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">running_trials</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
@@ -195,7 +195,7 @@
     <span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_get_timeline_info</span><span class="p">(</span><span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_TimelineInfo</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_timeline_info</span><span class="p">(</span><span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_TimelineInfo</span><span class="p">:</span>
     <span class="n">bars</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="n">max_datetime</span> <span class="o">=</span> <span class="n">_get_max_datetime_complete</span><span class="p">(</span><span class="n">study</span><span class="p">)</span>
@@ -236,7 +236,7 @@
     <span class="k">return</span> <span class="n">_TimelineInfo</span><span class="p">(</span><span class="n">bars</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_get_timeline_plot</span><span class="p">(</span><span class="n">info</span><span class="p">:</span> <span class="n">_TimelineInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;go.Figure&quot;</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_timeline_plot</span><span class="p">(</span><span class="n">info</span><span class="p">:</span> <span class="n">_TimelineInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;go.Figure&quot;</span><span class="p">:</span>
     <span class="n">_cm</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;COMPLETE&quot;</span><span class="p">:</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span>
         <span class="s2">&quot;FAIL&quot;</span><span class="p">:</span> <span class="s2">&quot;red&quot;</span><span class="p">,</span>
@@ -267,7 +267,7 @@
     <span class="k">return</span> <span class="n">fig</span>
 
 
-<span class="k">def</span> <span class="nf">_plot_bars</span><span class="p">(</span><span class="n">bars</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">_TimelineBarInfo</span><span class="p">],</span> <span class="n">color</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fig</span><span class="p">:</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_plot_bars</span><span class="p">(</span><span class="n">bars</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">_TimelineBarInfo</span><span class="p">],</span> <span class="n">color</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fig</span><span class="p">:</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bars</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span>
 

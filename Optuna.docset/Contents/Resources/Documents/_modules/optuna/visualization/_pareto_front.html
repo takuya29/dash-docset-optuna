@@ -5,8 +5,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.visualization._pareto_front &mdash; Optuna 4.1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+  <title>optuna.visualization._pareto_front &mdash; Optuna 4.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=0b6e6ca6"></script>
+      <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=a63e1c6a"></script>
       <script src="../../../_static/doctools.js?v=888ff710"></script>
       <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -113,32 +113,32 @@
            <div itemprop="articleBody">
              
   <h1>Source code for optuna.visualization._pareto_front</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Callable</span>
-<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Sequence</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">NamedTuple</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">NamedTuple</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 
-<span class="kn">import</span> <span class="nn">optuna</span>
-<span class="kn">from</span> <span class="nn">optuna</span> <span class="kn">import</span> <span class="n">_deprecated</span>
-<span class="kn">from</span> <span class="nn">optuna.samplers._base</span> <span class="kn">import</span> <span class="n">_CONSTRAINTS_KEY</span>
-<span class="kn">from</span> <span class="nn">optuna.study</span> <span class="kn">import</span> <span class="n">Study</span>
-<span class="kn">from</span> <span class="nn">optuna.study._multi_objective</span> <span class="kn">import</span> <span class="n">_get_pareto_front_trials_by_trials</span>
-<span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">FrozenTrial</span>
-<span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">TrialState</span>
-<span class="kn">from</span> <span class="nn">optuna.visualization._plotly_imports</span> <span class="kn">import</span> <span class="n">_imports</span>
-<span class="kn">from</span> <span class="nn">optuna.visualization._utils</span> <span class="kn">import</span> <span class="n">_make_hovertext</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">optuna</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna</span><span class="w"> </span><span class="kn">import</span> <span class="n">_deprecated</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.samplers._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">_CONSTRAINTS_KEY</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.study</span><span class="w"> </span><span class="kn">import</span> <span class="n">Study</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.study._multi_objective</span><span class="w"> </span><span class="kn">import</span> <span class="n">_get_pareto_front_trials_by_trials</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.trial</span><span class="w"> </span><span class="kn">import</span> <span class="n">FrozenTrial</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.trial</span><span class="w"> </span><span class="kn">import</span> <span class="n">TrialState</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.visualization._plotly_imports</span><span class="w"> </span><span class="kn">import</span> <span class="n">_imports</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.visualization._utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">_make_hovertext</span>
 
 
 <span class="k">if</span> <span class="n">_imports</span><span class="o">.</span><span class="n">is_successful</span><span class="p">():</span>
-    <span class="kn">from</span> <span class="nn">optuna.visualization._plotly_imports</span> <span class="kn">import</span> <span class="n">go</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">optuna.visualization._plotly_imports</span><span class="w"> </span><span class="kn">import</span> <span class="n">go</span>
 
 <span class="n">_logger</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">logging</span><span class="o">.</span><span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<span class="k">class</span> <span class="nc">_ParetoFrontInfo</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">_ParetoFrontInfo</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
     <span class="n">n_targets</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">target_names</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
     <span class="n">best_trials_with_values</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]]</span>
@@ -149,7 +149,7 @@
     <span class="n">has_constraints</span><span class="p">:</span> <span class="nb">bool</span>
 
 
-<div class="viewcode-block" id="plot_pareto_front"><a class="viewcode-back" href="../../../reference/visualization/generated/optuna.visualization.plot_pareto_front.html#optuna.visualization.plot_pareto_front">[docs]</a><span class="k">def</span> <span class="nf">plot_pareto_front</span><span class="p">(</span>
+<div class="viewcode-block" id="plot_pareto_front"><a class="viewcode-back" href="../../../reference/visualization/generated/optuna.visualization.plot_pareto_front.html#optuna.visualization.plot_pareto_front">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_pareto_front</span><span class="p">(</span>
     <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">target_names</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -221,7 +221,7 @@
     <span class="k">return</span> <span class="n">_get_pareto_front_plot</span><span class="p">(</span><span class="n">info</span><span class="p">)</span></div>
 
 
-<span class="k">def</span> <span class="nf">_get_pareto_front_plot</span><span class="p">(</span><span class="n">info</span><span class="p">:</span> <span class="n">_ParetoFrontInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;go.Figure&quot;</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_pareto_front_plot</span><span class="p">(</span><span class="n">info</span><span class="p">:</span> <span class="n">_ParetoFrontInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;go.Figure&quot;</span><span class="p">:</span>
     <span class="n">include_dominated_trials</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">include_dominated_trials</span>
     <span class="n">has_constraints</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">has_constraints</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">has_constraints</span><span class="p">:</span>
@@ -289,7 +289,7 @@
     <span class="k">return</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_get_pareto_front_info</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_pareto_front_info</span><span class="p">(</span>
     <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span>
     <span class="n">target_names</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">include_dominated_trials</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -356,7 +356,7 @@
                 <span class="s2">&quot; if your objective studies have more than 3 objectives.&quot;</span>
             <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_make_trials_with_values</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_make_trials_with_values</span><span class="p">(</span>
         <span class="n">trials</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">],</span>
         <span class="n">targets</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">FrozenTrial</span><span class="p">],</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]]:</span>
@@ -373,7 +373,7 @@
     <span class="n">non_best_trials_with_values</span> <span class="o">=</span> <span class="n">_make_trials_with_values</span><span class="p">(</span><span class="n">non_best_trials</span><span class="p">,</span> <span class="n">_targets</span><span class="p">)</span>
     <span class="n">infeasible_trials_with_values</span> <span class="o">=</span> <span class="n">_make_trials_with_values</span><span class="p">(</span><span class="n">infeasible_trials</span><span class="p">,</span> <span class="n">_targets</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_infer_n_targets</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_infer_n_targets</span><span class="p">(</span>
         <span class="n">trials_with_values</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]]]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">trials_with_values</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -443,11 +443,11 @@
     <span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_targets_default</span><span class="p">(</span><span class="n">trial</span><span class="p">:</span> <span class="n">FrozenTrial</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_targets_default</span><span class="p">(</span><span class="n">trial</span><span class="p">:</span> <span class="n">FrozenTrial</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
     <span class="k">return</span> <span class="n">trial</span><span class="o">.</span><span class="n">values</span>
 
 
-<span class="k">def</span> <span class="nf">_get_non_pareto_front_trials</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_non_pareto_front_trials</span><span class="p">(</span>
     <span class="n">trials</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">],</span> <span class="n">pareto_trials</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]:</span>
     <span class="n">non_pareto_trials</span> <span class="o">=</span> <span class="p">[]</span>
@@ -457,7 +457,7 @@
     <span class="k">return</span> <span class="n">non_pareto_trials</span>
 
 
-<span class="k">def</span> <span class="nf">_make_scatter_object</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_make_scatter_object</span><span class="p">(</span>
     <span class="n">n_targets</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">axis_order</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
     <span class="n">include_dominated_trials</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
@@ -499,7 +499,7 @@
         <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Must not reach here&quot;</span>
 
 
-<span class="k">def</span> <span class="nf">_make_marker</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_make_marker</span><span class="p">(</span>
     <span class="n">trials</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">],</span>
     <span class="n">include_dominated_trials</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
     <span class="n">dominated_trials</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>

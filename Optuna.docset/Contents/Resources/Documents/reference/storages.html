@@ -5,8 +5,8 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.storages — Optuna 4.1.0 documentation</title>
-<link href="../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
+<title>optuna.storages — Optuna 4.2.0 documentation</title>
+<link href="../_static/pygments.css?v=03e43079" rel="stylesheet" type="text/css"/>
 <link href="../_static/css/theme.css?v=e59714d7" rel="stylesheet" type="text/css"/>
 <link href="../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
 <link href="../_static/sg_gallery.css?v=d2d258e8" rel="stylesheet" type="text/css"/>
@@ -17,7 +17,7 @@
 <link href="../_static/favicon.ico" rel="shortcut icon"/>
 <script src="../_static/jquery.js?v=5d32c60e"></script>
 <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=0b6e6ca6"></script>
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=a63e1c6a"></script>
 <script src="../_static/doctools.js?v=888ff710"></script>
 <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -96,6 +96,8 @@
 <li class="toctree-l3"><a class="reference internal" href="generated/optuna.storages.fail_stale_trials.html">optuna.storages.fail_stale_trials</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/optuna.storages.JournalStorage.html">optuna.storages.JournalStorage</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/optuna.storages.InMemoryStorage.html">optuna.storages.InMemoryStorage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/optuna.storages.run_grpc_proxy_server.html">optuna.storages.run_grpc_proxy_server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/optuna.storages.GrpcStorageProxy.html">optuna.storages.GrpcStorageProxy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#optuna-storages-journal">optuna.storages.journal</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="generated/optuna.storages.journal.JournalFileBackend.html">optuna.storages.journal.JournalFileBackend</a></li>
 <li class="toctree-l4"><a class="reference internal" href="generated/optuna.storages.journal.JournalRedisBackend.html">optuna.storages.journal.JournalRedisBackend</a></li>
@@ -143,20 +145,26 @@
 <p>The <a class="reference internal" href="#module-optuna.storages" title="optuna.storages"><code class="xref py py-mod docutils literal notranslate"><span class="pre">storages</span></code></a> module defines a <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseStorage</span></code> class which abstracts a backend database and provides library-internal interfaces to the read/write histories of the studies and trials. Library users who wish to use storage solutions other than the default <a class="reference internal" href="generated/optuna.storages.InMemoryStorage.html#optuna.storages.InMemoryStorage" title="optuna.storages.InMemoryStorage"><code class="xref py py-class docutils literal notranslate"><span class="pre">InMemoryStorage</span></code></a> should use one of the child classes of <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseStorage</span></code> documented below.</p>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage" title="optuna.storages.RDBStorage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.storages.RDBStorage</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage" title="optuna.storages.RDBStorage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RDBStorage</span></code></a></p></td>
 <td><p>Storage class for RDB backend.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.storages.RetryFailedTrialCallback.html#optuna.storages.RetryFailedTrialCallback" title="optuna.storages.RetryFailedTrialCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.storages.RetryFailedTrialCallback</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.storages.RetryFailedTrialCallback.html#optuna.storages.RetryFailedTrialCallback" title="optuna.storages.RetryFailedTrialCallback"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RetryFailedTrialCallback</span></code></a></p></td>
 <td><p>Retry a failed trial up to a maximum number of times.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.storages.fail_stale_trials.html#optuna.storages.fail_stale_trials" title="optuna.storages.fail_stale_trials"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.storages.fail_stale_trials</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.storages.fail_stale_trials.html#optuna.storages.fail_stale_trials" title="optuna.storages.fail_stale_trials"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fail_stale_trials</span></code></a></p></td>
 <td><p>Fail stale trials and run their failure callbacks.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.storages.JournalStorage.html#optuna.storages.JournalStorage" title="optuna.storages.JournalStorage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.storages.JournalStorage</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.storages.JournalStorage.html#optuna.storages.JournalStorage" title="optuna.storages.JournalStorage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JournalStorage</span></code></a></p></td>
 <td><p>Storage class for Journal storage backend.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.storages.InMemoryStorage.html#optuna.storages.InMemoryStorage" title="optuna.storages.InMemoryStorage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.storages.InMemoryStorage</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.storages.InMemoryStorage.html#optuna.storages.InMemoryStorage" title="optuna.storages.InMemoryStorage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InMemoryStorage</span></code></a></p></td>
 <td><p>Storage class that stores data in memory of the Python process.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.storages.run_grpc_proxy_server.html#optuna.storages.run_grpc_proxy_server" title="optuna.storages.run_grpc_proxy_server"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_grpc_proxy_server</span></code></a></p></td>
+<td><p>Run a gRPC server for the given storage URL, host, and port.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.storages.GrpcStorageProxy.html#optuna.storages.GrpcStorageProxy" title="optuna.storages.GrpcStorageProxy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GrpcStorageProxy</span></code></a></p></td>
+<td><p>gRPC client for <a class="reference internal" href="generated/optuna.storages.run_grpc_proxy_server.html#optuna.storages.run_grpc_proxy_server" title="optuna.storages.run_grpc_proxy_server"><code class="xref py py-func docutils literal notranslate"><span class="pre">run_grpc_proxy_server()</span></code></a>.</p></td>
 </tr>
 </tbody>
 </table>
@@ -169,10 +177,10 @@
 </div>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.storages.journal.JournalFileBackend.html#optuna.storages.journal.JournalFileBackend" title="optuna.storages.journal.JournalFileBackend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.storages.journal.JournalFileBackend</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.storages.journal.JournalFileBackend.html#optuna.storages.journal.JournalFileBackend" title="optuna.storages.journal.JournalFileBackend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">journal.JournalFileBackend</span></code></a></p></td>
 <td><p>File storage class for Journal log backend.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.storages.journal.JournalRedisBackend.html#optuna.storages.journal.JournalRedisBackend" title="optuna.storages.journal.JournalRedisBackend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.storages.journal.JournalRedisBackend</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.storages.journal.JournalRedisBackend.html#optuna.storages.journal.JournalRedisBackend" title="optuna.storages.journal.JournalRedisBackend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">journal.JournalRedisBackend</span></code></a></p></td>
 <td><p>Redis storage class for Journal log backend.</p></td>
 </tr>
 </tbody>
@@ -180,10 +188,10 @@
 <p>Users can flexibly choose a lock object for <a class="reference internal" href="generated/optuna.storages.journal.JournalFileBackend.html#optuna.storages.journal.JournalFileBackend" title="optuna.storages.journal.JournalFileBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">JournalFileBackend</span></code></a> and here is the list of supported lock objects:</p>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.storages.journal.JournalFileSymlinkLock.html#optuna.storages.journal.JournalFileSymlinkLock" title="optuna.storages.journal.JournalFileSymlinkLock"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.storages.journal.JournalFileSymlinkLock</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.storages.journal.JournalFileSymlinkLock.html#optuna.storages.journal.JournalFileSymlinkLock" title="optuna.storages.journal.JournalFileSymlinkLock"><code class="xref py py-obj docutils literal notranslate"><span class="pre">journal.JournalFileSymlinkLock</span></code></a></p></td>
 <td><p>Lock class for synchronizing processes for NFSv2 or later.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.storages.journal.JournalFileOpenLock.html#optuna.storages.journal.JournalFileOpenLock" title="optuna.storages.journal.JournalFileOpenLock"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.storages.journal.JournalFileOpenLock</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.storages.journal.JournalFileOpenLock.html#optuna.storages.journal.JournalFileOpenLock" title="optuna.storages.journal.JournalFileOpenLock"><code class="xref py py-obj docutils literal notranslate"><span class="pre">journal.JournalFileOpenLock</span></code></a></p></td>
 <td><p>Lock class for synchronizing processes for NFSv3 or later.</p></td>
 </tr>
 </tbody>
@@ -198,13 +206,13 @@ Please use the modules defined in <code class="xref py py-mod docutils literal n
 </div>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.storages.BaseJournalLogStorage.html#optuna.storages.BaseJournalLogStorage" title="optuna.storages.BaseJournalLogStorage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.storages.BaseJournalLogStorage</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.storages.BaseJournalLogStorage.html#optuna.storages.BaseJournalLogStorage" title="optuna.storages.BaseJournalLogStorage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BaseJournalLogStorage</span></code></a></p></td>
 <td><p>Base class for Journal storages.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.storages.JournalFileStorage.html#optuna.storages.JournalFileStorage" title="optuna.storages.JournalFileStorage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.storages.JournalFileStorage</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/optuna.storages.JournalFileStorage.html#optuna.storages.JournalFileStorage" title="optuna.storages.JournalFileStorage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JournalFileStorage</span></code></a></p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.storages.JournalRedisStorage.html#optuna.storages.JournalRedisStorage" title="optuna.storages.JournalRedisStorage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optuna.storages.JournalRedisStorage</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/optuna.storages.JournalRedisStorage.html#optuna.storages.JournalRedisStorage" title="optuna.storages.JournalRedisStorage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JournalRedisStorage</span></code></a></p></td>
 <td><p></p></td>
 </tr>
 </tbody>

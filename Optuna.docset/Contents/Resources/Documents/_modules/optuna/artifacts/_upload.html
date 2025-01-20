@@ -5,8 +5,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.artifacts._upload &mdash; Optuna 4.1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+  <title>optuna.artifacts._upload &mdash; Optuna 4.2.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=d2d258e8" />
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=0b6e6ca6"></script>
+      <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=a63e1c6a"></script>
       <script src="../../../_static/doctools.js?v=888ff710"></script>
       <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -113,21 +113,21 @@
            <div itemprop="articleBody">
              
   <h1>Source code for optuna.artifacts._upload</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">asdict</span>
-<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">mimetypes</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">uuid</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">asdict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">mimetypes</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
 
-<span class="kn">from</span> <span class="nn">optuna._convert_positional_args</span> <span class="kn">import</span> <span class="n">convert_positional_args</span>
-<span class="kn">from</span> <span class="nn">optuna.artifacts._protocol</span> <span class="kn">import</span> <span class="n">ArtifactStore</span>
-<span class="kn">from</span> <span class="nn">optuna.storages</span> <span class="kn">import</span> <span class="n">BaseStorage</span>
-<span class="kn">from</span> <span class="nn">optuna.study</span> <span class="kn">import</span> <span class="n">Study</span>
-<span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">FrozenTrial</span>
-<span class="kn">from</span> <span class="nn">optuna.trial</span> <span class="kn">import</span> <span class="n">Trial</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna._convert_positional_args</span><span class="w"> </span><span class="kn">import</span> <span class="n">convert_positional_args</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.artifacts._protocol</span><span class="w"> </span><span class="kn">import</span> <span class="n">ArtifactStore</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.storages</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseStorage</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.study</span><span class="w"> </span><span class="kn">import</span> <span class="n">Study</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.trial</span><span class="w"> </span><span class="kn">import</span> <span class="n">FrozenTrial</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.trial</span><span class="w"> </span><span class="kn">import</span> <span class="n">Trial</span>
 
 
 <span class="n">ARTIFACTS_ATTR_PREFIX</span> <span class="o">=</span> <span class="s2">&quot;artifacts:&quot;</span>
@@ -135,7 +135,7 @@
 
 
 <div class="viewcode-block" id="ArtifactMeta"><a class="viewcode-back" href="../../../reference/artifacts.html#optuna.artifacts.ArtifactMeta">[docs]</a><span class="nd">@dataclass</span>
-<span class="k">class</span> <span class="nc">ArtifactMeta</span><span class="p">:</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ArtifactMeta</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Meta information for an artifact.</span>
 
 <span class="sd">    .. note::</span>
@@ -165,7 +165,7 @@
 <div class="viewcode-block" id="upload_artifact"><a class="viewcode-back" href="../../../reference/artifacts.html#optuna.artifacts.upload_artifact">[docs]</a><span class="nd">@convert_positional_args</span><span class="p">(</span>
     <span class="n">previous_positional_arg_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;study_or_trial&quot;</span><span class="p">,</span> <span class="s2">&quot;file_path&quot;</span><span class="p">,</span> <span class="s2">&quot;artifact_store&quot;</span><span class="p">]</span>
 <span class="p">)</span>
-<span class="k">def</span> <span class="nf">upload_artifact</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">upload_artifact</span><span class="p">(</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">artifact_store</span><span class="p">:</span> <span class="n">ArtifactStore</span><span class="p">,</span>
     <span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>

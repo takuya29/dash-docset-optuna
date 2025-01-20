@@ -5,8 +5,8 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>plot_edf — Optuna 4.1.0 documentation</title>
-<link href="../../../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
+<title>plot_edf — Optuna 4.2.0 documentation</title>
+<link href="../../../../_static/pygments.css?v=03e43079" rel="stylesheet" type="text/css"/>
 <link href="../../../../_static/css/theme.css?v=e59714d7" rel="stylesheet" type="text/css"/>
 <link href="../../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
 <link href="../../../../_static/sg_gallery.css?v=d2d258e8" rel="stylesheet" type="text/css"/>
@@ -17,7 +17,7 @@
 <link href="../../../../_static/favicon.ico" rel="shortcut icon"/>
 <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=0b6e6ca6"></script>
+<script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=a63e1c6a"></script>
 <script src="../../../../_static/doctools.js?v=888ff710"></script>
 <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -187,7 +187,7 @@ used for single-objective optimization, the objective values are plotted.</p>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A <a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="(in Matplotlib v3.9.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code></a> object.</p>
+<dd class="field-even"><p>A <a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="(in Matplotlib v3.10.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code></a> object.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Axes</p>
@@ -211,18 +211,18 @@ plot_edf is experimental (supported from v2.2.0). The interface can change in th
 <div class="line-block">
 <div class="line"><br/></div>
 </div>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 
-<span class="kn">import</span> <span class="nn">optuna</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">optuna</span>
 
 
-<span class="k">def</span> <span class="nf">ackley</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">ackley</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
     <span class="n">a</span> <span class="o">=</span> <span class="mi">20</span> <span class="o">*</span> <a class="sphx-glr-backref-module-math sphx-glr-backref-type-py-function" href="https://docs.python.org/3/library/math.html#math.exp" title="math.exp"><span class="n">math</span><span class="o">.</span><span class="n">exp</span></a><span class="p">(</span><span class="o">-</span><span class="mf">0.2</span> <span class="o">*</span> <a class="sphx-glr-backref-module-math sphx-glr-backref-type-py-function" href="https://docs.python.org/3/library/math.html#math.sqrt" title="math.sqrt"><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span></a><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">)))</span>
     <span class="n">b</span> <span class="o">=</span> <a class="sphx-glr-backref-module-math sphx-glr-backref-type-py-function" href="https://docs.python.org/3/library/math.html#math.exp" title="math.exp"><span class="n">math</span><span class="o">.</span><span class="n">exp</span></a><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><a class="sphx-glr-backref-module-math sphx-glr-backref-type-py-function" href="https://docs.python.org/3/library/math.html#math.cos" title="math.cos"><span class="n">math</span><span class="o">.</span><span class="n">cos</span></a><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/functions.html#float" title="builtins.float"><span class="n">math</span><span class="o">.</span><span class="n">pi</span></a> <span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="o">+</span> <a class="sphx-glr-backref-module-math sphx-glr-backref-type-py-function" href="https://docs.python.org/3/library/math.html#math.cos" title="math.cos"><span class="n">math</span><span class="o">.</span><span class="n">cos</span></a><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/functions.html#float" title="builtins.float"><span class="n">math</span><span class="o">.</span><span class="n">pi</span></a> <span class="o">*</span> <span class="n">y</span><span class="p">)))</span>
     <span class="k">return</span> <span class="o">-</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span> <span class="o">+</span> <a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/functions.html#float" title="builtins.float"><span class="n">math</span><span class="o">.</span><span class="n">e</span></a> <span class="o">+</span> <span class="mi">20</span>
 
 
-<span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">objective</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">):</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"x"</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">)</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">suggest_float</span><span class="p">(</span><span class="s2">"y"</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ackley</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
@@ -245,7 +245,7 @@ plot_edf is experimental (supported from v2.2.0). The interface can change in th
 <span class="n">optuna</span><span class="o">.</span><span class="n">visualization</span><span class="o">.</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">plot_edf</span><span class="p">([</span><span class="n">study0</span><span class="p">,</span> <span class="n">study1</span><span class="p">,</span> <span class="n">study2</span><span class="p">])</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 1.364 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 1.257 seconds)</p>
 <a class="dashAnchor" name="//apple_ref/cpp/Section/sphx_glr_download_reference_visualization_matplotlib_generated_optuna.visualization.matplotlib.edf.py"></a><div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-reference-visualization-matplotlib-generated-optuna-visualization-matplotlib-edf-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../../../_downloads/39caa59565014f3bdc5391c48f8aac46/optuna.visualization.matplotlib.edf.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">optuna.visualization.matplotlib.edf.ipynb</span></code></a></p>
