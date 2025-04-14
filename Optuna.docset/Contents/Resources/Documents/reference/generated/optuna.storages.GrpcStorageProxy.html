@@ -5,7 +5,7 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.storages.GrpcStorageProxy — Optuna 4.2.1 documentation</title>
+<title>optuna.storages.GrpcStorageProxy — Optuna 4.3.0 documentation</title>
 <link href="../../_static/pygments.css?v=03e43079" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css?v=e59714d7" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
@@ -17,7 +17,7 @@
 <link href="../../_static/favicon.ico" rel="shortcut icon"/>
 <script src="../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=0f7e680c"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=c2f1cc2e"></script>
 <script src="../../_static/doctools.js?v=888ff710"></script>
 <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -175,86 +175,92 @@ without prior notice. See <a class="reference external" href="https://github.com
 <tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.check_trial_is_updatable" title="optuna.storages.GrpcStorageProxy.check_trial_is_updatable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_trial_is_updatable</span></code></a>(trial_id, trial_state)</p></td>
 <td><p>Check whether a trial state is updatable.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.create_new_study" title="optuna.storages.GrpcStorageProxy.create_new_study"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_new_study</span></code></a>(directions[, study_name])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.close" title="optuna.storages.GrpcStorageProxy.close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">close</span></code></a>()</p></td>
+<td><p>Close the gRPC channel.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.create_new_study" title="optuna.storages.GrpcStorageProxy.create_new_study"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_new_study</span></code></a>(directions[, study_name])</p></td>
 <td><p>Create a new study from a name.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.create_new_trial" title="optuna.storages.GrpcStorageProxy.create_new_trial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_new_trial</span></code></a>(study_id[, template_trial])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.create_new_trial" title="optuna.storages.GrpcStorageProxy.create_new_trial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_new_trial</span></code></a>(study_id[, template_trial])</p></td>
 <td><p>Create and add a new trial to a study.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.delete_study" title="optuna.storages.GrpcStorageProxy.delete_study"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete_study</span></code></a>(study_id)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.delete_study" title="optuna.storages.GrpcStorageProxy.delete_study"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delete_study</span></code></a>(study_id)</p></td>
 <td><p>Delete a study.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.get_all_studies" title="optuna.storages.GrpcStorageProxy.get_all_studies"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_all_studies</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.get_all_studies" title="optuna.storages.GrpcStorageProxy.get_all_studies"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_all_studies</span></code></a>()</p></td>
 <td><p>Read a list of <code class="xref py py-class docutils literal notranslate"><span class="pre">FrozenStudy</span></code> objects.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.get_all_trials" title="optuna.storages.GrpcStorageProxy.get_all_trials"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_all_trials</span></code></a>(study_id[, deepcopy, states])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.get_all_trials" title="optuna.storages.GrpcStorageProxy.get_all_trials"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_all_trials</span></code></a>(study_id[, deepcopy, states])</p></td>
 <td><p>Read all trials in a study.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.get_best_trial" title="optuna.storages.GrpcStorageProxy.get_best_trial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_best_trial</span></code></a>(study_id)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.get_best_trial" title="optuna.storages.GrpcStorageProxy.get_best_trial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_best_trial</span></code></a>(study_id)</p></td>
 <td><p>Return the trial with the best value in a study.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.get_n_trials" title="optuna.storages.GrpcStorageProxy.get_n_trials"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_n_trials</span></code></a>(study_id[, state])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.get_n_trials" title="optuna.storages.GrpcStorageProxy.get_n_trials"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_n_trials</span></code></a>(study_id[, state])</p></td>
 <td><p>Count the number of trials in a study.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.get_study_directions" title="optuna.storages.GrpcStorageProxy.get_study_directions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_study_directions</span></code></a>(study_id)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.get_study_directions" title="optuna.storages.GrpcStorageProxy.get_study_directions"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_study_directions</span></code></a>(study_id)</p></td>
 <td><p>Read whether a study maximizes or minimizes an objective.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.get_study_id_from_name" title="optuna.storages.GrpcStorageProxy.get_study_id_from_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_study_id_from_name</span></code></a>(study_name)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.get_study_id_from_name" title="optuna.storages.GrpcStorageProxy.get_study_id_from_name"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_study_id_from_name</span></code></a>(study_name)</p></td>
 <td><p>Read the ID of a study.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.get_study_name_from_id" title="optuna.storages.GrpcStorageProxy.get_study_name_from_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_study_name_from_id</span></code></a>(study_id)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.get_study_name_from_id" title="optuna.storages.GrpcStorageProxy.get_study_name_from_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_study_name_from_id</span></code></a>(study_id)</p></td>
 <td><p>Read the study name of a study.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.get_study_system_attrs" title="optuna.storages.GrpcStorageProxy.get_study_system_attrs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_study_system_attrs</span></code></a>(study_id)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.get_study_system_attrs" title="optuna.storages.GrpcStorageProxy.get_study_system_attrs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_study_system_attrs</span></code></a>(study_id)</p></td>
 <td><p>Read the optuna-internal attributes of a study.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.get_study_user_attrs" title="optuna.storages.GrpcStorageProxy.get_study_user_attrs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_study_user_attrs</span></code></a>(study_id)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.get_study_user_attrs" title="optuna.storages.GrpcStorageProxy.get_study_user_attrs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_study_user_attrs</span></code></a>(study_id)</p></td>
 <td><p>Read the user-defined attributes of a study.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.get_trial" title="optuna.storages.GrpcStorageProxy.get_trial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial</span></code></a>(trial_id)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.get_trial" title="optuna.storages.GrpcStorageProxy.get_trial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial</span></code></a>(trial_id)</p></td>
 <td><p>Read a trial.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.get_trial_id_from_study_id_trial_number" title="optuna.storages.GrpcStorageProxy.get_trial_id_from_study_id_trial_number"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial_id_from_study_id_trial_number</span></code></a>(...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.get_trial_id_from_study_id_trial_number" title="optuna.storages.GrpcStorageProxy.get_trial_id_from_study_id_trial_number"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial_id_from_study_id_trial_number</span></code></a>(...)</p></td>
 <td><p>Read the trial ID of a trial.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.get_trial_number_from_id" title="optuna.storages.GrpcStorageProxy.get_trial_number_from_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial_number_from_id</span></code></a>(trial_id)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.get_trial_number_from_id" title="optuna.storages.GrpcStorageProxy.get_trial_number_from_id"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial_number_from_id</span></code></a>(trial_id)</p></td>
 <td><p>Read the trial number of a trial.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.get_trial_param" title="optuna.storages.GrpcStorageProxy.get_trial_param"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial_param</span></code></a>(trial_id, param_name)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.get_trial_param" title="optuna.storages.GrpcStorageProxy.get_trial_param"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial_param</span></code></a>(trial_id, param_name)</p></td>
 <td><p>Read the parameter of a trial.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.get_trial_params" title="optuna.storages.GrpcStorageProxy.get_trial_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial_params</span></code></a>(trial_id)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.get_trial_params" title="optuna.storages.GrpcStorageProxy.get_trial_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial_params</span></code></a>(trial_id)</p></td>
 <td><p>Read the parameter dictionary of a trial.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.get_trial_system_attrs" title="optuna.storages.GrpcStorageProxy.get_trial_system_attrs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial_system_attrs</span></code></a>(trial_id)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.get_trial_system_attrs" title="optuna.storages.GrpcStorageProxy.get_trial_system_attrs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial_system_attrs</span></code></a>(trial_id)</p></td>
 <td><p>Read the optuna-internal attributes of a trial.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.get_trial_user_attrs" title="optuna.storages.GrpcStorageProxy.get_trial_user_attrs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial_user_attrs</span></code></a>(trial_id)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.get_trial_user_attrs" title="optuna.storages.GrpcStorageProxy.get_trial_user_attrs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial_user_attrs</span></code></a>(trial_id)</p></td>
 <td><p>Read the user-defined attributes of a trial.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.remove_session" title="optuna.storages.GrpcStorageProxy.remove_session"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_session</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.remove_session" title="optuna.storages.GrpcStorageProxy.remove_session"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_session</span></code></a>()</p></td>
 <td><p>Clean up all connections to a database.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.set_study_system_attr" title="optuna.storages.GrpcStorageProxy.set_study_system_attr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_study_system_attr</span></code></a>(study_id, key, value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.set_study_system_attr" title="optuna.storages.GrpcStorageProxy.set_study_system_attr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_study_system_attr</span></code></a>(study_id, key, value)</p></td>
 <td><p>Register an optuna-internal attribute to a study.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.set_study_user_attr" title="optuna.storages.GrpcStorageProxy.set_study_user_attr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_study_user_attr</span></code></a>(study_id, key, value)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.set_study_user_attr" title="optuna.storages.GrpcStorageProxy.set_study_user_attr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_study_user_attr</span></code></a>(study_id, key, value)</p></td>
 <td><p>Register a user-defined attribute to a study.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.set_trial_intermediate_value" title="optuna.storages.GrpcStorageProxy.set_trial_intermediate_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_trial_intermediate_value</span></code></a>(trial_id, step, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.set_trial_intermediate_value" title="optuna.storages.GrpcStorageProxy.set_trial_intermediate_value"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_trial_intermediate_value</span></code></a>(trial_id, step, ...)</p></td>
 <td><p>Report an intermediate value of an objective function.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.set_trial_param" title="optuna.storages.GrpcStorageProxy.set_trial_param"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_trial_param</span></code></a>(trial_id, param_name, ...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.set_trial_param" title="optuna.storages.GrpcStorageProxy.set_trial_param"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_trial_param</span></code></a>(trial_id, param_name, ...)</p></td>
 <td><p>Set a parameter to a trial.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.set_trial_state_values" title="optuna.storages.GrpcStorageProxy.set_trial_state_values"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_trial_state_values</span></code></a>(trial_id, state[, values])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.set_trial_state_values" title="optuna.storages.GrpcStorageProxy.set_trial_state_values"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_trial_state_values</span></code></a>(trial_id, state[, values])</p></td>
 <td><p>Update the state and values of a trial.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.set_trial_system_attr" title="optuna.storages.GrpcStorageProxy.set_trial_system_attr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_trial_system_attr</span></code></a>(trial_id, key, value)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.set_trial_system_attr" title="optuna.storages.GrpcStorageProxy.set_trial_system_attr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_trial_system_attr</span></code></a>(trial_id, key, value)</p></td>
 <td><p>Set an optuna-internal attribute to a trial.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.set_trial_user_attr" title="optuna.storages.GrpcStorageProxy.set_trial_user_attr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_trial_user_attr</span></code></a>(trial_id, key, value)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.set_trial_user_attr" title="optuna.storages.GrpcStorageProxy.set_trial_user_attr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_trial_user_attr</span></code></a>(trial_id, key, value)</p></td>
 <td><p>Set a user-defined attribute to a trial.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.storages.GrpcStorageProxy.wait_server_ready" title="optuna.storages.GrpcStorageProxy.wait_server_ready"><code class="xref py py-obj docutils literal notranslate"><span class="pre">wait_server_ready</span></code></a>([timeout])</p></td>
+<td><p>Wait until the gRPC server is ready.</p></td>
 </tr>
 </tbody>
 </table>
@@ -271,8 +277,18 @@ Only used for an error message.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.13)"><strong>RuntimeError</strong></a> – If the trial is already finished.</p>
+<dd class="field-even"><p><a class="reference internal" href="optuna.exceptions.UpdateFinishedTrialError.html#optuna.exceptions.UpdateFinishedTrialError" title="optuna.exceptions.UpdateFinishedTrialError"><strong>UpdateFinishedTrialError</strong></a> – If the trial is already finished.</p>
 </dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.storages.GrpcStorageProxy.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_grpc/client.html#GrpcStorageProxy.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.GrpcStorageProxy.close"></a><a class="headerlink" href="#optuna.storages.GrpcStorageProxy.close" title="Permalink to this definition"></a></dt>
+<dd><p>Close the gRPC channel.</p>
+<dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
 </dd>
@@ -735,7 +751,7 @@ representations of the parameter values.</p>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.13)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.</p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.13)"><strong>RuntimeError</strong></a> – If the trial is already finished.</p></li>
+<li><p><a class="reference internal" href="optuna.exceptions.UpdateFinishedTrialError.html#optuna.exceptions.UpdateFinishedTrialError" title="optuna.exceptions.UpdateFinishedTrialError"><strong>UpdateFinishedTrialError</strong></a> – If the trial is already finished.</p></li>
 </ul>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -759,7 +775,7 @@ representations of the parameter values.</p>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.13)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.</p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.13)"><strong>RuntimeError</strong></a> – If the trial is already finished.</p></li>
+<li><p><a class="reference internal" href="optuna.exceptions.UpdateFinishedTrialError.html#optuna.exceptions.UpdateFinishedTrialError" title="optuna.exceptions.UpdateFinishedTrialError"><strong>UpdateFinishedTrialError</strong></a> – If the trial is already finished.</p></li>
 </ul>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -791,7 +807,7 @@ The latter happens when this method tries to update the state of
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.13)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.</p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.13)"><strong>RuntimeError</strong></a> – If the trial is already finished.</p></li>
+<li><p><a class="reference internal" href="optuna.exceptions.UpdateFinishedTrialError.html#optuna.exceptions.UpdateFinishedTrialError" title="optuna.exceptions.UpdateFinishedTrialError"><strong>UpdateFinishedTrialError</strong></a> – If the trial is already finished.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -815,7 +831,7 @@ The latter happens when this method tries to update the state of
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.13)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.</p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.13)"><strong>RuntimeError</strong></a> – If the trial is already finished.</p></li>
+<li><p><a class="reference internal" href="optuna.exceptions.UpdateFinishedTrialError.html#optuna.exceptions.UpdateFinishedTrialError" title="optuna.exceptions.UpdateFinishedTrialError"><strong>UpdateFinishedTrialError</strong></a> – If the trial is already finished.</p></li>
 </ul>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
@@ -839,11 +855,24 @@ The latter happens when this method tries to update the state of
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.13)"><strong>KeyError</strong></a> – If no trial with the matching <code class="docutils literal notranslate"><span class="pre">trial_id</span></code> exists.</p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.13)"><strong>RuntimeError</strong></a> – If the trial is already finished.</p></li>
+<li><p><a class="reference internal" href="optuna.exceptions.UpdateFinishedTrialError.html#optuna.exceptions.UpdateFinishedTrialError" title="optuna.exceptions.UpdateFinishedTrialError"><strong>UpdateFinishedTrialError</strong></a> – If the trial is already finished.</p></li>
 </ul>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.storages.GrpcStorageProxy.wait_server_ready">
+<span class="sig-name descname"><span class="pre">wait_server_ready</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/_grpc/client.html#GrpcStorageProxy.wait_server_ready"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.storages.GrpcStorageProxy.wait_server_ready"></a><a class="headerlink" href="#optuna.storages.GrpcStorageProxy.wait_server_ready" title="Permalink to this definition"></a></dt>
+<dd><p>Wait until the gRPC server is ready.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>timeout</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em> | </em><em>None</em>) – The maximum time to wait in seconds. If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, wait indefinitely.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>

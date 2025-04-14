@@ -5,7 +5,7 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.samplers.NSGAIISampler — Optuna 4.2.1 documentation</title>
+<title>optuna.samplers.NSGAIISampler — Optuna 4.3.0 documentation</title>
 <link href="../../../_static/pygments.css?v=03e43079" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/css/theme.css?v=e59714d7" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
@@ -17,7 +17,7 @@
 <link href="../../../_static/favicon.ico" rel="shortcut icon"/>
 <script src="../../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=0f7e680c"></script>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=c2f1cc2e"></script>
 <script src="../../../_static/doctools.js?v=888ff710"></script>
 <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -261,17 +261,37 @@ See <a class="reference external" href="https://github.com/optuna/optuna/release
 <tr class="row-even"><td><p><a class="reference internal" href="#optuna.samplers.NSGAIISampler.before_trial" title="optuna.samplers.NSGAIISampler.before_trial"><code class="xref py py-obj docutils literal notranslate"><span class="pre">before_trial</span></code></a>(study, trial)</p></td>
 <td><p>Trial pre-processing.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.samplers.NSGAIISampler.infer_relative_search_space" title="optuna.samplers.NSGAIISampler.infer_relative_search_space"><code class="xref py py-obj docutils literal notranslate"><span class="pre">infer_relative_search_space</span></code></a>(study, trial)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.samplers.NSGAIISampler.get_parent_population" title="optuna.samplers.NSGAIISampler.get_parent_population"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_parent_population</span></code></a>(study, generation)</p></td>
+<td><p>Get the parent population of the given generation.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.samplers.NSGAIISampler.get_population" title="optuna.samplers.NSGAIISampler.get_population"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_population</span></code></a>(study, generation)</p></td>
+<td><p>Get the population of the given generation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.samplers.NSGAIISampler.get_trial_generation" title="optuna.samplers.NSGAIISampler.get_trial_generation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial_generation</span></code></a>(study, trial)</p></td>
+<td><p>Get the generation number of the given trial.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.samplers.NSGAIISampler.infer_relative_search_space" title="optuna.samplers.NSGAIISampler.infer_relative_search_space"><code class="xref py py-obj docutils literal notranslate"><span class="pre">infer_relative_search_space</span></code></a>(study, trial)</p></td>
 <td><p>Infer the search space that will be used by relative sampling in the target trial.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#optuna.samplers.NSGAIISampler.reseed_rng" title="optuna.samplers.NSGAIISampler.reseed_rng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reseed_rng</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.samplers.NSGAIISampler.reseed_rng" title="optuna.samplers.NSGAIISampler.reseed_rng"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reseed_rng</span></code></a>()</p></td>
 <td><p>Reseed sampler's random number generator.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.samplers.NSGAIISampler.sample_independent" title="optuna.samplers.NSGAIISampler.sample_independent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample_independent</span></code></a>(study, trial, param_name, ...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.samplers.NSGAIISampler.sample_independent" title="optuna.samplers.NSGAIISampler.sample_independent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample_independent</span></code></a>(study, trial, param_name, ...)</p></td>
 <td><p>Sample a parameter for a given distribution.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#optuna.samplers.NSGAIISampler.sample_relative" title="optuna.samplers.NSGAIISampler.sample_relative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample_relative</span></code></a>(study, trial, search_space)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#optuna.samplers.NSGAIISampler.sample_relative" title="optuna.samplers.NSGAIISampler.sample_relative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample_relative</span></code></a>(study, trial, search_space)</p></td>
 <td><p>Sample parameters in a given search space.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#optuna.samplers.NSGAIISampler.select_parent" title="optuna.samplers.NSGAIISampler.select_parent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select_parent</span></code></a>(study, generation)</p></td>
+<td><p>Select parent trials from the population for the given generation.</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">population_size</span></code></p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
@@ -324,6 +344,69 @@ without prior notice. See <a class="reference external" href="https://github.com
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.samplers.NSGAIISampler.get_parent_population">
+<span class="sig-name descname"><span class="pre">get_parent_population</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">generation</span></span></em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.samplers.NSGAIISampler.get_parent_population"></a><a class="headerlink" href="#optuna.samplers.NSGAIISampler.get_parent_population" title="Permalink to this definition"></a></dt>
+<dd><p>Get the parent population of the given generation.</p>
+<p>This method caches the parent population in the study’s system attributes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>study</strong> (<em>optuna.Study</em>) – Target study object.</p></li>
+<li><p><strong>generation</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Target generation number.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of parent frozen trials. If <cite>generation == 0</cite>, returns an empty list.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a>[<a class="reference internal" href="../../generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial">FrozenTrial</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.samplers.NSGAIISampler.get_population">
+<span class="sig-name descname"><span class="pre">get_population</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">generation</span></span></em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.samplers.NSGAIISampler.get_population"></a><a class="headerlink" href="#optuna.samplers.NSGAIISampler.get_population" title="Permalink to this definition"></a></dt>
+<dd><p>Get the population of the given generation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>study</strong> (<em>optuna.Study</em>) – Target study object.</p></li>
+<li><p><strong>generation</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Target generation number.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of frozen trials in the given generation.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a>[<a class="reference internal" href="../../generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial">FrozenTrial</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.samplers.NSGAIISampler.get_trial_generation">
+<span class="sig-name descname"><span class="pre">get_trial_generation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trial</span></span></em><span class="sig-paren">)</span><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.samplers.NSGAIISampler.get_trial_generation"></a><a class="headerlink" href="#optuna.samplers.NSGAIISampler.get_trial_generation" title="Permalink to this definition"></a></dt>
+<dd><p>Get the generation number of the given trial.</p>
+<p>This method returns the generation number of the specified trial. If the generation number
+is not set in the trial’s system attributes, it will calculate and set the generation
+number.</p>
+<p>The current generation number depends on the maximum generation number of all completed
+trials.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>study</strong> (<a class="reference internal" href="../../generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.study.Study"><em>Study</em></a>) – Study object which trial belongs to.</p></li>
+<li><p><strong>trial</strong> (<a class="reference internal" href="../../generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial._frozen.FrozenTrial"><em>FrozenTrial</em></a>) – Trial object to get the generation number.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Generation number of the given trial.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)">int</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -431,6 +514,29 @@ Take a copy before modifying this object.</p></li>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)">dict</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a>, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="optuna.samplers.NSGAIISampler.select_parent">
+<span class="sig-name descname"><span class="pre">select_parent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">generation</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/optuna/samplers/nsgaii/_sampler.html#NSGAIISampler.select_parent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Method/optuna.samplers.NSGAIISampler.select_parent"></a><a class="headerlink" href="#optuna.samplers.NSGAIISampler.select_parent" title="Permalink to this definition"></a></dt>
+<dd><p>Select parent trials from the population for the given generation.</p>
+<p>This method is called once per generation to select parents from
+the population of the current generation.</p>
+<p>Output of this function is cached in the study system attributes.</p>
+<p>This method must be implemented in a subclass to define the specific selection strategy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>study</strong> (<a class="reference internal" href="../../generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><em>Study</em></a>) – Target study object.</p></li>
+<li><p><strong>generation</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a>) – Target generation number.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of parent frozen trials.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a>[<a class="reference internal" href="../../generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial">FrozenTrial</a>]</p>
 </dd>
 </dl>
 </dd></dl>

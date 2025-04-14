@@ -5,7 +5,7 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.samplers.BruteForceSampler — Optuna 4.2.1 documentation</title>
+<title>optuna.samplers.BruteForceSampler — Optuna 4.3.0 documentation</title>
 <link href="../../../_static/pygments.css?v=03e43079" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/css/theme.css?v=e59714d7" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
@@ -17,7 +17,7 @@
 <link href="../../../_static/favicon.ico" rel="shortcut icon"/>
 <script src="../../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=0f7e680c"></script>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=c2f1cc2e"></script>
 <script src="../../../_static/doctools.js?v=888ff710"></script>
 <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -140,7 +140,7 @@
 <h1>optuna.samplers.BruteForceSampler<a class="headerlink" href="#optuna-samplers-bruteforcesampler" title="Permalink to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="optuna.samplers.BruteForceSampler">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.samplers.</span></span><span class="sig-name descname"><span class="pre">BruteForceSampler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/optuna/samplers/_brute_force.html#BruteForceSampler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.samplers.BruteForceSampler"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.samplers._brute_force.BruteForceSampler"></a><a class="headerlink" href="#optuna.samplers.BruteForceSampler" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.samplers.</span></span><span class="sig-name descname"><span class="pre">BruteForceSampler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avoid_premature_stop</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/optuna/samplers/_brute_force.html#BruteForceSampler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.samplers.BruteForceSampler"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.samplers._brute_force.BruteForceSampler"></a><a class="headerlink" href="#optuna.samplers.BruteForceSampler" title="Permalink to this definition"></a></dt>
 <dd><p>Sampler using brute force.</p>
 <p>This sampler performs exhaustive search on the defined search space.</p>
 <p class="rubric">Example</p>
@@ -174,10 +174,17 @@ parameters are changed in the same <a class="reference internal" href="../../gen
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em> | </em><em>None</em>) – A seed to fix the order of trials as the search order randomly shuffled. Please note
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>seed</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em> | </em><em>None</em>) – A seed to fix the order of trials as the search order randomly shuffled. Please note
 that it is not recommended using this option in distributed optimization settings since
 this option cannot ensure the order of trials and may increase the number of duplicate
-suggestions during distributed optimization.</p>
+suggestions during distributed optimization.</p></li>
+<li><p><strong>avoid_premature_stop</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – If <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, the sampler performs a strict exhaustive search. Please note
+that enabling this option may increase the likelihood of duplicate sampling.
+When this option is not enabled (default), the sampler applies a looser criterion for
+determining when to stop the search, which may result in incomplete coverage of the
+search space. For more information, see <a class="reference external" href="https://github.com/optuna/optuna/issues/5780">https://github.com/optuna/optuna/issues/5780</a>.</p></li>
+</ul>
 </dd>
 </dl>
 <div class="admonition note">

@@ -5,7 +5,7 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.terminator.BaseImprovementEvaluator — Optuna 4.3.0 documentation</title>
+<title>optuna.exceptions.UpdateFinishedTrialError — Optuna 4.3.0 documentation</title>
 <link href="../../_static/pygments.css?v=03e43079" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css?v=e59714d7" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
@@ -25,8 +25,8 @@
 <script src="../../_static/js/theme.js"></script>
 <link href="../../genindex.html" rel="index" title="Index"/>
 <link href="../../search.html" rel="search" title="Search"/>
-<link href="optuna.terminator.RegretBoundEvaluator.html" rel="next" title="optuna.terminator.RegretBoundEvaluator"/>
-<link href="optuna.terminator.Terminator.html" rel="prev" title="optuna.terminator.Terminator"/>
+<link href="../importance.html" rel="next" title="optuna.importance"/>
+<link href="optuna.exceptions.DuplicatedStudyError.html" rel="prev" title="optuna.exceptions.DuplicatedStudyError"/>
 </head>
 <body class="wy-body-for-nav">
 <div class="navbar">
@@ -83,7 +83,18 @@
 <li class="toctree-l2"><a class="reference internal" href="../artifacts.html">optuna.artifacts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cli.html">optuna.cli</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../distributions.html">optuna.distributions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../exceptions.html">optuna.exceptions</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../exceptions.html">optuna.exceptions</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="optuna.exceptions.OptunaError.html">optuna.exceptions.OptunaError</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.exceptions.TrialPruned.html">optuna.exceptions.TrialPruned</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.exceptions.CLIUsageError.html">optuna.exceptions.CLIUsageError</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.exceptions.StorageInternalError.html">optuna.exceptions.StorageInternalError</a></li>
+<li class="toctree-l3"><a class="reference internal" href="optuna.exceptions.DuplicatedStudyError.html">optuna.exceptions.DuplicatedStudyError</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">optuna.exceptions.UpdateFinishedTrialError</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#optuna.exceptions.UpdateFinishedTrialError"><code class="docutils literal notranslate"><span class="pre">UpdateFinishedTrialError</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../importance.html">optuna.importance</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../integration.html">optuna.integration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../logging.html">optuna.logging</a></li>
@@ -92,24 +103,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../search_space.html">optuna.search_space</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../storages.html">optuna.storages</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../study.html">optuna.study</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../terminator.html">optuna.terminator</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="optuna.terminator.BaseTerminator.html">optuna.terminator.BaseTerminator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="optuna.terminator.Terminator.html">optuna.terminator.Terminator</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">optuna.terminator.BaseImprovementEvaluator</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#optuna.terminator.BaseImprovementEvaluator"><code class="docutils literal notranslate"><span class="pre">BaseImprovementEvaluator</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="optuna.terminator.RegretBoundEvaluator.html">optuna.terminator.RegretBoundEvaluator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="optuna.terminator.BestValueStagnationEvaluator.html">optuna.terminator.BestValueStagnationEvaluator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="optuna.terminator.EMMREvaluator.html">optuna.terminator.EMMREvaluator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="optuna.terminator.BaseErrorEvaluator.html">optuna.terminator.BaseErrorEvaluator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="optuna.terminator.CrossValidationErrorEvaluator.html">optuna.terminator.CrossValidationErrorEvaluator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="optuna.terminator.StaticErrorEvaluator.html">optuna.terminator.StaticErrorEvaluator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="optuna.terminator.MedianErrorEvaluator.html">optuna.terminator.MedianErrorEvaluator</a></li>
-<li class="toctree-l3"><a class="reference internal" href="optuna.terminator.TerminatorCallback.html">optuna.terminator.TerminatorCallback</a></li>
-<li class="toctree-l3"><a class="reference internal" href="optuna.terminator.report_cross_validation_scores.html">optuna.terminator.report_cross_validation_scores</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="../terminator.html">optuna.terminator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../trial.html">optuna.trial</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../visualization/index.html">optuna.visualization</a></li>
 </ul>
@@ -129,39 +123,27 @@
 <ul class="wy-breadcrumbs">
 <li><a aria-label="Home" class="icon icon-home" href="../../index.html"></a></li>
 <li class="breadcrumb-item"><a href="../index.html">API Reference</a></li>
-<li class="breadcrumb-item"><a href="../terminator.html">optuna.terminator</a></li>
-<li class="breadcrumb-item active">optuna.terminator.BaseImprovementEvaluator</li>
+<li class="breadcrumb-item"><a href="../exceptions.html">optuna.exceptions</a></li>
+<li class="breadcrumb-item active">optuna.exceptions.UpdateFinishedTrialError</li>
 </ul>
 <hr/>
 </div>
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div itemprop="articleBody">
-<section id="optuna-terminator-baseimprovementevaluator">
-<h1>optuna.terminator.BaseImprovementEvaluator<a class="headerlink" href="#optuna-terminator-baseimprovementevaluator" title="Permalink to this heading"></a></h1>
-<dl class="py class">
-<dt class="sig sig-object py" id="optuna.terminator.BaseImprovementEvaluator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.terminator.</span></span><span class="sig-name descname"><span class="pre">BaseImprovementEvaluator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/terminator/improvement/evaluator.html#BaseImprovementEvaluator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.terminator.BaseImprovementEvaluator"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.terminator.improvement.evaluator.BaseImprovementEvaluator"></a><a class="headerlink" href="#optuna.terminator.BaseImprovementEvaluator" title="Permalink to this definition"></a></dt>
-<dd><p>Base class for improvement evaluators.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Added in v3.2.0 as an experimental feature. The interface may change in newer versions
-without prior notice. See <a class="reference external" href="https://github.com/optuna/optuna/releases/tag/v3.2.0">https://github.com/optuna/optuna/releases/tag/v3.2.0</a>.</p>
-</div>
-<p class="rubric">Methods</p>
-<table class="autosummary longtable docutils align-default">
-<tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">evaluate</span></code>(trials, study_direction)</p></td>
-<td><p></p></td>
-</tr>
-</tbody>
-</table>
+<section id="optuna-exceptions-updatefinishedtrialerror">
+<h1>optuna.exceptions.UpdateFinishedTrialError<a class="headerlink" href="#optuna-exceptions-updatefinishedtrialerror" title="Permalink to this heading"></a></h1>
+<dl class="py exception">
+<dt class="sig sig-object py" id="optuna.exceptions.UpdateFinishedTrialError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.exceptions.</span></span><span class="sig-name descname"><span class="pre">UpdateFinishedTrialError</span></span><a class="reference internal" href="../../_modules/optuna/exceptions.html#UpdateFinishedTrialError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Exception/optuna.exceptions.UpdateFinishedTrialError"></a><a class="headerlink" href="#optuna.exceptions.UpdateFinishedTrialError" title="Permalink to this definition"></a></dt>
+<dd><p>Exception for updating a finished trial.</p>
+<p>This error is raised when attempting to update a finished trial.</p>
 </dd></dl>
 </section>
 </div>
 </div>
 <footer><div aria-label="Footer" class="rst-footer-buttons" role="navigation">
-<a accesskey="p" class="btn btn-neutral float-left" href="optuna.terminator.Terminator.html" rel="prev" title="optuna.terminator.Terminator"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
-<a accesskey="n" class="btn btn-neutral float-right" href="optuna.terminator.RegretBoundEvaluator.html" rel="next" title="optuna.terminator.RegretBoundEvaluator">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
+<a accesskey="p" class="btn btn-neutral float-left" href="optuna.exceptions.DuplicatedStudyError.html" rel="prev" title="optuna.exceptions.DuplicatedStudyError"><span aria-hidden="true" class="fa fa-arrow-circle-left"></span> Previous</a>
+<a accesskey="n" class="btn btn-neutral float-right" href="../importance.html" rel="next" title="optuna.importance">Next <span aria-hidden="true" class="fa fa-arrow-circle-right"></span></a>
 </div>
 <hr/>
 <div role="contentinfo">

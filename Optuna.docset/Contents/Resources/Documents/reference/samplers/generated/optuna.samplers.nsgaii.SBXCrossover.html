@@ -5,7 +5,7 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.samplers.nsgaii.SBXCrossover — Optuna 4.2.1 documentation</title>
+<title>optuna.samplers.nsgaii.SBXCrossover — Optuna 4.3.0 documentation</title>
 <link href="../../../_static/pygments.css?v=03e43079" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/css/theme.css?v=e59714d7" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
@@ -17,7 +17,7 @@
 <link href="../../../_static/favicon.ico" rel="shortcut icon"/>
 <script src="../../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=0f7e680c"></script>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=c2f1cc2e"></script>
 <script src="../../../_static/doctools.js?v=888ff710"></script>
 <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -147,10 +147,15 @@
 <h1>optuna.samplers.nsgaii.SBXCrossover<a class="headerlink" href="#optuna-samplers-nsgaii-sbxcrossover" title="Permalink to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="optuna.samplers.nsgaii.SBXCrossover">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.samplers.nsgaii.</span></span><span class="sig-name descname"><span class="pre">SBXCrossover</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/optuna/samplers/nsgaii/_crossovers/_sbx.html#SBXCrossover"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.samplers.nsgaii.SBXCrossover"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.samplers.nsgaii._crossovers._sbx.SBXCrossover"></a><a class="headerlink" href="#optuna.samplers.nsgaii.SBXCrossover" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.samplers.nsgaii.</span></span><span class="sig-name descname"><span class="pre">SBXCrossover</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">eta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uniform_crossover_prob</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_child_gene_prob</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/optuna/samplers/nsgaii/_crossovers/_sbx.html#SBXCrossover"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.samplers.nsgaii.SBXCrossover"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.samplers.nsgaii._crossovers._sbx.SBXCrossover"></a><a class="headerlink" href="#optuna.samplers.nsgaii.SBXCrossover" title="Permalink to this definition"></a></dt>
 <dd><p>Simulated Binary Crossover operation used by <a class="reference internal" href="optuna.samplers.NSGAIISampler.html#optuna.samplers.NSGAIISampler" title="optuna.samplers.NSGAIISampler"><code class="xref py py-class docutils literal notranslate"><span class="pre">NSGAIISampler</span></code></a>.</p>
 <p>Generates a child from two parent individuals
 according to the polynomial probability distribution.</p>
+<p>In the paper, SBX has only one argument, <code class="docutils literal notranslate"><span class="pre">eta</span></code>,
+and generate two child individuals.
+However, Optuna can only return one child individual in one crossover operation,
+so it uses the <code class="docutils literal notranslate"><span class="pre">uniform_crossover_prob</span></code> and <code class="docutils literal notranslate"><span class="pre">use_child_gene_prob</span></code> arguments
+to make two individuals into one.</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://www.complex-systems.com/abstracts/v09_i02_a02/">Deb, K. and R. Agrawal.
 “Simulated Binary Crossover for Continuous Search Space.”
@@ -158,9 +163,27 @@ Complex Syst. 9 (1995): n. pag.</a></p></li>
 </ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>eta</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em> | </em><em>None</em>) – Distribution index. A small value of <code class="docutils literal notranslate"><span class="pre">eta</span></code> allows distant solutions
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>eta</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em> | </em><em>None</em>) – Distribution index. A small value of <code class="docutils literal notranslate"><span class="pre">eta</span></code> allows distant solutions
 to be selected as children solutions. If not specified, takes default
-value of <code class="docutils literal notranslate"><span class="pre">2</span></code> for single objective functions and <code class="docutils literal notranslate"><span class="pre">20</span></code> for multi objective.</p>
+value of <code class="docutils literal notranslate"><span class="pre">2</span></code> for single objective functions and <code class="docutils literal notranslate"><span class="pre">20</span></code> for multi objective.</p></li>
+<li><p><strong>uniform_crossover_prob</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – <code class="docutils literal notranslate"><span class="pre">uniform_crossover_prob</span></code> is the probability of uniform crossover
+between two individuals selected as candidate child individuals.
+This argument is whether or not two individuals are
+crossover to make one child individual.
+If the <code class="docutils literal notranslate"><span class="pre">uniform_crossover_prob</span></code> exceeds 0.5,
+the result is equivalent to <code class="docutils literal notranslate"><span class="pre">1-uniform_crossover_prob</span></code>,
+because it returns one of the two individuals of the crossover result.
+If not specified, takes default value of <code class="docutils literal notranslate"><span class="pre">0.5</span></code>.
+The range of values is <code class="docutils literal notranslate"><span class="pre">[0.0,</span> <span class="pre">1.0]</span></code>.</p></li>
+<li><p><strong>use_child_gene_prob</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a>) – <code class="docutils literal notranslate"><span class="pre">use_child_gene_prob</span></code> is the probability of using the value of the generated
+child variable rather than the value of the parent.
+This probability is applied to each variable individually.
+where <code class="docutils literal notranslate"><span class="pre">1-use_chile_gene_prob</span></code> is the probability of
+using the parent’s values as it is.
+If not specified, takes default value of <code class="docutils literal notranslate"><span class="pre">0.5</span></code>.
+The range of values is <code class="docutils literal notranslate"><span class="pre">(0.0,</span> <span class="pre">1.0]</span></code>.</p></li>
+</ul>
 </dd>
 </dl>
 <div class="admonition note">

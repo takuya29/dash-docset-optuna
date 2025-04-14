@@ -5,7 +5,7 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.storages.journal.JournalFileSymlinkLock — Optuna 4.2.1 documentation</title>
+<title>optuna.storages.journal.JournalFileSymlinkLock — Optuna 4.3.0 documentation</title>
 <link href="../../_static/pygments.css?v=03e43079" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css?v=e59714d7" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
@@ -17,7 +17,7 @@
 <link href="../../_static/favicon.ico" rel="shortcut icon"/>
 <script src="../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=0f7e680c"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=c2f1cc2e"></script>
 <script src="../../_static/doctools.js?v=888ff710"></script>
 <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -140,14 +140,17 @@
 <h1>optuna.storages.journal.JournalFileSymlinkLock<a class="headerlink" href="#optuna-storages-journal-journalfilesymlinklock" title="Permalink to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="optuna.storages.journal.JournalFileSymlinkLock">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.storages.journal.</span></span><span class="sig-name descname"><span class="pre">JournalFileSymlinkLock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/journal/_file.html#JournalFileSymlinkLock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.storages.journal.JournalFileSymlinkLock"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.storages.journal._file.JournalFileSymlinkLock"></a><a class="headerlink" href="#optuna.storages.journal.JournalFileSymlinkLock" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.storages.journal.</span></span><span class="sig-name descname"><span class="pre">JournalFileSymlinkLock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grace_period</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/storages/journal/_file.html#JournalFileSymlinkLock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.storages.journal.JournalFileSymlinkLock"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.storages.journal._file.JournalFileSymlinkLock"></a><a class="headerlink" href="#optuna.storages.journal.JournalFileSymlinkLock" title="Permalink to this definition"></a></dt>
 <dd><p>Lock class for synchronizing processes for NFSv2 or later.</p>
 <p>On acquiring the lock, link system call is called to create an exclusive file. The file is
 deleted when the lock is released. In NFS environments prior to NFSv3, use this instead of
 <a class="reference internal" href="optuna.storages.journal.JournalFileOpenLock.html#optuna.storages.journal.JournalFileOpenLock" title="optuna.storages.journal.JournalFileOpenLock"><code class="xref py py-class docutils literal notranslate"><span class="pre">JournalFileOpenLock</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>filepath</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – The path of the file whose race condition must be protected.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filepath</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – The path of the file whose race condition must be protected.</p></li>
+<li><p><strong>grace_period</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em> | </em><em>None</em>) – Grace period before an existing lock is forcibly released.</p></li>
+</ul>
 </dd>
 </dl>
 <p class="rubric">Methods</p>

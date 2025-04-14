@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.pruners._hyperband &mdash; Optuna 4.2.1 documentation</title>
+  <title>optuna.pruners._hyperband &mdash; Optuna 4.3.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=0f7e680c"></script>
+      <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=c2f1cc2e"></script>
       <script src="../../../_static/doctools.js?v=888ff710"></script>
       <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -174,6 +174,12 @@
 <span class="sd">        Please set ``reduction_factor`` so that the number of brackets is not too large (about 4 –</span>
 <span class="sd">        6 in most use cases). Please see Section 3.6 of the `original paper</span>
 <span class="sd">        &lt;http://www.jmlr.org/papers/volume18/16-558/16-558.pdf&gt;`__ for the detail.</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        ``HyperbandPruner`` computes bracket ID for each trial with a</span>
+<span class="sd">        function taking ``study_name`` of :class:`~optuna.study.Study` and</span>
+<span class="sd">        :attr:`~optuna.trial.Trial.number`. Please specify ``study_name``</span>
+<span class="sd">        to make the pruning algorithm reproducible.</span>
 
 <span class="sd">    Example:</span>
 

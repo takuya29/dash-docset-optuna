@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.visualization.matplotlib._contour &mdash; Optuna 4.2.1 documentation</title>
+  <title>optuna.visualization.matplotlib._contour &mdash; Optuna 4.3.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=0f7e680c"></script>
+      <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=c2f1cc2e"></script>
       <script src="../../../../_static/doctools.js?v=888ff710"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -122,7 +122,6 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">optuna._experimental</span><span class="w"> </span><span class="kn">import</span> <span class="n">experimental_func</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">optuna._imports</span><span class="w"> </span><span class="kn">import</span> <span class="n">try_import</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.logging</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_logger</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">optuna.study</span><span class="w"> </span><span class="kn">import</span> <span class="n">Study</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">optuna.trial</span><span class="w"> </span><span class="kn">import</span> <span class="n">FrozenTrial</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">optuna.visualization._contour</span><span class="w"> </span><span class="kn">import</span> <span class="n">_AxisInfo</span>
@@ -142,8 +141,6 @@
     <span class="kn">from</span><span class="w"> </span><span class="nn">optuna.visualization.matplotlib._matplotlib_imports</span><span class="w"> </span><span class="kn">import</span> <span class="n">ContourSet</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">optuna.visualization.matplotlib._matplotlib_imports</span><span class="w"> </span><span class="kn">import</span> <span class="n">plt</span>
 
-<span class="n">_logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
-
 
 <span class="n">CONTOUR_POINT_NUM</span> <span class="o">=</span> <span class="mi">100</span>
 
@@ -162,11 +159,6 @@
 
 <span class="sd">    .. seealso::</span>
 <span class="sd">        Please refer to :func:`optuna.visualization.plot_contour` for an example.</span>
-
-<span class="sd">    Warnings:</span>
-<span class="sd">        Output figures of this Matplotlib-based</span>
-<span class="sd">        :func:`~optuna.visualization.matplotlib.plot_contour` function would be different from</span>
-<span class="sd">        those of the Plotly-based :func:`~optuna.visualization.plot_contour`.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        study:</span>
@@ -191,10 +183,6 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">_imports</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
-    <span class="n">_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-        <span class="s2">&quot;Output figures of this Matplotlib-based `plot_contour` function would be different from &quot;</span>
-        <span class="s2">&quot;those of the Plotly-based `plot_contour`.&quot;</span>
-    <span class="p">)</span>
     <span class="n">info</span> <span class="o">=</span> <span class="n">_get_contour_info</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">target_name</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">_get_contour_plot</span><span class="p">(</span><span class="n">info</span><span class="p">)</span></div>
 
@@ -290,7 +278,12 @@
     <span class="n">returned_values</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">axis</span><span class="o">.</span><span class="n">is_cat</span><span class="p">:</span>
         <span class="n">enc</span> <span class="o">=</span> <span class="n">_LabelEncoder</span><span class="p">()</span>
-        <span class="n">returned_values</span> <span class="o">=</span> <span class="n">enc</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">values</span><span class="p">)))</span>
+        <span class="c1"># Fit LabelEncoder with all the categories in categorical distribution.</span>
+        <span class="n">enc</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">value</span><span class="p">:</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="n">axis</span><span class="o">.</span><span class="n">values</span><span class="p">))))</span>
+        <span class="c1"># Then transform the values using the fitted label encoder.</span>
+        <span class="c1"># Note that `values` may not include all the categories,</span>
+        <span class="c1"># so we use `axis.values` for fitting.</span>
+        <span class="n">returned_values</span> <span class="o">=</span> <span class="n">enc</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">values</span><span class="p">)))</span>
         <span class="n">cat_param_labels</span> <span class="o">=</span> <span class="n">enc</span><span class="o">.</span><span class="n">get_labels</span><span class="p">()</span>
         <span class="n">cat_param_pos</span> <span class="o">=</span> <span class="n">enc</span><span class="o">.</span><span class="n">get_indices</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>

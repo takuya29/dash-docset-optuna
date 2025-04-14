@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.storages._rdb.storage &mdash; Optuna 4.2.1 documentation</title>
+  <title>optuna.storages._rdb.storage &mdash; Optuna 4.3.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=0f7e680c"></script>
+      <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=c2f1cc2e"></script>
       <script src="../../../../_static/doctools.js?v=888ff710"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -714,27 +714,6 @@
         <span class="p">)</span>
 
         <span class="n">trial_param</span><span class="o">.</span><span class="n">check_and_add</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">trial</span><span class="o">.</span><span class="n">study_id</span><span class="p">)</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_check_and_set_param_distribution</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">study_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-        <span class="n">trial_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-        <span class="n">param_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">param_value_internal</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-        <span class="n">distribution</span><span class="p">:</span> <span class="n">distributions</span><span class="o">.</span><span class="n">BaseDistribution</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
-            <span class="c1"># Acquire lock.</span>
-            <span class="c1">#</span>
-            <span class="c1"># Assume that study exists.</span>
-            <span class="n">models</span><span class="o">.</span><span class="n">StudyModel</span><span class="o">.</span><span class="n">find_or_raise_by_id</span><span class="p">(</span><span class="n">study_id</span><span class="p">,</span> <span class="n">session</span><span class="p">,</span> <span class="n">for_update</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-            <span class="n">models</span><span class="o">.</span><span class="n">TrialParamModel</span><span class="p">(</span>
-                <span class="n">trial_id</span><span class="o">=</span><span class="n">trial_id</span><span class="p">,</span>
-                <span class="n">param_name</span><span class="o">=</span><span class="n">param_name</span><span class="p">,</span>
-                <span class="n">param_value</span><span class="o">=</span><span class="n">param_value_internal</span><span class="p">,</span>
-                <span class="n">distribution_json</span><span class="o">=</span><span class="n">distributions</span><span class="o">.</span><span class="n">distribution_to_json</span><span class="p">(</span><span class="n">distribution</span><span class="p">),</span>
-            <span class="p">)</span><span class="o">.</span><span class="n">check_and_add</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">study_id</span><span class="p">)</span>
 
 <div class="viewcode-block" id="RDBStorage.get_trial_param"><a class="viewcode-back" href="../../../../reference/generated/optuna.storages.RDBStorage.html#optuna.storages.RDBStorage.get_trial_param">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_trial_param</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trial_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">param_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">_create_scoped_session</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scoped_session</span><span class="p">)</span> <span class="k">as</span> <span class="n">session</span><span class="p">:</span>
