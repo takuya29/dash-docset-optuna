@@ -5,7 +5,7 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>plot_timeline — Optuna 4.3.0 documentation</title>
+<title>plot_timeline — Optuna 4.4.0 documentation</title>
 <link href="../../../../_static/pygments.css?v=03e43079" rel="stylesheet" type="text/css"/>
 <link href="../../../../_static/css/theme.css?v=e59714d7" rel="stylesheet" type="text/css"/>
 <link href="../../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
@@ -17,7 +17,7 @@
 <link href="../../../../_static/favicon.ico" rel="shortcut icon"/>
 <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=c2f1cc2e"></script>
+<script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=27effbb3"></script>
 <script src="../../../../_static/doctools.js?v=888ff710"></script>
 <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -158,7 +158,7 @@ to download the full example code.</p>
 <a class="dashAnchor" name="//apple_ref/cpp/Section/plot_timeline"></a><span id="sphx-glr-reference-visualization-matplotlib-generated-optuna-visualization-matplotlib-timeline-py"></span><h1>plot_timeline<a class="headerlink" href="#plot-timeline" title="Permalink to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="optuna.visualization.matplotlib.plot_timeline">
-<span class="sig-prename descclassname"><span class="pre">optuna.visualization.matplotlib.</span></span><span class="sig-name descname"><span class="pre">plot_timeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/optuna/visualization/matplotlib/_timeline.html#plot_timeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Function/optuna.visualization.matplotlib.plot_timeline"></a><a class="headerlink" href="#optuna.visualization.matplotlib.plot_timeline" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">optuna.visualization.matplotlib.</span></span><span class="sig-name descname"><span class="pre">plot_timeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">study</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_recent_trials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/optuna/visualization/matplotlib/_timeline.html#plot_timeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Function/optuna.visualization.matplotlib.plot_timeline"></a><a class="headerlink" href="#optuna.visualization.matplotlib.plot_timeline" title="Permalink to this definition"></a></dt>
 <dd><p>Plot the timeline of a study.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -166,14 +166,22 @@ to download the full example code.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>study</strong> (<a class="reference internal" href="../../../generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.study.Study"><em>Study</em></a>) – A <a class="reference internal" href="../../../generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> object whose trials are plotted with
-their lifetime.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>study</strong> (<a class="reference internal" href="../../../generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><em>Study</em></a>) – A <a class="reference internal" href="../../../generated/optuna.study.Study.html#optuna.study.Study" title="optuna.study.Study"><code class="xref py py-class docutils literal notranslate"><span class="pre">Study</span></code></a> object whose trials are plotted with
+their lifetime.</p></li>
+<li><p><strong>n_recent_trials</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em> | </em><em>None</em>) – The number of recent trials to plot. If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, all trials are plotted.
+If specified, only the most recent <code class="docutils literal notranslate"><span class="pre">n_recent_trials</span></code> will be displayed.
+Must be a positive integer.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A <a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="(in Matplotlib v3.10.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code></a> object.</p>
+<dd class="field-even"><p>A <a class="reference external" href="https://plotly.com/python-api-reference/generated/plotly.graph_objects.html#plotly.graph_objects.Figure" title="(in )"><code class="xref py py-class docutils literal notranslate"><span class="pre">plotly.graph_objects.Figure</span></code></a> object.</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.html#matplotlib.axes.Axes" title="(in Matplotlib v3.10.1)"><em>Axes</em></a></p>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">n_recent_trials</span></code> is 0 or negative.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Axes</p>
 </dd>
 </dl>
 <div class="admonition note">
@@ -214,7 +222,7 @@ plot_timeline is experimental (supported from v3.2.0). The interface can change 
 <span class="n">optuna</span><span class="o">.</span><span class="n">visualization</span><span class="o">.</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">plot_timeline</span><span class="p">(</span><span class="n">study</span><span class="p">)</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 2.138 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 2.298 seconds)</p>
 <a class="dashAnchor" name="//apple_ref/cpp/Section/sphx_glr_download_reference_visualization_matplotlib_generated_optuna.visualization.matplotlib.timeline.py"></a><div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-reference-visualization-matplotlib-generated-optuna-visualization-matplotlib-timeline-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../../../_downloads/72190b6f91b906f06d19e8056e62406e/optuna.visualization.matplotlib.timeline.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">optuna.visualization.matplotlib.timeline.ipynb</span></code></a></p>

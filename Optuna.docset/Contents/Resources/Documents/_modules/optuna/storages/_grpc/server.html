@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.storages._grpc.server &mdash; Optuna 4.3.0 documentation</title>
+  <title>optuna.storages._grpc.server &mdash; Optuna 4.4.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=c2f1cc2e"></script>
+      <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=27effbb3"></script>
       <script src="../../../../_static/doctools.js?v=888ff710"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -145,7 +145,7 @@
     <span class="n">server</span> <span class="o">=</span> <span class="n">grpc</span><span class="o">.</span><span class="n">server</span><span class="p">(</span><span class="n">thread_pool</span> <span class="ow">or</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
     <span class="n">api_pb2_grpc</span><span class="o">.</span><span class="n">add_StorageServiceServicer_to_server</span><span class="p">(</span>
         <span class="n">grpc_servicer</span><span class="o">.</span><span class="n">OptunaStorageProxyService</span><span class="p">(</span><span class="n">storage</span><span class="p">),</span> <span class="n">server</span>
-    <span class="p">)</span>  <span class="c1"># type: ignore</span>
+    <span class="p">)</span>
     <span class="n">server</span><span class="o">.</span><span class="n">add_insecure_port</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">host</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">server</span>
 
@@ -184,6 +184,13 @@
 <span class="sd">        thread_pool:</span>
 <span class="sd">            Thread pool to use for the server. If :obj:`None`, a default thread pool</span>
 <span class="sd">            with 10 workers will be used.</span>
+
+<span class="sd">    .. warning::</span>
+
+<span class="sd">        Currently, gRPC storage proxy does not support the</span>
+<span class="sd">        :class:`~optuna.storages.JournalStorage`. This issue is tracked in</span>
+<span class="sd">        https://github.com/optuna/optuna/issues/6084. Please use</span>
+<span class="sd">        :class:`~optuna.storages.RDBStorage` instead.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">server</span> <span class="o">=</span> <span class="n">make_server</span><span class="p">(</span><span class="n">storage</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">thread_pool</span><span class="p">)</span>
     <span class="n">server</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>

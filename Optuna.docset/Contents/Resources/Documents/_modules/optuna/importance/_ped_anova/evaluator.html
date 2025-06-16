@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.importance._ped_anova.evaluator &mdash; Optuna 4.3.0 documentation</title>
+  <title>optuna.importance._ped_anova.evaluator &mdash; Optuna 4.4.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=c2f1cc2e"></script>
+      <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=27effbb3"></script>
       <script src="../../../../_static/doctools.js?v=888ff710"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -247,9 +247,7 @@
         <span class="c1"># Advanced Setups.</span>
         <span class="c1"># Discretize a domain [low, high] as `np.linspace(low, high, n_steps)`.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_n_steps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span>
-        <span class="c1"># Prior is used for regularization.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_consider_prior</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="c1"># Control the regularization effect.</span>
+        <span class="c1"># Control the regularization effect by prior.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_prior_weight</span> <span class="o">=</span> <span class="mf">1.0</span>
         <span class="c1"># How many `trials` must be included in `top_trials`.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_min_n_top_trials</span> <span class="o">=</span> <span class="mi">2</span>
@@ -287,17 +285,15 @@
         <span class="n">all_trials</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="c1"># When pdf_all == pdf_top, i.e. all_trials == top_trials, this method will give 0.0.</span>
-        <span class="n">consider_prior</span><span class="p">,</span> <span class="n">prior_weight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_consider_prior</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prior_weight</span>
-        <span class="n">pe_top</span> <span class="o">=</span> <span class="n">_build_parzen_estimator</span><span class="p">(</span>
-            <span class="n">param_name</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">top_trials</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_steps</span><span class="p">,</span> <span class="n">consider_prior</span><span class="p">,</span> <span class="n">prior_weight</span>
-        <span class="p">)</span>
+        <span class="n">prior_weight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prior_weight</span>
+        <span class="n">pe_top</span> <span class="o">=</span> <span class="n">_build_parzen_estimator</span><span class="p">(</span><span class="n">param_name</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">top_trials</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_steps</span><span class="p">,</span> <span class="n">prior_weight</span><span class="p">)</span>
         <span class="c1"># NOTE: pe_top.n_steps could be different from self._n_steps.</span>
         <span class="n">grids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">pe_top</span><span class="o">.</span><span class="n">n_steps</span><span class="p">)</span>
         <span class="n">pdf_top</span> <span class="o">=</span> <span class="n">pe_top</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">grids</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1e-12</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_evaluate_on_local</span><span class="p">:</span>  <span class="c1"># The importance of param during the study.</span>
             <span class="n">pe_local</span> <span class="o">=</span> <span class="n">_build_parzen_estimator</span><span class="p">(</span>
-                <span class="n">param_name</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">all_trials</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_steps</span><span class="p">,</span> <span class="n">consider_prior</span><span class="p">,</span> <span class="n">prior_weight</span>
+                <span class="n">param_name</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">all_trials</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_steps</span><span class="p">,</span> <span class="n">prior_weight</span>
             <span class="p">)</span>
             <span class="n">pdf_local</span> <span class="o">=</span> <span class="n">pe_local</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">grids</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1e-12</span>
         <span class="k">else</span><span class="p">:</span>  <span class="c1"># The importance of param in the search space.</span>

@@ -5,7 +5,7 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Lightweight, versatile, and platform agnostic architecture — Optuna 4.3.0 documentation</title>
+<title>Lightweight, versatile, and platform agnostic architecture — Optuna 4.4.0 documentation</title>
 <link href="../../_static/pygments.css?v=03e43079" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css?v=e59714d7" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
@@ -17,7 +17,7 @@
 <link href="../../_static/favicon.ico" rel="shortcut icon"/>
 <script src="../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=c2f1cc2e"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=27effbb3"></script>
 <script src="../../_static/doctools.js?v=888ff710"></script>
 <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -143,7 +143,7 @@ provided. In our example, from <span class="math notranslate nohighlight">\(-10\
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Found x: </span><span class="si">{}</span><span class="s2">, (x - 2)^2: </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/functions.html#float" title="builtins.float"><span class="n">found_x</span></a><span class="p">,</span> <span class="p">(</span><a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/functions.html#float" title="builtins.float"><span class="n">found_x</span></a> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Found x: 2.002177996413458, (x - 2)^2: 4.743668377036177e-06
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Found x: 1.9851934432616394, (x - 2)^2: 0.00021923412244629232
 </pre></div>
 </div>
 <p>We can see that the <code class="docutils literal notranslate"><span class="pre">x</span></code> value found by Optuna is close to the optimal value of <code class="docutils literal notranslate"><span class="pre">2</span></code>.</p>
@@ -169,21 +169,21 @@ A study object has useful properties for analyzing the optimization outcome.</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">study</span><span class="o">.</span><a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/stdtypes.html#dict" title="builtins.dict"><span class="n">best_params</span></a>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>{'x': 2.002177996413458}
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>{'x': 1.9851934432616394}
 </pre></div>
 </div>
 <p>To get the best observed value of the objective function:</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">study</span><span class="o">.</span><span class="n">best_value</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>4.743668377036177e-06
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>0.00021923412244629232
 </pre></div>
 </div>
 <p>To get the best trial:</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">study</span><span class="o">.</span><span class="n">best_trial</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>FrozenTrial(number=81, state=TrialState.COMPLETE, values=[4.743668377036177e-06], datetime_start=datetime.datetime(2025, 4, 14, 12, 35, 0, 494630), datetime_complete=datetime.datetime(2025, 4, 14, 12, 35, 0, 497995), params={'x': 2.002177996413458}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=81, value=None)
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>FrozenTrial(number=73, state=TrialState.COMPLETE, values=[0.00021923412244629232], datetime_start=datetime.datetime(2025, 6, 16, 12, 19, 10, 213381), datetime_complete=datetime.datetime(2025, 6, 16, 12, 19, 10, 216884), params={'x': 1.9851934432616394}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=73, value=None)
 </pre></div>
 </div>
 <p>To get all trials:</p>
@@ -192,8 +192,8 @@ A study object has useful properties for analyzing the optimization outcome.</p>
     <span class="nb">print</span><span class="p">(</span><span class="n">trial</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>FrozenTrial(number=0, state=TrialState.COMPLETE, values=[37.62051172922862], datetime_start=datetime.datetime(2025, 4, 14, 12, 35, 0, 236607), datetime_complete=datetime.datetime(2025, 4, 14, 12, 35, 0, 237252), params={'x': -4.1335562057609465}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=0, value=None)
-FrozenTrial(number=1, state=TrialState.COMPLETE, values=[23.095915194549026], datetime_start=datetime.datetime(2025, 4, 14, 12, 35, 0, 237537), datetime_complete=datetime.datetime(2025, 4, 14, 12, 35, 0, 237753), params={'x': 6.805820969881111}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=1, value=None)
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>FrozenTrial(number=0, state=TrialState.COMPLETE, values=[6.521829771228912], datetime_start=datetime.datetime(2025, 6, 16, 12, 19, 9, 997022), datetime_complete=datetime.datetime(2025, 6, 16, 12, 19, 9, 997716), params={'x': -0.5537873386852148}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=0, value=None)
+FrozenTrial(number=1, state=TrialState.COMPLETE, values=[3.908688245976317], datetime_start=datetime.datetime(2025, 6, 16, 12, 19, 9, 997852), datetime_complete=datetime.datetime(2025, 6, 16, 12, 19, 9, 998028), params={'x': 3.9770402742423627}, user_attrs={}, system_attrs={}, intermediate_values={}, distributions={'x': FloatDistribution(high=10.0, log=False, low=-10.0, step=None)}, trial_id=1, value=None)
 </pre></div>
 </div>
 <p>To get the number of trials:</p>
@@ -221,10 +221,10 @@ However, we can check the result again:</p>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Found x: </span><span class="si">{}</span><span class="s2">, (x - 2)^2: </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/functions.html#float" title="builtins.float"><span class="n">found_x</span></a><span class="p">,</span> <span class="p">(</span><a class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance" href="https://docs.python.org/3/library/functions.html#float" title="builtins.float"><span class="n">found_x</span></a> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Found x: 2.002177996413458, (x - 2)^2: 4.743668377036177e-06
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Found x: 2.000976304296594, (x - 2)^2: 9.531700795474921e-07
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.737 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.710 seconds)</p>
 <a class="dashAnchor" name="//apple_ref/cpp/Section/sphx_glr_download_tutorial_10_key_features_001_first.py"></a><div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorial-10-key-features-001-first-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/09a922232ee2c9bb3c93aeda0df00ee5/001_first.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">001_first.ipynb</span></code></a></p>

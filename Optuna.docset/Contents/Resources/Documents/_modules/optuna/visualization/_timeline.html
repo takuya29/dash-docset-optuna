@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.visualization._timeline &mdash; Optuna 4.3.0 documentation</title>
+  <title>optuna.visualization._timeline &mdash; Optuna 4.4.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=c2f1cc2e"></script>
+      <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=27effbb3"></script>
       <script src="../../../_static/doctools.js?v=888ff710"></script>
       <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -145,19 +145,30 @@
     <span class="n">bars</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">_TimelineBarInfo</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="plot_timeline"><a class="viewcode-back" href="../../../reference/visualization/generated/optuna.visualization.plot_timeline.html#optuna.visualization.plot_timeline">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_timeline</span><span class="p">(</span><span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;go.Figure&quot;</span><span class="p">:</span>
+<div class="viewcode-block" id="plot_timeline"><a class="viewcode-back" href="../../../reference/visualization/generated/optuna.visualization.plot_timeline.html#optuna.visualization.plot_timeline">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_timeline</span><span class="p">(</span><span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span> <span class="n">n_recent_trials</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;go.Figure&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the timeline of a study.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        study:</span>
 <span class="sd">            A :class:`~optuna.study.Study` object whose trials are plotted with</span>
 <span class="sd">            their lifetime.</span>
+<span class="sd">        n_recent_trials:</span>
+<span class="sd">            The number of recent trials to plot. If :obj:`None`, all trials are plotted.</span>
+<span class="sd">            If specified, only the most recent ``n_recent_trials`` will be displayed.</span>
+<span class="sd">            Must be a positive integer.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        A :class:`plotly.graph_objects.Figure` object.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: if ``n_recent_trials`` is 0 or negative.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">n_recent_trials</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">n_recent_trials</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;n_recent_trials must be a positive integer or None.&quot;</span><span class="p">)</span>
+
     <span class="n">_imports</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
-    <span class="n">info</span> <span class="o">=</span> <span class="n">_get_timeline_info</span><span class="p">(</span><span class="n">study</span><span class="p">)</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="n">_get_timeline_info</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="n">n_recent_trials</span><span class="o">=</span><span class="n">n_recent_trials</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">_get_timeline_plot</span><span class="p">(</span><span class="n">info</span><span class="p">)</span></div>
 
 
@@ -195,12 +206,17 @@
     <span class="p">)</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_get_timeline_info</span><span class="p">(</span><span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_TimelineInfo</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_timeline_info</span><span class="p">(</span><span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span> <span class="n">n_recent_trials</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_TimelineInfo</span><span class="p">:</span>
     <span class="n">bars</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="n">max_datetime</span> <span class="o">=</span> <span class="n">_get_max_datetime_complete</span><span class="p">(</span><span class="n">study</span><span class="p">)</span>
     <span class="n">timedelta_for_small_bar</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">study</span><span class="o">.</span><span class="n">get_trials</span><span class="p">(</span><span class="n">deepcopy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+    <span class="n">trials</span> <span class="o">=</span> <span class="n">study</span><span class="o">.</span><span class="n">get_trials</span><span class="p">(</span><span class="n">deepcopy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n_recent_trials</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">trials</span> <span class="o">=</span> <span class="n">trials</span><span class="p">[</span><span class="o">-</span><span class="n">n_recent_trials</span><span class="p">:]</span>
+
+    <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">trials</span><span class="p">:</span>
         <span class="n">datetime_start</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">datetime_start</span> <span class="ow">or</span> <span class="n">max_datetime</span>
         <span class="n">datetime_complete</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">max_datetime</span> <span class="o">+</span> <span class="n">timedelta_for_small_bar</span>

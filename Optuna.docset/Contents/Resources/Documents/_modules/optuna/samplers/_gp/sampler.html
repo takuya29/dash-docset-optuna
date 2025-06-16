@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.samplers._gp.sampler &mdash; Optuna 4.3.0 documentation</title>
+  <title>optuna.samplers._gp.sampler &mdash; Optuna 4.4.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=c2f1cc2e"></script>
+      <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=27effbb3"></script>
       <script src="../../../../_static/doctools.js?v=888ff710"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -115,10 +115,7 @@
   <h1>Source code for optuna.samplers._gp.sampler</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">cast</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -126,17 +123,20 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">optuna</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">optuna._experimental</span><span class="w"> </span><span class="kn">import</span> <span class="n">experimental_class</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">optuna._experimental</span><span class="w"> </span><span class="kn">import</span> <span class="n">warn_experimental_argument</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.distributions</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseDistribution</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">optuna.samplers._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">_CONSTRAINTS_KEY</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">optuna.samplers._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">_process_constraints_after_trial</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">optuna.samplers._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseSampler</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">optuna.samplers._lazy_random_state</span><span class="w"> </span><span class="kn">import</span> <span class="n">LazyRandomState</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">optuna.study</span><span class="w"> </span><span class="kn">import</span> <span class="n">StudyDirection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.study._multi_objective</span><span class="w"> </span><span class="kn">import</span> <span class="n">_is_pareto_front</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">optuna.trial</span><span class="w"> </span><span class="kn">import</span> <span class="n">FrozenTrial</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">optuna.trial</span><span class="w"> </span><span class="kn">import</span> <span class="n">TrialState</span>
 
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
+
     <span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 
     <span class="kn">import</span><span class="w"> </span><span class="nn">optuna._gp.acqf</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">acqf</span>
@@ -144,6 +144,7 @@
     <span class="kn">import</span><span class="w"> </span><span class="nn">optuna._gp.optim_mixed</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">optim_mixed</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">optuna._gp.prior</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">prior</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">optuna._gp.search_space</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gp_search_space</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">optuna.distributions</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseDistribution</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">optuna.study</span><span class="w"> </span><span class="kn">import</span> <span class="n">Study</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">optuna._imports</span><span class="w"> </span><span class="kn">import</span> <span class="n">_LazyImport</span>
@@ -159,6 +160,14 @@
 <span class="n">EPS</span> <span class="o">=</span> <span class="mf">1e-10</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_standardize_values</span><span class="p">(</span><span class="n">values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+    <span class="n">clipped_values</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">warn_and_convert_inf</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+    <span class="n">means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">clipped_values</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">stds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">clipped_values</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">standardized_values</span> <span class="o">=</span> <span class="p">(</span><span class="n">clipped_values</span> <span class="o">-</span> <span class="n">means</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">EPS</span><span class="p">,</span> <span class="n">stds</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">standardized_values</span><span class="p">,</span> <span class="n">means</span><span class="p">,</span> <span class="n">stds</span>
+
+
 <div class="viewcode-block" id="GPSampler"><a class="viewcode-back" href="../../../../reference/samplers/generated/optuna.samplers.GPSampler.html#optuna.samplers.GPSampler">[docs]</a><span class="nd">@experimental_class</span><span class="p">(</span><span class="s2">&quot;3.6.0&quot;</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">GPSampler</span><span class="p">(</span><span class="n">BaseSampler</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Sampler using Gaussian process-based Bayesian optimization.</span>
@@ -166,12 +175,54 @@
 <span class="sd">    This sampler fits a Gaussian process (GP) to the objective function and optimizes</span>
 <span class="sd">    the acquisition function to suggest the next parameters.</span>
 
-<span class="sd">    The current implementation uses:</span>
-<span class="sd">        - Matern kernel with nu=2.5 (twice differentiable),</span>
-<span class="sd">        - Automatic relevance determination (ARD) for the length scale of each parameter,</span>
-<span class="sd">        - Gamma prior for inverse squared lengthscales, kernel scale, and noise variance,</span>
-<span class="sd">        - Log Expected Improvement (logEI) as the acquisition function, and</span>
-<span class="sd">        - Quasi-Monte Carlo (QMC) sampling to optimize the acquisition function.</span>
+<span class="sd">    The current implementation uses Matern kernel with nu=2.5 (twice differentiable) with automatic</span>
+<span class="sd">    relevance determination (ARD) for the length scale of each parameter.</span>
+<span class="sd">    The hyperparameters of the kernel are obtained by maximizing the marginal log-likelihood of the</span>
+<span class="sd">    hyperparameters given the past trials.</span>
+<span class="sd">    To prevent overfitting, Gamma prior is introduced for kernel scale and noise variance and</span>
+<span class="sd">    a hand-crafted prior is introduced for inverse squared lengthscales.</span>
+
+<span class="sd">    As an acquisition function, we use:</span>
+
+<span class="sd">    - log expected improvement (logEI) for single-objective optimization,</span>
+<span class="sd">    - log expected hypervolume improvement (logEHVI) for Multi-objective optimization, and</span>
+<span class="sd">    - the summation of logEI and the logarithm of the feasible probability with the independent</span>
+<span class="sd">      assumption of each constraint for (black-box inequality) constrained optimization.</span>
+
+<span class="sd">    For further information about these acquisition functions, please refer to the following</span>
+<span class="sd">    papers:</span>
+
+<span class="sd">    - `Unexpected Improvements to Expected Improvement for Bayesian Optimization</span>
+<span class="sd">      &lt;https://arxiv.org/abs/2310.20708&gt;`__</span>
+<span class="sd">    - `Differentiable Expected Hypervolume Improvement for Parallel Multi-Objective Bayesian</span>
+<span class="sd">      Optimization &lt;https://arxiv.org/abs/2006.05078&gt;`__</span>
+<span class="sd">    - `Bayesian Optimization with Inequality Constraints</span>
+<span class="sd">      &lt;https://proceedings.mlr.press/v32/gardner14.pdf&gt;`__</span>
+
+<span class="sd">    The optimization of the acquisition function is performed via:</span>
+
+<span class="sd">    1. Collect the best param from the past trials,</span>
+<span class="sd">    2. Collect ``n_preliminary_samples`` points using Quasi-Monte Carlo (QMC) sampling,</span>
+<span class="sd">    3. Choose the best point from the collected points,</span>
+<span class="sd">    4. Choose ``n_local_search - 2`` points from the collected points using the roulette</span>
+<span class="sd">       selection,</span>
+<span class="sd">    5. Perform a local search for each chosen point as an initial point, and</span>
+<span class="sd">    6. Return the point with the best acquisition function value as the next parameter.</span>
+
+<span class="sd">    Note that the procedures for non single-objective optimization setups are slightly different</span>
+<span class="sd">    from the single-objective version described above, but we omit the descriptions for the others</span>
+<span class="sd">    for brevity.</span>
+
+<span class="sd">    The local search iteratively optimizes the acquisition function by repeating:</span>
+
+<span class="sd">    1. Gradient ascent using l-BFGS-B for continuous parameters, and</span>
+<span class="sd">    2. Line search or exhaustive search for each discrete parameter independently.</span>
+
+<span class="sd">    The local search is terminated if the routine stops updating the best parameter set or the</span>
+<span class="sd">    maximum number of iterations is reached.</span>
+
+<span class="sd">    We use line search instead of rounding the results from the continuous optimization since EI</span>
+<span class="sd">    typically yields a high value between one grid and its adjacent grid.</span>
 
 <span class="sd">    .. note::</span>
 <span class="sd">        This sampler requires ``scipy`` and ``torch``.</span>
@@ -181,20 +232,31 @@
 <span class="sd">        seed:</span>
 <span class="sd">            Random seed to initialize internal random number generator.</span>
 <span class="sd">            Defaults to :obj:`None` (a seed is picked randomly).</span>
-
 <span class="sd">        independent_sampler:</span>
 <span class="sd">            Sampler used for initial sampling (for the first ``n_startup_trials`` trials)</span>
 <span class="sd">            and for conditional parameters. Defaults to :obj:`None`</span>
 <span class="sd">            (a random sampler with the same ``seed`` is used).</span>
-
 <span class="sd">        n_startup_trials:</span>
 <span class="sd">            Number of initial trials. Defaults to 10.</span>
-
 <span class="sd">        deterministic_objective:</span>
 <span class="sd">            Whether the objective function is deterministic or not.</span>
 <span class="sd">            If :obj:`True`, the sampler will fix the noise variance of the surrogate model to</span>
 <span class="sd">            the minimum value (slightly above 0 to ensure numerical stability).</span>
-<span class="sd">            Defaults to :obj:`False`.</span>
+<span class="sd">            Defaults to :obj:`False`. Currently, all the objectives will be assume to be</span>
+<span class="sd">            deterministic if :obj:`True`.</span>
+<span class="sd">        constraints_func:</span>
+<span class="sd">            An optional function that computes the objective constraints. It must take a</span>
+<span class="sd">            :class:`~optuna.trial.FrozenTrial` and return the constraints. The return value must</span>
+<span class="sd">            be a sequence of :obj:`float` s. A value strictly larger than 0 means that a</span>
+<span class="sd">            constraints is violated. A value equal to or smaller than 0 is considered feasible.</span>
+<span class="sd">            If ``constraints_func`` returns more than one value for a trial, that trial is</span>
+<span class="sd">            considered feasible if and only if all values are equal to 0 or smaller.</span>
+
+<span class="sd">            The ``constraints_func`` will be evaluated after each successful trial.</span>
+<span class="sd">            The function won&#39;t be called when trials fail or are pruned, but this behavior is</span>
+<span class="sd">            subject to change in future releases.</span>
+<span class="sd">            Currently, the ``constraints_func`` option is not supported for multi-objective</span>
+<span class="sd">            optimization.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
@@ -210,19 +272,23 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_independent_sampler</span> <span class="o">=</span> <span class="n">independent_sampler</span> <span class="ow">or</span> <span class="n">optuna</span><span class="o">.</span><span class="n">samplers</span><span class="o">.</span><span class="n">RandomSampler</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_intersection_search_space</span> <span class="o">=</span> <span class="n">optuna</span><span class="o">.</span><span class="n">search_space</span><span class="o">.</span><span class="n">IntersectionSearchSpace</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_n_startup_trials</span> <span class="o">=</span> <span class="n">n_startup_trials</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_log_prior</span><span class="p">:</span> <span class="s2">&quot;Callable[[gp.KernelParamsTensor], torch.Tensor]&quot;</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">prior</span><span class="o">.</span><span class="n">default_log_prior</span>
-        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log_prior</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">gp</span><span class="o">.</span><span class="n">KernelParamsTensor</span><span class="p">],</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="n">prior</span><span class="o">.</span><span class="n">default_log_prior</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_minimum_noise</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">prior</span><span class="o">.</span><span class="n">DEFAULT_MINIMUM_NOISE_VAR</span>
         <span class="c1"># We cache the kernel parameters for initial values of fitting the next time.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_kernel_params_cache</span><span class="p">:</span> <span class="s2">&quot;gp.KernelParamsTensor | None&quot;</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_constraints_kernel_params_cache</span><span class="p">:</span> <span class="s2">&quot;list[gp.KernelParamsTensor] | None&quot;</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_optimize_n_samples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2048</span>
+        <span class="c1"># TODO(nabenabe): Make the cache lists system_attrs to make GPSampler stateless.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_kernel_params_cache_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">gp</span><span class="o">.</span><span class="n">KernelParamsTensor</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_constraints_kernel_params_cache</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">gp</span><span class="o">.</span><span class="n">KernelParamsTensor</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_deterministic</span> <span class="o">=</span> <span class="n">deterministic_objective</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_constraints_func</span> <span class="o">=</span> <span class="n">constraints_func</span>
 
         <span class="k">if</span> <span class="n">constraints_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">warn_experimental_argument</span><span class="p">(</span><span class="s2">&quot;constraints_func&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Control parameters of the acquisition function optimization.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n_preliminary_samples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2048</span>
+        <span class="c1"># NOTE(nabenabe): ehvi in BoTorchSampler uses 20.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n_local_search</span> <span class="o">=</span> <span class="mi">10</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tol</span> <span class="o">=</span> <span class="mf">1e-4</span>
 
 <div class="viewcode-block" id="GPSampler.reseed_rng"><a class="viewcode-back" href="../../../../reference/samplers/generated/optuna.samplers.GPSampler.html#optuna.samplers.GPSampler.reseed_rng">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">reseed_rng</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="o">.</span><span class="n">rng</span><span class="o">.</span><span class="n">seed</span><span class="p">()</span>
@@ -241,20 +307,19 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_optimize_acqf</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">acqf_params</span><span class="p">:</span> <span class="s2">&quot;acqf.AcquisitionFunctionParams&quot;</span><span class="p">,</span>
+        <span class="n">acqf_params</span><span class="p">:</span> <span class="n">acqf</span><span class="o">.</span><span class="n">AcquisitionFunctionParams</span><span class="p">,</span>
         <span class="n">best_params</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
         <span class="c1"># Advanced users can override this method to change the optimization algorithm.</span>
         <span class="c1"># However, we do not make any effort to keep backward compatibility between versions.</span>
         <span class="c1"># Particularly, we may remove this function in future refactoring.</span>
+        <span class="k">assert</span> <span class="n">best_params</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">best_params</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
         <span class="n">normalized_params</span><span class="p">,</span> <span class="n">_acqf_val</span> <span class="o">=</span> <span class="n">optim_mixed</span><span class="o">.</span><span class="n">optimize_acqf_mixed</span><span class="p">(</span>
             <span class="n">acqf_params</span><span class="p">,</span>
-            <span class="n">warmstart_normalized_params_array</span><span class="o">=</span><span class="p">(</span>
-                <span class="kc">None</span> <span class="k">if</span> <span class="n">best_params</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">best_params</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
-            <span class="p">),</span>
-            <span class="n">n_preliminary_samples</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span>
-            <span class="n">n_local_search</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-            <span class="n">tol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span>
+            <span class="n">warmstart_normalized_params_array</span><span class="o">=</span><span class="n">best_params</span><span class="p">,</span>
+            <span class="n">n_preliminary_samples</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_preliminary_samples</span><span class="p">,</span>
+            <span class="n">n_local_search</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_local_search</span><span class="p">,</span>
+            <span class="n">tol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_tol</span><span class="p">,</span>
             <span class="n">rng</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="o">.</span><span class="n">rng</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">normalized_params</span>
@@ -265,12 +330,9 @@
         <span class="n">internal_search_space</span><span class="p">:</span> <span class="n">gp_search_space</span><span class="o">.</span><span class="n">SearchSpace</span><span class="p">,</span>
         <span class="n">normalized_params</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">acqf</span><span class="o">.</span><span class="n">AcquisitionFunctionParams</span><span class="p">]:</span>
-        <span class="n">constraint_vals</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">warn_and_convert_inf</span><span class="p">(</span><span class="n">constraint_vals</span><span class="p">)</span>
-        <span class="n">means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">constraint_vals</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">stds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">constraint_vals</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">standardized_constraint_vals</span> <span class="o">=</span> <span class="p">(</span><span class="n">constraint_vals</span> <span class="o">-</span> <span class="n">means</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">EPS</span><span class="p">,</span> <span class="n">stds</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kernel_params_cache</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_kernel_params_cache</span><span class="o">.</span><span class="n">inverse_squared_lengthscales</span>
+        <span class="n">standardized_constraint_vals</span><span class="p">,</span> <span class="n">means</span><span class="p">,</span> <span class="n">stds</span> <span class="o">=</span> <span class="n">_standardize_values</span><span class="p">(</span><span class="n">constraint_vals</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kernel_params_cache_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_kernel_params_cache_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">inverse_squared_lengthscales</span>
         <span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">internal_search_space</span><span class="o">.</span><span class="n">scale_types</span><span class="p">):</span>
             <span class="c1"># Clear cache if the search space changes.</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_constraints_kernel_params_cache</span> <span class="o">=</span> <span class="kc">None</span>
@@ -280,10 +342,10 @@
         <span class="n">constraints_acqf_params</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">standardized_constraint_vals</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">means</span><span class="p">,</span> <span class="n">stds</span><span class="p">)):</span>
             <span class="n">cache</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_constraints_kernel_params_cache</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constraints_kernel_params_cache</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_constraints_kernel_params_cache</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constraints_kernel_params_cache</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="k">else</span> <span class="kc">None</span>
             <span class="p">)</span>
-            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cache</span><span class="p">,</span> <span class="n">gp</span><span class="o">.</span><span class="n">KernelParamsTensor</span><span class="p">)</span> <span class="ow">or</span> <span class="n">cache</span> <span class="ow">is</span> <span class="kc">None</span>
-
             <span class="n">kernel_params</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">fit_kernel_params</span><span class="p">(</span>
                 <span class="n">X</span><span class="o">=</span><span class="n">normalized_params</span><span class="p">,</span>
                 <span class="n">Y</span><span class="o">=</span><span class="n">vals</span><span class="p">,</span>
@@ -314,7 +376,10 @@
 <div class="viewcode-block" id="GPSampler.sample_relative"><a class="viewcode-back" href="../../../../reference/samplers/generated/optuna.samplers.GPSampler.html#optuna.samplers.GPSampler.sample_relative">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">sample_relative</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">study</span><span class="p">:</span> <span class="n">Study</span><span class="p">,</span> <span class="n">trial</span><span class="p">:</span> <span class="n">FrozenTrial</span><span class="p">,</span> <span class="n">search_space</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">BaseDistribution</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_raise_error_if_multi_objective</span><span class="p">(</span><span class="n">study</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">study</span><span class="o">.</span><span class="n">_is_multi_objective</span><span class="p">()</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constraints_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;GPSampler does not support constrained multi-objective optimization.&quot;</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">search_space</span> <span class="o">==</span> <span class="p">{}:</span>
             <span class="k">return</span> <span class="p">{}</span>
@@ -330,42 +395,81 @@
             <span class="n">normalized_params</span><span class="p">,</span>
         <span class="p">)</span> <span class="o">=</span> <span class="n">gp_search_space</span><span class="o">.</span><span class="n">get_search_space_and_normalized_params</span><span class="p">(</span><span class="n">trials</span><span class="p">,</span> <span class="n">search_space</span><span class="p">)</span>
 
-        <span class="n">_sign</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span> <span class="k">if</span> <span class="n">study</span><span class="o">.</span><span class="n">direction</span> <span class="o">==</span> <span class="n">StudyDirection</span><span class="o">.</span><span class="n">MINIMIZE</span> <span class="k">else</span> <span class="mf">1.0</span>
-        <span class="n">score_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">_sign</span> <span class="o">*</span> <span class="n">cast</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">trial</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">trials</span><span class="p">])</span>
+        <span class="n">_sign</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">1.0</span> <span class="k">if</span> <span class="n">d</span> <span class="o">==</span> <span class="n">StudyDirection</span><span class="o">.</span><span class="n">MINIMIZE</span> <span class="k">else</span> <span class="mf">1.0</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">study</span><span class="o">.</span><span class="n">directions</span><span class="p">])</span>
+        <span class="n">standardized_score_vals</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_standardize_values</span><span class="p">(</span>
+            <span class="n">_sign</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">trial</span><span class="o">.</span><span class="n">values</span> <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">trials</span><span class="p">])</span>
+        <span class="p">)</span>
 
-        <span class="n">score_vals</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">warn_and_convert_inf</span><span class="p">(</span><span class="n">score_vals</span><span class="p">)</span>
-        <span class="n">standardized_score_vals</span> <span class="o">=</span> <span class="p">(</span><span class="n">score_vals</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">score_vals</span><span class="p">))</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="n">EPS</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">score_vals</span><span class="p">))</span>
-
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kernel_params_cache</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_kernel_params_cache</span><span class="o">.</span><span class="n">inverse_squared_lengthscales</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kernel_params_cache_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_kernel_params_cache_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">inverse_squared_lengthscales</span>
         <span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">internal_search_space</span><span class="o">.</span><span class="n">scale_types</span><span class="p">):</span>
             <span class="c1"># Clear cache if the search space changes.</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_kernel_params_cache</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_kernel_params_cache_list</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="n">kernel_params</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">fit_kernel_params</span><span class="p">(</span>
-            <span class="n">X</span><span class="o">=</span><span class="n">normalized_params</span><span class="p">,</span>
-            <span class="n">Y</span><span class="o">=</span><span class="n">standardized_score_vals</span><span class="p">,</span>
-            <span class="n">is_categorical</span><span class="o">=</span><span class="p">(</span>
-                <span class="n">internal_search_space</span><span class="o">.</span><span class="n">scale_types</span> <span class="o">==</span> <span class="n">gp_search_space</span><span class="o">.</span><span class="n">ScaleType</span><span class="o">.</span><span class="n">CATEGORICAL</span>
-            <span class="p">),</span>
-            <span class="n">log_prior</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_log_prior</span><span class="p">,</span>
-            <span class="n">minimum_noise</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_minimum_noise</span><span class="p">,</span>
-            <span class="n">initial_kernel_params</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_kernel_params_cache</span><span class="p">,</span>
-            <span class="n">deterministic_objective</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_deterministic</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_kernel_params_cache</span> <span class="o">=</span> <span class="n">kernel_params</span>
+        <span class="n">kernel_params_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">n_objectives</span> <span class="o">=</span> <span class="n">standardized_score_vals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">is_categorical</span> <span class="o">=</span> <span class="n">internal_search_space</span><span class="o">.</span><span class="n">scale_types</span> <span class="o">==</span> <span class="n">gp_search_space</span><span class="o">.</span><span class="n">ScaleType</span><span class="o">.</span><span class="n">CATEGORICAL</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_objectives</span><span class="p">):</span>
+            <span class="n">cache</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_kernel_params_cache_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kernel_params_cache_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="k">else</span> <span class="kc">None</span>
+            <span class="p">)</span>
+            <span class="n">kernel_params_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">gp</span><span class="o">.</span><span class="n">fit_kernel_params</span><span class="p">(</span>
+                    <span class="n">X</span><span class="o">=</span><span class="n">normalized_params</span><span class="p">,</span>
+                    <span class="n">Y</span><span class="o">=</span><span class="n">standardized_score_vals</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span>
+                    <span class="n">is_categorical</span><span class="o">=</span><span class="n">is_categorical</span><span class="p">,</span>
+                    <span class="n">log_prior</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_log_prior</span><span class="p">,</span>
+                    <span class="n">minimum_noise</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_minimum_noise</span><span class="p">,</span>
+                    <span class="n">initial_kernel_params</span><span class="o">=</span><span class="n">cache</span><span class="p">,</span>
+                    <span class="n">deterministic_objective</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_deterministic</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_kernel_params_cache_list</span> <span class="o">=</span> <span class="n">kernel_params_list</span>
 
         <span class="n">best_params</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constraints_func</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">acqf_params</span> <span class="o">=</span> <span class="n">acqf</span><span class="o">.</span><span class="n">create_acqf_params</span><span class="p">(</span>
-                <span class="n">acqf_type</span><span class="o">=</span><span class="n">acqf</span><span class="o">.</span><span class="n">AcquisitionFunctionType</span><span class="o">.</span><span class="n">LOG_EI</span><span class="p">,</span>
-                <span class="n">kernel_params</span><span class="o">=</span><span class="n">kernel_params</span><span class="p">,</span>
-                <span class="n">search_space</span><span class="o">=</span><span class="n">internal_search_space</span><span class="p">,</span>
-                <span class="n">X</span><span class="o">=</span><span class="n">normalized_params</span><span class="p">,</span>
-                <span class="n">Y</span><span class="o">=</span><span class="n">standardized_score_vals</span><span class="p">,</span>
-            <span class="p">)</span>
-            <span class="n">best_params</span> <span class="o">=</span> <span class="n">normalized_params</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">standardized_score_vals</span><span class="p">),</span> <span class="p">:]</span>
+            <span class="k">if</span> <span class="n">n_objectives</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">kernel_params_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+                <span class="n">acqf_params</span> <span class="o">=</span> <span class="n">acqf</span><span class="o">.</span><span class="n">create_acqf_params</span><span class="p">(</span>
+                    <span class="n">acqf_type</span><span class="o">=</span><span class="n">acqf</span><span class="o">.</span><span class="n">AcquisitionFunctionType</span><span class="o">.</span><span class="n">LOG_EI</span><span class="p">,</span>
+                    <span class="n">kernel_params</span><span class="o">=</span><span class="n">kernel_params_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="n">search_space</span><span class="o">=</span><span class="n">internal_search_space</span><span class="p">,</span>
+                    <span class="n">X</span><span class="o">=</span><span class="n">normalized_params</span><span class="p">,</span>
+                    <span class="n">Y</span><span class="o">=</span><span class="n">standardized_score_vals</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+                <span class="p">)</span>
+                <span class="n">best_params</span> <span class="o">=</span> <span class="n">normalized_params</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">standardized_score_vals</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">acqf_params_for_objectives</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_objectives</span><span class="p">):</span>
+                    <span class="n">acqf_params_for_objectives</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="n">acqf</span><span class="o">.</span><span class="n">create_acqf_params</span><span class="p">(</span>
+                            <span class="n">acqf_type</span><span class="o">=</span><span class="n">acqf</span><span class="o">.</span><span class="n">AcquisitionFunctionType</span><span class="o">.</span><span class="n">LOG_EHVI</span><span class="p">,</span>
+                            <span class="n">kernel_params</span><span class="o">=</span><span class="n">kernel_params_list</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                            <span class="n">search_space</span><span class="o">=</span><span class="n">internal_search_space</span><span class="p">,</span>
+                            <span class="n">X</span><span class="o">=</span><span class="n">normalized_params</span><span class="p">,</span>
+                            <span class="n">Y</span><span class="o">=</span><span class="n">standardized_score_vals</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="n">acqf_params</span> <span class="o">=</span> <span class="n">acqf</span><span class="o">.</span><span class="n">MultiObjectiveAcquisitionFunctionParams</span><span class="o">.</span><span class="n">from_acqf_params</span><span class="p">(</span>
+                    <span class="n">acqf_params_for_objectives</span><span class="o">=</span><span class="n">acqf_params_for_objectives</span><span class="p">,</span>
+                    <span class="n">Y</span><span class="o">=</span><span class="n">standardized_score_vals</span><span class="p">,</span>
+                    <span class="n">n_qmc_samples</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>  <span class="c1"># NOTE(nabenabe): The BoTorch default value.</span>
+                    <span class="n">qmc_seed</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="o">.</span><span class="n">rng</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="mi">30</span><span class="p">),</span>
+                <span class="p">)</span>
+                <span class="n">pareto_params</span> <span class="o">=</span> <span class="n">normalized_params</span><span class="p">[</span>
+                    <span class="n">_is_pareto_front</span><span class="p">(</span><span class="o">-</span><span class="n">standardized_score_vals</span><span class="p">,</span> <span class="n">assume_unique_lexsorted</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="p">]</span>
+                <span class="n">n_pareto_sols</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pareto_params</span><span class="p">)</span>
+                <span class="c1"># TODO(nabenabe): Verify the validity of this choice.</span>
+                <span class="n">size</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_local_search</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">n_pareto_sols</span><span class="p">)</span>
+                <span class="n">chosen_indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="o">.</span><span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">n_pareto_sols</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">best_params</span> <span class="o">=</span> <span class="n">pareto_params</span><span class="p">[</span><span class="n">chosen_indices</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="p">(</span>
+                <span class="n">n_objectives</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">kernel_params_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+            <span class="p">),</span> <span class="s2">&quot;Multi-objective has not been supported.&quot;</span>
             <span class="n">constraint_vals</span><span class="p">,</span> <span class="n">is_feasible</span> <span class="o">=</span> <span class="n">_get_constraint_vals_and_feasibility</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="n">trials</span><span class="p">)</span>
             <span class="n">is_all_infeasible</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">is_feasible</span><span class="p">)</span>
 
@@ -377,10 +481,10 @@
             <span class="n">max_Y</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span> <span class="k">if</span> <span class="n">is_all_infeasible</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">standardized_score_vals</span><span class="p">[</span><span class="n">is_feasible</span><span class="p">])</span>
             <span class="n">acqf_params</span> <span class="o">=</span> <span class="n">acqf</span><span class="o">.</span><span class="n">create_acqf_params</span><span class="p">(</span>
                 <span class="n">acqf_type</span><span class="o">=</span><span class="n">acqf</span><span class="o">.</span><span class="n">AcquisitionFunctionType</span><span class="o">.</span><span class="n">LOG_EI</span><span class="p">,</span>
-                <span class="n">kernel_params</span><span class="o">=</span><span class="n">kernel_params</span><span class="p">,</span>
+                <span class="n">kernel_params</span><span class="o">=</span><span class="n">kernel_params_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                 <span class="n">search_space</span><span class="o">=</span><span class="n">internal_search_space</span><span class="p">,</span>
                 <span class="n">X</span><span class="o">=</span><span class="n">normalized_params</span><span class="p">,</span>
-                <span class="n">Y</span><span class="o">=</span><span class="n">standardized_score_vals</span><span class="p">,</span>
+                <span class="n">Y</span><span class="o">=</span><span class="n">standardized_score_vals</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
                 <span class="n">max_Y</span><span class="o">=</span><span class="n">max_Y</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">constraints_acqf_params</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_constraints_acqf_params</span><span class="p">(</span>
@@ -392,7 +496,7 @@
             <span class="n">best_params</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="kc">None</span>
                 <span class="k">if</span> <span class="n">is_all_infeasible</span>
-                <span class="k">else</span> <span class="n">normalized_params</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">standardized_score_vals</span><span class="p">[</span><span class="n">is_feasible</span><span class="p">]),</span> <span class="p">:]</span>
+                <span class="k">else</span> <span class="n">normalized_params</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">standardized_score_vals</span><span class="p">[</span><span class="n">is_feasible</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
             <span class="p">)</span>
 
         <span class="n">normalized_param</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_optimize_acqf</span><span class="p">(</span><span class="n">acqf_params</span><span class="p">,</span> <span class="n">best_params</span><span class="p">)</span>
@@ -405,7 +509,6 @@
         <span class="n">param_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">param_distribution</span><span class="p">:</span> <span class="n">BaseDistribution</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_raise_error_if_multi_objective</span><span class="p">(</span><span class="n">study</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_independent_sampler</span><span class="o">.</span><span class="n">sample_independent</span><span class="p">(</span>
             <span class="n">study</span><span class="p">,</span> <span class="n">trial</span><span class="p">,</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">param_distribution</span>
         <span class="p">)</span></div>

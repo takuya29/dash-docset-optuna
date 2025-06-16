@@ -5,7 +5,7 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.storages.RDBStorage — Optuna 4.3.0 documentation</title>
+<title>optuna.storages.RDBStorage — Optuna 4.4.0 documentation</title>
 <link href="../../_static/pygments.css?v=03e43079" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css?v=e59714d7" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
@@ -17,7 +17,7 @@
 <link href="../../_static/favicon.ico" rel="shortcut icon"/>
 <script src="../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=c2f1cc2e"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=27effbb3"></script>
 <script src="../../_static/doctools.js?v=888ff710"></script>
 <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -170,6 +170,10 @@ provided by this class are not supposed to be directly accessed by them.</p>
 <li><p><strong>skip_compatibility_check</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Flag to skip schema compatibility check if set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>.</p></li>
 <li><p><strong>heartbeat_interval</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><em>int</em></a><em> | </em><em>None</em>) – <p>Interval to record the heartbeat. It is recorded every <code class="docutils literal notranslate"><span class="pre">interval</span></code> seconds.
 <code class="docutils literal notranslate"><span class="pre">heartbeat_interval</span></code> must be <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> or a positive integer.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Heartbeat mechanism is experimental. API would change in the future.</p>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The heartbeat is supposed to be used with <a class="reference internal" href="optuna.study.Study.html#optuna.study.Study.optimize" title="optuna.study.Study.optimize"><code class="xref py py-meth docutils literal notranslate"><span class="pre">optimize()</span></code></a>.

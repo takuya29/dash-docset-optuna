@@ -5,7 +5,7 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.samplers.GPSampler — Optuna 4.3.0 documentation</title>
+<title>optuna.samplers.GPSampler — Optuna 4.4.0 documentation</title>
 <link href="../../../_static/pygments.css?v=03e43079" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/css/theme.css?v=e59714d7" rel="stylesheet" type="text/css"/>
 <link href="../../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
@@ -17,7 +17,7 @@
 <link href="../../../_static/favicon.ico" rel="shortcut icon"/>
 <script src="../../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=c2f1cc2e"></script>
+<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=27effbb3"></script>
 <script src="../../../_static/doctools.js?v=888ff710"></script>
 <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -144,16 +144,49 @@
 <dd><p>Sampler using Gaussian process-based Bayesian optimization.</p>
 <p>This sampler fits a Gaussian process (GP) to the objective function and optimizes
 the acquisition function to suggest the next parameters.</p>
-<dl class="simple">
-<dt>The current implementation uses:</dt><dd><ul class="simple">
-<li><p>Matern kernel with nu=2.5 (twice differentiable),</p></li>
-<li><p>Automatic relevance determination (ARD) for the length scale of each parameter,</p></li>
-<li><p>Gamma prior for inverse squared lengthscales, kernel scale, and noise variance,</p></li>
-<li><p>Log Expected Improvement (logEI) as the acquisition function, and</p></li>
-<li><p>Quasi-Monte Carlo (QMC) sampling to optimize the acquisition function.</p></li>
+<p>The current implementation uses Matern kernel with nu=2.5 (twice differentiable) with automatic
+relevance determination (ARD) for the length scale of each parameter.
+The hyperparameters of the kernel are obtained by maximizing the marginal log-likelihood of the
+hyperparameters given the past trials.
+To prevent overfitting, Gamma prior is introduced for kernel scale and noise variance and
+a hand-crafted prior is introduced for inverse squared lengthscales.</p>
+<p>As an acquisition function, we use:</p>
+<ul class="simple">
+<li><p>log expected improvement (logEI) for single-objective optimization,</p></li>
+<li><p>log expected hypervolume improvement (logEHVI) for Multi-objective optimization, and</p></li>
+<li><p>the summation of logEI and the logarithm of the feasible probability with the independent
+assumption of each constraint for (black-box inequality) constrained optimization.</p></li>
 </ul>
-</dd>
-</dl>
+<p>For further information about these acquisition functions, please refer to the following
+papers:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://arxiv.org/abs/2310.20708">Unexpected Improvements to Expected Improvement for Bayesian Optimization</a></p></li>
+<li><p><a class="reference external" href="https://arxiv.org/abs/2006.05078">Differentiable Expected Hypervolume Improvement for Parallel Multi-Objective Bayesian
+Optimization</a></p></li>
+<li><p><a class="reference external" href="https://proceedings.mlr.press/v32/gardner14.pdf">Bayesian Optimization with Inequality Constraints</a></p></li>
+</ul>
+<p>The optimization of the acquisition function is performed via:</p>
+<ol class="arabic simple">
+<li><p>Collect the best param from the past trials,</p></li>
+<li><p>Collect <code class="docutils literal notranslate"><span class="pre">n_preliminary_samples</span></code> points using Quasi-Monte Carlo (QMC) sampling,</p></li>
+<li><p>Choose the best point from the collected points,</p></li>
+<li><p>Choose <code class="docutils literal notranslate"><span class="pre">n_local_search</span> <span class="pre">-</span> <span class="pre">2</span></code> points from the collected points using the roulette
+selection,</p></li>
+<li><p>Perform a local search for each chosen point as an initial point, and</p></li>
+<li><p>Return the point with the best acquisition function value as the next parameter.</p></li>
+</ol>
+<p>Note that the procedures for non single-objective optimization setups are slightly different
+from the single-objective version described above, but we omit the descriptions for the others
+for brevity.</p>
+<p>The local search iteratively optimizes the acquisition function by repeating:</p>
+<ol class="arabic simple">
+<li><p>Gradient ascent using l-BFGS-B for continuous parameters, and</p></li>
+<li><p>Line search or exhaustive search for each discrete parameter independently.</p></li>
+</ol>
+<p>The local search is terminated if the routine stops updating the best parameter set or the
+maximum number of iterations is reached.</p>
+<p>We use line search instead of rounding the results from the continuous optimization since EI
+typically yields a high value between one grid and its adjacent grid.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This sampler requires <code class="docutils literal notranslate"><span class="pre">scipy</span></code> and <code class="docutils literal notranslate"><span class="pre">torch</span></code>.
@@ -171,8 +204,20 @@ and for conditional parameters. Defaults to <a class="reference external" href="
 <li><p><strong>deterministic_objective</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><em>bool</em></a>) – Whether the objective function is deterministic or not.
 If <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, the sampler will fix the noise variance of the surrogate model to
 the minimum value (slightly above 0 to ensure numerical stability).
-Defaults to <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</p></li>
-<li><p><strong>constraints_func</strong> (<em>Callable</em><em>[</em><em>[</em><a class="reference internal" href="../../generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><em>FrozenTrial</em></a><em>]</em><em>, </em><em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>]</em><em>] </em><em>| </em><em>None</em>) – </p></li>
+Defaults to <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>. Currently, all the objectives will be assume to be
+deterministic if <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>.</p></li>
+<li><p><strong>constraints_func</strong> (<em>Callable</em><em>[</em><em>[</em><a class="reference internal" href="../../generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><em>FrozenTrial</em></a><em>]</em><em>, </em><em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><em>float</em></a><em>]</em><em>] </em><em>| </em><em>None</em>) – <p>An optional function that computes the objective constraints. It must take a
+<a class="reference internal" href="../../generated/optuna.trial.FrozenTrial.html#optuna.trial.FrozenTrial" title="optuna.trial.FrozenTrial"><code class="xref py py-class docutils literal notranslate"><span class="pre">FrozenTrial</span></code></a> and return the constraints. The return value must
+be a sequence of <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a> s. A value strictly larger than 0 means that a
+constraints is violated. A value equal to or smaller than 0 is considered feasible.
+If <code class="docutils literal notranslate"><span class="pre">constraints_func</span></code> returns more than one value for a trial, that trial is
+considered feasible if and only if all values are equal to 0 or smaller.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">constraints_func</span></code> will be evaluated after each successful trial.
+The function won’t be called when trials fail or are pruned, but this behavior is
+subject to change in future releases.
+Currently, the <code class="docutils literal notranslate"><span class="pre">constraints_func</span></code> option is not supported for multi-objective
+optimization.</p>
+</p></li>
 </ul>
 </dd>
 </dl>

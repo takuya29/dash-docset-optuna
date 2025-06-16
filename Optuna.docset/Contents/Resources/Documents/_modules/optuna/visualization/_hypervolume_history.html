@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.visualization._hypervolume_history &mdash; Optuna 4.3.0 documentation</title>
+  <title>optuna.visualization._hypervolume_history &mdash; Optuna 4.4.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=c2f1cc2e"></script>
+      <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=27effbb3"></script>
       <script src="../../../_static/doctools.js?v=888ff710"></script>
       <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -125,9 +125,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">optuna.logging</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_logger</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">optuna.samplers._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">_CONSTRAINTS_KEY</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">optuna.study</span><span class="w"> </span><span class="kn">import</span> <span class="n">Study</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.study._multi_objective</span><span class="w"> </span><span class="kn">import</span> <span class="n">_dominates</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">optuna.study._study_direction</span><span class="w"> </span><span class="kn">import</span> <span class="n">StudyDirection</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">optuna.trial</span><span class="w"> </span><span class="kn">import</span> <span class="n">FrozenTrial</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">optuna.trial</span><span class="w"> </span><span class="kn">import</span> <span class="n">TrialState</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">optuna.visualization._plotly_imports</span><span class="w"> </span><span class="kn">import</span> <span class="n">_imports</span>
 
@@ -213,8 +211,8 @@
 
     <span class="c1"># Only feasible trials are considered in hypervolume computation.</span>
     <span class="n">trial_numbers</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">values</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">best_trials</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">FrozenTrial</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">hypervolume_values</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">best_trials_values_normalized</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">hypervolume</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">completed_trials</span><span class="p">:</span>
         <span class="n">trial_numbers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trial</span><span class="o">.</span><span class="n">number</span><span class="p">)</span>
@@ -224,34 +222,37 @@
             <span class="n">constraints_values</span> <span class="o">=</span> <span class="n">trial</span><span class="o">.</span><span class="n">system_attrs</span><span class="p">[</span><span class="n">_CONSTRAINTS_KEY</span><span class="p">]</span>
             <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">constraints_values</span><span class="p">)):</span>
                 <span class="c1"># The trial is infeasible.</span>
-                <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hypervolume</span><span class="p">)</span>
+                <span class="n">hypervolume_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hypervolume</span><span class="p">)</span>
                 <span class="k">continue</span>
 
-        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">_dominates</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">trial</span><span class="p">,</span> <span class="n">study</span><span class="o">.</span><span class="n">directions</span><span class="p">),</span> <span class="n">best_trials</span><span class="p">)):</span>
-            <span class="c1"># The trial is not on the Pareto front.</span>
-            <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hypervolume</span><span class="p">)</span>
-            <span class="k">continue</span>
+        <span class="n">values_normalized</span> <span class="o">=</span> <span class="p">(</span><span class="n">signs</span> <span class="o">*</span> <span class="n">trial</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="k">if</span> <span class="n">best_trials_values_normalized</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">best_trials_values_normalized</span> <span class="o">&lt;=</span> <span class="n">values_normalized</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+                <span class="c1"># The trial is not on the Pareto front.</span>
+                <span class="n">hypervolume_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hypervolume</span><span class="p">)</span>
+                <span class="k">continue</span>
 
-        <span class="n">best_trials</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
-            <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="ow">not</span> <span class="n">_dominates</span><span class="p">(</span><span class="n">trial</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">study</span><span class="o">.</span><span class="n">directions</span><span class="p">),</span> <span class="n">best_trials</span><span class="p">)</span>
-        <span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="n">trial</span><span class="p">]</span>
-
-        <span class="n">loss_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
-            <span class="nb">list</span><span class="p">(</span>
-                <span class="nb">filter</span><span class="p">(</span>
-                    <span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="p">(</span><span class="n">v</span> <span class="o">&lt;=</span> <span class="n">minimization_reference_point</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">(),</span>
-                    <span class="p">[</span><span class="n">signs</span> <span class="o">*</span> <span class="n">trial</span><span class="o">.</span><span class="n">values</span> <span class="k">for</span> <span class="n">trial</span> <span class="ow">in</span> <span class="n">best_trials</span><span class="p">],</span>
-                <span class="p">)</span>
+        <span class="k">if</span> <span class="n">best_trials_values_normalized</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">best_trials_values_normalized</span> <span class="o">=</span> <span class="n">values_normalized</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">is_kept</span> <span class="o">=</span> <span class="p">(</span><span class="n">best_trials_values_normalized</span> <span class="o">&lt;</span> <span class="n">values_normalized</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">best_trials_values_normalized</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">best_trials_values_normalized</span><span class="p">[</span><span class="n">is_kept</span><span class="p">,</span> <span class="p">:],</span> <span class="n">values_normalized</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span>
             <span class="p">)</span>
-        <span class="p">)</span>
+
+        <span class="n">loss_vals</span> <span class="o">=</span> <span class="n">best_trials_values_normalized</span><span class="p">[</span>
+            <span class="p">(</span><span class="n">best_trials_values_normalized</span> <span class="o">&lt;=</span> <span class="n">minimization_reference_point</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:])</span><span class="o">.</span><span class="n">all</span><span class="p">(</span>
+                <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
         <span class="k">if</span> <span class="n">loss_vals</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">hypervolume</span> <span class="o">=</span> <span class="n">compute_hypervolume</span><span class="p">(</span><span class="n">loss_vals</span><span class="p">,</span> <span class="n">minimization_reference_point</span><span class="p">)</span>
-        <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hypervolume</span><span class="p">)</span>
+        <span class="n">hypervolume_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hypervolume</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">best_trials</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">best_trials_values_normalized</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">_logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Your study does not have any feasible trials.&quot;</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">_HypervolumeHistoryInfo</span><span class="p">(</span><span class="n">trial_numbers</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_HypervolumeHistoryInfo</span><span class="p">(</span><span class="n">trial_numbers</span><span class="p">,</span> <span class="n">hypervolume_values</span><span class="p">)</span>
 </pre></div>
 
            </div>

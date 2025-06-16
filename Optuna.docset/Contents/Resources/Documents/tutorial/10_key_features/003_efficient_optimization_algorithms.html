@@ -5,7 +5,7 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Efficient Optimization Algorithms — Optuna 4.3.0 documentation</title>
+<title>Efficient Optimization Algorithms — Optuna 4.4.0 documentation</title>
 <link href="../../_static/pygments.css?v=03e43079" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css?v=e59714d7" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
@@ -17,7 +17,7 @@
 <link href="../../_static/favicon.ico" rel="shortcut icon"/>
 <script src="../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=c2f1cc2e"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=27effbb3"></script>
 <script src="../../_static/doctools.js?v=888ff710"></script>
 <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -217,27 +217,27 @@ Exclusive list is <a class="reference internal" href="../../reference/integratio
 <span class="n">study</span><span class="o">.</span><span class="n">optimize</span><span class="p">(</span><span class="n">objective</span><span class="p">,</span> <span class="n">n_trials</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>A new study created in memory with name: no-name-7300b650-c4d2-4451-b73f-79a95a5a7c23
-Trial 0 finished with value: 0.13157894736842102 and parameters: {'alpha': 0.0008960282950234692}. Best is trial 0 with value: 0.13157894736842102.
-Trial 1 finished with value: 0.10526315789473684 and parameters: {'alpha': 0.02689886533606641}. Best is trial 1 with value: 0.10526315789473684.
-Trial 2 finished with value: 0.26315789473684215 and parameters: {'alpha': 0.0025778914701484685}. Best is trial 1 with value: 0.10526315789473684.
-Trial 3 finished with value: 0.07894736842105265 and parameters: {'alpha': 0.00048003021779146975}. Best is trial 3 with value: 0.07894736842105265.
-Trial 4 finished with value: 0.368421052631579 and parameters: {'alpha': 0.0006475478134199493}. Best is trial 3 with value: 0.07894736842105265.
-Trial 5 finished with value: 0.02631578947368418 and parameters: {'alpha': 0.003482065614634608}. Best is trial 5 with value: 0.02631578947368418.
-Trial 6 finished with value: 0.368421052631579 and parameters: {'alpha': 5.160311016690711e-05}. Best is trial 5 with value: 0.02631578947368418.
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>A new study created in memory with name: no-name-2f73219d-4d03-4a10-bb86-5305fe81b178
+Trial 0 finished with value: 0.0 and parameters: {'alpha': 0.003282840208806044}. Best is trial 0 with value: 0.0.
+Trial 1 finished with value: 0.052631578947368474 and parameters: {'alpha': 0.012839855014247075}. Best is trial 0 with value: 0.0.
+Trial 2 finished with value: 0.07894736842105265 and parameters: {'alpha': 0.001237431533594291}. Best is trial 0 with value: 0.0.
+Trial 3 finished with value: 0.1842105263157895 and parameters: {'alpha': 0.0014458446798053242}. Best is trial 0 with value: 0.0.
+Trial 4 finished with value: 0.39473684210526316 and parameters: {'alpha': 0.00018232744318778945}. Best is trial 0 with value: 0.0.
+Trial 5 pruned.
+Trial 6 pruned.
 Trial 7 pruned.
 Trial 8 pruned.
-Trial 9 pruned.
-Trial 10 pruned.
+Trial 9 finished with value: 0.1842105263157895 and parameters: {'alpha': 0.014290047478196118}. Best is trial 0 with value: 0.0.
+Trial 10 finished with value: 0.3157894736842105 and parameters: {'alpha': 0.06976811496463586}. Best is trial 0 with value: 0.0.
 Trial 11 pruned.
 Trial 12 pruned.
-Trial 13 finished with value: 0.21052631578947367 and parameters: {'alpha': 1.096178718792573e-05}. Best is trial 5 with value: 0.02631578947368418.
+Trial 13 finished with value: 0.3157894736842105 and parameters: {'alpha': 0.08082339926074442}. Best is trial 0 with value: 0.0.
 Trial 14 pruned.
-Trial 15 pruned.
-Trial 16 pruned.
+Trial 15 finished with value: 0.21052631578947367 and parameters: {'alpha': 0.019529439463898592}. Best is trial 0 with value: 0.0.
+Trial 16 finished with value: 0.07894736842105265 and parameters: {'alpha': 0.0004816812692361216}. Best is trial 0 with value: 0.0.
 Trial 17 pruned.
-Trial 18 pruned.
-Trial 19 pruned.
+Trial 18 finished with value: 0.23684210526315785 and parameters: {'alpha': 0.03455591031903017}. Best is trial 0 with value: 0.0.
+Trial 19 finished with value: 0.02631578947368418 and parameters: {'alpha': 0.005363988518390255}. Best is trial 0 with value: 0.0.
 </pre></div>
 </div>
 <p>As you can see, several trials were pruned (stopped) before they finished all of the iterations.
@@ -292,7 +292,7 @@ pruning_callback = optuna.integration.LightGBMPruningCallback(trial, 'validation
 gbm = lgb.train(param, dtrain, valid_sets=[dvalid], callbacks=[pruning_callback])
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 1.469 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 2.341 seconds)</p>
 <a class="dashAnchor" name="//apple_ref/cpp/Section/sphx_glr_download_tutorial_10_key_features_003_efficient_optimization_algorithms.py"></a><div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-tutorial-10-key-features-003-efficient-optimization-algorithms-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/6156704970cffef444c9a05792c1ebc2/003_efficient_optimization_algorithms.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">003_efficient_optimization_algorithms.ipynb</span></code></a></p>

@@ -5,7 +5,7 @@
 <head>
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>optuna.pruners.MedianPruner — Optuna 4.3.0 documentation</title>
+<title>optuna.pruners.MedianPruner — Optuna 4.4.0 documentation</title>
 <link href="../../_static/pygments.css?v=03e43079" rel="stylesheet" type="text/css"/>
 <link href="../../_static/css/theme.css?v=e59714d7" rel="stylesheet" type="text/css"/>
 <link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
@@ -17,7 +17,7 @@
 <link href="../../_static/favicon.ico" rel="shortcut icon"/>
 <script src="../../_static/jquery.js?v=5d32c60e"></script>
 <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=c2f1cc2e"></script>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=27effbb3"></script>
 <script src="../../_static/doctools.js?v=888ff710"></script>
 <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
 <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -140,7 +140,16 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">optuna.pruners.</span></span><span class="sig-name descname"><span class="pre">MedianPruner</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_startup_trials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_warmup_steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interval_steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_min_trials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/optuna/pruners/_median.html#MedianPruner"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.pruners.MedianPruner"></a><a class="dashAnchor" name="//apple_ref/cpp/Class/optuna.pruners._median.MedianPruner"></a><a class="headerlink" href="#optuna.pruners.MedianPruner" title="Permalink to this definition"></a></dt>
 <dd><p>Pruner using the median stopping rule.</p>
 <p>Prune if the trial’s best intermediate result is worse than median of intermediate results of
-previous trials at the same step.</p>
+previous trials at the same step. It stops unpromising trials early based on the
+intermediate results compared against the median of previous completed trials.</p>
+<dl class="simple">
+<dt>The pruner handles NaN values in the following manner:</dt><dd><ol class="arabic simple">
+<li><p>If all intermediate values of the current trial are NaN, the trial will be pruned.</p></li>
+<li><p>During the median calculation across completed trials, NaN values are ignored.
+Only valid numeric values are considered.</p></li>
+</ol>
+</dd>
+</dl>
 <p class="rubric">Example</p>
 <p>We minimize an objective function with the median stopping rule.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>

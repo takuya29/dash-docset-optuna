@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>optuna.storages._rdb.storage &mdash; Optuna 4.3.0 documentation</title>
+  <title>optuna.storages._rdb.storage &mdash; Optuna 4.4.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
@@ -19,7 +19,7 @@
     <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
       <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=c2f1cc2e"></script>
+      <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=27effbb3"></script>
       <script src="../../../../_static/doctools.js?v=888ff710"></script>
       <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
       <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -138,6 +138,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">optuna</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">optuna</span><span class="w"> </span><span class="kn">import</span> <span class="n">distributions</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">optuna</span><span class="w"> </span><span class="kn">import</span> <span class="n">version</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">optuna._experimental</span><span class="w"> </span><span class="kn">import</span> <span class="n">warn_experimental_argument</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">optuna._imports</span><span class="w"> </span><span class="kn">import</span> <span class="n">_LazyImport</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">optuna._typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">JSONSerializable</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">optuna.storages._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseStorage</span>
@@ -256,6 +257,9 @@
 <span class="sd">            ``heartbeat_interval`` must be :obj:`None` or a positive integer.</span>
 
 <span class="sd">            .. note::</span>
+<span class="sd">                Heartbeat mechanism is experimental. API would change in the future.</span>
+
+<span class="sd">            .. note::</span>
 <span class="sd">                The heartbeat is supposed to be used with :meth:`~optuna.study.Study.optimize`.</span>
 <span class="sd">                If you use :meth:`~optuna.study.Study.ask` and</span>
 <span class="sd">                :meth:`~optuna.study.Study.tell` instead, it will not work.</span>
@@ -321,8 +325,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">engine_kwargs</span> <span class="o">=</span> <span class="n">engine_kwargs</span> <span class="ow">or</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fill_storage_url_template</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">skip_compatibility_check</span> <span class="o">=</span> <span class="n">skip_compatibility_check</span>
-        <span class="k">if</span> <span class="n">heartbeat_interval</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">heartbeat_interval</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The value of `heartbeat_interval` should be a positive integer.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">heartbeat_interval</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">heartbeat_interval</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The value of `heartbeat_interval` should be a positive integer.&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">warn_experimental_argument</span><span class="p">(</span><span class="s2">&quot;heartbeat_interval&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">grace_period</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">grace_period</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The value of `grace_period` should be a positive integer.&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">heartbeat_interval</span> <span class="o">=</span> <span class="n">heartbeat_interval</span>
